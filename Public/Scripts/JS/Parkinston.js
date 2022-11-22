@@ -162,7 +162,7 @@ class Parkinston {
     design() {
         const script = document.createElement("script");
         script.type = "text/babel";
-        script.src = `/Public/Scripts/JS/${this.getBodyId()}`;
+        script.src = `/Public/Scripts/JS/${this.getBodyId()}.js`;
         document.body.appendChild(script);
     }
 }
