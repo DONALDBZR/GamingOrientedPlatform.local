@@ -1,0 +1,11 @@
+/* Variables */
+:root {
+    --percentage: 100%;
+    --pixelate: 1080px;
+    --textSize: var(--percentage);
+}
+body {
+    width: var(--percentage);
+    font-size: var(--textSize);
+    margin: calc(var(--percentage) * 0);
+}

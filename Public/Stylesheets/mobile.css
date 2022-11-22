@@ -1,0 +1,12 @@
+/* Variables */
+:root {
+    --percentage: 100%;
+    --pixelate: 1080px;
+    --tabletCoefficient: 0.59049;
+    --textSize: calc(var(--percentage) * var(--tabletCoefficient) * 2);
+}
+body {
+    width: var(--percentage);
+    font-size: var(--textSize);
+    margin: calc(var(--percentage) * 0);
+}
