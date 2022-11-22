@@ -156,5 +156,14 @@ class Parkinston {
         }
         this.design();
     }
+    /**
+     * Mounting the components
+     */
+    design() {
+        const script = document.createElement("script");
+        script.type = "text/babel";
+        script.src = `/Public/Scripts/JS/${this.getBodyId()}`;
+        document.body.appendChild(script);
+    }
 }
 const application = new Parkinston();
