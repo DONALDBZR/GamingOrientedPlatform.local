@@ -161,8 +161,8 @@ class Parkinston {
      */
     design() {
         const script = document.createElement("script");
-        script.type = "text/babel";
         script.src = `/Public/Scripts/JS/${this.getBodyId()}.js`;
+        script.type = "text/babel";
         document.body.appendChild(script);
     }
 }
