@@ -1,11 +1,9 @@
 /**
  * The Application that is going to be rendered in the DOM
- * @type {Component}
  */
 class Application extends React.Component {
     /**
      * Renders the components that are being returned
-     * @returns {Component[]}
      */
     render() {
         return [<Header />, <Main />, <Footer />];
@@ -13,29 +11,26 @@ class Application extends React.Component {
 }
 /**
  * The component that is the header
- * @type {Application}
  */
 class Header extends Application {
     render() {
-        return <header></header>;
+        return <header>1</header>;
     }
 }
 /**
  * The component that is the main
- * @type {Application}
  */
 class Main extends Application {
     render() {
-        return <main></main>;
+        return <main>2</main>;
     }
 }
 /**
  * The component that is the footer
- * @type {Application}
  */
 class Footer extends Application {
     render() {
-        return <footer></footer>;
+        return <footer>3</footer>;
     }
 }
 // Rendering the page
