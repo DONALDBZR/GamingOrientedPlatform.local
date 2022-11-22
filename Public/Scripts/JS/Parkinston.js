@@ -20,7 +20,7 @@ class Parkinston {
         this._modulesPath = [
             "/Modules/React/18.2.0/react.production.min.js",
             "/Modules/React/18.2.0/react-dom.production.min.js",
-            "/Modules/Babel/7.20.4/babel.min.js",
+            "/Modules/Babel/6.26.0/babel.min.js",
             "/Modules/Font-Awesome/6.2.1/fontawesome.min.js",
         ];
         /**
