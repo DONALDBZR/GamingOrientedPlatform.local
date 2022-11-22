@@ -132,6 +132,7 @@ class Parkinston {
             script.src = this._modulesPath[index];
             document.head.appendChild(script);
         }
+        this.design();
         this.style();
     }
     /**
@@ -154,7 +155,6 @@ class Parkinston {
             link.type = this.getMimeType();
             document.head.appendChild(link);
         }
-        this.design();
     }
     /**
      * Mounting the components
