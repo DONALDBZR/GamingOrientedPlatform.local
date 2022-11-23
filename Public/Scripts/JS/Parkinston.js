@@ -14,16 +14,6 @@ class Parkinston {
          */
         this.__bodyId;
         /**
-         * List of modules needed
-         * @type {string[]}
-         */
-        this._modulesPath = [
-            "/Modules/React/18.2.0/react.production.min.js",
-            "/Modules/React/18.2.0/react-dom.production.min.js",
-            "/Modules/Babel/6.26.0/babel.min.js",
-            "/Modules/Font-Awesome/6.2.1/fontawesome.min.js",
-        ];
-        /**
          * Stylesheets of the application
          * @type {string[]}
          */
@@ -121,18 +111,6 @@ class Parkinston {
             this.setBodyId(this.getRequestURI().replaceAll("/", ""));
         }
         document.body.id = this.getBodyId();
-        this.mount();
-    }
-    /**
-     * Mounting the modules
-     */
-    mount() {
-        for (let index = 0; index < this._modulesPath.length; index++) {
-            const script = document.createElement("script");
-            script.src = this._modulesPath[index];
-            document.head.appendChild(script);
-        }
-        this.design();
         this.style();
     }
     /**
@@ -155,15 +133,6 @@ class Parkinston {
             link.type = this.getMimeType();
             document.head.appendChild(link);
         }
-    }
-    /**
-     * Mounting the components
-     */
-    design() {
-        const script = document.createElement("script");
-        script.src = `/Public/Scripts/JS/${this.getBodyId()}.js`;
-        script.type = "text/babel";
-        document.body.appendChild(script);
     }
 }
 const application = new Parkinston();
