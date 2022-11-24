@@ -1,6 +1,6 @@
 <?php
 // Importing the Router
-require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Router.php";
 // Switch-statement to verify the request method
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
