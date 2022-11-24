@@ -78,7 +78,17 @@
         calc(var(--percentage) / 2),
         calc(var(--percentage) * 0.15)
     );
+    --color10: rgb(
+        var(--percentage),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0)
+    );
     --ethnocentric: "Ethnocentric";
+    --color11: rgb(
+        calc(var(--percentage) * 0),
+        var(--percentage),
+        calc(var(--percentage) * 0)
+    );
 }
 /* Default application's styling */
 body {
@@ -86,8 +96,8 @@ body {
     background-color: var(--color1);
     color: var(--color2);
 }
-/* URI: / */
-#Homepage header {
+#Homepage header,
+body[class="404"] header {
     text-align: center;
     font-weight: bold;
     font-family: var(--ethnocentric);
@@ -98,7 +108,8 @@ body {
 #Homepage main #notice {
     font-family: var(--proximaNova);
 }
-#Homepage footer {
+#Homepage footer,
+body[class="404"] footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }
@@ -164,4 +175,21 @@ body {
         var(--color5) calc(var(--percentage) / 2)
     );
     color: var(--color6);
+}
+body[class="404"] main div {
+    text-align: center;
+}
+body[class="404"] main .Error {
+    font-weight: bold;
+    color: var(--color10);
+    font-family: var(--proximaNova);
+}
+body[class="404"] main .button button {
+    background-color: unset;
+    border: none;
+    color: var(--color11);
+    cursor: pointer;
+}
+body[class="404"] main .button button:hover {
+    color: var(--color2);
 }

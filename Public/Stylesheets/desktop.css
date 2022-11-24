@@ -11,8 +11,8 @@ body {
     font-size: var(--textSize);
     margin: calc(var(--percentage) * 0);
 }
-/* URI: / */
-#Homepage header {
+#Homepage header,
+body[class="404"] header {
     font-size: calc(var(--textSize) * 2);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
@@ -33,7 +33,8 @@ body {
     justify-content: center;
     width: calc(var(--percentage) / 2);
 }
-#Homepage footer {
+#Homepage footer,
+body[class="404"] footer {
     font-size: calc(var(--percentage) * 0.9);
 }
 #Homepage main #buttons div a {
@@ -127,4 +128,14 @@ body {
     100% {
         transform: translateY(var(--percentage));
     }
+}
+body[class="404"] main .Error {
+    font-size: calc(var(--textSize) * 2);
+}
+body[class="404"] main #message {
+    font-size: calc(var(--textSize) * 1.8);
+    margin: calc(var(--percentage) / 200) calc(var(--percentage) * 0);
+}
+body[class="404"] main .button button {
+    font-size: calc(var(--textSize) * 2);
 }
