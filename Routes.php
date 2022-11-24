@@ -9,6 +9,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/':
                 $Router = new Router("GET", "/", "/Views/Homepage.php");
                 break;
+            case '/Login':
+                $Router = new Router("GET", "/Login", "/Views/Login.php");
+                break;
+            case '/Register':
+                $Router = new Router("GET", "/Register", "/Views/Register.php");
+                break;
         }
         break;
 }
