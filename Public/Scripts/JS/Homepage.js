@@ -14,7 +14,11 @@ class Application extends React.Component {
  */
 class Header extends Application {
     render() {
-        return <header>1</header>;
+        return (
+            <header>
+                <h1>Parkinston</h1>
+            </header>
+        );
     }
 }
 /**
@@ -22,7 +26,22 @@ class Header extends Application {
  */
 class Main extends Application {
     render() {
-        return <main>2</main>;
+        return (
+            <main>
+                <div id="notice">
+                    In order to use the application, you have the permissions
+                    required.
+                </div>
+                <div id="buttons">
+                    <div>
+                        <a href="/Login">Login</a>
+                    </div>
+                    <div>
+                        <a href="/Register">Register</a>
+                    </div>
+                </div>
+            </main>
+        );
     }
 }
 /**
@@ -30,7 +49,7 @@ class Main extends Application {
  */
 class Footer extends Application {
     render() {
-        return <footer>3</footer>;
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page
