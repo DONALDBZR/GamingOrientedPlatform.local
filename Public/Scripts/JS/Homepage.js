@@ -30,10 +30,22 @@ class Main extends Application {
                 </div>
                 <div id="buttons">
                     <div>
-                        <a href="/Login">Login</a>
+                        <a href="/Login">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            Login
+                        </a>
                     </div>
                     <div>
-                        <a href="/Register">Register</a>
+                        <a href="/Register">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            Register
+                        </a>
                     </div>
                 </div>
             </main>

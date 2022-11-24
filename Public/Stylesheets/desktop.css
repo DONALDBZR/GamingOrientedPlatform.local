@@ -3,9 +3,128 @@
     --percentage: 100%;
     --pixelate: 1080px;
     --textSize: var(--percentage);
+    --time: 1s;
 }
+/* Default application's styling */
 body {
     width: var(--percentage);
     font-size: var(--textSize);
     margin: calc(var(--percentage) * 0);
+}
+/* URI: / */
+#Homepage header {
+    font-size: calc(var(--textSize) * 2);
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+#Homepage main {
+    width: calc(var(--percentage) / 2);
+    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 8);
+    padding: calc(var(--percentage) / 50) calc(var(--percentage) / 8);
+}
+#Homepage main #notice {
+    font-size: calc(var(--percentage) * 1.449459);
+}
+#Homepage main #buttons {
+    display: flex;
+    margin-top: calc(var(--percentage) / 50);
+}
+#Homepage main #buttons div {
+    display: flex;
+    justify-content: center;
+    width: calc(var(--percentage) / 2);
+}
+#Homepage footer {
+    font-size: calc(var(--percentage) * 0.9);
+}
+#Homepage main #buttons div a {
+    padding: calc(var(--pixelate) / 54) calc(var(--pixelate) / 27);
+    margin: calc(var(--pixelate) / 90);
+    display: inline-block;
+    transform: translate(
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0)
+    );
+    overflow: hidden;
+    font-size: calc(var(--percentage) * (5 / 3));
+    letter-spacing: calc(var(--pixelate) / 432);
+    box-shadow: 0 calc(var(--pixelate) / 54) calc(var(--pixelate) / 21.6)
+        rgba(
+            calc(var(--percentage) * 0),
+            calc(var(--percentage) * 0),
+            calc(var(--percentage) * 0),
+            calc(var(--percentage) / 2)
+        );
+}
+#Homepage main #buttons div a::before {
+    position: absolute;
+    top: calc(var(--pixelate) * 0);
+    left: calc(var(--pixelate) * 0);
+    width: var(--percentage);
+    height: var(--percentage);
+    transition: calc(var(--time) / 5) opacity ease-in-out;
+}
+#Homepage main #buttons div a span {
+    position: absolute;
+}
+#Homepage main #buttons div a span:nth-child(1) {
+    top: calc(var(--pixelate) * 0);
+    left: calc(var(--pixelate) * 0);
+    width: var(--percentage);
+    height: calc(var(--pixelate) / 540);
+    animation: calc(var(--time) * 2) animateTop linear infinite;
+}
+@keyframes animateTop {
+    0% {
+        transform: translateX(var(--percentage));
+    }
+    100% {
+        transform: translateX(calc(var(--percentage) * -1));
+    }
+}
+#Homepage main #buttons div a span:nth-child(2) {
+    top: calc(var(--pixelate) * 0);
+    right: calc(var(--pixelate) * 0);
+    height: var(--percentage);
+    width: calc(var(--pixelate) / 540);
+    animation: calc(var(--time) * 2) animateRight linear calc(var(--time) * -1)
+        infinite;
+}
+@keyframes animateRight {
+    0% {
+        transform: translateY(var(--percentage));
+    }
+    100% {
+        transform: translateY(calc(var(--percentage) * -1));
+    }
+}
+#Homepage main #buttons div a span:nth-child(3) {
+    bottom: calc(var(--pixelate) * 0);
+    left: calc(var(--pixelate) * 0);
+    width: var(--percentage);
+    height: calc(var(--pixelate) / 540);
+    animation: calc(var(--time) * 2) animateBottom linear infinite;
+}
+@keyframes animateBottom {
+    0% {
+        transform: translateX(calc(var(--percentage) * -1));
+    }
+    100% {
+        transform: translateX(var(--percentage));
+    }
+}
+#Homepage main #buttons div a span:nth-child(4) {
+    top: calc(var(--pixelate) * 0);
+    left: calc(var(--pixelate) * 0);
+    height: var(--percentage);
+    width: calc(var(--pixelate) / 540);
+    animation: calc(var(--time) * 2) animateLeft linear calc(var(--time) * -1)
+        infinite;
+}
+@keyframes animateLeft {
+    0% {
+        transform: translateY(calc(var(--percentage) * -1));
+    }
+    100% {
+        transform: translateY(var(--percentage));
+    }
 }

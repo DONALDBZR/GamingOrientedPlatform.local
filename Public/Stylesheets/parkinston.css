@@ -1,3 +1,25 @@
+@font-face {
+    font-family: "Proxima Nova";
+    src: url("../Fonts/Proxima Nova.otf");
+    src: url("../Fonts/Proxima Nova - Alternate.otf");
+}
+@font-face {
+    font-family: "Source Code Pro";
+    src: url("../Fonts/Source Code Pro - Black.otf");
+    src: url("../Fonts/Source Code Pro - Black Italic.otf");
+    src: url("../Fonts/Source Code Pro - Bold Italic.otf");
+    src: url("../Fonts/Source Code Pro - Bold.otf");
+    src: url("../Fonts/Source Code Pro - Extra Light Italic.otf");
+    src: url("../Fonts/Source Code Pro - Extra Light.otf");
+    src: url("../Fonts/Source Code Pro - Italic.otf");
+    src: url("../Fonts/Source Code Pro - Light Italic.otf");
+    src: url("../Fonts/Source Code Pro - Light.otf");
+    src: url("../Fonts/Source Code Pro - Medium Italic.otf");
+    src: url("../Fonts/Source Code Pro - Medium.otf");
+    src: url("../Fonts/Source Code Pro - Regular.otf");
+    src: url("../Fonts/Source Code Pro - Semi Bold.otf");
+    src: url("../Fonts/Source Code Pro - Semi Bold Italic.otf");
+}
 /* Variables */
 :root {
     --percentage: 100%;
@@ -11,10 +33,127 @@
         calc(var(--percentage) * 0),
         calc(var(--percentage) * 0)
     );
+    --color3: rgba(
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) / 4)
+    );
+    --proximaNova: "Proxima Nova";
+    --sourceCodePro: "Source Code Pro";
+    --color4: rgb(
+        calc(var(--percentage) / 2),
+        calc(var(--percentage) / 4),
+        calc(var(--percentage) * 0)
+    );
+    --color5: rgb(
+        calc(var(--percentage) / 4),
+        calc(var(--percentage) / 8),
+        calc(var(--percentage) * 0)
+    );
+    --angle: 30deg;
+    --color6: rgb(
+        var(--percentage),
+        calc(var(--percentage) * 0.9),
+        calc(var(--percentage) * 0.8)
+    );
+    --color7: rgb(
+        calc(var(--percentage) * 0.68),
+        calc(var(--percentage) * 0.34),
+        calc(var(--percentage) * 0)
+    );
+    --color8: rgba(
+        calc(var(--percentage) / 5),
+        calc(var(--percentage) / 10),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0)
+    );
+    --color9: rgb(
+        var(--percentage),
+        calc(var(--percentage) / 2),
+        calc(var(--percentage) * 0.15)
+    );
 }
 /* Default application's styling */
 body {
     font-family: sans-serif;
     background-color: var(--color1);
     color: var(--color2);
+}
+/* URI: / */
+#Homepage header {
+    text-align: center;
+    font-weight: bold;
+}
+#Homepage main {
+    background-color: var(--color3);
+}
+#Homepage main #notice {
+    font-family: var(--proximaNova);
+}
+#Homepage footer {
+    text-align: center;
+}
+#Homepage main #buttons div a {
+    font-family: var(--sourceCodePro);
+    text-decoration: none;
+    background: linear-gradient(
+        calc(var(--angle) * -1),
+        var(--color4) calc(var(--percentage) / 2),
+        var(--color5) calc(var(--percentage) / 2)
+    );
+    color: var(--color6);
+    text-align: center;
+    text-transform: uppercase;
+}
+#Homepage main #buttons div a::before {
+    content: "";
+    background-color: var(--color7);
+    opacity: calc(var(--percentage) * 0);
+}
+#Homepage main #buttons div a span:nth-child(1) {
+    background: linear-gradient(to left, var(--color8), var(--color9));
+}
+#Homepage main #buttons div a span:nth-child(2) {
+    background: linear-gradient(to top, var(--color8), var(--color9));
+}
+#Homepage main #buttons div a span:nth-child(3) {
+    background: linear-gradient(to right, var(--color8), var(--color9));
+}
+#Homepage main #buttons div a span:nth-child(4) {
+    background: linear-gradient(to bottom, var(--color8), var(--color9));
+}
+#Homepage main #buttons div a:hover {
+    --color4: rgb(
+        var(--percentage),
+        calc(var(--percentage) / 2),
+        calc(var(--percentage) * 0)
+    );
+    --color5: rgb(
+        calc(var(--percentage) / 2),
+        calc(var(--percentage) / 4),
+        calc(var(--percentage) * 0)
+    );
+    --color6: rgb(
+        calc(var(--percentage) / 10),
+        calc(var(--percentage) * 0.09),
+        calc(var(--percentage) * 0.08)
+    );
+    --color8: rgba(
+        calc(var(--percentage) / 2.5),
+        calc(var(--percentage) / 5),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0)
+    );
+    --color9: rgb(
+        var(--percentage),
+        calc(var(--percentage) / 4),
+        calc(var(--percentage) * 0.075)
+    );
+    background: linear-gradient(
+        calc(var(--angle) * -1),
+        var(--color4) calc(var(--percentage) / 2),
+        var(--color5) calc(var(--percentage) / 2)
+    );
+    color: var(--color6);
 }
