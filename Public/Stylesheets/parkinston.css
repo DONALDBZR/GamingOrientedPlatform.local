@@ -20,6 +20,11 @@
     src: url("../Fonts/Source Code Pro - Semi Bold.otf");
     src: url("../Fonts/Source Code Pro - Semi Bold Italic.otf");
 }
+@font-face {
+    font-family: "Ethnocentric";
+    src: url("../Fonts/Ethnocentric - Regular.otf");
+    src: url("../Fonts/Ethnocentric - Regular Italic.otf");
+}
 /* Variables */
 :root {
     --percentage: 100%;
@@ -73,6 +78,7 @@
         calc(var(--percentage) / 2),
         calc(var(--percentage) * 0.15)
     );
+    --ethnocentric: "Ethnocentric";
 }
 /* Default application's styling */
 body {
@@ -84,6 +90,7 @@ body {
 #Homepage header {
     text-align: center;
     font-weight: bold;
+    font-family: var(--ethnocentric);
 }
 #Homepage main {
     background-color: var(--color3);
@@ -93,6 +100,7 @@ body {
 }
 #Homepage footer {
     text-align: center;
+    font-family: var(--ethnocentric);
 }
 #Homepage main #buttons div a {
     font-family: var(--sourceCodePro);
