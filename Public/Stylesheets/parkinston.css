@@ -1,4 +1,20 @@
 /* Variables */
 :root {
     --percentage: 100%;
+    --color1: rgb(
+        var(--percentage),
+        calc(var(--percentage) / 2),
+        calc(var(--percentage) * 0)
+    );
+    --color2: rgb(
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0)
+    );
+}
+/* Default application's styling */
+body {
+    font-family: sans-serif;
+    background-color: var(--color1);
+    color: var(--color2);
 }
