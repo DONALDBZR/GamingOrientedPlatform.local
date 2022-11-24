@@ -14,11 +14,7 @@ class Application extends React.Component {
  */
 class Header extends Application {
     render() {
-        return (
-            <header>
-                <h1>Parkinston</h1>
-            </header>
-        );
+        return <header>Parkinston</header>;
     }
 }
 /**
