@@ -133,6 +133,17 @@ class Parkinston {
             link.type = this.getMimeType();
             document.head.appendChild(link);
         }
+        this.verifyURL();
+    }
+    /**
+     * Verifying the URL
+     */
+    verifyURL() {
+        fetch(window.location.href, { method: "head" }).then((Response) => {
+            if (Response.status != 200) {
+                document.body.className = Response.status;
+            }
+        });
     }
 }
 const application = new Parkinston();
