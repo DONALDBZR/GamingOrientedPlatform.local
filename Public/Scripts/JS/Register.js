@@ -89,7 +89,7 @@ class Form extends Main {
     handleSubmit(event) {
         const delay = 2000;
         event.preventDefault();
-        fetch("/Register", {
+        fetch("/Controllers/Register.php", {
             method: "POST",
             body: JSON.stringify({
                 username: this.state.username,
