@@ -152,23 +152,10 @@ class Form extends Main {
                 <div id="button">
                     <button>Register</button>
                 </div>
-                <ServerRendering />
+                <div id="response">
+                    <h1>{this.state.message}</h1>
+                </div>
             </form>
-        );
-    }
-}
-/**
- * The component that is taking the response from the POST request
- */
-class ServerRendering extends Form {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div id="response">
-                <h1>{this.state.message}</h1>
-            </div>
         );
     }
 }
