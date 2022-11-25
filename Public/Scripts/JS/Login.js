@@ -107,13 +107,13 @@ class Form extends Main {
      * @param {Event} event
      */
     handleSubmit(event) {
-        const delay = 1975;
+        const delay = 3600000;
         event.preventDefault();
-        fetch("/Controllers/Register.php", {
+        fetch("/Controllers/Login.php", {
             method: "POST",
             body: JSON.stringify({
                 username: this.state.username,
-                mailAddress: this.state.mailAddress,
+                password: this.state.password,
             }),
             headers: {
                 "Content-Type": "application/json",
