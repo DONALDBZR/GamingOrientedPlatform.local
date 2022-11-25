@@ -42,12 +42,12 @@ class Password
         $this->PDO = new PHPDataObject();
     }
     // ID accessor method
-    public function getID()
+    public function getId()
     {
         return $this->id;
     }
     // ID mutator method
-    public function setID(int $id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
