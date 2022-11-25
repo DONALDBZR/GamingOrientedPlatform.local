@@ -74,10 +74,10 @@ class Form extends Main {
              */
             username: "",
             /**
-             * Mail address of the user
+             * password of the user
              * @type {string}
              */
-            mailAddress: "",
+            password: "",
             /**
              * The status returned from the request
              * @type {int}
@@ -154,7 +154,7 @@ class Form extends Main {
     render() {
         return (
             <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
-                <div id="label">Registration Form</div>
+                <div id="label">Login Form</div>
                 <input
                     type="text"
                     name="username"
@@ -164,15 +164,15 @@ class Form extends Main {
                     required
                 />
                 <input
-                    type="mail"
-                    name="mailAddress"
-                    placeholder="Mail Address"
-                    value={this.state.mailAddress}
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={this.state.password}
                     onChange={this.handleChange.bind(this)}
                     required
                 />
                 <div id="button">
-                    <button>Register</button>
+                    <button>Login</button>
                 </div>
                 <div id="response">
                     <h1
