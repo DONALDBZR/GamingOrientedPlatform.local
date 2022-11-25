@@ -1,68 +1,39 @@
 <?php
-// Importing Mail
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/Models/Mail.php";
-/**
- * • The class that stores all the properties that are related to the user as well as all the actions that are going to be performed in the application by any user.
- * • The class variables are set the same way as the fields in the Users table.  In fact, the class represents a record.
- */
 class User extends Password
 {
-    /**
-     * The username of the username which is also the primary key
-     */
     private string $username;
-    /**
-     * The mail address of the user
-     */
     private string $mailAddress;
-    /**
-     * Mail which will interact with PHPMailer
-     */
     protected Mail $Mail;
-    // Constructor method
     public function __construct()
     {
-        // Instantiating PDO
         $this->PDO = new PHPDataObject();
-        // Instantiating Mail
         $this->Mail = new Mail();
     }
-    // Username accessor method
     public function getUsername()
     {
         return $this->username;
     }
-    // Username mutator method
     public function setUsername($username)
     {
         $this->username = $username;
     }
-    // Mail Address accessor method
     public function getMailAddress()
     {
         return $this->mailAddress;
     }
-    // Mail Address mutator method
     public function setMailAddress(string $mailAddress)
     {
         $this->mailAddress = $mailAddress;
     }
-    // Password.ID accessor method
     public function getPasswordId()
     {
         $this->getId();
     }
-    // Password.ID mutator method
     public function setPasswordId(int $Password_id)
     {
         $this->setId($Password_id);
     }
-    /**
-     * 1. Checking whether the mail address or username retrieved from the JSON exists in the database.
-     * 2. In the condition that the mail address or username existed, verify that the passwords retrieved are the same.
-     * 3. In the condition that the passwords are actually the same, an account will be created.
-     * 4. A JSON will then be generated as a response which will be sent to the front-end.
-     */
     public function register()
     {
         $request = json_decode(file_get_contents('php://input'));
@@ -108,6 +79,59 @@ class User extends Password
                 "message" => "Account exists!"
             );
             header('Content-Type: application/json', true, 300);
+            echo json_encode($response);
+        }
+    }
+    public function login()
+    {
+        $request = json_decode(file_get_contents("php://input"));
+        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
+        $this->PDO->bind(":UsersUsername", $request->username);
+        $this->PDO->execute();
+        if (!empty($this->PDO->resultSet())) {
+            $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
+            $this->setMailAddress($this->PDO->resultSet()[0]['UsersMailAddress']);
+            $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
+            $this->setPassword($request->password);
+            $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
+            $this->PDO->bind(":PasswordsId", $this->getPasswordId());
+            $this->PDO->execute();
+            $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
+            $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
+            $this->setPassword($this->getPassword() . $this->getSalt());
+            if (password_verify($this->getPassword(), $this->getHash())) {
+                $this->setOtp($this->otpGenerate());
+                $user = array(
+                    "username" => $this->getUsername(),
+                    "mailAddress" => $this->getMailAddress(),
+                    "domain" => $this->domain,
+                    "otp" => $this->getOtp()
+                );
+                $_SESSION['User'] = $user;
+                $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$this->domain}/Login/Verification/{$this->getUsername()}");
+                $response = array(
+                    "status" => 0,
+                    "url" => "{$this->domain}/Login/Verification/{$this->getUsername()}",
+                    "message" => "You will be redirected to the verification process just to be sure and a password has been sent to you for that! 🙏"
+                );
+                header('Content-Type: application/json');
+                echo json_encode($response);
+            } else {
+                $response = array(
+                    "status" => 3,
+                    "url" => "{$this->domain}/Login",
+                    "message" => "Your password is incorrect!"
+                );
+                header('Content-Type: application/json');
+                echo json_encode($response);
+            }
+        } else {
+            $response = array(
+                "status" => 4,
+                "url" => "{$this->domain}",
+                "message" => "This account does not exist!"
+            );
+            header('Content-Type: application/json');
             echo json_encode($response);
         }
     }
