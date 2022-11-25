@@ -202,3 +202,27 @@ body[class="404"] main .button button:hover {
 #Register header a:hover {
     color: var(--color12);
 }
+#Register main form[method="POST"] {
+    background-color: var(--color3);
+}
+#Register main form[method="POST"] #label {
+    text-align: center;
+    font-family: var(--proximaNova);
+}
+#Register main form[method="POST"] input {
+    font-family: var(--proximaNova);
+    font-weight: bold;
+    background-color: var(--color12);
+    color: var(--color2);
+}
+#Register main form[method="POST"] input::placeholder {
+    color: var(--color4);
+}
+#Register main form[method="POST"] div button {
+    color: var(--color12);
+    background-color: var(--color1);
+}
+#Register main form[method="POST"] div button:hover {
+    background-color: var(--color12);
+    color: var(--color1);
+}

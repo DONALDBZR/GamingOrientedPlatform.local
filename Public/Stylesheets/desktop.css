@@ -140,3 +140,31 @@ body[class="404"] main #message {
 body[class="404"] main .button button {
     font-size: calc(var(--textSize) * 2);
 }
+#Register main {
+    display: flex;
+    justify-content: center;
+}
+#Register main form[method="POST"] {
+    padding: calc(var(--percentage) / 50) calc(var(--percentage) / 10);
+}
+#Register main form[method="POST"] #label {
+    font-size: calc(var(--textSize) * 1.8);
+}
+#Register main form[method="POST"] input {
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+    width: calc(var(--percentage) * 0.98);
+    font-size: var(--textSize);
+    border: none;
+    padding: calc(var(--percentage) / 100);
+}
+#Register main form[method="POST"] #button {
+    display: flex;
+    justify-content: center;
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+#Register main form[method="POST"] div button {
+    border: none;
+    font-size: calc(var(--textSize) * 1.62);
+    padding: calc(var(--percentage) / 40) calc(var(--percentage) / 20);
+    cursor: pointer;
+}
