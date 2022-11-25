@@ -17,7 +17,7 @@ class Application extends React.Component {
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = ServerRendering.state.url;
+            window.location.href = Main.state.url;
         }, delay);
     }
 }
@@ -102,7 +102,7 @@ class Form extends Main {
      * @param {Event} event
      */
     handleSubmit(event) {
-        const delay = 2000;
+        const delay = 30000;
         event.preventDefault();
         fetch("/Controllers/Register.php", {
             method: "POST",
