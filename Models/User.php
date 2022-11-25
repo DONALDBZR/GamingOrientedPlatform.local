@@ -103,7 +103,7 @@ class User extends Password
             echo json_encode($response);
         } else {
             $response = array(
-                "status" => 1,
+                "status" => 2,
                 "url" => "{$this->domain}/Login",
                 "message" => "Account exists!"
             );
