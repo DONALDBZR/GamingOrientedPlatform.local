@@ -129,6 +129,17 @@ class Form extends Main {
             )
             .then(() => super.redirector(delay));
     }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponse() {
+        if (this.state.status == 0) {
+            return "rgb(0%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
     render() {
         return (
             <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
@@ -153,7 +164,9 @@ class Form extends Main {
                     <button>Register</button>
                 </div>
                 <div id="response">
-                    <h1>{this.state.message}</h1>
+                    <h1 style={{ color: this.handleResponse() }}>
+                        {this.state.message}
+                    </h1>
                 </div>
             </form>
         );
