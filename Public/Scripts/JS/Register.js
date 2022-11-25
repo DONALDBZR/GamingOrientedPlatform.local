@@ -112,7 +112,7 @@ class Form extends Main {
     render() {
         return (
             <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
-                <div>Registration Form</div>
+                <div id="label">Registration Form</div>
                 <input
                     type="text"
                     name="username"
@@ -129,7 +129,7 @@ class Form extends Main {
                     onChange={this.handleChange.bind(this)}
                     required
                 />
-                <div>
+                <div id="button">
                     <button>Register</button>
                 </div>
                 <ServerRendering />
@@ -166,7 +166,7 @@ class ServerRendering extends Form {
     }
     render() {
         return (
-            <div>
+            <div id="response">
                 <h1>{this.state.message}</h1>
             </div>
         );
