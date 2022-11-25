@@ -170,7 +170,6 @@ body[class="404"] main .button button {
     cursor: pointer;
 }
 #Register main form[method="POST"] #response h1 {
-    font-size: calc(var(--textSize) * 1.8);
     margin: calc(var(--percentage) * 0);
     margin-top: calc(var(--percentage) / 50);
 }
