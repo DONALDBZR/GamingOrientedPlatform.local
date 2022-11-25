@@ -68,6 +68,21 @@ class Form extends Main {
              * @type {string}
              */
             mailAddress: "",
+            /**
+             * The status returned from the request
+             * @type {int}
+             */
+            status: 0,
+            /**
+             * The message that will be displayed to the user
+             * @type {string}
+             */
+            message: "",
+            /**
+             * The url to be redirected after displaying the message
+             * @type {string}
+             */
+            url: "",
         };
     }
     /**
@@ -101,7 +116,7 @@ class Form extends Main {
         })
             .then((response) => response.json())
             .then((data) =>
-                ServerRendering.setState({
+                this.setState({
                     status: data.status,
                     message: data.message,
                     url: data.url,
@@ -143,26 +158,6 @@ class Form extends Main {
 class ServerRendering extends Form {
     constructor(props) {
         super(props);
-        /**
-         * States of the component
-         */
-        this.state = {
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
-        };
     }
     render() {
         return (
