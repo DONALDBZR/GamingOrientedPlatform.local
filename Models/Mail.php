@@ -3,7 +3,7 @@
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Modules/PHPMailer/src/PHPMailer.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Modules/PHPMailer/src/Exception.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Modules/PHPMailer/src/SMTP.php";
-require_once "{$_SERVER['DOCUMENT_ROOT']}/Public/Scripts/PHP/Environment.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Environment.php";
 /**
  * Simplifying the use of PHPMailer
  */
