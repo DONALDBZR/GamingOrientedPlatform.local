@@ -111,7 +111,8 @@ body[class="404"] header,
     font-family: var(--proximaNova);
 }
 #Homepage footer,
-body[class="404"] footer {
+body[class="404"] footer,
+#Register footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }
