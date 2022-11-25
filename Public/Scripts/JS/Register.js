@@ -4,6 +4,16 @@
 class Application extends React.Component {
     constructor(props) {
         super(props);
+        /**
+         * States of the application
+         */
+        this.state = {
+            /**
+             * The url to be redirected after displaying the message
+             * @type {string}
+             */
+            url: "",
+        };
     }
     /**
      * Renders the components that are being returned
@@ -17,7 +27,7 @@ class Application extends React.Component {
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = Main.state.url;
+            window.location.href = this.state.url;
         }, delay);
     }
 }
@@ -78,11 +88,6 @@ class Form extends Main {
              * @type {string}
              */
             message: "",
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
         };
     }
     /**
@@ -162,7 +167,7 @@ class ServerRendering extends Form {
     render() {
         return (
             <div id="response">
-                <h1>{this.state.message}</h1>
+                <h1>{super.state.message}</h1>
             </div>
         );
     }
