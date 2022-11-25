@@ -167,7 +167,7 @@ class ServerRendering extends Form {
     render() {
         return (
             <div id="response">
-                <h1>{super.state.message}</h1>
+                <h1>{this.state.message}</h1>
             </div>
         );
     }
