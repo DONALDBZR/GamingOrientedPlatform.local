@@ -133,11 +133,22 @@ class Form extends Main {
      * Handling the response from the server
      * @returns {string}
      */
-    handleResponse() {
+    handleResponseColor() {
         if (this.state.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseFontSize() {
+        if (this.state.status == 0) {
+            return "71%";
+        } else {
+            return "180%";
         }
     }
     render() {
@@ -164,7 +175,12 @@ class Form extends Main {
                     <button>Register</button>
                 </div>
                 <div id="response">
-                    <h1 style={{ color: this.handleResponse() }}>
+                    <h1
+                        style={{
+                            color: this.handleResponseColor(),
+                            fontSize: this.handleResponseFontSize(),
+                        }}
+                    >
                         {this.state.message}
                     </h1>
                 </div>
