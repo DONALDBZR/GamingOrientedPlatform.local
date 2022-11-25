@@ -227,3 +227,7 @@ body[class="404"] main .button button:hover {
     background-color: var(--color12);
     color: var(--color1);
 }
+#Register main form[method="POST"] #response h1 {
+    text-align: center;
+    font-family: var(--proximaNova);
+}
