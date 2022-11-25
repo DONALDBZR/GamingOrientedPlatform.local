@@ -1,6 +1,6 @@
 <?php
 // Importing PDO
-require_once "{$_SERVER['DOCUMENT_ROOT']}/Public/Scripts/PHP/PDO.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PDO.php";
 /**
  * • The class that stores all the properties that are related to the password as well as all the actions that are going to be performed in the application by the application.
  * • The class variables are set the same way as the fields in the Users table.  In fact, the class represents a record.
