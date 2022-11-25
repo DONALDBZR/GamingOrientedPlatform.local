@@ -89,6 +89,7 @@
         var(--percentage),
         calc(var(--percentage) * 0)
     );
+    --color12: rgb(var(--percentage), var(--percentage), var(--percentage));
 }
 /* Default application's styling */
 body {
@@ -97,7 +98,8 @@ body {
     color: var(--color2);
 }
 #Homepage header,
-body[class="404"] header {
+body[class="404"] header,
+#Register header {
     text-align: center;
     font-weight: bold;
     font-family: var(--ethnocentric);
@@ -192,4 +194,11 @@ body[class="404"] main .button button {
 }
 body[class="404"] main .button button:hover {
     color: var(--color2);
+}
+#Register header a {
+    text-decoration: none;
+    color: var(--color2);
+}
+#Register header a:hover {
+    color: var(--color12);
 }

@@ -12,7 +12,8 @@ body {
     margin: calc(var(--percentage) * 0);
 }
 #Homepage header,
-body[class="404"] header {
+body[class="404"] header,
+#Register header {
     font-size: calc(var(--textSize) * 2);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
