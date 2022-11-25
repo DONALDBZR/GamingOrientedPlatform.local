@@ -198,11 +198,13 @@ body[class="404"] main .button button {
 body[class="404"] main .button button:hover {
     color: var(--color2);
 }
-#Register header a {
+#Register header a,
+#Login header a {
     text-decoration: none;
     color: var(--color2);
 }
-#Register header a:hover {
+#Register header a:hover,
+#Login header a:hover {
     color: var(--color12);
 }
 #Register main form[method="POST"] {
