@@ -99,7 +99,8 @@ body {
 }
 #Homepage header,
 body[class="404"] header,
-#Register header {
+#Register header,
+#Login header {
     text-align: center;
     font-weight: bold;
     font-family: var(--ethnocentric);
@@ -112,7 +113,8 @@ body[class="404"] header,
 }
 #Homepage footer,
 body[class="404"] footer,
-#Register footer {
+#Register footer,
+#Login footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }
