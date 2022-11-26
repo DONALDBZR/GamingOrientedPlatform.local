@@ -28,11 +28,11 @@ class User extends Password
     }
     public function getPasswordId()
     {
-        $this->getId();
+        parent::getId();
     }
     public function setPasswordId(int $Password_id)
     {
-        $this->setId($Password_id);
+        parent::setId($Password_id);
     }
     public function register()
     {
