@@ -10,7 +10,5 @@ CREATE TABLE Parkinston.Passwords (
 CREATE TABLE Parkinston.Users (
     UsersUsername VARCHAR(32) PRIMARY KEY,
     UsersMailAddress VARCHAR(64),
-    UsersPassword INT,
-    UsersProfilePicture VARCHAR(512),
-    CONSTRAINT fkPasswordsUsers FOREIGN KEY (UsersPassword) REFERENCES Parkinston.Passwords (PasswordsId)
+    UsersPassword INT
 );
