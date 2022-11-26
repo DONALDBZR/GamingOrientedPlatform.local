@@ -12,3 +12,5 @@ CREATE TABLE Parkinston.Users (
     UsersMailAddress VARCHAR(64),
     UsersPassword INT
 );
+-- Testing Codes
+-- DROP DATABASE Parkinston;
