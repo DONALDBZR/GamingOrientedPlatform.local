@@ -39,8 +39,9 @@ class BackEnd {
      */
     handleRequest() {
         this.application.get("/", (request, response) => {
-            response.sendFile(__dirname + "/Views/Homepage.js");
+            response.response.sendFile(__dirname + "/Views/Homepage.html");
             console.log(`Application: /\nMethod: GET`);
         });
     }
 }
+const app = new BackEnd();
