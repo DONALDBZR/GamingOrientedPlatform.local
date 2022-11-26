@@ -63,7 +63,7 @@ class User extends Password
             $this->PDO->query("INSERT INTO Parkinston.Users(UsersUsername, UsersMailAddress, UsersPassword) VALUES (:UsersUsername, :UsersMailAddress, :UsersPassword)");
             $this->PDO->bind(":UsersUsername", $this->getUsername());
             $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
-            $this->PDO->bind(":UsersPassword", $this->getPasswordID());
+            $this->PDO->bind(":UsersPassword", $this->getPasswordId());
             $this->PDO->execute();
             $response = array(
                 "status" => 0,
