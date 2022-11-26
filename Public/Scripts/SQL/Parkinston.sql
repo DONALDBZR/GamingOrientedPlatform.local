@@ -14,5 +14,5 @@ CREATE TABLE Parkinston.Users (
 );
 -- Testing Codes
 -- DROP DATABASE Parkinston;
-SELECT * FROM Parkinston.Passwords;
-SELECT * FROM Parkinston.Users;
+-- SELECT * FROM Parkinston.Passwords;
+-- SELECT * FROM Parkinston.Users;
