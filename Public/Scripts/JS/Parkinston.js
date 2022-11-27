@@ -18,7 +18,7 @@ class Parkinston {
          * @type {string[]}
          */
         this._stylesheets = [
-            "/Stylesheets/parkinston.css",
+            "/Stylesheets/parkinston.cs",
             "/Stylesheets/desktop.css",
             "/Stylesheets/mobile.css",
             "/Stylesheets/tablet.css",
