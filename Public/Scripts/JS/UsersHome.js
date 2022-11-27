@@ -35,17 +35,16 @@ class Application extends React.Component {
 class Header extends Application {
     constructor(props) {
         super(props);
-        console.log(`Username: ${this.state.username}\nMail Address: ${this.state.mailAddress}\nDomain: ${this.state.domain}`);
     }
     render() {
         return (
             <header>
                 <nav>
                     <div>
-                        <a href={"/Users/Home/" + this.state.username}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
                     </div>
                     <div>
-                        <a href={"/Users/Profile/" + this.state.username} class="fa fa-user"></a>
+                        <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
                     </div>
                     <div>
                         <a href="/Sign-Out" class="fa fa-sign-out"></a>
@@ -80,10 +79,17 @@ class Header extends Application {
  * The component that is the main
  */
 class Main extends Application {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return (
             <main>
-                Main
+                <div>
+                    <a href={`/Users/Home/${this.state.username}/LoL`}>
+                        <img src="/Public/Images/(12).ico" />
+                    </a>
+                </div>
             </main>
         );
     }
