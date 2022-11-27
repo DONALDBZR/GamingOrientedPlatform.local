@@ -12,12 +12,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/Register':
                 $Router = new Router("GET", "/Register", "/Views/Register.php");
                 break;
+            case "/Login/Verification/{$_SESSION['User']['username']}":
+                $Router = new Router("GET", "/Login/Verification/{$_SESSION['User']['username']}", "/Views/LoginVerification.php");
+                break;
         }
         break;
     case 'POST':
         switch ($_SERVER['REQUEST_URI']) {
             case '/Register':
                 $Router = new Router("POST", "/Register", "/Controllers/Register.php");
+                break;
+            case '/Login':
+                $Router = new Router("POST", "/Login", "/Controllers/Login.php");
                 break;
         }
 }
