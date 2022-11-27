@@ -15,9 +15,9 @@ body {
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
 #Homepage main {
-    width: calc(var(--percentage) / 2);
-    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 8);
-    padding: calc(var(--percentage) / 50) calc(var(--percentage) / 8);
+    width: calc(var(--percentage) * 0.96);
+    margin: calc(var(--percentage) * 0);
+    padding: calc(var(--percentage) / 50);
 }
 #Homepage main #notice {
     font-size: calc(var(--textSize) * 0.85589104491);
@@ -37,8 +37,8 @@ body {
 }
 #Homepage main #buttons div a {
     padding: calc(var(--pixelate) / 54 * 0.81)
-        calc(var(--pixelate) / 27 * 0.531441);
-    margin: calc(var(--pixelate) / 90);
+        calc(var(--pixelate) / 27 * 0.4782969);
+    margin: calc(var(--pixelate) / 90) calc(var(--pixelate) / 90 * 0.3486784401);
     display: inline-block;
     font-size: var(--textSize);
     box-shadow: 0 calc(var(--pixelate) / 54) calc(var(--pixelate) / 21.6)
