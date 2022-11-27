@@ -9,6 +9,26 @@ class Application extends React.Component {
          */
         this.state = {
             /**
+             * Username of the user
+             * @type {string}
+             */
+            username: "",
+            /**
+             * Mail address of the user
+             * @type {string}
+             */
+            mailAddress: "",
+            /**
+             * The status returned from the request
+             * @type {int}
+             */
+            status: 0,
+            /**
+             * The message that will be displayed to the user
+             * @type {string}
+             */
+            message: "",
+            /**
              * The url to be redirected after displaying the message
              * @type {string}
              */
@@ -64,31 +84,6 @@ class Main extends Application {
 class Form extends Main {
     constructor(props) {
         super(props);
-        /**
-         * States of the component
-         */
-        this.state = {
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * Mail address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
-        };
     }
     /**
      * Handling any change that is made in the user interface
