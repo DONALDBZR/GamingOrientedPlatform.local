@@ -28,6 +28,21 @@ class Application extends React.Component {
     render() {
         return [<Header />, <Main />, <Footer />];
     }
+    /**
+     * Retireving the session's data that is stored as a JSON to be used in the rendering
+     */
+    retrieveData() {
+        fetch("/Users/CurrentUser",
+            {
+                method: "GET"
+            })
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                username: data.username,
+                mailAddress: data.mailAddress,
+                domain: data.domain,
+            }));
+    }
 }
 /**
  * The component that is the header
@@ -54,21 +69,6 @@ class Header extends Application {
         );
     }
     /**
-     * Retireving the session's data that is stored as a JSON to be used in the rendering
-     */
-    retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
-            .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.username,
-                mailAddress: data.mailAddress,
-                domain: data.domain,
-            }));
-    }
-    /**
      * Methods to be run as soon as the component is mounted
      */
     componentDidMount() {
@@ -92,6 +92,12 @@ class Main extends Application {
                 </div>
             </main>
         );
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
     }
 }
 /**
