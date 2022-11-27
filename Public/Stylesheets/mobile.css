@@ -104,5 +104,5 @@ body {
 #Register main form[method="POST"] #response h1,
 #Login main form[method="POST"] #response h1 {
     margin: calc(var(--percentage) * 0);
-    margin-top: calc(var(--percentage) / 50);
+    margin-top: calc(var(--percentage) / 5);
 }
