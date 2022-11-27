@@ -11,7 +11,7 @@ body {
     margin: calc(var(--percentage) * 0);
 }
 #Homepage header {
-    font-size: calc(var(--textSize) * 2);
+    font-size: calc(var(--textSize) * 1.458);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
 #Homepage main {
