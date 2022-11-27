@@ -116,7 +116,8 @@ body[id*="LoginVerification"] header {
 body[class="404"] footer,
 #Register footer,
 #Login footer,
-body[id*="LoginVerification"] footer {
+body[id*="LoginVerification"] footer,
+body[id*="UsersHome"] footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }

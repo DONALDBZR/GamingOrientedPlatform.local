@@ -40,7 +40,8 @@ body[id*="LoginVerification"] header {
 body[class="404"] footer,
 #Register footer,
 #Login footer,
-body[id*="LoginVerification"] footer {
+body[id*="LoginVerification"] footer,
+body[id*="UsersHome"] footer {
     font-size: calc(var(--textSize) * 0.9);
 }
 #Homepage main #buttons div a {
