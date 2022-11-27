@@ -69,15 +69,10 @@ class Form extends Main {
          */
         this.state = {
             /**
-             * Username of the user
-             * @type {string}
+             * one-time password that is sent to the user
+             * @type {int}
              */
-            username: "",
-            /**
-             * password of the user
-             * @type {string}
-             */
-            password: "",
+            oneTimePassword: 0,
             /**
              * The status returned from the request
              * @type {int}
@@ -107,13 +102,12 @@ class Form extends Main {
      * @param {Event} event
      */
     handleSubmit(event) {
-        const delay = 1550;
+        const delay = 3600000;
         event.preventDefault();
-        fetch("/Controllers/Login.php", {
+        fetch("/Controllers/LoginVerification.php", {
             method: "POST",
             body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password,
+                oneTimePassword: this.state.oneTimePassword,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -156,18 +150,10 @@ class Form extends Main {
             <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                 <div id="label">Login Form</div>
                 <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={this.state.username}
-                    onChange={this.handleChange.bind(this)}
-                    required
-                />
-                <input
                     type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={this.state.password}
+                    name="oneTimePassword"
+                    placeholder="One-Time Password"
+                    value={this.state.oneTimePassword}
                     onChange={this.handleChange.bind(this)}
                     required
                 />
