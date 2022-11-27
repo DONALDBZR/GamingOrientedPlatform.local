@@ -9,17 +9,20 @@ class Application extends React.Component {
          */
         this.state = {
             /**
-             * Username of the user
+             * Status of the response
+             * @type {int}
              */
-            username: "",
+            status: "",
             /**
-             * Mail Address of the user
+             * Message that is returned from the server
+             * @type {string}
              */
-            mailAddress: "",
+            message: "",
             /**
-             * Domain of the application
+             * URL for the redirector
+             * @type {string}
              */
-            domain: "",
+            url: "",
         };
     }
     /**
@@ -32,16 +35,30 @@ class Application extends React.Component {
      * Retireving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
-        fetch("/Users/CurrentUser",
+        /**
+         * The amount of milliseconds that the registration process takes
+         */
+        const delay = 3600000;
+        fetch("/LogOut",
             {
                 method: "GET"
             })
             .then((response) => response.json())
             .then((data) => this.setState({
-                username: data.username,
-                mailAddress: data.mailAddress,
-                domain: data.domain,
-            }));
+                status: data.status,
+                message: data.message,
+                url: data.url,
+            }))
+            .then(() => this.redirector(delay));
+    }
+    /**
+     * Redirecting the user to an intended url
+     * @param {int} delay 
+     */
+    redirector(delay) {
+        setTimeout(() => {
+            window.location.href = this.state.url;
+        }, delay);
     }
 }
 /**
@@ -54,25 +71,9 @@ class Header extends Application {
     render() {
         return (
             <header>
-                <nav>
-                    <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
-                    </div>
-                    <div>
-                        <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
-                    </div>
-                    <div>
-                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
-                    </div>
-                </nav>
+                Parkinston
             </header>
         );
-    }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 /**
@@ -85,11 +86,7 @@ class Main extends Application {
     render() {
         return (
             <main>
-                <div>
-                    <a href={`/Users/Home/${this.state.username}/LoL`}>
-                        <img src="/Public/Images/(12).ico" />
-                    </a>
-                </div>
+                {this.state.message}
             </main>
         );
     }
