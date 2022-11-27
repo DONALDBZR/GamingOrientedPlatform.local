@@ -2,6 +2,26 @@
  * The Application that is going to be rendered in the DOM
  */
 class Application extends React.Component {
+    constructor(props) {
+        super(props);
+        /**
+         * States of the properties of the component
+         */
+        this.state = {
+            /**
+             * Username of the user
+             */
+            username: "",
+            /**
+             * Mail Address of the user
+             */
+            mailAddress: "",
+            /**
+             * Domain of the application
+             */
+            domain: "",
+        };
+    }
     /**
      * Renders the components that are being returned
      */
@@ -13,12 +33,47 @@ class Application extends React.Component {
  * The component that is the header
  */
 class Header extends Application {
+    constructor(props) {
+        super(props);
+        console.log(`Username: ${this.state.username}\nMail Address: ${this.state.mailAddress}\nDomain: ${this.state.domain}`);
+    }
     render() {
         return (
             <header>
-                <a href="/">Parkinston</a>
+                <nav>
+                    <div>
+                        <a href={"/Users/Home/" + this.state.username}>Parkinston</a>
+                    </div>
+                    <div>
+                        <a href={"/Users/Profile/" + this.state.username} class="fa fa-user"></a>
+                    </div>
+                    <div>
+                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                    </div>
+                </nav>
             </header>
         );
+    }
+    /**
+     * Retireving the session's data that is stored as a JSON to be used in the rendering
+     */
+    retrieveData() {
+        fetch("/Users/CurrentUser",
+            {
+                method: "GET"
+            })
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                username: data.username,
+                mailAddress: data.mailAddress,
+                domain: data.domain,
+            }));
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
     }
 }
 /**
