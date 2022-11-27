@@ -53,7 +53,7 @@ body[class="404"] footer,
     font-size: calc(var(--textSize) * (5 / 3));
     letter-spacing: calc(var(--pixelate) / 432);
     box-shadow: 0 calc(var(--pixelate) / 54) calc(var(--pixelate) / 21.6)
-        var(--color13);
+        var(--color4);
 }
 #Homepage main #buttons div a::before {
     position: absolute;

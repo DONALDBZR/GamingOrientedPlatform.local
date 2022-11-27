@@ -42,9 +42,9 @@ body {
     display: inline-block;
     font-size: var(--textSize);
     box-shadow: 0 calc(var(--pixelate) / 54) calc(var(--pixelate) / 21.6)
-        var(--color13);
+        var(--color4);
     background: none;
-    background-color: var(--color13);
+    background-color: var(--color4);
 }
 #Homepage main #buttons div a::before,
 #Homepage main #buttons div a span {
