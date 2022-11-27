@@ -102,7 +102,7 @@ class Form extends Main {
      * @param {Event} event
      */
     handleSubmit(event) {
-        const delay = 3600000;
+        const delay = 1500;
         event.preventDefault();
         fetch("/Controllers/LoginVerification.php", {
             method: "POST",
