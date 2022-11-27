@@ -24,7 +24,7 @@ body[class="404"] header,
     padding: calc(var(--percentage) / 50) calc(var(--percentage) / 8);
 }
 #Homepage main #notice {
-    font-size: calc(var(--percentage) * 1.449459);
+    font-size: calc(var(--textSize) * 1.449459);
 }
 #Homepage main #buttons {
     display: flex;
@@ -39,7 +39,7 @@ body[class="404"] header,
 body[class="404"] footer,
 #Register footer,
 #Login footer {
-    font-size: calc(var(--percentage) * 0.9);
+    font-size: calc(var(--textSize) * 0.9);
 }
 #Homepage main #buttons div a {
     padding: calc(var(--pixelate) / 54) calc(var(--pixelate) / 27);
@@ -50,7 +50,7 @@ body[class="404"] footer,
         calc(var(--percentage) * 0)
     );
     overflow: hidden;
-    font-size: calc(var(--percentage) * (5 / 3));
+    font-size: calc(var(--textSize) * (5 / 3));
     letter-spacing: calc(var(--pixelate) / 432);
     box-shadow: 0 calc(var(--pixelate) / 54) calc(var(--pixelate) / 21.6)
         rgba(
