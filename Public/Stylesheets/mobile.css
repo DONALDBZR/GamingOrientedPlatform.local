@@ -73,7 +73,7 @@ body {
     padding: calc(var(--percentage) / 50) calc(var(--percentage) / 10);
 }
 #Register main form[method="POST"] #label {
-    font-size: calc(var(--textSize) * 1.8);
+    font-size: calc(var(--textSize) * 1.458);
 }
 #Register main form[method="POST"] input {
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
