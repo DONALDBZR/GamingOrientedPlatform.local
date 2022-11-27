@@ -199,3 +199,11 @@ body[id*="UsersHome"] header nav div a {
     font-size: calc(var(--textSize) * 2);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
+body[id*="UsersHome"] main {
+    display: flex;
+    justify-content: space-evenly;
+}
+body[id*="UsersHome"] main div a img {
+    width: auto;
+    height: calc(var(--pixelate) / 33.75);
+}
