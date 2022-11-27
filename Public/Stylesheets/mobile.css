@@ -10,3 +10,56 @@ body {
     font-size: var(--textSize);
     margin: calc(var(--percentage) * 0);
 }
+#Homepage header {
+    font-size: calc(var(--textSize) * 2);
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+#Homepage main {
+    width: calc(var(--percentage) / 2);
+    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 8);
+    padding: calc(var(--percentage) / 50) calc(var(--percentage) / 8);
+}
+#Homepage main #notice {
+    font-size: calc(var(--textSize) * 0.85589104491);
+}
+#Homepage main #buttons {
+    display: flex;
+    margin-top: calc(var(--percentage) / 50);
+}
+#Homepage main #buttons div {
+    display: flex;
+    justify-content: center;
+    width: calc(var(--percentage) / 2);
+    height: fit-content;
+}
+#Homepage footer {
+    font-size: calc(var(--textSize) * 0.9);
+}
+#Homepage main #buttons div a {
+    padding: calc(var(--pixelate) / 54 * 0.81)
+        calc(var(--pixelate) / 27 * 0.531441);
+    margin: calc(var(--pixelate) / 90);
+    display: inline-block;
+    font-size: var(--textSize);
+    box-shadow: 0 calc(var(--pixelate) / 54) calc(var(--pixelate) / 21.6)
+        var(--color4);
+    background: none;
+    background-color: var(--color4);
+}
+#Homepage main #buttons div a::before,
+#Homepage main #buttons div a span {
+    display: none;
+}
+#Homepage main #buttons div a span {
+    background: none !important;
+}
+#Homepage main #buttons div a:hover {
+    --color6: rgb(
+        var(--percentage),
+        calc(var(--percentage) * 0.9),
+        calc(var(--percentage) * 0.8)
+    );
+    color: var(--color5);
+    background: none;
+    background-color: var(--color6);
+}
