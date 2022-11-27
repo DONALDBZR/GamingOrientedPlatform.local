@@ -101,7 +101,8 @@ body {
 body[class="404"] header,
 #Register header,
 #Login header,
-body[id*="LoginVerification"] header {
+body[id*="LoginVerification"] header,
+#Sign-Out header {
     text-align: center;
     font-weight: bold;
     font-family: var(--ethnocentric);
@@ -117,7 +118,8 @@ body[class="404"] footer,
 #Register footer,
 #Login footer,
 body[id*="LoginVerification"] footer,
-body[id*="UsersHome"] footer {
+body[id*="UsersHome"] footer,
+#Sign-Out footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }
@@ -271,4 +273,10 @@ body[id*="UsersHome"] header nav div:nth-child(1) a:hover {
 }
 body[id*="UsersHome"] header nav div a:hover {
     color: var(--color2);
+}
+#Sign-Out main {
+    text-align: center;
+    font-family: var(--sourceCodePro);
+    color: var(--color11);
+    font-weight: bold;
 }
