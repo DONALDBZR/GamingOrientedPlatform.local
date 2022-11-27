@@ -90,6 +90,12 @@
         calc(var(--percentage) * 0)
     );
     --color12: rgb(var(--percentage), var(--percentage), var(--percentage));
+    --color13: rgba(
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) / 2)
+    );
 }
 /* Default application's styling */
 body {
