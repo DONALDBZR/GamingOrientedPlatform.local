@@ -3,7 +3,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/Routes.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Password.php";
 $Password = new Password();
 if (json_decode(file_get_contents("php://input")) != null) {
-    if (!empty(json_decode(file_get_contents("php://input"))->oneTimePpassword)) {
+    if (!empty(json_decode(file_get_contents("php://input"))->oneTimePassword)) {
         $Password->otpVerify();
     } else {
         $response = array(
