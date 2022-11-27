@@ -72,7 +72,7 @@ class Form extends Main {
              * one-time password that is sent to the user
              * @type {int}
              */
-            oneTimePassword: 0,
+            oneTimePassword: "",
             /**
              * The status returned from the request
              * @type {int}
