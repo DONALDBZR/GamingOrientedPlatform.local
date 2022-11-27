@@ -15,6 +15,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Login/Verification/{$_SESSION['User']['username']}":
                 $Router = new Router("GET", "/Login/Verification/{$_SESSION['User']['username']}", "/Views/LoginVerification.php");
                 break;
+            case "/Users/Home/{$_SESSION['User']['username']}":
+                $Router = new Router("GET", "/Users/Home/{$_SESSION['User']['username']}", "/Views/UsersHome.php");
+                break;
         }
         break;
     case 'POST':
