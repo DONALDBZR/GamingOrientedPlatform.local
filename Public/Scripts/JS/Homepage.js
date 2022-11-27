@@ -25,7 +25,7 @@ class Main extends Application {
         return (
             <main>
                 <div id="notice">
-                    In order to use the application, you have the permissions
+                    In order to use the application, you need to have the permissions
                     required.
                 </div>
                 <div id="buttons">
