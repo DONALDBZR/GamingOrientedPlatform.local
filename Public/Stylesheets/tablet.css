@@ -11,6 +11,7 @@ body {
     margin: calc(var(--percentage) * 0);
 }
 #Homepage header,
+body[class="404"] header,
 #Register header,
 #Login header {
     font-size: calc(var(--textSize) * 2);
@@ -35,6 +36,7 @@ body {
     height: fit-content;
 }
 #Homepage footer,
+body[class="404"] footer,
 #Register footer,
 #Login footer {
     font-size: calc(var(--textSize) * 0.9);
@@ -105,4 +107,14 @@ body {
 #Login main form[method="POST"] #response h1 {
     margin: calc(var(--percentage) * 0);
     margin-top: calc(var(--percentage) / 50);
+}
+body[class="404"] main .Error {
+    font-size: calc(var(--textSize) * 2);
+}
+body[class="404"] main #message {
+    font-size: calc(var(--textSize) * 1.8);
+    margin: calc(var(--percentage) / 200) calc(var(--percentage) * 0);
+}
+body[class="404"] main .button button {
+    font-size: calc(var(--textSize) * 2);
 }
