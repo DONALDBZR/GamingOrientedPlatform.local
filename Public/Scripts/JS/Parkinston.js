@@ -18,10 +18,10 @@ class Parkinston {
          * @type {string[]}
          */
         this._stylesheets = [
-            "/Public/Stylesheets/parkinston.css",
-            "/Public/Stylesheets/desktop.css",
-            "/Public/Stylesheets/mobile.css",
-            "/Public/Stylesheets/tablet.css",
+            "/Stylesheets/parkinston.css",
+            "/Stylesheets/desktop.css",
+            "/Stylesheets/mobile.css",
+            "/Stylesheets/tablet.css",
         ];
         /**
          * Relationship of the object
