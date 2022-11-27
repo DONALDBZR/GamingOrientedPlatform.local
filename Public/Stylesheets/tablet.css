@@ -10,10 +10,7 @@ body {
     font-size: var(--textSize);
     margin: calc(var(--percentage) * 0);
 }
-#Homepage header,
-body[class="404"] header,
-#Register header,
-#Login header {
+#Homepage header {
     font-size: calc(var(--textSize) * 2);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
@@ -34,10 +31,7 @@ body[class="404"] header,
     justify-content: center;
     width: calc(var(--percentage) / 2);
 }
-#Homepage footer,
-body[class="404"] footer,
-#Register footer,
-#Login footer {
+#Homepage footer {
     font-size: calc(var(--percentage) * 0.9);
 }
 #Homepage main #buttons div a {
