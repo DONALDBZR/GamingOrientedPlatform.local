@@ -13,6 +13,21 @@ class Application extends React.Component {
              * @type {string}
              */
             url: "",
+            /**
+             * one-time password that is sent to the user
+             * @type {int}
+             */
+            oneTimePassword: "",
+            /**
+             * The status returned from the request
+             * @type {int}
+             */
+            status: 0,
+            /**
+             * The message that will be displayed to the user
+             * @type {string}
+             */
+            message: "",
         };
     }
     /**
@@ -64,26 +79,6 @@ class Main extends Application {
 class Form extends Main {
     constructor(props) {
         super(props);
-        /**
-         * States of the component
-         */
-        this.state = {
-            /**
-             * one-time password that is sent to the user
-             * @type {int}
-             */
-            oneTimePassword: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
-        };
     }
     /**
      * Handling any change that is made in the user interface
