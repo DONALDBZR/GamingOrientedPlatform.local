@@ -146,7 +146,7 @@ class Password
             unset($_SESSION['User']['otp']);
             $reponse = array(
                 "status" => 0,
-                "url" => "{$this->domain}/Users/Dashboard/{$_SESSION['User']['username']}",
+                "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
                 "message" => "You will be connected to the service as soon as possible..."
             );
             header('Content-Type: application/json', true, 200);
