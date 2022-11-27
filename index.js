@@ -38,6 +38,7 @@ class BackEnd {
      * Handling the request that is sent from the client
      */
     handleRequest() {
+        // URL:  /
         this.application.get("/", (request, response) => {
             response.sendFile(__dirname + "/Public/Pages/Homepage.html");
             console.log(`Application: /\nMethod: GET`);
