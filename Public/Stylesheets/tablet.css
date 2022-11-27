@@ -50,3 +50,6 @@ body {
 #Homepage main #buttons div a span {
     display: none;
 }
+#Homepage main #buttons div a span {
+    background: none;
+}
