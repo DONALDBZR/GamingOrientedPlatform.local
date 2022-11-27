@@ -39,7 +39,7 @@ class Application extends React.Component {
          * The amount of milliseconds that the registration process takes
          */
         const delay = 3600000;
-        fetch("/LogOut",
+        fetch("/Controllers/SignOut.php",
             {
                 method: "GET"
             })
