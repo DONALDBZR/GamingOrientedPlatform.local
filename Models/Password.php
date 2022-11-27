@@ -140,26 +140,26 @@ class Password
      */
     public function otpVerify()
     {
-        $JSON = json_decode(file_get_contents('php://input'));
+        $request = json_decode(file_get_contents('php://input'));
         $this->setOtp($_SESSION['User']['otp']);
-        if ($JSON->oneTimePassword == $this->getOtp()) {
+        if ($request->oneTimePassword == $this->getOtp()) {
             unset($_SESSION['User']['otp']);
-            $json = array(
-                "success" => "success",
+            $reponse = array(
+                "status" => 0,
                 "url" => "{$this->domain}/Users/Dashboard/{$_SESSION['User']['username']}",
                 "message" => "You will be connected to the service as soon as possible..."
             );
             header('Content-Type: application/json', true, 200);
-            echo json_encode($json);
+            echo json_encode($reponse);
         } else {
             unset($_SESSION['User']);
-            $json = array(
-                "success" => "failure",
+            $reponse = array(
+                "status" => 5,
                 "url" => "{$this->domain}/",
                 "message" => "The Password does not correspond to the one that was sent to you!"
             );
             header('Content-Type: application/json', true, 200);
-            echo json_encode($json);
+            echo json_encode($reponse);
         }
     }
 }
