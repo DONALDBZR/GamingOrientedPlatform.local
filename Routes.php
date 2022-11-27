@@ -37,5 +37,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Login/Verification/{$_SESSION['User']['username']}":
                 $Router = new Router("POST", "/Login/Verification/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
                 break;
+            case '/LogOut':
+                $Router = new Router("GET", "/LogOut", "/Controllers/SignOut.php");
+                break;
         }
 }
