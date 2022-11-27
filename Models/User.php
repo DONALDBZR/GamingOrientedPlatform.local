@@ -135,4 +135,18 @@ class User extends Password
             echo json_encode($response);
         }
     }
+    /**
+     * Logging out the user from the application
+     */
+    public function logOut()
+    {
+        unset($_SESSION);
+        $response = array(
+            "status" => 0,
+            "url" => "{$this->domain}",
+            "message" => "You have been successfully logged out!"
+        );
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
 }
