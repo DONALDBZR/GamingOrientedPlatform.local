@@ -53,3 +53,13 @@ body {
 #Homepage main #buttons div a span {
     background: none !important;
 }
+#Homepage main #buttons div a:hover {
+    --color6: rgb(
+        var(--percentage),
+        calc(var(--percentage) * 0.9),
+        calc(var(--percentage) * 0.8)
+    );
+    color: var(--color5);
+    background: none;
+    background-color: var(--color6);
+}
