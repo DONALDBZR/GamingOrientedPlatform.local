@@ -135,9 +135,6 @@ class User extends Password
             echo json_encode($response);
         }
     }
-    /**
-     * Logging out the user from the application
-     */
     public function logOut()
     {
         unset($_SESSION);
@@ -148,5 +145,50 @@ class User extends Password
         );
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
+    }
+    public function forgotPassword()
+    {
+        $request = json_decode(file_get_contents('php://input'));
+        $this->setMailAddress($request->mailAddress);
+        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersMailAddress = :UsersMailAddress");
+        $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
+        $this->PDO->execute();
+        if (!empty($this->PDO->resultSet())) {
+            $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
+            $this->PDO->execute();
+            if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
+                $this->setPasswordID(1);
+            } else {
+                $this->setPasswordID($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+            }
+            $this->setPassword($this->generatePassword());
+            $this->Mail->send($this->getMailAddress(), "Password Reset!", "Your new password is {$this->getPassword()} and please consider to change it after logging in!");
+            $this->setSalt($this->generateSalt());
+            $this->setPassword($this->getPassword() . $this->getSalt());
+            $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
+            $this->PDO->query("INSERT INTO Parkinston.Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
+            $this->PDO->bind(":PasswordsSalt", $this->getSalt());
+            $this->PDO->bind(":PasswordsHash", $this->getHash());
+            $this->PDO->execute();
+            $this->PDO->query("UPDATE Parkinston.Users SET UsersPassword = :UsersPassword WHERE UsersMailAddress = :UsersMailAddress");
+            $this->PDO->bind(":UsersPassword", $this->getPasswordID());
+            $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
+            $this->PDO->execute();
+            $response = array(
+                "status" => 0,
+                "url" => "{$this->domain}/Login",
+                "message" => "Password Reset!  Please check your mail to obtain your new password!"
+            );
+            header('Content-Type: application/json', true, 200);
+            echo json_encode($response);
+        } else {
+            $response = array(
+                "status" => 6,
+                "url" => "{$this->domain}",
+                "message" => "There is no account that is linked to this mail address!"
+            );
+            header('Content-Type: application/json', true, 300);
+            echo json_encode($response);
+        }
     }
 }
