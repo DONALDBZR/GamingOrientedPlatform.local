@@ -27,6 +27,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/LogOut':
                 $Router = new Router("GET", "/LogOut", "/Controllers/SignOut.php");
                 break;
+            case '/ForgotPassword':
+                $Router = new Router("GET", "/ForgotPassword", "/Views/ForgotPassword.php");
+                break;
         }
         break;
     case 'POST':
