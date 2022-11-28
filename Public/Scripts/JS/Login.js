@@ -188,7 +188,12 @@ class Form extends Main {
  */
 class Footer extends Application {
     render() {
-        return <footer>Parkinston</footer>;
+        return (
+            <footer>
+                <div>You have forgotten your password?  Reset it <a href="/ForgotPassword">Here</a>!</div>
+                <div>Parkinston</div>
+            </footer>
+        );
     }
 }
 // Rendering the page
