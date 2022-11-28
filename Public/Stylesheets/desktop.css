@@ -44,7 +44,8 @@ body[class="404"] footer,
 #Login footer,
 body[id*="LoginVerification"] footer,
 body[id*="UsersHome"] footer,
-#Sign-Out footer {
+#Sign-Out footer,
+#ForgotPassword footer {
     font-size: calc(var(--textSize) * 0.9);
 }
 #Homepage main #buttons div a {

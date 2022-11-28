@@ -120,7 +120,8 @@ body[class="404"] footer,
 #Login footer,
 body[id*="LoginVerification"] footer,
 body[id*="UsersHome"] footer,
-#Sign-Out footer {
+#Sign-Out footer,
+#ForgotPassword footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }
