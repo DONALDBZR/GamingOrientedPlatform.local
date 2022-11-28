@@ -102,7 +102,8 @@ body[class="404"] header,
 #Register header,
 #Login header,
 body[id*="LoginVerification"] header,
-#Sign-Out header {
+#Sign-Out header,
+#ForgotPassword header {
     text-align: center;
     font-weight: bold;
     font-family: var(--ethnocentric);
@@ -205,13 +206,15 @@ body[class="404"] main .button button:hover {
 }
 #Register header a,
 #Login header a,
-body[id*="LoginVerification"] header a {
+body[id*="LoginVerification"] header a,
+#ForgotPassword header a {
     text-decoration: none;
     color: var(--color2);
 }
 #Register header a:hover,
 #Login header a:hover,
-body[id*="LoginVerification"] header a:hover {
+body[id*="LoginVerification"] header a:hover,
+#ForgotPassword header a:hover {
     color: var(--color12);
 }
 #Register main form[method="POST"],

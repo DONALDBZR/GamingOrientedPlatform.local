@@ -15,7 +15,8 @@ body[class="404"] header,
 #Register header,
 #Login header,
 body[id*="LoginVerification"] header,
-#Sign-Out header {
+#Sign-Out header,
+#ForgotPassword header {
     font-size: calc(var(--textSize) * 1.458);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
