@@ -91,8 +91,7 @@ body[id*="LoginVerification"] main form[method="POST"],
 }
 #Register main form[method="POST"] #label,
 #Login main form[method="POST"] #label,
-body[id*="LoginVerification"] main form[method="POST"] #label,
-#ForgotPassword main form[method="POST"] #label {
+body[id*="LoginVerification"] main form[method="POST"] #label {
     font-size: calc(var(--textSize) * 1.458);
 }
 #Register main form[method="POST"] input,
@@ -172,4 +171,7 @@ body[id*="UsersHome"] main div a img {
 #Login footer div:nth-child(1) {
     font-size: calc(var(--textSize) * 0.43046721);
     margin-bottom: calc(var(--percentage) / 200);
+}
+#ForgotPassword main form[method="POST"] #label {
+    font-size: calc(var(--textSize) * 1.1);
 }
