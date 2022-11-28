@@ -220,18 +220,21 @@ body[id*="LoginVerification"] header a:hover,
 }
 #Register main form[method="POST"],
 #Login main form[method="POST"],
-body[id*="LoginVerification"] main form[method="POST"] {
+body[id*="LoginVerification"] main form[method="POST"],
+#ForgotPassword main form[method="POST"] {
     background-color: var(--color3);
 }
 #Register main form[method="POST"] #label,
 #Login main form[method="POST"] #label,
-body[id*="LoginVerification"] main form[method="POST"] #label {
+body[id*="LoginVerification"] main form[method="POST"] #label,
+#ForgotPassword main form[method="POST"] #label {
     text-align: center;
     font-family: var(--proximaNova);
 }
 #Register main form[method="POST"] input,
 #Login main form[method="POST"] input,
-body[id*="LoginVerification"] main form[method="POST"] input {
+body[id*="LoginVerification"] main form[method="POST"] input,
+#ForgotPassword main form[method="POST"] input {
     font-family: var(--proximaNova);
     font-weight: bold;
     background-color: var(--color12);
@@ -239,24 +242,28 @@ body[id*="LoginVerification"] main form[method="POST"] input {
 }
 #Register main form[method="POST"] input::placeholder,
 #Login main form[method="POST"] input::placeholder,
-body[id*="LoginVerification"] main form[method="POST"] input::placeholder {
+body[id*="LoginVerification"] main form[method="POST"] input::placeholder,
+#ForgotPassword main form[method="POST"] input::placeholder {
     color: var(--color4);
 }
 #Register main form[method="POST"] div button,
 #Login main form[method="POST"] div button,
-body[id*="LoginVerification"] main form[method="POST"] div button {
+body[id*="LoginVerification"] main form[method="POST"] div button,
+#ForgotPassword main form[method="POST"] div button {
     color: var(--color12);
     background-color: var(--color1);
 }
 #Register main form[method="POST"] div button:hover,
 #Login main form[method="POST"] div button:hover,
-body[id*="LoginVerification"] main form[method="POST"] div button:hover {
+body[id*="LoginVerification"] main form[method="POST"] div button:hover,
+#ForgotPassword main form[method="POST"] div button:hover {
     background-color: var(--color12);
     color: var(--color1);
 }
 #Register main form[method="POST"] #response h1,
 #Login main form[method="POST"] #response h1,
-body[id*="LoginVerification"] main form[method="POST"] #response h1 {
+body[id*="LoginVerification"] main form[method="POST"] #response h1,
+#ForgotPassword main form[method="POST"] #response h1 {
     text-align: center;
     font-family: var(--proximaNova);
 }
