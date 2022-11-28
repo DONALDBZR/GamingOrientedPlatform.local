@@ -97,7 +97,7 @@ class Form extends Main {
      * @param {Event} event
      */
     handleSubmit(event) {
-        const delay = 3600000;
+        const delay = 2500;
         event.preventDefault();
         fetch("/Controllers/ForgotPassword.php", {
             method: "POST",
