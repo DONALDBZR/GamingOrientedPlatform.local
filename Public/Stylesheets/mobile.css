@@ -160,3 +160,7 @@ body[id*="UsersHome"] main div a img {
     font-size: calc(var(--textSize) * 0.4782969);
     margin-bottom: calc(var(--percentage) / 200);
 }
+#Login footer div:nth-child(1) {
+    font-size: calc(var(--textSize) * 0.43046721);
+    margin-bottom: calc(var(--percentage) / 200);
+}

@@ -280,15 +280,18 @@ body[id*="UsersHome"] header nav div a:hover {
     color: var(--color11);
     font-weight: bold;
 }
-#Register footer div:nth-child(1) {
+#Register footer div:nth-child(1),
+#Login footer div:nth-child(1) {
     text-align: center;
     font-family: var(--sourceCodePro);
 }
-#Register footer div a {
+#Register footer div a,
+#Login footer div a {
     text-decoration: none;
     color: var(--color2);
 }
-#Register footer div a:hover {
+#Register footer div a:hover,
+#Login footer div a:hover {
     text-decoration: underline;
     color: var(--color6);
 }
