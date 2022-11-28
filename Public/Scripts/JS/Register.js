@@ -188,7 +188,16 @@ class Form extends Main {
  */
 class Footer extends Application {
     render() {
-        return <footer>Parkinston</footer>;
+        return (
+            <footer>
+                <div>
+                    Already have an account?  Click <a>Here</a> to log in!
+                </div>
+                <div>
+                    Parkinston
+                </div>
+            </footer>
+        );
     }
 }
 // Rendering the page
