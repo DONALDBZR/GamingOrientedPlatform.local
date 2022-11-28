@@ -27,7 +27,7 @@ body[id*="LoginVerification"] header,
     padding: calc(var(--percentage) / 50) calc(var(--percentage) / 8);
 }
 #Homepage main #notice {
-    font-size: calc(var(--textSize) * 1.449459);
+    font-size: calc(var(--textSize) * 1.1);
 }
 #Homepage main #buttons {
     display: flex;
