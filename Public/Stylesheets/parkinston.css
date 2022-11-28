@@ -115,7 +115,7 @@ body[id*="LoginVerification"] header,
 }
 #Homepage footer,
 body[class="404"] footer,
-#Register footer,
+#Register footer div:nth-child(2),
 #Login footer,
 body[id*="LoginVerification"] footer,
 body[id*="UsersHome"] footer,
@@ -279,4 +279,16 @@ body[id*="UsersHome"] header nav div a:hover {
     font-family: var(--sourceCodePro);
     color: var(--color11);
     font-weight: bold;
+}
+#Register footer div:nth-child(1) {
+    text-align: center;
+    font-family: var(--sourceCodePro);
+}
+#Register footer div a {
+    text-decoration: none;
+    color: var(--color2);
+}
+#Register footer div a:hover {
+    text-decoration: underline;
+    color: var(--color6);
 }

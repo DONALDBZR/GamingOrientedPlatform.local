@@ -214,3 +214,7 @@ body[id*="UsersHome"] main div a img {
     font-size: calc(var(--textSize) * 2);
     margin-bottom: calc(var(--percentage) / 100);
 }
+#Register footer div:nth-child(1) {
+    font-size: var(--textSize);
+    margin-bottom: calc(var(--percentage) / 200);
+}
