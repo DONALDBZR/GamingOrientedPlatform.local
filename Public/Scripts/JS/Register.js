@@ -191,7 +191,7 @@ class Footer extends Application {
         return (
             <footer>
                 <div>
-                    Already have an account?  Click <a>Here</a> to log in!
+                    Already have an account?  Click <a href="/Login">Here</a> to log in!
                 </div>
                 <div>
                     Parkinston
