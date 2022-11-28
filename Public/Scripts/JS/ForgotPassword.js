@@ -14,10 +14,10 @@ class Application extends React.Component {
              */
             url: "",
             /**
-             * one-time password that is sent to the user
-             * @type {int}
+             * Mail Address of the user
+             * @type {string}
              */
-            oneTimePassword: "",
+            mailAddress: "",
             /**
              * The status returned from the request
              * @type {int}
@@ -97,12 +97,12 @@ class Form extends Main {
      * @param {Event} event
      */
     handleSubmit(event) {
-        const delay = 1500;
+        const delay = 3600000;
         event.preventDefault();
-        fetch("/Controllers/LoginVerification.php", {
+        fetch("/Controllers/ForgotPassword.php", {
             method: "POST",
             body: JSON.stringify({
-                oneTimePassword: this.state.oneTimePassword,
+                mailAddress: this.state.mailAddress,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -143,17 +143,17 @@ class Form extends Main {
     render() {
         return (
             <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
-                <div id="label">Login Form</div>
+                <div id="label">Reset Password Form</div>
                 <input
-                    type="password"
-                    name="oneTimePassword"
-                    placeholder="One-Time Password"
-                    value={this.state.oneTimePassword}
+                    type="mail"
+                    name="mailAddress"
+                    placeholder="Mail Address"
+                    value={this.state.mailAddress}
                     onChange={this.handleChange.bind(this)}
                     required
                 />
                 <div id="button">
-                    <button>Login</button>
+                    <button>Reset</button>
                 </div>
                 <div id="response">
                     <h1
