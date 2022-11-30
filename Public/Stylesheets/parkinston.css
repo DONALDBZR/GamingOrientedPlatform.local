@@ -318,3 +318,10 @@ body[id*="UsersProfile"] main header #username {
     font-family: var(--proximaNova);
     font-weight: bold;
 }
+body[id*="UsersProfile"] main description div label {
+    font-family: var(--sourceCodePro);
+}
+body[id*="UsersProfile"] main description div div {
+    font-family: var(--proximaNova);
+    font-weight: bold;
+}

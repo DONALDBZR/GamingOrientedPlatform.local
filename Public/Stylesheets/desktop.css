@@ -242,7 +242,8 @@ body[id*="UsersProfile"] main header {
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
 body[id*="UsersProfile"] main header #profilePicture {
-    width: calc(var(--pixelate) * (5 / 27));
+    width: calc(var(--pixelate) / 5.4);
+    height: calc(var(--pixelate) / 5.4);
 }
 body[id*="UsersProfile"] main header #profilePicture i {
     font-size: calc(var(--textSize) * 12.5);
@@ -252,4 +253,18 @@ body[id*="UsersProfile"] main header #username {
     align-self: end;
     width: auto;
     font-size: calc(var(--textSize) * 2);
+}
+body[id*="UsersProfile"] main description div {
+    display: flex;
+    width: var(--percentage);
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+body[id*="UsersProfile"] main description div label {
+    width: calc(var(--percentage) * 0.35);
+    font-size: var(--textSize);
+}
+body[id*="UsersProfile"] main description div div {
+    width: auto;
+    margin: calc(var(--percentage) * 0);
+    display: block;
 }
