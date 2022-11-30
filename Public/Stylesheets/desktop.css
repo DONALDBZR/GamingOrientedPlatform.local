@@ -245,11 +245,11 @@ body[id*="UsersProfile"] main header #profilePicture {
     width: calc(var(--pixelate) * (5 / 27));
 }
 body[id*="UsersProfile"] main header #profilePicture i {
-    font-size: calc(var(--percentage) * 12.5);
+    font-size: calc(var(--textSize) * 12.5);
 }
 body[id*="UsersProfile"] main header #username {
     display: flex;
     align-self: end;
     width: auto;
-    font-size: calc(var(--percentage) * 2);
+    font-size: calc(var(--textSize) * 2);
 }
