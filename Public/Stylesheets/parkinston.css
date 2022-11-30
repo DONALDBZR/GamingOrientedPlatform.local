@@ -311,3 +311,10 @@ body[id*="UsersProfile"] header nav div a:hover {
     text-decoration: underline;
     color: var(--color6);
 }
+body[id*="UsersProfile"] main header #profilePicture {
+    text-align: center;
+}
+body[id*="UsersProfile"] main header #username {
+    font-family: var(--proximaNova);
+    font-weight: bold;
+}

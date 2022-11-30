@@ -232,3 +232,24 @@ body[id*="UsersHome"] main div a img {
     font-size: var(--textSize);
     margin-bottom: calc(var(--percentage) / 200);
 }
+body[id*="UsersProfile"] main {
+    width: calc(var(--percentage) * 0.6);
+    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 5);
+    padding: calc(var(--percentage) / 50) calc(var(--percentage) * 0);
+}
+body[id*="UsersProfile"] main header {
+    display: flex;
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+body[id*="UsersProfile"] main header #profilePicture {
+    width: calc(var(--pixelate) * (5 / 27));
+}
+body[id*="UsersProfile"] main header #profilePicture i {
+    font-size: calc(var(--percentage) * 12.5);
+}
+body[id*="UsersProfile"] main header #username {
+    display: flex;
+    align-self: end;
+    width: auto;
+    font-size: calc(var(--percentage) * 2);
+}
