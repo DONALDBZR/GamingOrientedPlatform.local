@@ -122,7 +122,13 @@ class Footer extends Application {
         return (
             <footer>
                 <div>
-                    <a href={`/Users/Edit/Profile/${this.state.username}`}>Edit</a>
+                    <a href={`/Users/Edit/Profile/${this.state.username}`}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        Edit
+                    </a>
                 </div>
                 <div>Parkinston</div>
             </footer>
