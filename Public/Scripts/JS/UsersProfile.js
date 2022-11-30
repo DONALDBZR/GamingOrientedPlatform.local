@@ -85,11 +85,22 @@ class Main extends Application {
     render() {
         return (
             <main>
-                <div>
-                    <a href={`/Users/Home/${this.state.username}/LoL`}>
-                        <img src="/Public/Images/(12).ico" />
-                    </a>
-                </div>
+                <header>
+                    <div id="profilePicture">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div id="username">{this.state.username}</div>
+                </header>
+                <description>
+                    <div id="mailAddress">
+                        <label>Mail Address:</label>
+                        <div>{this.state.mailAddress}</div>
+                    </div>
+                    <div id="lolUsername">
+                        <label>League of Legends's Username:</label>
+                        <div>Darkness4869</div>
+                    </div>
+                </description>
             </main>
         );
     }
