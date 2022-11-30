@@ -45,10 +45,12 @@ body[class="404"] footer,
 body[id*="LoginVerification"] footer,
 body[id*="UsersHome"] footer,
 #Sign-Out footer,
-#ForgotPassword footer {
+#ForgotPassword footer,
+body[id*="UsersProfile"] footer div:nth-child(2) {
     font-size: calc(var(--textSize) * 0.9);
 }
-#Homepage main #buttons div a {
+#Homepage main #buttons div a,
+body[id*="UsersProfile"] footer div a {
     padding: calc(var(--pixelate) / 54 * 0.81)
         calc(var(--pixelate) / 27 * 0.4782969);
     margin: calc(var(--pixelate) / 90) calc(var(--pixelate) / 90 * 0.3486784401);
@@ -60,13 +62,17 @@ body[id*="UsersHome"] footer,
     background-color: var(--color4);
 }
 #Homepage main #buttons div a::before,
-#Homepage main #buttons div a span {
+#Homepage main #buttons div a span,
+body[id*="UsersProfile"] footer div a::before,
+body[id*="UsersProfile"] footer div a span {
     display: none;
 }
-#Homepage main #buttons div a span {
+#Homepage main #buttons div a span,
+body[id*="UsersProfile"] footer div a span {
     background: none !important;
 }
-#Homepage main #buttons div a:hover {
+#Homepage main #buttons div a:hover,
+body[id*="UsersProfile"] footer div a:hover {
     --color6: rgb(
         var(--percentage),
         calc(var(--percentage) * 0.9),
@@ -216,4 +222,9 @@ body[id*="UsersProfile"] main description div div {
     display: flex;
     align-items: end;
     font-size: calc(var(--textSize) * 0.4);
+}
+body[id*="UsersProfile"] footer div:nth-child(1) {
+    display: flex;
+    justify-content: center;
+    margin-bottom: calc(var(--percentage) / 100);
 }

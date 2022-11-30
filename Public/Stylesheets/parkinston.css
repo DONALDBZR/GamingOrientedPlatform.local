@@ -121,11 +121,13 @@ body[class="404"] footer,
 body[id*="LoginVerification"] footer,
 body[id*="UsersHome"] footer,
 #Sign-Out footer,
-#ForgotPassword footer {
+#ForgotPassword footer,
+body[id*="UsersProfile"] footer div:nth-child(2) {
     text-align: center;
     font-family: var(--ethnocentric);
 }
-#Homepage main #buttons div a {
+#Homepage main #buttons div a,
+body[id*="UsersProfile"] footer div a {
     font-family: var(--sourceCodePro);
     text-decoration: none;
     background: linear-gradient(
@@ -137,24 +139,30 @@ body[id*="UsersHome"] footer,
     text-align: center;
     text-transform: uppercase;
 }
-#Homepage main #buttons div a::before {
+#Homepage main #buttons div a::before,
+body[id*="UsersProfile"] footer div a::before {
     content: "";
     background-color: var(--color7);
     opacity: calc(var(--percentage) * 0);
 }
-#Homepage main #buttons div a span:nth-child(1) {
+#Homepage main #buttons div a span:nth-child(1),
+body[id*="UsersProfile"] footer div a span:nth-child(1) {
     background: linear-gradient(to left, var(--color8), var(--color9));
 }
-#Homepage main #buttons div a span:nth-child(2) {
+#Homepage main #buttons div a span:nth-child(2),
+body[id*="UsersProfile"] footer div a span:nth-child(2) {
     background: linear-gradient(to top, var(--color8), var(--color9));
 }
-#Homepage main #buttons div a span:nth-child(3) {
+#Homepage main #buttons div a span:nth-child(3),
+body[id*="UsersProfile"] footer div a span:nth-child(3) {
     background: linear-gradient(to right, var(--color8), var(--color9));
 }
-#Homepage main #buttons div a span:nth-child(4) {
+#Homepage main #buttons div a span:nth-child(4),
+body[id*="UsersProfile"] footer div a span:nth-child(4) {
     background: linear-gradient(to bottom, var(--color8), var(--color9));
 }
-#Homepage main #buttons div a:hover {
+#Homepage main #buttons div a:hover,
+body[id*="UsersProfile"] footer div a:hover {
     --color4: rgb(
         var(--percentage),
         calc(var(--percentage) / 2),
