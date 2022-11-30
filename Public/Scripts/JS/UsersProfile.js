@@ -115,8 +115,24 @@ class Main extends Application {
  * The component that is the footer
  */
 class Footer extends Application {
+    constructor(props) {
+        super(props);
+    }
     render() {
-        return <footer>Parkinston</footer>;
+        return (
+            <footer>
+                <div>
+                    <a href={`/Users/Edit/Profile/${this.state.username}`}>Edit</a>
+                </div>
+                <div>Parkinston</div>
+            </footer>
+        );
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
     }
 }
 // Rendering the page
