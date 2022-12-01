@@ -85,20 +85,23 @@ body[id*="UsersProfile"] footer div a :hover {
 #Register main,
 #Login main,
 body[id*="LoginVerification"] main,
-#ForgotPassword main {
+#ForgotPassword main,
+body[id*="UsersEditProfile"] main {
     display: flex;
     justify-content: center;
 }
 #Register main form[method="POST"],
 #Login main form[method="POST"],
 body[id*="LoginVerification"] main form[method="POST"],
-#ForgotPassword main form[method="POST"] {
+#ForgotPassword main form[method="POST"],
+body[id*="UsersEditProfile"] main form[method="POST"] {
     padding: calc(var(--percentage) / 50) calc(var(--percentage) / 10);
 }
 #Register main form[method="POST"] #label,
 #Login main form[method="POST"] #label,
 body[id*="LoginVerification"] main form[method="POST"] #label,
-#ForgotPassword main form[method="POST"] #label {
+#ForgotPassword main form[method="POST"] #label,
+body[id*="UsersEditProfile"] main form[method="POST"] #label {
     font-size: calc(var(--textSize) * 1.8);
 }
 #Register main form[method="POST"] input,
@@ -224,4 +227,24 @@ body[id*="UsersProfile"] footer div:nth-child(1) {
     display: flex;
     justify-content: center;
     margin-bottom: calc(var(--percentage) / 100);
+}
+body[id*="UsersEditProfile"] main form[method="POST"] div,
+body[id*="UsersEditProfile"] main form[method="POST"] input {
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+body[id*="UsersEditProfile"]
+    main
+    form[method="POST"]
+    input::file-selector-button,
+body[id*="UsersEditProfile"]
+    main
+    form[method="POST"]
+    input::-webkit-file-upload-button,
+body[id*="UsersEditProfile"] main form[method="POST"] div button {
+    border: none;
+    padding: calc(var(--percentage) / 40) calc(var(--percentage) / 20);
+    font-size: var(--textSize);
+}
+body[id*="UsersEditProfile"] main form[method="POST"] div {
+    text-align: center;
 }

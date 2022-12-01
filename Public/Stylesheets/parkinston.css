@@ -229,13 +229,15 @@ body[id*="LoginVerification"] header a:hover,
 #Register main form[method="POST"],
 #Login main form[method="POST"],
 body[id*="LoginVerification"] main form[method="POST"],
-#ForgotPassword main form[method="POST"] {
+#ForgotPassword main form[method="POST"],
+body[id*="UsersEditProfile"] main form[method="POST"] {
     background-color: var(--color3);
 }
 #Register main form[method="POST"] #label,
 #Login main form[method="POST"] #label,
 body[id*="LoginVerification"] main form[method="POST"] #label,
-#ForgotPassword main form[method="POST"] #label {
+#ForgotPassword main form[method="POST"] #label,
+body[id*="UsersEditProfile"] main form[method="POST"] #label {
     text-align: center;
     font-family: var(--proximaNova);
 }
@@ -337,4 +339,30 @@ body[id*="UsersProfile"] main description div label {
 body[id*="UsersProfile"] main description div div {
     font-family: var(--proximaNova);
     font-weight: bold;
+}
+body[id*="UsersEditProfile"]
+    main
+    form[method="POST"]
+    input::file-selector-button,
+body[id*="UsersEditProfile"]
+    main
+    form[method="POST"]
+    input::-webkit-file-upload-button,
+body[id*="UsersEditProfile"] main form[method="POST"] div button {
+    font-family: var(--proximaNova);
+    color: var(--color12);
+    background-color: var(--color1);
+    cursor: pointer;
+}
+body[id*="UsersEditProfile"]
+    main
+    form[method="POST"]
+    input::file-selector-button:hover,
+body[id*="UsersEditProfile"]
+    main
+    form[method="POST"]
+    input::-webkit-file-upload-button:hover,
+body[id*="UsersEditProfile"] main form[method="POST"] div button:hover {
+    background-color: var(--color12);
+    color: var(--color1);
 }
