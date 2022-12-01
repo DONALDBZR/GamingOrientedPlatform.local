@@ -234,7 +234,7 @@ body[id*="UsersProfile"] main description div div {
 }
 body[id*="UsersProfile"] footer nav {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     margin-bottom: calc(var(--percentage) / 100);
 }
 body[id*="UsersEditProfile"] main form[method="POST"] div,
