@@ -81,9 +81,7 @@ class Main extends Application {
         return (
             <main>
                 <header>
-                    <div id="profilePicture">
-                        <i class="fa fa-user"></i>
-                    </div>
+                    <ProfilePicture />
                     <div id="username">{this.state.username}</div>
                 </header>
                 <description>
@@ -188,6 +186,35 @@ class ProfileLink extends NavigationBar {
     render() {
         return (
             <div>{this.verifyState()}</div>
+        );
+    }
+    componentDidMount() {
+        this.retrieveData();
+    }
+}
+/**
+ * Profile Picture component
+ */
+class ProfilePicture extends Main {
+    constructor(props) {
+        super(props);
+    }
+    /**
+     * Verifying whether there is a profile picture
+     * @returns {ProfilePicture}
+     */
+    verifyProfilePicture() {
+        if (this.state.profilePicture != null) {
+            return <img src={this.state.profilePicture} />;
+        } else {
+            return <i class="fa fa-user"></i>
+        }
+    }
+    render() {
+        return (
+            <div id="profilePicture">
+                {this.verifyProfilePicture()}
+            </div>
         );
     }
     componentDidMount() {
