@@ -276,26 +276,31 @@ body[id*="LoginVerification"] main form[method="POST"] #response h1,
     font-family: var(--proximaNova);
 }
 body[id*="UsersHome"] header nav div,
-body[id*="UsersProfile"] header nav div {
+body[id*="UsersProfile"] header nav div,
+body[id*="UsersEditProfile"] header nav div {
     text-align: center;
 }
 body[id*="UsersHome"] header nav div:nth-child(1) a,
-body[id*="UsersProfile"] header nav div:nth-child(1) a {
+body[id*="UsersProfile"] header nav div:nth-child(1) a,
+body[id*="UsersEditProfile"] header nav div:nth-child(1) a {
     color: var(--color2);
     font-weight: bold;
     font-family: var(--ethnocentric);
 }
 body[id*="UsersHome"] header nav div a,
-body[id*="UsersProfile"] header nav div a {
+body[id*="UsersProfile"] header nav div a,
+body[id*="UsersEditProfile"] header nav div a {
     color: var(--color12);
     text-decoration: none;
 }
 body[id*="UsersHome"] header nav div:nth-child(1) a:hover,
-body[id*="UsersProfile"] header nav div:nth-child(1) a:hover {
+body[id*="UsersProfile"] header nav div:nth-child(1) a:hover,
+body[id*="UsersEditProfile"] header nav div:nth-child(1) a:hover {
     color: var(--color12);
 }
 body[id*="UsersHome"] header nav div a:hover,
-body[id*="UsersProfile"] header nav div a:hover {
+body[id*="UsersProfile"] header nav div a:hover,
+body[id*="UsersEditProfile"] header nav div a:hover {
     color: var(--color2);
 }
 #Sign-Out main {
