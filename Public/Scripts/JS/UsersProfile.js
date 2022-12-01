@@ -122,6 +122,13 @@ class Footer extends Application {
                         <span></span>
                         Edit
                     </a>
+                    <a href={`/Users/Accounts/${this.state.username}`}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        Accounts
+                    </a>
                 </nav>
                 <div>Parkinston</div>
             </footer>
