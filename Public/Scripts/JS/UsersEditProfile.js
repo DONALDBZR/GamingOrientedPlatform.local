@@ -180,7 +180,9 @@ class Form extends Main {
                 <div>
                     <button>Change Profile Picture</button>
                 </div>
-                <div>{this.state.message}</div>
+                <div id="response">
+                    <h1>{this.state.message}</h1>
+                </div>
             </form>
         );
     }
