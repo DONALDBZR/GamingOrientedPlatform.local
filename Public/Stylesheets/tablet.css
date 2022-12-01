@@ -51,7 +51,7 @@ body[id*="UsersEditProfile"] footer {
     font-size: calc(var(--textSize) * 0.9);
 }
 #Homepage main #buttons div a,
-body[id*="UsersProfile"] footer div a {
+body[id*="UsersProfile"] footer nav a {
     padding: calc(var(--pixelate) / 54 * 0.81)
         calc(var(--pixelate) / 27 * 0.531441);
     margin: calc(var(--pixelate) / 90);
@@ -64,16 +64,16 @@ body[id*="UsersProfile"] footer div a {
 }
 #Homepage main #buttons div a::before,
 #Homepage main #buttons div a span,
-body[id*="UsersProfile"] footer div a span,
-body[id*="UsersProfile"] footer div a::before {
+body[id*="UsersProfile"] footer nav a span,
+body[id*="UsersProfile"] footer nav a::before {
     display: none;
 }
 #Homepage main #buttons div a span,
-body[id*="UsersProfile"] footer div a span {
+body[id*="UsersProfile"] footer nav a span {
     background: none !important;
 }
 #Homepage main #buttons div a:hover,
-body[id*="UsersProfile"] footer div a :hover {
+body[id*="UsersProfile"] footer nav a :hover {
     --color6: rgb(
         var(--percentage),
         calc(var(--percentage) * 0.9),
@@ -225,7 +225,7 @@ body[id*="UsersProfile"] main description div div {
     display: block;
     font-size: calc(var(--textSize) * 0.6);
 }
-body[id*="UsersProfile"] footer div:nth-child(1) {
+body[id*="UsersProfile"] footer nav {
     display: flex;
     justify-content: center;
     margin-bottom: calc(var(--percentage) / 100);

@@ -51,7 +51,7 @@ body[id*="UsersEditProfile"] footer {
     font-size: calc(var(--textSize) * 0.9);
 }
 #Homepage main #buttons div a,
-body[id*="UsersProfile"] footer div a {
+body[id*="UsersProfile"] footer nav a {
     padding: calc(var(--pixelate) / 54) calc(var(--pixelate) / 27);
     margin: calc(var(--pixelate) / 90);
     display: inline-block;
@@ -66,7 +66,7 @@ body[id*="UsersProfile"] footer div a {
         var(--color4);
 }
 #Homepage main #buttons div a::before,
-body[id*="UsersProfile"] footer div a::before {
+body[id*="UsersProfile"] footer nav a::before {
     position: absolute;
     top: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
@@ -75,11 +75,11 @@ body[id*="UsersProfile"] footer div a::before {
     transition: calc(var(--time) / 5) opacity ease-in-out;
 }
 #Homepage main #buttons div a span,
-body[id*="UsersProfile"] footer div a span {
+body[id*="UsersProfile"] footer nav a span {
     position: absolute;
 }
 #Homepage main #buttons div a span:nth-child(1),
-body[id*="UsersProfile"] footer div a span:nth-child(1) {
+body[id*="UsersProfile"] footer nav a span:nth-child(1) {
     top: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
     width: var(--percentage);
@@ -95,7 +95,7 @@ body[id*="UsersProfile"] footer div a span:nth-child(1) {
     }
 }
 #Homepage main #buttons div a span:nth-child(2),
-body[id*="UsersProfile"] footer div a span:nth-child(2) {
+body[id*="UsersProfile"] footer nav a span:nth-child(2) {
     top: calc(var(--pixelate) * 0);
     right: calc(var(--pixelate) * 0);
     height: var(--percentage);
@@ -112,7 +112,7 @@ body[id*="UsersProfile"] footer div a span:nth-child(2) {
     }
 }
 #Homepage main #buttons div a span:nth-child(3),
-body[id*="UsersProfile"] footer div a span:nth-child(3) {
+body[id*="UsersProfile"] footer nav a span:nth-child(3) {
     bottom: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
     width: var(--percentage);
@@ -128,7 +128,7 @@ body[id*="UsersProfile"] footer div a span:nth-child(3) {
     }
 }
 #Homepage main #buttons div a span:nth-child(4),
-body[id*="UsersProfile"] footer div a span:nth-child(4) {
+body[id*="UsersProfile"] footer nav a span:nth-child(4) {
     top: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
     height: var(--percentage);
@@ -286,7 +286,7 @@ body[id*="UsersProfile"] main description div div {
     margin: calc(var(--percentage) * 0);
     display: block;
 }
-body[id*="UsersProfile"] footer div:nth-child(1) {
+body[id*="UsersProfile"] footer nav {
     display: flex;
     justify-content: center;
     margin-bottom: calc(var(--percentage) * 0.03);
