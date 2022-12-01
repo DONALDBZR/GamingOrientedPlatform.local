@@ -122,7 +122,8 @@ body[id*="LoginVerification"] footer,
 body[id*="UsersHome"] footer,
 #Sign-Out footer,
 #ForgotPassword footer,
-body[id*="UsersProfile"] footer div:nth-child(2) {
+body[id*="UsersProfile"] footer div:nth-child(2),
+body[id*="UsersEditProfile"] footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }
