@@ -258,8 +258,9 @@ body[id*="UsersProfile"] main header {
     display: flex;
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
-body[id*="UsersProfile"] main header #profilePicture {
-    width: calc(var(--pixelate) / 5.4);
+body[id*="UsersProfile"] main header #profilePicture,
+body[id*="UsersProfile"] main header #profilePicture img {
+    width: auto;
     height: calc(var(--pixelate) / 5.4);
 }
 body[id*="UsersProfile"] main header #profilePicture i {
