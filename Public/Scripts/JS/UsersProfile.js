@@ -175,7 +175,7 @@ class ProfileLink extends NavigationBar {
     verifyState() {
         if (this.state.profilePicture != null) {
             return (
-                <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user">
+                <a href={`/Users/Profile/${this.state.username}`}>
                     <img src={this.state.profilePicture} />
                 </a>
             );
