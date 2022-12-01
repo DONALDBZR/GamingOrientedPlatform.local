@@ -86,7 +86,7 @@ class Application extends React.Component {
         /**
         * The amount of milliseconds that the registration process takes
         */
-        const delay = 3760;
+        const delay = 2600;
         /**
          * Using Form-Data to upload the file
          */
