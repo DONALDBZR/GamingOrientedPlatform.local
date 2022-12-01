@@ -100,8 +100,7 @@ body[id*="UsersEditProfile"] main form[method="POST"] {
 }
 #Register main form[method="POST"] #label,
 #Login main form[method="POST"] #label,
-body[id*="LoginVerification"] main form[method="POST"] #label,
-body[id*="UsersEditProfile"] main form[method="POST"] #label {
+body[id*="LoginVerification"] main form[method="POST"] #label {
     font-size: calc(var(--textSize) * 1.458);
 }
 #Register main form[method="POST"] input,
@@ -255,4 +254,7 @@ body[id*="UsersEditProfile"] main form[method="POST"] div button {
 }
 body[id*="UsersEditProfile"] main form[method="POST"] div {
     text-align: center;
+}
+body[id*="UsersEditProfile"] main form[method="POST"] #label {
+    font-size: calc(var(--textSize) * 0.62762119218);
 }
