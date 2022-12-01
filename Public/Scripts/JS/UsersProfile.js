@@ -114,7 +114,7 @@ class Footer extends Application {
     render() {
         return (
             <footer>
-                <div>
+                <nav>
                     <a href={`/Users/Edit/Profile/${this.state.username}`}>
                         <span></span>
                         <span></span>
@@ -122,7 +122,7 @@ class Footer extends Application {
                         <span></span>
                         Edit
                     </a>
-                </div>
+                </nav>
                 <div>Parkinston</div>
             </footer>
         );
