@@ -94,7 +94,7 @@ class Application extends React.Component {
             formData.append("image", this.state.profilePicture[index]);
         }
         event.preventDefault();
-        fetch("/Controllers/UserEditProfile.php", {
+        fetch("/Controllers/UsersEditProfile.php", {
             method: "POST",
             body: formData,
         })
