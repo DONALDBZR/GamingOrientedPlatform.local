@@ -252,3 +252,9 @@ body[id*="UsersEditProfile"] main form[method="POST"] div {
 body[id*="UsersEditProfile"] main form[method="POST"] #label {
     font-size: calc(var(--textSize) * 1.3122);
 }
+body[id*="UsersHome"] header nav div a img,
+body[id*="UsersProfile"] header nav div a img,
+body[id*="UsersEditProfile"] header nav div a img {
+    width: auto;
+    height: calc(var(--pixelate) / 33.75);
+}
