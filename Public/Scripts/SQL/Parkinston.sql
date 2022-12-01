@@ -10,7 +10,8 @@ CREATE TABLE Parkinston.Passwords (
 CREATE TABLE Parkinston.Users (
     UsersUsername VARCHAR(32) PRIMARY KEY,
     UsersMailAddress VARCHAR(64),
-    UsersPassword INT
+    UsersPassword INT,
+    UsersProfilePicture VARCHAR(128)
 );
 -- Testing Codes
 -- DROP DATABASE Parkinston;
