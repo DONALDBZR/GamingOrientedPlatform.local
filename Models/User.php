@@ -100,6 +100,7 @@ class User extends Password
         if (!empty($this->PDO->resultSet())) {
             $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
             $this->setMailAddress($this->PDO->resultSet()[0]['UsersMailAddress']);
+            $this->setProfilePicture($this->PDO->resultSet()[0]['UsersProfilePicture']);
             $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
             $this->setPassword($request->password);
             $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
@@ -113,6 +114,7 @@ class User extends Password
                 $user = array(
                     "username" => $this->getUsername(),
                     "mailAddress" => $this->getMailAddress(),
+                    "profilePicture" => $this->getProfilePicture(),
                     "domain" => $this->domain,
                     "otp" => $this->getOtp()
                 );
