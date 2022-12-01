@@ -48,7 +48,7 @@ class User extends Password
         $request = json_decode(file_get_contents('php://input'));
         $this->setUsername($request->username);
         $this->setMailAddress($request->mailAddress);
-        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername AND UsersMailAddress = :UsersMailAddress");
+        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername OR UsersMailAddress = :UsersMailAddress");
         $this->PDO->bind(":UsersUsername", $this->getUsername());
         $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
         $this->PDO->execute();
@@ -165,6 +165,7 @@ class User extends Password
         $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
         $this->PDO->execute();
         if (!empty($this->PDO->resultSet())) {
+            $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
             $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
             $this->PDO->execute();
             if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
@@ -173,7 +174,7 @@ class User extends Password
                 $this->setPasswordID($this->PDO->resultSet()[0]['PasswordsId'] + 1);
             }
             $this->setPassword($this->generatePassword());
-            $this->Mail->send($this->getMailAddress(), "Password Reset!", "Your new password is {$this->getPassword()} and please consider to change it after logging in!");
+            $this->Mail->send($this->getMailAddress(), "Password Reset!", "Your new password for the account with username which is {$this->getUsername()}, is {$this->getPassword()} and please consider to change it after logging in!");
             $this->setSalt($this->generateSalt());
             $this->setPassword($this->getPassword() . $this->getSalt());
             $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
