@@ -205,7 +205,7 @@ class User extends Password
     }
     public function changeProfilePicture()
     {
-        $this->setProfilePicture($_SESSION['User']['username']);
+        $this->setUsername($_SESSION['User']['username']);
         $imageDirectory = "/Public/Images/ProfilePictures/";
         $imageFile = $imageDirectory . $this->getUsername() . "." . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
         $uploadedPath = $_SERVER['DOCUMENT_ROOT'] . $imageFile;
