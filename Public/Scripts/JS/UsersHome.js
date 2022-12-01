@@ -59,15 +59,7 @@ class Header extends Application {
     render() {
         return (
             <header>
-                <nav>
-                    <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
-                    </div>
-                    <ProfileLink />
-                    <div>
-                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
-                    </div>
-                </nav>
+                <NavigationBar />
             </header>
         );
     }
@@ -106,9 +98,36 @@ class Footer extends Application {
     }
 }
 /**
+ * The navigation bar component
+ */
+class NavigationBar extends Header {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <nav>
+                <div>
+                    <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                </div>
+                <ProfileLink />
+                <div>
+                    <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                </div>
+            </nav>
+        );
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
+}
+/**
  * The component which will render the profile picture of the user
  */
-class ProfileLink extends Header {
+class ProfileLink extends NavigationBar {
     constructor(props) {
         super(props);
     }
@@ -132,9 +151,6 @@ class ProfileLink extends Header {
             <div>{this.verifyState()}</div>
         );
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
     componentDidMount() {
         this.retrieveData();
     }
