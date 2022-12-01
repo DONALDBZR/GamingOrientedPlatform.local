@@ -368,3 +368,13 @@ body[id*="UsersEditProfile"] main form[method="POST"] div button:hover {
     background-color: var(--color12);
     color: var(--color1);
 }
+body[id*="UsersHome"] header nav div a img:hover,
+body[id*="UsersProfile"] header nav div a img:hover,
+body[id*="UsersEditProfile"] header nav div a img:hover {
+    opacity: var(--percentage);
+}
+body[id*="UsersHome"] header nav div a img,
+body[id*="UsersProfile"] header nav div a img,
+body[id*="UsersEditProfile"] header nav div a img {
+    opacity: calc(var(--percentage) / 2);
+}
