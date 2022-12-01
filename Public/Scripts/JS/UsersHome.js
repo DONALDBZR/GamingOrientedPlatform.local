@@ -20,6 +20,10 @@ class Application extends React.Component {
              * Domain of the application
              */
             domain: "",
+            /**
+             * User's profile picture
+             */
+            profilePicture: "",
         };
     }
     /**
@@ -41,6 +45,7 @@ class Application extends React.Component {
                 username: data.username,
                 mailAddress: data.mailAddress,
                 domain: data.domain,
+                profilePicture: data.profilePicture,
             }));
     }
 }
@@ -58,21 +63,13 @@ class Header extends Application {
                     <div>
                         <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
                     </div>
-                    <div>
-                        <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
-                    </div>
+                    <ProfileLink />
                     <div>
                         <a href="/Sign-Out" class="fa fa-sign-out"></a>
                     </div>
                 </nav>
             </header>
         );
-    }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 /**
@@ -106,6 +103,40 @@ class Main extends Application {
 class Footer extends Application {
     render() {
         return <footer>Parkinston</footer>;
+    }
+}
+/**
+ * The component which will render the profile picture of the user
+ */
+class ProfileLink extends Header {
+    constructor(props) {
+        super(props);
+    }
+    /**
+     * Verifying the state before rendering the link
+     * @returns {Application} Component
+     */
+    verifyState() {
+        if (this.state.profilePicture != null) {
+            return (
+                <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user">
+                    <img src={this.state.profilePicture} />
+                </a>
+            );
+        } else {
+            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+        }
+    }
+    render() {
+        return (
+            <div>{this.verifyState()}</div>
+        );
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
     }
 }
 // Rendering the page
