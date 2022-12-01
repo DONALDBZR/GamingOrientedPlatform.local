@@ -5,6 +5,7 @@ class User extends Password
     private string $username;
     private string $mailAddress;
     protected Mail $Mail;
+    private string $profilePicture;
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
@@ -33,6 +34,14 @@ class User extends Password
     public function setPasswordId(int $Password_id)
     {
         $this->setId($Password_id);
+    }
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
+    public function setProfilePicture($profile_picture)
+    {
+        $this->profilePicture = $profile_picture;
     }
     public function register()
     {
@@ -188,6 +197,28 @@ class User extends Password
                 "message" => "There is no account that is linked to this mail address!"
             );
             header('Content-Type: application/json', true, 300);
+            echo json_encode($response);
+        }
+    }
+    public function changeProfilePicture()
+    {
+        $this->setProfilePicture($_SESSION['User']['username']);
+        $imageDirectory = "/Public/Images/ProfilePictures/";
+        $imageFile = $imageDirectory . $this->getUsername() . "." . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+        $uploadedPath = $_SERVER['DOCUMENT_ROOT'] . $imageFile;
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadedPath)) {
+            $this->setProfilePicture($imageFile);
+            $this->PDO->query("UPDATE Parkinston.Users SET UsersProfilePicture = :UsersProfilePicture WHERE UsersUsername = :UsersUsername");
+            $this->PDO->bind(":UsersProfilePicture", $this->getProfilePicture());
+            $this->PDO->bind(":UsersUsername", $this->getUsername());
+            $this->PDO->execute();
+            $_SESSION['User']['profilePicture'] = $this->getProfilePicture();
+            $response = array(
+                "status" => 0,
+                "url" => "{$this->domain}/Users/Profile/{$this->getUsername()}",
+                "message" => "Your profile picture has been changed!"
+            );
+            header('Content-Type: application/json', true, 200);
             echo json_encode($response);
         }
     }
