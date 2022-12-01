@@ -134,7 +134,8 @@ body[id*="LoginVerification"] main form[method="POST"] div button,
 #Register main form[method="POST"] #response h1,
 #Login main form[method="POST"] #response h1,
 body[id*="LoginVerification"] main form[method="POST"] #response h1,
-#ForgotPassword main form[method="POST"] #response h1 {
+#ForgotPassword main form[method="POST"] #response h1,
+body[id*="UsersEditProfile"] main form[method="POST"] #response h1 {
     margin: calc(var(--percentage) * 0);
     margin-top: calc(var(--percentage) / 50);
 }

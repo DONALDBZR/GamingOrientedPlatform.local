@@ -274,7 +274,8 @@ body[id*="LoginVerification"] main form[method="POST"] div button:hover,
 #Register main form[method="POST"] #response h1,
 #Login main form[method="POST"] #response h1,
 body[id*="LoginVerification"] main form[method="POST"] #response h1,
-#ForgotPassword main form[method="POST"] #response h1 {
+#ForgotPassword main form[method="POST"] #response h1,
+body[id*="UsersEditProfile"] main form[method="POST"] #response h1 {
     text-align: center;
     font-family: var(--proximaNova);
 }
