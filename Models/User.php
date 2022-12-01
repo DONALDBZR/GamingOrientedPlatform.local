@@ -5,7 +5,7 @@ class User extends Password
     private string $username;
     private string $mailAddress;
     protected Mail $Mail;
-    private string $profilePicture;
+    private string|null $profilePicture;
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
