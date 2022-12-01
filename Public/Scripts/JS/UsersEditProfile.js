@@ -172,6 +172,28 @@ class Form extends Main {
     constructor(props) {
         super(props);
     }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseColor() {
+        if (this.state.status == 0) {
+            return "rgb(0%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseFontSize() {
+        if (this.state.status == 0) {
+            return "71%";
+        } else {
+            return "180%";
+        }
+    }
     render() {
         return (
             <form method="POST" enctype="multipart/form-data" onSubmit={this.handleSubmit.bind(this)}>
@@ -181,7 +203,14 @@ class Form extends Main {
                     <button>Change Profile Picture</button>
                 </div>
                 <div id="response">
-                    <h1>{this.state.message}</h1>
+                    <h1
+                        style={{
+                            color: this.handleResponseColor(),
+                            fontSize: this.handleResponseFontSize(),
+                        }}
+                    >
+                        {this.state.message}
+                    </h1>
                 </div>
             </form>
         );
