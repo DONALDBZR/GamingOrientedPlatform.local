@@ -32,6 +32,7 @@ class Application extends React.Component {
     }
     /**
      * Renders the components that are being returned
+     * @returns {Application}
      */
     render() {
         return [<Header />, <Main />, <Footer />];
@@ -44,41 +45,6 @@ class Application extends React.Component {
         setTimeout(() => {
             window.location.href = this.state.url;
         }, delay);
-    }
-}
-/**
- * The component that is the header
- */
-class Header extends Application {
-    render() {
-        return (
-            <header>
-                <a href="/">Parkinston</a>
-            </header>
-        );
-    }
-}
-/**
- * The component that is the main
- */
-class Main extends Application {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <main>
-                <Form />
-            </main>
-        );
-    }
-}
-/**
- * The component that is the form
- */
-class Form extends Main {
-    constructor(props) {
-        super(props);
     }
     /**
      * Handling any change that is made in the user interface
@@ -139,6 +105,41 @@ class Form extends Main {
         } else {
             return "180%";
         }
+    }
+}
+/**
+ * The component that is the header
+ */
+class Header extends Application {
+    render() {
+        return (
+            <header>
+                <a href="/">Parkinston</a>
+            </header>
+        );
+    }
+}
+/**
+ * The component that is the main
+ */
+class Main extends Application {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <main>
+                <Form />
+            </main>
+        );
+    }
+}
+/**
+ * The component that is the form
+ */
+class Form extends Main {
+    constructor(props) {
+        super(props);
     }
     render() {
         return (
