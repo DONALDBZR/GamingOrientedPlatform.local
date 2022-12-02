@@ -95,18 +95,21 @@ body[id*="UsersEditProfile"] main {
 #Login main form[method="POST"],
 body[id*="LoginVerification"] main form[method="POST"],
 #ForgotPassword main form[method="POST"],
-body[id*="UsersEditProfile"] main form[method="POST"] {
+body[id*="UsersEditProfile"] main form[method="POST"],
+body[id*="UsersSecurity"] main form[method="POST"] {
     padding: calc(var(--percentage) / 50) calc(var(--percentage) / 10);
 }
 #Register main form[method="POST"] #label,
 #Login main form[method="POST"] #label,
-body[id*="LoginVerification"] main form[method="POST"] #label {
+body[id*="LoginVerification"] main form[method="POST"] #label,
+body[id*="UsersSecurity"] main form[method="POST"] #label {
     font-size: calc(var(--textSize) * 1.458);
 }
 #Register main form[method="POST"] input,
 #Login main form[method="POST"] input,
 body[id*="LoginVerification"] main form[method="POST"] input,
-#ForgotPassword main form[method="POST"] input {
+#ForgotPassword main form[method="POST"] input,
+body[id*="UsersSecurity"] main form[method="POST"] input {
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
     width: calc(var(--percentage) * 0.98);
     font-size: var(--textSize);
@@ -116,7 +119,8 @@ body[id*="LoginVerification"] main form[method="POST"] input,
 #Register main form[method="POST"] #button,
 #Login main form[method="POST"] #button,
 body[id*="LoginVerification"] main form[method="POST"] #button,
-#ForgotPassword main form[method="POST"] #button {
+#ForgotPassword main form[method="POST"] #button,
+body[id*="UsersSecurity"] main form[method="POST"] #button {
     display: flex;
     justify-content: center;
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
@@ -124,7 +128,8 @@ body[id*="LoginVerification"] main form[method="POST"] #button,
 #Register main form[method="POST"] div button,
 #Login main form[method="POST"] div button,
 body[id*="LoginVerification"] main form[method="POST"] div button,
-#ForgotPassword main form[method="POST"] div button {
+#ForgotPassword main form[method="POST"] div button,
+body[id*="UsersSecurity"] main form[method="POST"] div button {
     border: none;
     font-size: calc(var(--textSize) * 1.62);
     padding: calc(var(--percentage) / 40) calc(var(--percentage) / 20);
@@ -134,7 +139,8 @@ body[id*="LoginVerification"] main form[method="POST"] div button,
 #Login main form[method="POST"] #response h1,
 body[id*="LoginVerification"] main form[method="POST"] #response h1,
 #ForgotPassword main form[method="POST"] #response h1,
-body[id*="UsersEditProfile"] main form[method="POST"] #response h1 {
+body[id*="UsersEditProfile"] main form[method="POST"] #response h1,
+body[id*="UsersSecurity"] main form[method="POST"] #response h1 {
     margin: calc(var(--percentage) * 0);
     margin-top: calc(var(--percentage) / 50);
 }
@@ -197,24 +203,30 @@ body[id*="UsersHome"] main div a img {
 #ForgotPassword main form[method="POST"] #label {
     font-size: calc(var(--textSize) * 1.1);
 }
-body[id*="UsersProfile"] main {
+body[id*="UsersProfile"] main,
+body[id*="UsersSecurity"] main {
     width: calc(var(--percentage) * 0.7);
     margin: calc(var(--percentage) * 0) calc(var(--percentage) * 0.15);
     padding: calc(var(--percentage) / 50) calc(var(--percentage) * 0);
 }
-body[id*="UsersProfile"] main header {
+body[id*="UsersProfile"] main header,
+body[id*="UsersSecurity"] main header {
     display: flex;
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
 body[id*="UsersProfile"] main header #profilePicture,
-body[id*="UsersProfile"] main header #profilePicture img {
+body[id*="UsersProfile"] main header #profilePicture img,
+body[id*="UsersSecurity"] main header #profile,
+body[id*="UsersSecurity"] main header #profilePicture img {
     width: auto;
     height: calc(var(--pixelate) / 10.8);
 }
-body[id*="UsersProfile"] main header #profilePicture i {
+body[id*="UsersProfile"] main header #profilePicture i,
+body[id*="UsersSecurity"] main header #profilePicture i {
     font-size: calc(var(--textSize) * 4.481);
 }
-body[id*="UsersProfile"] main header #username {
+body[id*="UsersProfile"] main header #username,
+body[id*="UsersSecurity"] main header #username {
     display: flex;
     align-self: end;
     width: auto;
