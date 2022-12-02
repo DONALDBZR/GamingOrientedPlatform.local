@@ -3,6 +3,12 @@
  */
 class Application extends React.Component {
     /**
+     * Returns the user backward
+     */
+    return() {
+        history.back();
+    }
+    /**
      * Renders the components that are being returned
      */
     render() {
@@ -28,18 +34,12 @@ class Main extends Application {
                 <div id="message">Not Found</div>
                 <div class="button">
                     <button
-                        onClick={this.return}
+                        onClick={this.return()}
                         class="fa fa-angle-left"
                     ></button>
                 </div>
             </main>
         );
-    }
-    /**
-     * Returns the user backward
-     */
-    return() {
-        history.back();
     }
 }
 /**
