@@ -289,4 +289,26 @@ class User extends Password
             echo json_encode($response);
         }
     }
+    public function changeMailAddress()
+    {
+        $request = json_decode(file_get_contents("php://input"));
+        $this->setUsername($_SESSION['User']['username']);
+        $this->setMailAddress($_SESSION['User']['mailAddress']);
+        if ($this->getMailAddress() != $request->mailAddress) {
+            $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
+            $this->setMailAddress($request->mailAddress);
+            $this->PDO->query("UPDATE Parkinston.Users SET UsersMailAddress = :UsersMailAddress WHERE UsersUsername = :UsersUsername");
+            $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
+            $this->PDO->bind(":UsersUsername", $this->getUsername());
+            $this->PDO->execute();
+            $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "This mail is an update for your new mail address which username is {$this->getUsername()}.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
+            $response = array(
+                "status" => 0,
+                "url" => "{$this->domain}/Sign-Out",
+                "message" => "Your mail address has been changed!  You will be logged out of your account!"
+            );
+            header('Content-Type: application/json', true, 300);
+            echo json_encode($response);
+        }
+    }
 }
