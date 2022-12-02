@@ -231,7 +231,7 @@ class Form extends Main {
     }
     render() {
         return (
-            <form method="POST" onSumbit={this.handleSubmit.bind(this)}>
+            <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                 <div id="label">Account Security Form</div>
                 <input
                     type="mail"
