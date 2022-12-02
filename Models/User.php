@@ -360,7 +360,7 @@ class User extends Password
                     $response = array(
                         "status" => 0,
                         "url" => "{$this->domain}/Sign-Out",
-                        "message" => "Your password has been changed!  You will be logged out of your account to test the new password!"
+                        "message" => "Your password and mail address have been changed!  You will be logged out of your account to test the new password!"
                     );
                     header('Content-Type: application/json', true, 300);
                     echo json_encode($response);
