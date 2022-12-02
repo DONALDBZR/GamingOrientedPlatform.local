@@ -123,7 +123,7 @@ class Application extends React.Component {
      * @param {Event} event
      */
     handleSubmit(event) {
-        const delay = 1975;
+        const delay = 4075;
         event.preventDefault();
         fetch("/Controllers/UsersSecurity.php", {
             method: "POST",
