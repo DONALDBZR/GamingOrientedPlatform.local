@@ -40,17 +40,12 @@ class Application extends React.Component {
             url: "",
             /**
              * User's profile picture
+             * @type {string}
              */
             profilePicture: "",
             array: [],
         };
         this.handleFileChange = this.handleFileChange.bind(this);
-    }
-    /**
-     * Renders the components that are being returned
-     */
-    render() {
-        return [<Header />, <Main />, <Footer />];
     }
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
@@ -116,6 +111,56 @@ class Application extends React.Component {
             window.location.href = this.state.url;
         }, delay);
     }
+    /**
+     * Verifying the state before rendering the link
+     * @returns {Application} Component
+     */
+    verifyState() {
+        if (this.state.profilePicture != null) {
+            return (
+                <a href={`/Users/Profile/${this.state.username}`}>
+                    <img src={this.state.profilePicture} />
+                </a>
+            );
+        } else {
+            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+        }
+    }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseColor() {
+        if (this.state.status == 0) {
+            return "rgb(0%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseFontSize() {
+        if (this.state.status == 0) {
+            return "71%";
+        } else {
+            return "180%";
+        }
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
+    /**
+     * Renders the components that are being returned
+     * @returns {Application} Component
+     */
+    render() {
+        return [<Header />, <Main />, <Footer />];
+    }
 }
 /**
  * The component that is the header
@@ -130,12 +175,6 @@ class Header extends Application {
                 <NavigationBar />
             </header>
         );
-    }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 /**
@@ -171,28 +210,6 @@ class Footer extends Application {
 class Form extends Main {
     constructor(props) {
         super(props);
-    }
-    /**
-     * Handling the response from the server
-     * @returns {string}
-     */
-    handleResponseColor() {
-        if (this.state.status == 0) {
-            return "rgb(0%, 100%, 0%)";
-        } else {
-            return "rgb(100%, 0%, 0%)";
-        }
-    }
-    /**
-     * Handling the response from the server
-     * @returns {string}
-     */
-    handleResponseFontSize() {
-        if (this.state.status == 0) {
-            return "71%";
-        } else {
-            return "180%";
-        }
     }
     render() {
         return (
@@ -236,12 +253,6 @@ class NavigationBar extends Header {
             </nav>
         );
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
-    }
 }
 /**
  * The component which will render the profile picture of the user
@@ -250,28 +261,10 @@ class ProfileLink extends NavigationBar {
     constructor(props) {
         super(props);
     }
-    /**
-     * Verifying the state before rendering the link
-     * @returns {Application} Component
-     */
-    verifyState() {
-        if (this.state.profilePicture != null) {
-            return (
-                <a href={`/Users/Profile/${this.state.username}`}>
-                    <img src={this.state.profilePicture} />
-                </a>
-            );
-        } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
-        }
-    }
     render() {
         return (
             <div>{this.verifyState()}</div>
         );
-    }
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 // Rendering the page
