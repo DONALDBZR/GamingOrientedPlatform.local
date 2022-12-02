@@ -150,23 +150,27 @@ body[class="404"] main .button button {
 }
 body[id*="UsersHome"] header nav,
 body[id*="UsersProfile"] header nav,
-body[id*="UsersEditProfile"] header nav {
+body[id*="UsersEditProfile"] header nav,
+body[id*="UsersSecurity"] header nav {
     display: flex;
     flex-wrap: wrap;
 }
 body[id*="UsersHome"] header nav div,
 body[id*="UsersProfile"] header nav div,
-body[id*="UsersEditProfile"] header nav div {
+body[id*="UsersEditProfile"] header nav div,
+body[id*="UsersSecurity"] header nav div {
     width: calc(var(--percentage) / 2);
 }
 body[id*="UsersHome"] header nav div:nth-child(1),
 body[id*="UsersProfile"] header nav div:nth-child(1),
-body[id*="UsersEditProfile"] header nav div:nth-child(1) {
+body[id*="UsersEditProfile"] header nav div:nth-child(1),
+body[id*="UsersSecurity"] header nav div:nth-child(1) {
     width: var(--percentage);
 }
 body[id*="UsersHome"] header nav div a,
 body[id*="UsersProfile"] header nav div a,
-body[id*="UsersEditProfile"] header nav div a {
+body[id*="UsersEditProfile"] header nav div a,
+body[id*="UsersSecurity"] header nav div a {
     font-size: calc(var(--textSize) * 1.458);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
@@ -262,7 +266,8 @@ body[id*="UsersEditProfile"] main form[method="POST"] #label {
 }
 body[id*="UsersHome"] header nav div a img,
 body[id*="UsersProfile"] header nav div a img,
-body[id*="UsersEditProfile"] header nav div a img {
+body[id*="UsersEditProfile"] header nav div a img,
+body[id*="UsersSecurity"] header nav div a img {
     width: auto;
     height: calc(var(--pixelate) / 33.75);
 }
