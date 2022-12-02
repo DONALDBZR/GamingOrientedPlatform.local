@@ -335,3 +335,13 @@ body[id*="UsersSecurity"] header nav div a img {
     width: auto;
     height: calc(var(--pixelate) / 21.6);
 }
+body[id*="UsersSecurity"] main {
+    padding-top: calc(var(--percentage) * 0);
+    padding-bottom: calc(var(--percentage) / 100);
+}
+body[id*="UsersSecurity"] main header {
+    margin: calc(var(--percentage) * 0);
+}
+body[id*="UsersSecurity"] main form[method="POST"] input {
+    margin: calc(var(--percentage) / 200) calc(var(--percentage) * 0);
+}
