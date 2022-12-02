@@ -10,30 +10,28 @@ class Application extends React.Component {
         this.state = {
             /**
              * Username of the user
+             * @type {string}
              */
             username: "",
             /**
              * Mail Address of the user
+             * @type {string}
              */
             mailAddress: "",
             /**
              * Domain of the application
+             * @type {string}
              */
             domain: "",
             /**
              * User's profile picture
+             * @type {string}
              */
             profilePicture: "",
         };
     }
     /**
-     * Renders the components that are being returned
-     */
-    render() {
-        return [<Header />, <Main />, <Footer />];
-    }
-    /**
-     * Retireving the session's data that is stored as a JSON to be used in the rendering
+     * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
         fetch("/Users/CurrentUser",
@@ -47,6 +45,45 @@ class Application extends React.Component {
                 domain: data.domain,
                 profilePicture: data.profilePicture,
             }));
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
+    /**
+     * Verifying the state before rendering the link
+     * @returns {Application} Component
+     */
+    verifyState() {
+        if (this.state.profilePicture != null) {
+            return (
+                <a href={`/Users/Profile/${this.state.username}`}>
+                    <img src={this.state.profilePicture} />
+                </a>
+            );
+        } else {
+            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+        }
+    }
+    /**
+     * Verifying whether there is a profile picture
+     * @returns {Application} Component
+     */
+    verifyProfilePicture() {
+        if (this.state.profilePicture != null) {
+            return <img src={this.state.profilePicture} />;
+        } else {
+            return <i class="fa fa-user"></i>
+        }
+    }
+    /**
+     * Renders the components that are being returned
+     * @returns {Application} Component
+     */
+    render() {
+        return [<Header />, <Main />, <Footer />];
     }
 }
 /**
@@ -62,12 +99,6 @@ class Header extends Application {
                 <NavigationBar />
             </header>
         );
-    }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 /**
@@ -96,12 +127,6 @@ class Main extends Application {
                 </description>
             </main>
         );
-    }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 /**
@@ -141,12 +166,6 @@ class Footer extends Application {
             </footer>
         );
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
-    }
 }
 /**
  * The navigation bar component
@@ -168,12 +187,6 @@ class NavigationBar extends Header {
             </nav>
         );
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
-    }
 }
 /**
  * The component which will render the profile picture of the user
@@ -182,28 +195,10 @@ class ProfileLink extends NavigationBar {
     constructor(props) {
         super(props);
     }
-    /**
-     * Verifying the state before rendering the link
-     * @returns {Application} Component
-     */
-    verifyState() {
-        if (this.state.profilePicture != null) {
-            return (
-                <a href={`/Users/Profile/${this.state.username}`}>
-                    <img src={this.state.profilePicture} />
-                </a>
-            );
-        } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
-        }
-    }
     render() {
         return (
             <div>{this.verifyState()}</div>
         );
-    }
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 /**
@@ -213,26 +208,12 @@ class ProfilePicture extends Main {
     constructor(props) {
         super(props);
     }
-    /**
-     * Verifying whether there is a profile picture
-     * @returns {ProfilePicture}
-     */
-    verifyProfilePicture() {
-        if (this.state.profilePicture != null) {
-            return <img src={this.state.profilePicture} />;
-        } else {
-            return <i class="fa fa-user"></i>
-        }
-    }
     render() {
         return (
             <div id="profilePicture">
                 {this.verifyProfilePicture()}
             </div>
         );
-    }
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 // Rendering the page
