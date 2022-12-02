@@ -232,6 +232,9 @@ class Form extends Main {
                     value={this.state.newPassword}
                     onChange={this.handleChange.bind(this)}
                 />
+                <div>
+                    <button>Change</button>
+                </div>
             </form>
         );
     }
