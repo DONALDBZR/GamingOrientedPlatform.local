@@ -13,6 +13,12 @@ CREATE TABLE Parkinston.Users (
     UsersPassword INT,
     UsersProfilePicture VARCHAR(128)
 );
+-- Creating the Accounts table
+CREATE TABLE Parkinston.Accounts (
+    AccountsId INT PRIMARY KEY AUTO_INCREMENT,
+    AccountsLoL VARCHAR(64),
+    AccountsUser VARCHAR(32)
+);
 -- Testing Codes
 -- DROP DATABASE Parkinston;
 -- SELECT * FROM Parkinston.Passwords;
