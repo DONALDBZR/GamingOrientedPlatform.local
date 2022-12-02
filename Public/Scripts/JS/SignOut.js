@@ -26,13 +26,7 @@ class Application extends React.Component {
         };
     }
     /**
-     * Renders the components that are being returned
-     */
-    render() {
-        return [<Header />, <Main />, <Footer />];
-    }
-    /**
-     * Retireving the session's data that is stored as a JSON to be used in the rendering
+     * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
         /**
@@ -59,6 +53,19 @@ class Application extends React.Component {
         setTimeout(() => {
             window.location.href = this.state.url;
         }, delay);
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
+    /**
+     * Renders the components that are being returned
+     * @returns {Application} Component
+     */
+    render() {
+        return [<Header />, <Main />, <Footer />];
     }
 }
 /**
@@ -89,12 +96,6 @@ class Main extends Application {
                 {this.state.message}
             </main>
         );
-    }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
     }
 }
 /**
