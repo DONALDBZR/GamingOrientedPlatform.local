@@ -262,37 +262,9 @@ class Form extends Main {
  * The component that is the footer
  */
 class Footer extends Application {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
-            <footer>
-                <nav>
-                    <a href={`/Users/Edit/Profile/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Edit
-                    </a>
-                    <a href={`/Users/Accounts/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Accounts
-                    </a>
-                    <a href={`/Users/Security/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Security
-                    </a>
-                </nav>
-                <div>Parkinston</div>
-            </footer>
+            <footer>Parkinston</footer>
         );
     }
 }
