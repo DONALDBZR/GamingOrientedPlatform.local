@@ -225,4 +225,68 @@ class User extends Password
             echo json_encode($response);
         }
     }
+    public function changePassword()
+    {
+        $request = json_decode(file_get_contents("php://input"));
+        $this->setUsername($_SESSION['User']['username']);
+        $this->setPassword($request->oldPassword);
+        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
+        $this->PDO->bind(":UsersUsername", $this->getUsername());
+        $this->PDO->execute();
+        $this->setMailAddress($this->PDO->resultSet()[0]['UsersMailAddress']);
+        $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
+        $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
+        $this->PDO->bind(":PasswordsId", $this->getPasswordId());
+        $this->PDO->execute();
+        $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
+        $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
+        $this->setPassword($this->getPassword() . $this->getSalt());
+        if (password_verify($this->getPassword(), $this->getHash())) {
+            if ($request->newPassword == $request->confirmNewPassword) {
+                $this->setPassword($request->newPassword);
+                $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: {$this->domain}/ForgotPassword");
+                $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
+                $this->PDO->execute();
+                if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
+                    $this->setPasswordId(1);
+                } else {
+                    $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                }
+                $this->setSalt($this->generateSalt());
+                $this->setPassword($this->getPassword() . $this->getSalt());
+                $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
+                $this->PDO->query("INSERT INTO Parkinston.Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
+                $this->PDO->bind(":PasswordsSalt", $this->getSalt());
+                $this->PDO->bind(":PasswordsHash", $this->getHash());
+                $this->PDO->execute();
+                $this->PDO->query("UPDATE Parkinston.Users SET UsersPassword = :UsersPassword WHERE UsersUsername = :UsersUsername");
+                $this->PDO->bind(":UsersPassword", $this->getPasswordId());
+                $this->PDO->bind(":UsersUsername", $this->getUsername());
+                $this->PDO->execute();
+                $response = array(
+                    "status" => 0,
+                    "url" => "{$this->domain}/Sign-Out",
+                    "message" => "Your password has been changed!  You will be logged out of your account to test the new password!"
+                );
+                header('Content-Type: application/json', true, 300);
+                echo json_encode($response);
+            } else {
+                $response = array(
+                    "status" => 8,
+                    "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                    "message" => "The passwords are not identical!"
+                );
+                header('Content-Type: application/json', true, 300);
+                echo json_encode($response);
+            }
+        } else {
+            $response = array(
+                "status" => 7,
+                "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                "message" => "Incorrect Password!"
+            );
+            header('Content-Type: application/json', true, 300);
+            echo json_encode($response);
+        }
+    }
 }
