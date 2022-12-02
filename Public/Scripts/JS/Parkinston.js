@@ -11,6 +11,7 @@ class Parkinston {
         this.__requestUniformRequestInformation;
         /**
          * The ID of the body
+         * @type {string}
          */
         this.__bodyId;
         /**
@@ -45,56 +46,48 @@ class Parkinston {
         this.init();
     }
     /**
-     * Request URI accessor method
      * @returns {string}
      */
     getRequestURI() {
         return this.__requestUniformRequestInformation;
     }
     /**
-     * Request URI mutator method
      * @param {string} request_uri
      */
     setRequestURI(request_uri) {
         this.__requestUniformRequestInformation = request_uri;
     }
     /**
-     * Body ID accessor method
      * @returns {string}
      */
     getBodyId() {
         return this.__bodyId;
     }
     /**
-     * Body ID mutator method
      * @param {string} body_id
      */
     setBodyId(body_id) {
         this.__bodyId = body_id;
     }
     /**
-     * Relationship accessor method
      * @returns {string}
      */
     getRelationship() {
         return this.__relationship;
     }
     /**
-     * Relationship mutator method
      * @param {string} relationship
      */
     setRelationship(relationship) {
         this.__relationship = relationship;
     }
     /**
-     * MIME Type accessor method
      * @returns {string}
      */
     getMimeType() {
         return this.__mimeType;
     }
     /**
-     * MIME Type mutator method
      * @param {string} mime_type
      */
     setMimeType(mime_type) {
