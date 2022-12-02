@@ -29,21 +29,6 @@ class Application extends React.Component {
              */
             profilePicture: "",
             /**
-             * Old password of the user
-             * @type {string}
-             */
-            oldPassword: "",
-            /**
-             * New password of the user
-             * @type {string}
-             */
-            newPassword: "",
-            /**
-             * Confirm New password of the user
-             * @type {string}
-             */
-            confirmNewPassword: "",
-            /**
              * The status returned from the request
              * @type {int}
              */
@@ -58,6 +43,11 @@ class Application extends React.Component {
              * @type {string}
              */
             url: "",
+            /**
+             * Username of user for the game League of Legends
+             * @type {string}
+             */
+            lolUsername: "",
         };
     }
     /**
@@ -125,13 +115,10 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 4075;
         event.preventDefault();
-        fetch("/Controllers/UsersSecurity.php", {
+        fetch("/Controllers/UsersAccounts.php", {
             method: "POST",
             body: JSON.stringify({
-                mailAddress: this.state.mailAddress,
-                oldPassword: this.state.oldPassword,
-                newPassword: this.state.newPassword,
-                confirmNewPassword: this.state.confirmNewPassword,
+                lolUsername: this.state.lolUsername,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -213,10 +200,6 @@ class Main extends Application {
     render() {
         return (
             <main>
-                <header>
-                    <ProfilePicture />
-                    <div id="username">{this.state.username}</div>
-                </header>
                 <Form />
             </main>
         );
@@ -232,33 +215,12 @@ class Form extends Main {
     render() {
         return (
             <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
-                <div id="label">Account Security Form</div>
+                <div id="label">Accounts Form</div>
                 <input
-                    type="mail"
-                    name="mailAddress"
-                    placeholder="Mail Address"
-                    value={this.state.mailAddress}
-                    onChange={this.handleChange.bind(this)}
-                />
-                <input
-                    type="password"
-                    name="oldPassword"
-                    placeholder="Old Password"
-                    value={this.state.oldPassword}
-                    onChange={this.handleChange.bind(this)}
-                />
-                <input
-                    type="password"
-                    name="newPassword"
-                    placeholder="New Password"
-                    value={this.state.newPassword}
-                    onChange={this.handleChange.bind(this)}
-                />
-                <input
-                    type="password"
-                    name="confirmNewPassword"
-                    placeholder="Confirm New Password"
-                    value={this.state.confirmNewPassword}
+                    type="text"
+                    name="lolUsername"
+                    placeholder="League Of Legends Username"
+                    value={this.state.lolUsername}
                     onChange={this.handleChange.bind(this)}
                 />
                 <div id="button">
@@ -312,21 +274,6 @@ class ProfileLink extends NavigationBar {
     render() {
         return (
             <div>{this.verifyState()}</div>
-        );
-    }
-}
-/**
- * Profile Picture component
- */
-class ProfilePicture extends Main {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div id="profilePicture">
-                {this.verifyProfilePicture()}
-            </div>
         );
     }
 }
