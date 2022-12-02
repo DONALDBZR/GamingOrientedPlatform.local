@@ -38,6 +38,21 @@ class Application extends React.Component {
              * @type {string}
              */
             newPassword: "",
+            /**
+             * The status returned from the request
+             * @type {int}
+             */
+            status: 0,
+            /**
+             * The message that will be displayed to the user
+             * @type {string}
+             */
+            message: "",
+            /**
+             * The url to be redirected after displaying the message
+             * @type {string}
+             */
+            url: "",
         };
     }
     /**
@@ -105,11 +120,12 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1975;
         event.preventDefault();
-        fetch("/Controllers/Register.php", {
+        fetch("/Controllers/UsersSecurity.php", {
             method: "POST",
             body: JSON.stringify({
-                username: this.state.username,
                 mailAddress: this.state.mailAddress,
+                oldPassword: this.state.oldPassword,
+                newPassword: this.state.newPassword,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -232,8 +248,11 @@ class Form extends Main {
                     value={this.state.newPassword}
                     onChange={this.handleChange.bind(this)}
                 />
-                <div>
+                <div id="button">
                     <button>Change</button>
+                </div>
+                <div id="response">
+                    <h1 style={{ color: this.handleResponseColor(), fontSize: this.handleResponseFontSize() }}>{this.state.message}</h1>
                 </div>
             </form>
         );
