@@ -28,6 +28,16 @@ class Application extends React.Component {
              * @type {string}
              */
             profilePicture: "",
+            /**
+             * Old password of the user
+             * @type {string}
+             */
+            oldPassword: "",
+            /**
+             * New password of the user
+             * @type {string}
+             */
+            newPassword: "",
         };
     }
     /**
@@ -65,6 +75,76 @@ class Application extends React.Component {
             );
         } else {
             return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+        }
+    }
+    /**
+     * Redirecting the user to an intended url
+     * @param {int} delay
+     */
+    redirector(delay) {
+        setTimeout(() => {
+            window.location.href = this.state.url;
+        }, delay);
+    }
+    /**
+     * Handling any change that is made in the user interface
+     * @param {Event} event
+     */
+    handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+        });
+    }
+    /**
+     * Handling the form submission
+     * @param {Event} event
+     */
+    handleSubmit(event) {
+        const delay = 1975;
+        event.preventDefault();
+        fetch("/Controllers/Register.php", {
+            method: "POST",
+            body: JSON.stringify({
+                username: this.state.username,
+                mailAddress: this.state.mailAddress,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    status: data.status,
+                    message: data.message,
+                    url: data.url,
+                })
+            )
+            .then(() => super.redirector(delay));
+    }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseColor() {
+        if (this.state.status == 0) {
+            return "rgb(0%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseFontSize() {
+        if (this.state.status == 0) {
+            return "71%";
+        } else {
+            return "180%";
         }
     }
     /**
@@ -115,17 +195,44 @@ class Main extends Application {
                     <ProfilePicture />
                     <div id="username">{this.state.username}</div>
                 </header>
-                <description>
-                    <div id="mailAddress">
-                        <label>Mail Address:</label>
-                        <div>{this.state.mailAddress}</div>
-                    </div>
-                    <div id="lolUsername">
-                        <label>League of Legends's Username:</label>
-                        <div>Darkness4869</div>
-                    </div>
-                </description>
+                <Form />
             </main>
+        );
+    }
+}
+/**
+ * Form component
+ */
+class Form extends Main {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <form method="POST" onSumbit={this.handleSubmit.bind(this)}>
+                <div id="label">Account Security Form</div>
+                <input
+                    type="mail"
+                    name="mailAddress"
+                    placeholder="Mail Address"
+                    value={this.state.mailAddress}
+                    onChange={this.handleChange.bind(this)}
+                />
+                <input
+                    type="password"
+                    name="oldPassword"
+                    placeholder="Old Password"
+                    value={this.state.oldPassword}
+                    onChange={this.handleChange.bind(this)}
+                />
+                <input
+                    type="password"
+                    name="newPassword"
+                    placeholder="New Password"
+                    value={this.state.newPassword}
+                    onChange={this.handleChange.bind(this)}
+                />
+            </form>
         );
     }
 }
