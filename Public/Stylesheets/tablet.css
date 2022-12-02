@@ -277,7 +277,8 @@ body[id*="UsersEditProfile"] main form[method="POST"] #label {
 body[id*="UsersHome"] header nav div a img,
 body[id*="UsersProfile"] header nav div a img,
 body[id*="UsersEditProfile"] header nav div a img,
-body[id*="UsersSecurity"] header nav div a img {
+body[id*="UsersSecurity"] header nav div a img,
+body[id*="UsersAccounts"] header nav div a img {
     width: auto;
     height: calc(var(--pixelate) / 33.75);
 }
