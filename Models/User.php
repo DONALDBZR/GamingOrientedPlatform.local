@@ -229,11 +229,11 @@ class User extends Password
     {
         $request = json_decode(file_get_contents("php://input"));
         $this->setUsername($_SESSION['User']['username']);
+        $this->setMailAddress($_SESSION['User']['mailAddress']);
         $this->setPassword($request->oldPassword);
         $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
         $this->PDO->bind(":UsersUsername", $this->getUsername());
         $this->PDO->execute();
-        $this->setMailAddress($this->PDO->resultSet()[0]['UsersMailAddress']);
         $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
         $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
         $this->PDO->bind(":PasswordsId", $this->getPasswordId());
@@ -309,6 +309,79 @@ class User extends Password
             );
             header('Content-Type: application/json', true, 300);
             echo json_encode($response);
+        }
+    }
+    public function changePasswordAndMailAddress()
+    {
+        $request = json_decode(file_get_contents("php://input"));
+        $this->setUsername($_SESSION['User']['username']);
+        $this->setMailAddress($_SESSION['User']['mailAddress']);
+        if ($this->getMailAddress() != $request->mailAddress) {
+            $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
+            $this->setMailAddress($request->mailAddress);
+            $this->PDO->query("UPDATE Parkinston.Users SET UsersMailAddress = :UsersMailAddress WHERE UsersUsername = :UsersUsername");
+            $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
+            $this->PDO->bind(":UsersUsername", $this->getUsername());
+            $this->PDO->execute();
+            $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "This mail is an update for your new mail address which username is {$this->getUsername()}.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
+            $this->setPassword($request->oldPassword);
+            $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
+            $this->PDO->bind(":UsersUsername", $this->getUsername());
+            $this->PDO->execute();
+            $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
+            $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
+            $this->PDO->bind(":PasswordsId", $this->getPasswordId());
+            $this->PDO->execute();
+            $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
+            $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
+            $this->setPassword($this->getPassword() . $this->getSalt());
+            if (password_verify($this->getPassword(), $this->getHash())) {
+                if ($request->newPassword == $request->confirmNewPassword) {
+                    $this->setPassword($request->newPassword);
+                    $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: {$this->domain}/ForgotPassword");
+                    $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
+                    $this->PDO->execute();
+                    if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
+                        $this->setPasswordId(1);
+                    } else {
+                        $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                    }
+                    $this->setSalt($this->generateSalt());
+                    $this->setPassword($this->getPassword() . $this->getSalt());
+                    $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
+                    $this->PDO->query("INSERT INTO Parkinston.Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
+                    $this->PDO->bind(":PasswordsSalt", $this->getSalt());
+                    $this->PDO->bind(":PasswordsHash", $this->getHash());
+                    $this->PDO->execute();
+                    $this->PDO->query("UPDATE Parkinston.Users SET UsersPassword = :UsersPassword WHERE UsersUsername = :UsersUsername");
+                    $this->PDO->bind(":UsersPassword", $this->getPasswordId());
+                    $this->PDO->bind(":UsersUsername", $this->getUsername());
+                    $this->PDO->execute();
+                    $response = array(
+                        "status" => 0,
+                        "url" => "{$this->domain}/Sign-Out",
+                        "message" => "Your password has been changed!  You will be logged out of your account to test the new password!"
+                    );
+                    header('Content-Type: application/json', true, 300);
+                    echo json_encode($response);
+                } else {
+                    $response = array(
+                        "status" => 10,
+                        "url" => "{$this->domain}/Sign-Out",
+                        "message" => "The passwords are not identical!"
+                    );
+                    header('Content-Type: application/json', true, 300);
+                    echo json_encode($response);
+                }
+            } else {
+                $response = array(
+                    "status" => 9,
+                    "url" => "{$this->domain}/Sign-Out",
+                    "message" => "Incorrect Password!"
+                );
+                header('Content-Type: application/json', true, 300);
+                echo json_encode($response);
+            }
         }
     }
 }
