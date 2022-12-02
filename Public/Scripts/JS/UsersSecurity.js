@@ -145,7 +145,7 @@ class Application extends React.Component {
                     url: data.url,
                 })
             )
-            .then(() => super.redirector(delay));
+            .then(() => this.redirector(delay));
     }
     /**
      * Handling the response from the server
