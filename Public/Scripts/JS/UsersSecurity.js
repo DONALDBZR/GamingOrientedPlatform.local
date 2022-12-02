@@ -39,6 +39,11 @@ class Application extends React.Component {
              */
             newPassword: "",
             /**
+             * Confirm New password of the user
+             * @type {string}
+             */
+            confirmNewPassword: "",
+            /**
              * The status returned from the request
              * @type {int}
              */
@@ -126,6 +131,7 @@ class Application extends React.Component {
                 mailAddress: this.state.mailAddress,
                 oldPassword: this.state.oldPassword,
                 newPassword: this.state.newPassword,
+                confirmNewPassword: this.state.confirmNewPassword,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -246,6 +252,13 @@ class Form extends Main {
                     name="newPassword"
                     placeholder="New Password"
                     value={this.state.newPassword}
+                    onChange={this.handleChange.bind(this)}
+                />
+                <input
+                    type="password"
+                    name="confirmNewPassword"
+                    placeholder="Confirm New Password"
+                    value={this.state.confirmNewPassword}
                     onChange={this.handleChange.bind(this)}
                 />
                 <div id="button">
