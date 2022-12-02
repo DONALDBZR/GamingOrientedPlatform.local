@@ -287,10 +287,16 @@ body[id*="UsersSecurity"] header nav div a img {
 body[id*="UsersSecurity"] main {
     padding-top: calc(var(--percentage) * 0);
     padding-bottom: calc(var(--percentage) / 100);
+    width: var(--percentage);
+    margin: calc(var(--percentage) * 0);
 }
 body[id*="UsersSecurity"] main header {
-    margin: calc(var(--percentage) * 0);
+    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 100);
+}
+body[id*="UsersSecurity"] main form[method="POST"] #label {
+    font-size: var(--textSize);
 }
 body[id*="UsersSecurity"] main form[method="POST"] input {
     margin: calc(var(--percentage) / 200) calc(var(--percentage) * 0);
+    font-size: calc(var(--textSize) * 0.81);
 }

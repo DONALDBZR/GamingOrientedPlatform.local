@@ -280,6 +280,8 @@ body[id*="UsersSecurity"] header nav div a img {
 body[id*="UsersSecurity"] main {
     padding-top: calc(var(--percentage) * 0);
     padding-bottom: calc(var(--percentage) / 100);
+    width: calc(var(--percentage) * 0.8);
+    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 10);
 }
 body[id*="UsersSecurity"] main header {
     margin: calc(var(--percentage) * 0);
