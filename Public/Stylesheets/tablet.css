@@ -47,7 +47,8 @@ body[id*="UsersHome"] footer,
 #Sign-Out footer,
 #ForgotPassword footer,
 body[id*="UsersProfile"] footer div:nth-child(2),
-body[id*="UsersEditProfile"] footer {
+body[id*="UsersEditProfile"] footer,
+body[id*="UsersSecurity"] footer {
     font-size: calc(var(--textSize) * 0.9);
 }
 #Homepage main #buttons div a,

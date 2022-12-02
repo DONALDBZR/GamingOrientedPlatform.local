@@ -123,7 +123,8 @@ body[id*="UsersHome"] footer,
 #Sign-Out footer,
 #ForgotPassword footer,
 body[id*="UsersProfile"] footer div,
-body[id*="UsersEditProfile"] footer {
+body[id*="UsersEditProfile"] footer,
+body[id*="UsersSecurity"] footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }
