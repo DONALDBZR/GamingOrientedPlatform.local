@@ -34,7 +34,7 @@ class Main extends Application {
                 <div id="message">Not Found</div>
                 <div class="button">
                     <button
-                        onClick={this.return()}
+                        onClick={this.return}
                         class="fa fa-angle-left"
                     ></button>
                 </div>
