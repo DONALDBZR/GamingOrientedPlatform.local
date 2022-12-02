@@ -302,3 +302,6 @@ body[id*="UsersSecurity"] main header {
 body[id*="UsersSecurity"] main form[method="POST"] input {
     margin: calc(var(--percentage) / 200) calc(var(--percentage) * 0);
 }
+body[id*="UsersAccounts"] main form[method="POST"] {
+    width: calc(var(--percentage) / 2);
+}
