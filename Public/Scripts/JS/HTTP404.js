@@ -3,12 +3,6 @@
  */
 class Application extends React.Component {
     /**
-     * Returns the user backward
-     */
-    return() {
-        history.back();
-    }
-    /**
      * Renders the components that are being returned
      */
     render() {
@@ -27,6 +21,12 @@ class Header extends Application {
  * The component that is the main
  */
 class Main extends Application {
+    /**
+     * Returns the user backward
+     */
+    return() {
+        history.back();
+    }
     render() {
         return (
             <main>
