@@ -119,6 +119,13 @@ class User extends Password
                     "otp" => $this->getOtp()
                 );
                 $_SESSION['User'] = $user;
+                $this->PDO->query("SELECT * FROM Parkinston.Accounts WHERE AccountsUser = :AccountsUser");
+                $this->PDO->bind(":AccountsUser", $this->getUsername());
+                $this->PDO->execute();
+                $account = array(
+                    "leagueOfLegends" => $this->PDO->resultSet()[0]['AccountsLoL']
+                );
+                $_SESSION['Account'] = $account;
                 $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$this->domain}/Login/Verification/{$this->getUsername()}");
                 $response = array(
                     "status" => 0,
