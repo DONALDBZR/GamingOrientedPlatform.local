@@ -39,7 +39,22 @@ class Account extends User
         $request = json_decode(file_get_contents("php://input"));
         $this->setLeagueOfLegendsGameName($request->lolUsername);
         $this->setLeagueOfLegendsRegion($request->lolRegion);
-        $riotAPIRequest = json_decode(file_get_contents("https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" . $this->getLeagueOfLegendsGameName() . "/" . $this->getLeagueOfLegendsRegion() . "?api_key=" . Environment::RiotAPIKey));
-        echo json_encode($riotAPIRequest);
+        $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" . $this->getLeagueOfLegendsGameName() . "/" . $this->getLeagueOfLegendsRegion() . "?api_key=" . Environment::RiotAPIKey;
+        if ($this->getHttpResponseCode($riotAccountApiRequest) == 200) {
+            $response = json_decode(file_get_contents($riotAccountApiRequest));
+        } else {
+            $response = array(
+                "status" => 11,
+                "url" => "{$this->domain}/Users/Accounts/{$_SESSION['User']['username']}",
+                "message" => "This League of Legends Username does not exist!"
+            );
+        }
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
+    public function getHttpResponseCode(string $requestUniformResourceLocator)
+    {
+        $headers = get_headers($requestUniformResourceLocator);
+        return substr($headers[0], 9, 3);
     }
 }
