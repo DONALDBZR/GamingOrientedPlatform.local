@@ -41,7 +41,20 @@ class Account extends User
         $this->setLeagueOfLegendsRegion($request->lolRegion);
         $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" . $this->getLeagueOfLegendsGameName() . "/" . $this->getLeagueOfLegendsRegion() . "?api_key=" . Environment::RiotAPIKey;
         if ($this->getHttpResponseCode($riotAccountApiRequest) == 200) {
-            $response = json_decode(file_get_contents($riotAccountApiRequest));
+            $this->setUsername($_SESSION["User"]["username"]);
+            $this->PDO->query("INSERT INTO Parkinston.Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
+            $this->PDO->bind(":AccountsLoL", "{$this->getLeagueOfLegendsGameName()}#{$this->getLeagueOfLegendsRegion()}");
+            $this->PDO->bind(":AccountsUser", $this->getUsername());
+            $this->PDO->execute();
+            $account = array(
+                "leagueOfLegends" => $this->getLeagueOfLegendsGameName()
+            );
+            $_SESSION['Account'] = $account;
+            $response = array(
+                "status" => 0,
+                "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
+                "message" => "Your account has been added!"
+            );
         } else {
             $response = array(
                 "status" => 11,
