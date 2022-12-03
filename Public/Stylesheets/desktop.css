@@ -363,5 +363,10 @@ body[id*="UsersAccounts"] main form[method="POST"] {
     width: calc(var(--percentage) / 4);
 }
 body[id*="UsersAccounts"] main form[method="POST"] input {
-    width: calc(var(--percentage) * 0.81);
+    width: calc(var(--percentage) * 0.77);
+    margin: calc(var(--percentage) / 100);
+}
+body[id*="UsersAccounts"] main form[method="POST"] select {
+    width: auto;
+    padding: calc(var(--percentage) * 0.007);
 }
