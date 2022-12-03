@@ -234,7 +234,7 @@ class Form extends Main {
                 <select name="lolRegion" onChange={this.handleChange.bind(this)} value={this.state.lolRegion} required>
                     <option value=""></option>
                     <option value="EUW">EUW</option>
-                    <option value="NA">NA</option>
+                    {/* <option value="NA">NA</option> */}
                 </select>
                 <div id="button">
                     <button>Change</button>
