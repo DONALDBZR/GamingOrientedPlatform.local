@@ -47,7 +47,7 @@ class Account extends User
             $this->PDO->bind(":AccountsUser", $this->getUsername());
             $this->PDO->execute();
             $account = array(
-                "leagueOfLegends" => $this->getLeagueOfLegendsGameName()
+                "leagueOfLegends" => "{$this->getLeagueOfLegendsGameName()}#{$this->getLeagueOfLegendsRegion()}"
             );
             $_SESSION['Account'] = $account;
             $response = array(
