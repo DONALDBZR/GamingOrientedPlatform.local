@@ -4,9 +4,9 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Environment.php";
 class Account extends User
 {
     private int $id;
-    private string $leagueOfLegendsUsername;
     private string $leagueOfLegendsGameName;
-    private string $leagueOfLegendsTagLine;
+    private string | array $leagueOfLegendsTagLine;
+    private string $leagueOfLegendsRegion;
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
@@ -18,14 +18,6 @@ class Account extends User
     public function setId(int $id)
     {
         $this->id = $id;
-    }
-    public function getLeagueOfLegendsUsername()
-    {
-        return $this->leagueOfLegendsUsername;
-    }
-    public function setLeagueOfLegendsUsername(string $league_of_legends_username)
-    {
-        $this->leagueOfLegendsUsername = $league_of_legends_username;
     }
     public function getLeagueOfLegendsGameName()
     {
@@ -39,17 +31,31 @@ class Account extends User
     {
         return $this->leagueOfLegendsTagLine;
     }
-    public function setLeagueOfLegendsTagLine(string $league_of_legends_tag_line)
+    public function setLeagueOfLegendsTagLine(string | array $league_of_legends_tag_line)
     {
         $this->leagueOfLegendsTagLine = $league_of_legends_tag_line;
+    }
+    public function getLeagueOfLegendsRegion()
+    {
+        return $this->leagueOfLegendsRegion;
+    }
+    public function setLeagueOfLegendsRegion(string $league_of_legends_region)
+    {
+        $this->leagueOfLegendsRegion = $league_of_legends_region;
     }
     public function add()
     {
         $request = json_decode(file_get_contents("php://input"));
-        $this->setLeagueOfLegendsUsername($request->lolUsername);
-        $riotAPIarray = explode("#", $this->getLeagueOfLegendsUsername());
-        $this->setLeagueOfLegendsGameName($riotAPIarray[0]);
-        $this->setLeagueOfLegendsTagLine($riotAPIarray[1]);
+        $this->setLeagueOfLegendsGameName($request->lolUsername);
+        $this->setLeagueOfLegendsRegion($request->lolRegion);
+        switch ($this->getLeagueOfLegendsRegion()) {
+            case 'EUW':
+                $this->setLeagueOfLegendsTagLine("#{$this->getLeagueOfLegendsRegion()}");
+                break;
+            case 'NA':
+                $this->setLeagueOfLegendsTagLine(["#{$this->getLeagueOfLegendsRegion()}1", "#{$this->getLeagueOfLegendsRegion()}2"]);
+                break;
+        }
         $riotAPIRequest = json_decode(file_get_contents("https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" . $this->getLeagueOfLegendsGameName() . "/" . $this->getLeagueOfLegendsTagLine() . "?api_key=" . Environment::RiotAPIKey));
         echo json_encode($riotAPIRequest);
     }
