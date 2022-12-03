@@ -131,14 +131,14 @@ class Application extends React.Component {
             },
         })
             .then((response) => console.log(response))
-        // .then((data) =>
-        //     // this.setState({
-        //     //     status: data.status,
-        //     //     message: data.message,
-        //     //     url: data.url,
-        //     // })
-        //     console.log(data)
-        // )
+            .then((data) =>
+                // this.setState({
+                //     status: data.status,
+                //     message: data.message,
+                //     url: data.url,
+                // })
+                console.log(data)
+            )
         // .then(() => this.redirector(delay));
     }
     /**

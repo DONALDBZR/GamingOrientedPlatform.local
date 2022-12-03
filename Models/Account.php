@@ -52,9 +52,9 @@ class Account extends User
             case 'EUW':
                 $this->setLeagueOfLegendsTagLine("#{$this->getLeagueOfLegendsRegion()}");
                 break;
-            case 'NA':
-                $this->setLeagueOfLegendsTagLine(["#{$this->getLeagueOfLegendsRegion()}1", "#{$this->getLeagueOfLegendsRegion()}2"]);
-                break;
+                // case 'NA':
+                //     $this->setLeagueOfLegendsTagLine(["#{$this->getLeagueOfLegendsRegion()}1", "#{$this->getLeagueOfLegendsRegion()}2"]);
+                //     break;
         }
         $riotAPIRequest = json_decode(file_get_contents("https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" . $this->getLeagueOfLegendsGameName() . "/" . $this->getLeagueOfLegendsTagLine() . "?api_key=" . Environment::RiotAPIKey));
         echo json_encode($riotAPIRequest);
