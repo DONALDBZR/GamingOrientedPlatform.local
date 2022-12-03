@@ -124,20 +124,21 @@ class Application extends React.Component {
             method: "POST",
             body: JSON.stringify({
                 lolUsername: this.state.lolUsername,
+                lolRegion: this.state.lolRegion,
             }),
             headers: {
                 "Content-Type": "application/json",
             },
         })
-            .then((response) => response.json())
-            .then((data) =>
-                // this.setState({
-                //     status: data.status,
-                //     message: data.message,
-                //     url: data.url,
-                // })
-                console.log(data)
-            )
+            .then((response) => console.log(response))
+        // .then((data) =>
+        //     // this.setState({
+        //     //     status: data.status,
+        //     //     message: data.message,
+        //     //     url: data.url,
+        //     // })
+        //     console.log(data)
+        // )
         // .then(() => this.redirector(delay));
     }
     /**
@@ -231,6 +232,7 @@ class Form extends Main {
                     required
                 />
                 <select name="lolRegion" onChange={this.handleChange.bind(this)} value={this.state.lolRegion} required>
+                    <option value=""></option>
                     <option value="EUW">EUW</option>
                     <option value="NA">NA</option>
                 </select>
