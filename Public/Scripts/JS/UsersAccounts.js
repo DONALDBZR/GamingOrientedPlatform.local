@@ -130,7 +130,7 @@ class Application extends React.Component {
                 "Content-Type": "application/json",
             },
         })
-            .then((response) => console.log(response))
+            .then((response) => response.json())
             .then((data) =>
                 // this.setState({
                 //     status: data.status,
