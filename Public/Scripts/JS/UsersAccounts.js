@@ -118,7 +118,7 @@ class Application extends React.Component {
      * @param {Event} event
      */
     handleSubmit(event) {
-        const delay = 4075;
+        const delay = 1950;
         event.preventDefault();
         fetch("/Controllers/UsersAccounts.php", {
             method: "POST",
