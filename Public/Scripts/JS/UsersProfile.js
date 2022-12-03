@@ -28,6 +28,11 @@ class Application extends React.Component {
              * @type {string}
              */
             profilePicture: "",
+            /**
+             * User's League of Legends username
+             * @type {string}
+             */
+            lolUsername: "",
         };
     }
     /**
@@ -40,10 +45,11 @@ class Application extends React.Component {
             })
             .then((response) => response.json())
             .then((data) => this.setState({
-                username: data.username,
-                mailAddress: data.mailAddress,
-                domain: data.domain,
-                profilePicture: data.profilePicture,
+                username: data.User.username,
+                mailAddress: data.User.mailAddress,
+                domain: data.User.domain,
+                profilePicture: data.User.profilePicture,
+                lolUsername: data.Account.leagueOfLegends,
             }));
     }
     /**
@@ -128,7 +134,7 @@ class Main extends Application {
                     </div>
                     <div id="lolUsername">
                         <label>League of Legends's Username:</label>
-                        <div>Darkness4869</div>
+                        <div>{this.state.lolUsername}</div>
                     </div>
                 </description>
             </main>
