@@ -5,7 +5,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/User.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Account.php";
 $Account = new Account();
 if (json_decode(file_get_contents("php://input")) != null) {
-    if (!empty(json_decode(file_get_contents("php://input"))->lolUsername)) {
+    if (!empty(json_decode(file_get_contents("php://input"))->lolUsername) && !empty(json_decode(file_get_contents("php://input"))->lolRegion)) {
         $Account->add();
     } else {
         $response = array(
