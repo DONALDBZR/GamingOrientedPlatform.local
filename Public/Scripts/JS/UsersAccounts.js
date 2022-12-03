@@ -48,6 +48,11 @@ class Application extends React.Component {
              * @type {string}
              */
             lolUsername: "",
+            /**
+             * Region of user for the game League of Legends
+             * @type {string}
+             */
+            lolRegion: "",
         };
     }
     /**
@@ -126,13 +131,14 @@ class Application extends React.Component {
         })
             .then((response) => response.json())
             .then((data) =>
-                this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
-                })
+                // this.setState({
+                //     status: data.status,
+                //     message: data.message,
+                //     url: data.url,
+                // })
+                console.log(data)
             )
-            .then(() => this.redirector(delay));
+        // .then(() => this.redirector(delay));
     }
     /**
      * Handling the response from the server
@@ -222,7 +228,12 @@ class Form extends Main {
                     placeholder="League Of Legends Username"
                     value={this.state.lolUsername}
                     onChange={this.handleChange.bind(this)}
+                    required
                 />
+                <select name="lolRegion" onChange={this.handleChange.bind(this)} value={this.state.lolRegion} required>
+                    <option value="EUW">EUW</option>
+                    <option value="NA">NA</option>
+                </select>
                 <div id="button">
                     <button>Change</button>
                 </div>
