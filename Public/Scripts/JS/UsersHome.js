@@ -28,6 +28,11 @@ class Application extends React.Component {
              * @type {string}
              */
             profilePicture: "",
+            /**
+             * User's League of Legends username
+             * @type {string}
+             */
+            lolUsername: "",
         };
     }
     /**
@@ -40,10 +45,11 @@ class Application extends React.Component {
             })
             .then((response) => response.json())
             .then((data) => this.setState({
-                username: data.username,
-                mailAddress: data.mailAddress,
-                domain: data.domain,
-                profilePicture: data.profilePicture,
+                username: data.User.username,
+                mailAddress: data.User.mailAddress,
+                domain: data.User.domain,
+                profilePicture: data.User.profilePicture,
+                lolUsername: data.Account.leagueOfLegends,
             }));
     }
     /**
@@ -101,7 +107,7 @@ class Main extends Application {
         return (
             <main>
                 <div>
-                    <a href={`/Users/Home/${this.state.username}/LoL`}>
+                    <a href={`/Users/Home/${this.state.username}/LoL/${this.state.lolUsername}`}>
                         <img src="/Public/Images/(12).ico" />
                     </a>
                 </div>
