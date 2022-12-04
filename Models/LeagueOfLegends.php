@@ -65,8 +65,8 @@ class LeagueOfLegends
             $riotLeagueApiRequest = "https://" . $this->getTagLine() .  "1.api.riotgames.com/lol/league/v4/entries/by-summoner/" . $riotSummonerApiResponse->id . "?api_key=" . Environment::RiotAPIKey;
             if ($this->getHttpResponseCode($riotLeagueApiRequest) == 200) {
                 $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
-                $soloDuoWinrate = ($riotLeagueApiResponse[0]->wins / ($riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses)) * 100;
-                $flexWinrate = ($riotLeagueApiResponse[1]->wins / ($riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses)) * 100;
+                $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / ($riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses)) * 100;
+                $flexWinRate = ($riotLeagueApiResponse[1]->wins / ($riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses)) * 100;
                 $response = array(
                     "httpResponseCode" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
                     "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
@@ -74,11 +74,11 @@ class LeagueOfLegends
                     "soloDuoTier" => ucfirst(strtolower($riotLeagueApiResponse[0]->tier)),
                     "soloDuoRank" => $riotLeagueApiResponse[0]->rank,
                     "soloDuoLeaguePoints" => $riotLeagueApiResponse[0]->leaguePoints,
-                    "soloDuoWinrate" => round($soloDuoWinrate, 2),
+                    "soloDuoWinRate" => round($soloDuoWinRate, 2),
                     "flexTier" => ucfirst(strtolower($riotLeagueApiResponse[1]->tier)),
                     "flexRank" => $riotLeagueApiResponse[1]->rank,
                     "flexLeaguePoints" => $riotLeagueApiResponse[1]->leaguePoints,
-                    "flexWinrate" => round($flexWinrate, 2)
+                    "flexWinRate" => round($flexWinRate, 2)
                 );
             }
         } else {
