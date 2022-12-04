@@ -98,45 +98,43 @@ class Application extends React.Component {
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
-    retrieveData() {
-        Promise.all([
-            fetch("/Users/CurrentUser",
-                {
-                    method: "GET"
-                }),
-            fetch("/LegendsOfLegends/CurrentSummoner",
-                {
-                    method: "GET"
-                })
-        ])
-            .then(([user, summoner]) => {
-                const UserJSON = user.json()
-                const SummonerJSON = summoner.json()
-                return [UserJSON, SummonerJSON]
+    retrieveSessionData() {
+        fetch("/Users/CurrentUser",
+            {
+                method: "GET"
             })
-            .then((data) => {
-                data[0].then((user) => this.setState({
-                    username: user.User.username,
-                    mailAddress: user.User.mailAddress,
-                    domain: user.User.domain,
-                    profilePicture: user.User.profilePicture,
-                    lolUsername: user.Account.LeagueOfLegends.gameName,
-                    lolRegion: user.Account.LeagueOfLegends.tagLine,
-                    riotId: user.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier,
-                }))
-                data[1].then((summoner) => this.setState({
-                    level: summoner.summonerLevel,
-                    summonerIcon: summoner.profileIconId,
-                    soloDuoTier: summoner.soloDuoTier,
-                    soloDuoDivision: summoner.soloDuoRank,
-                    soloDuoLeaguePoints: summoner.soloDuoLeaguePoints,
-                    soloDuoWinRate: summoner.soloDuoWinRate,
-                    flexTier: summoner.flexTier,
-                    flexDivision: summoner.flexRank,
-                    flexLeaguePoints: summoner.flexLeaguePoints,
-                    flexWinRate: summoner.flexWinRate,
-                }))
-            });
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                username: data.User.username,
+                mailAddress: data.User.mailAddress,
+                domain: data.User.domain,
+                profilePicture: data.User.profilePicture,
+                lolUsername: data.Account.LeagueOfLegends.gameName,
+                lolRegion: data.Account.LeagueOfLegends.tagLine,
+                riotId: data.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier,
+            }));
+    }
+    /**
+     * Retrieving data from Riot Games data center
+     */
+    retrieveLoLData() {
+        fetch("/LegendsOfLegends/CurrentSummoner",
+            {
+                method: "GET"
+            })
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                level: data.summonerLevel,
+                summonerIcon: data.profileIconId,
+                soloDuoTier: data.soloDuoTier,
+                soloDuoDivision: data.soloDuoRank,
+                soloDuoLeaguePoints: data.soloDuoLeaguePoints,
+                soloDuoWinRate: data.soloDuoWinRate,
+                flexTier: data.flexTier,
+                flexDivision: data.flexRank,
+                flexLeaguePoints: data.flexLeaguePoints,
+                flexWinRate: data.flexWinRate,
+            }));
     }
     /**
      * Verifying the state before rendering the link
@@ -157,7 +155,7 @@ class Application extends React.Component {
      * Methods to be run as soon as the component is mounted
      */
     componentDidMount() {
-        this.retrieveData();
+        this.retrieveSessionData();
     }
     /**
      * Verifying the winrate before styling it
@@ -236,6 +234,12 @@ class ProfileLink extends NavigationBar {
 class Main extends Application {
     constructor(props) {
         super(props);
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveLoLData();
     }
     render() {
         return (
