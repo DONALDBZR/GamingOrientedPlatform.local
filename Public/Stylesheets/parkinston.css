@@ -230,18 +230,14 @@ body[id*="LoginVerification"] header a:hover,
 #Login main form[method="POST"],
 body[id*="LoginVerification"] main form[method="POST"],
 #ForgotPassword main form[method="POST"],
-body[id*="UsersEditProfile"] main form[method="POST"],
-body[id*="UsersSecurity"] main form[method="POST"],
-body[id*="UsersAccounts"] main form[method="POST"] {
+body[id*="Users"] main form[method="POST"] {
     background-color: var(--color3);
 }
 #Register main form[method="POST"] #label,
 #Login main form[method="POST"] #label,
 body[id*="LoginVerification"] main form[method="POST"] #label,
 #ForgotPassword main form[method="POST"] #label,
-body[id*="UsersEditProfile"] main form[method="POST"] #label,
-body[id*="UsersSecurity"] main form[method="POST"] #label,
-body[id*="UsersAccounts"] main form[method="POST"] #label {
+body[id*="Users"] main form[method="POST"] #label {
     text-align: center;
     font-family: var(--proximaNova);
 }
@@ -287,9 +283,7 @@ body[id*="UsersAccounts"] main form[method="POST"] div button:hover {
 #Login main form[method="POST"] #response h1,
 body[id*="LoginVerification"] main form[method="POST"] #response h1,
 #ForgotPassword main form[method="POST"] #response h1,
-body[id*="UsersEditProfile"] main form[method="POST"] #response h1,
-body[id*="UsersSecurity"] main form[method="POST"] #response h1,
-body[id*="UsersAccounts"] main form[method="POST"] #response h1 {
+body[id*="Users"] main form[method="POST"] #response h1 {
     text-align: center;
     font-family: var(--proximaNova);
 }

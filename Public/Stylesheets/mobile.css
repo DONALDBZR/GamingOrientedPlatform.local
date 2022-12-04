@@ -95,9 +95,7 @@ body[id*="UsersAccounts"] main {
 #Login main form[method="POST"],
 body[id*="LoginVerification"] main form[method="POST"],
 #ForgotPassword main form[method="POST"],
-body[id*="UsersEditProfile"] main form[method="POST"],
-body[id*="UsersSecurity"] main form[method="POST"],
-body[id*="UsersAccounts"] main form[method="POST"] {
+body[id*="Users"] main form[method="POST"] {
     padding: calc(var(--percentage) / 50) calc(var(--percentage) / 10);
 }
 #Register main form[method="POST"] #label,
@@ -145,9 +143,7 @@ body[id*="UsersAccounts"] main form[method="POST"] div button {
 #Login main form[method="POST"] #response h1,
 body[id*="LoginVerification"] main form[method="POST"] #response h1,
 #ForgotPassword main form[method="POST"] #response h1,
-body[id*="UsersEditProfile"] main form[method="POST"] #response h1,
-body[id*="UsersSecurity"] main form[method="POST"] #response h1,
-body[id*="UsersAccounts"] main form[method="POST"] #response h1 {
+body[id*="Users"] main form[method="POST"] #response h1 {
     margin: calc(var(--percentage) * 0);
     margin-top: calc(var(--percentage) / 50);
 }
