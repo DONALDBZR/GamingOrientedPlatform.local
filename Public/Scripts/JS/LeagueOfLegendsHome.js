@@ -109,31 +109,6 @@ class Header extends Application {
     }
 }
 /**
- * The component that is the main
- */
-class Main extends Application {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <main>
-                <div style={this.verifyAccount_Riot_ID_styling()}>
-                    {this.verifyAccount_Riot_ID()}
-                </div>
-            </main>
-        );
-    }
-}
-/**
- * The component that is the footer
- */
-class Footer extends Application {
-    render() {
-        return <footer>Parkinston</footer>;
-    }
-}
-/**
  * The navigation bar component
  */
 class NavigationBar extends Header {
@@ -165,6 +140,29 @@ class ProfileLink extends NavigationBar {
         return (
             <div>{this.verifyUser_username()}</div>
         );
+    }
+}
+/**
+ * The component that is the main
+ */
+class Main extends Application {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <main>
+
+            </main>
+        );
+    }
+}
+/**
+ * The component that is the footer
+ */
+class Footer extends Application {
+    render() {
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page
