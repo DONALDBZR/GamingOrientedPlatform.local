@@ -52,7 +52,7 @@ class Application extends React.Component {
              * Summoner Icon
              * @type {int}
              */
-            summoner: 0,
+            summonerIcon: 0,
             /**
              * Ranked Solo/Duo rank tier
              * @type {string}
@@ -93,6 +93,11 @@ class Application extends React.Component {
              * @type {float}
              */
             flexWinRate: 0.0,
+            /**
+             * KDA Ratio of the player
+             * @type {float}
+             */
+            kdaRatio: 0.0,
         };
     }
     /**
@@ -134,6 +139,7 @@ class Application extends React.Component {
                 flexDivision: data.flexRank,
                 flexLeaguePoints: data.flexLeaguePoints,
                 flexWinRate: data.flexWinRate,
+                kdaRatio: data.kdaRatio,
             }));
     }
     /**
@@ -247,6 +253,7 @@ class Main extends Application {
                 <header>
                     <div>
                         <img src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.summonerIcon}.png`} />
+                        <div>Level {this.state.level}</div>
                     </div>
                     <div>
                         <div>
@@ -268,8 +275,7 @@ class Main extends Application {
                             <div style={{ color: this.verifyLeagueOfLegends_winRate(this.state.flexWinRate) }}>{`${this.state.flexWinRate} %`}</div>
                         </div>
                     </div>
-                    <div>Level {this.state.level}</div>
-                    <div>KDA</div>
+                    <div>KDA: {this.state.kdaRatio}</div>
                     <div>CS/Min</div>
                     <div>VS/Min</div>
                 </header>
