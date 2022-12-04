@@ -152,7 +152,26 @@ class Main extends Application {
     render() {
         return (
             <main>
-
+                <header>
+                    <div>Summoner Icon</div>
+                    <div>
+                        <div>
+                            <div>Solo/Duo</div>
+                            <div>Icon</div>
+                            <div>Division</div>
+                        </div>
+                        <div>
+                            <div>Flex 5v5</div>
+                            <div>Icon</div>
+                            <div>Division</div>
+                        </div>
+                    </div>
+                    <div>Level</div>
+                    <div>Win Rate</div>
+                    <div>KDA</div>
+                    <div>CS/Min</div>
+                    <div>VS/Min</div>
+                </header>
             </main>
         );
     }
