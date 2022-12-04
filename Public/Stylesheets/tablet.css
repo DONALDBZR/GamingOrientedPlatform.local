@@ -162,16 +162,20 @@ body[class="404"] main #message {
 body[class="404"] main .button button {
     font-size: calc(var(--textSize) * 2);
 }
-body[id*="Users"] header nav {
+body[id*="Users"] header nav,
+body[id*="LeagueOfLegends"] header nav {
     display: flex;
 }
-body[id*="Users"] header nav div {
+body[id*="Users"] header nav div,
+body[id*="LeagueOfLegends"] header nav div {
     width: calc(var(--percentage) / 4);
 }
-body[id*="Users"] header nav div:nth-child(1) {
+body[id*="Users"] header nav div:nth-child(1),
+body[id*="LeagueOfLegends"] header nav div:nth-child(1) {
     width: calc(var(--percentage) / 2);
 }
-body[id*="Users"] header nav div a {
+body[id*="Users"] header nav div a,
+body[id*="LeagueOfLegends"] header nav div a {
     font-size: calc(var(--textSize) * 1.458);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
@@ -264,7 +268,8 @@ body[id*="UsersEditProfile"] main form[method="POST"] div {
 body[id*="UsersEditProfile"] main form[method="POST"] #label {
     font-size: calc(var(--textSize) * 1.3122);
 }
-body[id*="Users"] header nav div a img {
+body[id*="Users"] header nav div a img,
+body[id*="LeagueOfLegends"] header nav div a img {
     width: auto;
     height: calc(var(--pixelate) / 33.75);
 }
