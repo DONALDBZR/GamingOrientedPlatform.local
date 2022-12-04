@@ -411,3 +411,11 @@ body[id*="UsersSecurity"] header nav div a img,
 body[id*="UsersAccounts"] header nav div a img {
     opacity: calc(var(--percentage) / 2);
 }
+body[id*="UsersHome"] main div div a {
+    text-decoration: none;
+    color: var(--color6);
+}
+body[id*="UsersHome"] main div div a:hover {
+    text-decoration: underline;
+    color: var(--color2);
+}

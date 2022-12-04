@@ -105,6 +105,24 @@ class Application extends React.Component {
         }
     }
     /**
+     * Verifying the state before styling the component
+     */
+    verifyAccount_Riot_ID_styling() {
+        if (this.state.riotId != null) {
+            return null;
+        } else {
+            return (
+                {
+                    width: "100%",
+                    textAlign: "center",
+                    fontFamily: "Proxima Nova",
+                    fontWeight: "bold",
+                    margin: "1% 0%"
+                }
+            );
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -137,7 +155,7 @@ class Main extends Application {
     render() {
         return (
             <main>
-                <div>
+                <div style={this.verifyAccount_Riot_ID_styling()}>
                     {this.verifyAccount_Riot_ID()}
                 </div>
             </main>

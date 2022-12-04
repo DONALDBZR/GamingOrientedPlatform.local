@@ -258,6 +258,7 @@ body[id*="UsersAccounts"] header nav div a {
 }
 body[id*="UsersHome"] main {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
 }
 body[id*="UsersHome"] main div a img {
