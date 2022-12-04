@@ -13,13 +13,20 @@ CREATE TABLE Parkinston.Users (
     UsersPassword INT,
     UsersProfilePicture VARCHAR(128)
 );
+-- Creating the League Of Legends table
+CREATE TABLE Parkinston.LeagueOfLegends (
+    LeagueOfLegendsPlayerUniversallyIdentifier VARCHAR(128) PRIMARY KEY,
+    LeagueOfLegendsGameName VARCHAR(64),
+    LeagueOfLegendsTagLine VARCHAR(8)
+);
 -- Creating the Accounts table
 CREATE TABLE Parkinston.Accounts (
     AccountsId INT PRIMARY KEY AUTO_INCREMENT,
-    AccountsLoL VARCHAR(64),
+    AccountsLoL VARCHAR(128),
     AccountsUser VARCHAR(32)
 );
 -- Testing Codes
 -- DROP DATABASE Parkinston;
 -- SELECT * FROM Parkinston.Passwords;
 -- SELECT * FROM Parkinston.Users;
+-- DROP TABLE Parkinston.Accounts;
