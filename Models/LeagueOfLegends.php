@@ -90,7 +90,6 @@ class LeagueOfLegends
                         } else {
                             $kdaRatio += ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / 1;
                         }
-                        $kdaRatio += ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / $riotMatchApiResponse2->info->participants[$puuidKey]->deaths;
                         $totalTimePlayed += $riotMatchApiResponse2->info->gameDuration;
                     }
                     $response = array(
