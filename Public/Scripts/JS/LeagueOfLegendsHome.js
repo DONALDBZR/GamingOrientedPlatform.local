@@ -172,6 +172,20 @@ class Application extends React.Component {
         }
     }
     /**
+     * Verifying the KDA before styling it
+     * @param {float} kda
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_kda(kda) {
+        if (kda >= 4) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (kda >= 1 && kda < 4) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -275,9 +289,14 @@ class Main extends Application {
                             <div style={{ color: this.verifyLeagueOfLegends_winRate(this.state.flexWinRate) }}>{`${this.state.flexWinRate} %`}</div>
                         </div>
                     </div>
-                    <div>KDA: {this.state.kdaRatio}</div>
-                    <div>CS/Min</div>
-                    <div>VS/Min</div>
+                    <div>
+                        <div>
+                            <div>KDA:</div>
+                            <div style={{ color: this.verifyLeagueOfLegends_kda(this.state.kdaRatio) }}>{this.state.kdaRatio}</div>
+                        </div>
+                        <div>CS/Min</div>
+                        <div>VS/Min</div>
+                    </div>
                 </header>
             </main>
         );

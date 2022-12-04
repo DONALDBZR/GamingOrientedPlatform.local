@@ -390,3 +390,15 @@ body[id*="UsersHome"] main div div a:hover {
     text-decoration: underline;
     color: var(--color2);
 }
+body[id*="LeagueOfLegends"] main header div {
+    text-align: center;
+    font-family: var(--proximaNova);
+    font-weight: bold;
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(1) {
+    font-family: var(--ethnocentric);
+    text-align: center;
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(3) {
+    text-align: center;
+}
