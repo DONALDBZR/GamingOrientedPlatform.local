@@ -68,7 +68,7 @@ class Application extends React.Component {
      * Verifying the state before rendering the link
      * @returns {Application} Component
      */
-    verifyState() {
+    verifyUser_username() {
         if (this.state.profilePicture != null) {
             return (
                 <a href={`/Users/Profile/${this.state.username}`}>
@@ -84,6 +84,25 @@ class Application extends React.Component {
      */
     componentDidMount() {
         this.retrieveData();
+    }
+    /**
+     * Verifying the state before rendering the link
+     * @returns {Application} Component
+     */
+    verifyAccount_Riot_ID() {
+        if (this.state.riotId != null) {
+            return (
+                <a href={`/LeagueOfLegends/Home/${this.state.lolUsername}`}>
+                    <img src="/Public/Images/(12).ico" />
+                </a>
+            );
+        } else {
+            return (
+                <div>
+                    You should add your account for League of Legends before having accessed to the required content.  You can click <a href={`/Users/Accounts/${this.state.username}`}>here</a> to process into adding your account!
+                </div>
+            );
+        }
     }
     /**
      * Renders the components that are being returned
@@ -119,9 +138,7 @@ class Main extends Application {
         return (
             <main>
                 <div>
-                    <a href={`/Users/Home/${this.state.username}/LoL/${this.state.lolUsername}`}>
-                        <img src="/Public/Images/(12).ico" />
-                    </a>
+                    {this.verifyAccount_Riot_ID()}
                 </div>
             </main>
         );
@@ -165,7 +182,7 @@ class ProfileLink extends NavigationBar {
     }
     render() {
         return (
-            <div>{this.verifyState()}</div>
+            <div>{this.verifyUser_username()}</div>
         );
     }
 }
