@@ -69,7 +69,7 @@ class LeagueOfLegends
                 $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
                 $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
                 $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
-                $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/" . $this->getPlayerUniversallyUniqueIdentifier() . "/ids?start=0&count=20&api_key=" . Environment::RiotAPIKey;
+                $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/" . $this->getPlayerUniversallyUniqueIdentifier() . "/ids?start=0&count=100&api_key=" . Environment::RiotAPIKey;
                 if ($this->getHttpResponseCode($riotMatchApiRequest1)) {
                     $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
                     $totalTimePlayed = 0;
