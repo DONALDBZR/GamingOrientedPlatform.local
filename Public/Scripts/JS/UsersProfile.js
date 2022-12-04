@@ -74,7 +74,7 @@ class Application extends React.Component {
      * Verifying the state before rendering the link
      * @returns {Application} Component
      */
-    verifyState() {
+    verifyUser_profilePicture() {
         if (this.state.profilePicture != null) {
             return (
                 <a href={`/Users/Profile/${this.state.username}`}>
@@ -94,6 +94,18 @@ class Application extends React.Component {
             return <img src={this.state.profilePicture} />;
         } else {
             return <i class="fa fa-user"></i>
+        }
+    }
+    /**
+     * Verifying the state before applying style
+     */
+    verifyAccount_Riot_ID_styling() {
+        if (this.state.riotId == null) {
+            return (
+                {
+                    display: "none"
+                }
+            );
         }
     }
     /**
@@ -144,7 +156,7 @@ class Main extends Application {
                         <label>Mail Address:</label>
                         <div>{this.state.mailAddress}</div>
                     </div>
-                    <div id="lolUsername">
+                    <div id="lolUsername" style={this.verifyAccount_Riot_ID_styling()}>
                         <label>League of Legends's Username:</label>
                         <div>{this.state.lolUsername}</div>
                     </div>
@@ -227,7 +239,7 @@ class ProfileLink extends NavigationBar {
     }
     render() {
         return (
-            <div>{this.verifyState()}</div>
+            <div>{this.verifyUser_profilePicture()}</div>
         );
     }
 }
