@@ -54,4 +54,35 @@ class LeagueOfLegends
         $headers = get_headers($request_uniform_resource_locator);
         return substr($headers[0], 9, 3);
     }
+    public function getSummoner()
+    {
+        $this->setGameName($_SESSION['Account']['LeagueOfLegends']['gameName']);
+        $this->setTagLine($_SESSION['Account']['LeagueOfLegends']['tagLine']);
+        $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        $riotSummonerApiRequest = "https://" . $this->getTagLine() .  "1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" . $this->getGameName() . "?api_key=" . Environment::RiotAPIKey;
+        if ($this->getHttpResponseCode($riotSummonerApiRequest) == 200) {
+            $riotSummonerApiResponse = json_decode(file_get_contents($riotSummonerApiRequest));
+            $riotLeagueApiRequest = "https://" . $this->getTagLine() .  "1.api.riotgames.com/lol/league/v4/entries/by-summoner/" . $riotSummonerApiResponse->id . "?api_key=" . Environment::RiotAPIKey;
+            if ($this->getHttpResponseCode($riotLeagueApiRequest) == 200) {
+                $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
+                $response = array(
+                    "httpResponseCode" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
+                    "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
+                    "profileIconId" => $riotSummonerApiResponse->profileIconId,
+                    "soloDuoTier" => ucfirst(strtolower($riotLeagueApiResponse[0]->tier)),
+                    "soloDuoRank" => $riotLeagueApiResponse[0]->rank,
+                    "soloDuoLeaguePoints" => $riotLeagueApiResponse[0]->leaguePoints,
+                    "flexTier" => ucfirst(strtolower($riotLeagueApiResponse[1]->tier)),
+                    "flexRank" => $riotLeagueApiResponse[1]->rank,
+                    "flexLeaguePoints" => $riotLeagueApiResponse[1]->leaguePoints,
+                );
+            }
+        } else {
+            $response = array(
+                "httpResponseCode" => intval($this->getHttpResponseCode($riotSummonerApiRequest))
+            );
+        }
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
 }
