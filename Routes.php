@@ -45,6 +45,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}":
                 $Router = new Router("GET", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Views/LeagueOfLegendsHome.php");
                 break;
+            case '/LegendsOfLegends/CurrentSummoner':
+                $Router = new Router("GET", "/LegendsOfLegends/CurrentSummoner", "/Controllers/CurrentSummoner.php");
+                break;
         }
         break;
     case 'POST':
