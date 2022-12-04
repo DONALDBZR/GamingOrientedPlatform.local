@@ -122,7 +122,8 @@ body[id*="LoginVerification"] footer,
 body[id*="Users"] footer,
 #Sign-Out footer,
 #ForgotPassword footer,
-body[id*="UsersProfile"] footer div {
+body[id*="UsersProfile"] footer div,
+body[id*="LeagueOfLegends"] footer {
     text-align: center;
     font-family: var(--ethnocentric);
 }
