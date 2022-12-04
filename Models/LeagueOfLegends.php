@@ -65,8 +65,8 @@ class LeagueOfLegends
             $riotLeagueApiRequest = "https://" . $this->getTagLine() .  "1.api.riotgames.com/lol/league/v4/entries/by-summoner/" . $riotSummonerApiResponse->id . "?api_key=" . Environment::RiotAPIKey;
             if ($this->getHttpResponseCode($riotLeagueApiRequest) == 200) {
                 $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
-                $soloDuoWinrate = ($riotLeagueApiResponse[0]->wins / $riotLeagueApiResponse[0]->losses) * 100;
-                $flexWinrate = ($riotLeagueApiResponse[1]->wins / $riotLeagueApiResponse[1]->losses) * 100;
+                $soloDuoWinrate = ($riotLeagueApiResponse[0]->wins / ($riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses)) * 100;
+                $flexWinrate = ($riotLeagueApiResponse[1]->wins / ($riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses)) * 100;
                 $response = array(
                     "httpResponseCode" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
                     "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
