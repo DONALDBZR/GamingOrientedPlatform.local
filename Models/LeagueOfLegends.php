@@ -73,9 +73,17 @@ class LeagueOfLegends
                 if ($this->getHttpResponseCode($riotMatchApiRequest1)) {
                     $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
                     $totalTimePlayed = 0;
-                    for ($index = 0; $index < count($riotMatchApiResponse1); $index++) {
-                        $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[$index] . "?api_key=" . Environment::RiotAPIKey;
+                    $kdaRatio = 0;
+                    for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
+                        $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[$firstIndex] . "?api_key=" . Environment::RiotAPIKey;
                         $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
+                        $puuidKey = 0;
+                        for ($secondIndex = 0; $secondIndex < count($riotMatchApiResponse2->metadata->participants); $secondIndex++) {
+                            if ($this->getPlayerUniversallyUniqueIdentifier() == $riotMatchApiResponse2->metadata->participants[$secondIndex]) {
+                                $puuidKey = $secondIndex;
+                            }
+                        }
+                        $kdaRatio += ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / $riotMatchApiResponse2->info->participants[$puuidKey]->deaths;
                         $totalTimePlayed += $riotMatchApiResponse2->info->gameDuration;
                     }
                     $response = array(
@@ -94,7 +102,8 @@ class LeagueOfLegends
                         "flexLeaguePoints" => $riotLeagueApiResponse[1]->leaguePoints,
                         "flexWinRate" => round($flexWinRate, 2),
                         "flexMatches" => $flexMatches,
-                        "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed)
+                        "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed),
+                        "kdaRatio" => $kdaRatio /= count($riotMatchApiResponse1)
                     );
                 } else {
                     $response = array(
