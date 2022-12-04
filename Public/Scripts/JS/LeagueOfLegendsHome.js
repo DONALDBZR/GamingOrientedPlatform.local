@@ -43,6 +43,46 @@ class Application extends React.Component {
              * @type {string}
              */
             riotId: "",
+            /**
+             * Summoner's level
+             * @type {int}
+             */
+            level: 0,
+            /**
+             * Summoner Icon
+             * @type {int}
+             */
+            summoner: 0,
+            /**
+             * Ranked Solo/Duo rank tier
+             * @type {string}
+             */
+            soloDuoTier: "",
+            /**
+             * Ranked Solo/Duo rank division
+             * @type {string}
+             */
+            soloDuoDivision: "",
+            /**
+             * Ranked Solo/Duo rank league points
+             * @type {int}
+             */
+            soloDuoLeaguePoints: 0,
+            /**
+             * Ranked Flex rank tier
+             * @type {string}
+             */
+            flexTier: "",
+            /**
+             * Ranked Flex rank division
+             * @type {string}
+             */
+            flexDivision: "",
+            /**
+             * Ranked Flex rank league points
+             * @type {int}
+             */
+            flexLeaguePoints: 0,
         };
     }
     /**
@@ -72,9 +112,18 @@ class Application extends React.Component {
                     profilePicture: user.User.profilePicture,
                     lolUsername: user.Account.LeagueOfLegends.gameName,
                     lolRegion: user.Account.LeagueOfLegends.tagLine,
-                    riotId: user.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier
+                    riotId: user.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier,
                 }))
-                console.log(data[1])
+                data[1].then((summoner) => this.setState({
+                    level: summoner.summonerLevel,
+                    summonerIcon: summoner.profileIconId,
+                    soloDuoTier: summoner.soloDuoTier,
+                    soloDuoDivision: summoner.soloDuoRank,
+                    soloDuoLeaguePoints: summoner.soloDuoLeaguePoints,
+                    flexTier: summoner.flexTier,
+                    flexDivision: summoner.flexRank,
+                    flexLeaguePoints: summoner.flexLeaguePoints,
+                }))
             });
     }
     /**
@@ -166,20 +215,26 @@ class Main extends Application {
         return (
             <main>
                 <header>
-                    <div>Summoner Icon</div>
+                    <div>
+                        <img src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.summonerIcon}.png`} />
+                    </div>
                     <div>
                         <div>
                             <div>Solo/Duo</div>
-                            <div>Icon</div>
-                            <div>Division</div>
+                            <div>
+                                <img src={`/Public/Images/Ranks/Emblem_${this.state.soloDuoTier}.png`} />
+                            </div>
+                            <div>{`${this.state.soloDuoTier} ${this.state.soloDuoDivision} - ${this.state.soloDuoLeaguePoints} LP`}</div>
                         </div>
                         <div>
                             <div>Flex 5v5</div>
-                            <div>Icon</div>
-                            <div>Division</div>
+                            <div>
+                                <img src={`/Public/Images/Ranks/Emblem_${this.state.flexTier}.png`} />
+                            </div>
+                            <div>{`${this.state.flexTier} ${this.state.flexDivision} - ${this.state.flexLeaguePoints} LP`}</div>
                         </div>
                     </div>
-                    <div>Level</div>
+                    <div>Level {this.state.level}</div>
                     <div>Win Rate</div>
                     <div>KDA</div>
                     <div>CS/Min</div>
