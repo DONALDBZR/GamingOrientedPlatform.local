@@ -86,43 +86,6 @@ class Application extends React.Component {
         this.retrieveData();
     }
     /**
-     * Verifying the state before rendering the link
-     * @returns {Application} Component
-     */
-    verifyAccount_Riot_ID() {
-        if (this.state.riotId != null) {
-            return (
-                <a href={`/LeagueOfLegends/Home/${this.state.lolUsername}`}>
-                    <img src="/Public/Images/(12).ico" />
-                </a>
-            );
-        } else {
-            return (
-                <div>
-                    You should add your account for League of Legends before having accessed to the required content.  You can click <a href={`/Users/Accounts/${this.state.username}`}>here</a> to process into adding your account!
-                </div>
-            );
-        }
-    }
-    /**
-     * Verifying the state before styling the component
-     */
-    verifyAccount_Riot_ID_styling() {
-        if (this.state.riotId != null) {
-            return null;
-        } else {
-            return (
-                {
-                    width: "100%",
-                    textAlign: "center",
-                    fontFamily: "Proxima Nova",
-                    fontWeight: "bold",
-                    margin: "1% 0%"
-                }
-            );
-        }
-    }
-    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
