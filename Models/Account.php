@@ -31,6 +31,7 @@ class Account extends User
                 $this->PDO->bind(":LeagueOfLegendsGameName", $this->LeagueOfLegends->getGameName());
                 $this->PDO->bind(":LeagueOfLegendsTagLine", $this->LeagueOfLegends->getTagLine());
                 $this->PDO->execute();
+                $this->setUsername($_SESSION['User']['username']);
                 $this->PDO->query("INSERT INTO Parkinston.Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
                 $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
                 $this->PDO->bind(":AccountsUser", $this->getUsername());
