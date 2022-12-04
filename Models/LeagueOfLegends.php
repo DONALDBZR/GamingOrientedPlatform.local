@@ -65,8 +65,10 @@ class LeagueOfLegends
             $riotLeagueApiRequest = "https://" . $this->getTagLine() .  "1.api.riotgames.com/lol/league/v4/entries/by-summoner/" . $riotSummonerApiResponse->id . "?api_key=" . Environment::RiotAPIKey;
             if ($this->getHttpResponseCode($riotLeagueApiRequest) == 200) {
                 $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
-                $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / ($riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses)) * 100;
-                $flexWinRate = ($riotLeagueApiResponse[1]->wins / ($riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses)) * 100;
+                $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
+                $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
+                $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
+                $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
                 $response = array(
                     "httpResponseCode" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
                     "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
@@ -75,10 +77,12 @@ class LeagueOfLegends
                     "soloDuoRank" => $riotLeagueApiResponse[0]->rank,
                     "soloDuoLeaguePoints" => $riotLeagueApiResponse[0]->leaguePoints,
                     "soloDuoWinRate" => round($soloDuoWinRate, 2),
+                    "soloDuoMatches" => $soloDuoMatches,
                     "flexTier" => ucfirst(strtolower($riotLeagueApiResponse[1]->tier)),
                     "flexRank" => $riotLeagueApiResponse[1]->rank,
                     "flexLeaguePoints" => $riotLeagueApiResponse[1]->leaguePoints,
-                    "flexWinRate" => round($flexWinRate, 2)
+                    "flexWinRate" => round($flexWinRate, 2),
+                    "flexMatches" => $flexMatches
                 );
             }
         } else {
