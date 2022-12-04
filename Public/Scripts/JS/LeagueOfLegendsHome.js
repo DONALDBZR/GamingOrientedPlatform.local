@@ -49,20 +49,33 @@ class Application extends React.Component {
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
+        Promise.all([
+            fetch("/Users/CurrentUser",
+                {
+                    method: "GET"
+                }),
+            fetch("/LegendsOfLegends/CurrentSummoner",
+                {
+                    method: "GET"
+                })
+        ])
+            .then(([user, summoner]) => {
+                const UserJSON = user.json()
+                const SummonerJSON = summoner.json()
+                return [UserJSON, SummonerJSON]
             })
-            .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-                lolUsername: data.Account.LeagueOfLegends.gameName,
-                lolRegion: data.Account.LeagueOfLegends.tagLine,
-                riotId: data.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier
-            }));
+            .then((data) => {
+                data[0].then((user) => this.setState({
+                    username: user.User.username,
+                    mailAddress: user.User.mailAddress,
+                    domain: user.User.domain,
+                    profilePicture: user.User.profilePicture,
+                    lolUsername: user.Account.LeagueOfLegends.gameName,
+                    lolRegion: user.Account.LeagueOfLegends.tagLine,
+                    riotId: user.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier
+                }))
+                console.log(data[1])
+            });
     }
     /**
      * Verifying the state before rendering the link
