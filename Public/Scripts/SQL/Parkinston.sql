@@ -15,7 +15,7 @@ CREATE TABLE Parkinston.Users (
 );
 -- Creating the League Of Legends table
 CREATE TABLE Parkinston.LeagueOfLegends (
-    LeagueOfLegendsPlayerUniversallyIdentifier VARCHAR(128) PRIMARY KEY,
+    LeagueOfLegendsPlayerUniversallyUniqueIdentifier VARCHAR(128) PRIMARY KEY,
     LeagueOfLegendsGameName VARCHAR(64),
     LeagueOfLegendsTagLine VARCHAR(8)
 );
@@ -30,3 +30,4 @@ CREATE TABLE Parkinston.Accounts (
 -- SELECT * FROM Parkinston.Passwords;
 -- SELECT * FROM Parkinston.Users;
 -- DROP TABLE Parkinston.Accounts;
+-- DROP TABLE Parkinston.LeagueOfLegends;
