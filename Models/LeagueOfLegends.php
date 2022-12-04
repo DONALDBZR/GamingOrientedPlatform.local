@@ -93,9 +93,9 @@ class LeagueOfLegends
                         $totalTimePlayed += $riotMatchApiResponse2->info->gameDuration;
                     }
                     $response = array(
-                        "httpResponseCode" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
-                        "httpResponseCode" => intval($this->getHttpResponseCode($riotLeagueApiRequest)),
-                        "httpResponseCode" => intval($this->getHttpResponseCode($riotMatchApiRequest1)),
+                        "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
+                        "httpResponseCode_league" => intval($this->getHttpResponseCode($riotLeagueApiRequest)),
+                        "httpResponseCode_match" => intval($this->getHttpResponseCode($riotMatchApiRequest1)),
                         "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
                         "profileIconId" => $riotSummonerApiResponse->profileIconId,
                         "soloDuoTier" => ucfirst(strtolower($riotLeagueApiResponse[0]->tier)),
