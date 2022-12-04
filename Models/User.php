@@ -122,14 +122,22 @@ class User extends Password
                 $this->PDO->query("SELECT * FROM Parkinston.Accounts WHERE AccountsUser = :AccountsUser");
                 $this->PDO->bind(":AccountsUser", $this->getUsername());
                 $this->PDO->execute();
-                $this->PDO->query("SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = :LeagueOfLegendsPlayerUniversallyUniqueIdentifier");
-                $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->PDO->resultSet()[0]['AccountsLoL']);
-                $this->PDO->execute();
-                $leagueOfLegends = array(
-                    "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"],
-                    "gameName" => $this->PDO->resultSet()[0]["LeagueOfLegendsGameName"],
-                    "tagLine" => $this->PDO->resultSet()[0]["LeagueOfLegendsTagLine"]
-                );
+                if (empty($this->PDO->resultSet())) {
+                    $leagueOfLegends = array(
+                        "playerUniversallyUniqueIdentifier" => null,
+                        "gameName" => null,
+                        "tagLine" => null
+                    );
+                } else {
+                    $this->PDO->query("SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = :LeagueOfLegendsPlayerUniversallyUniqueIdentifier");
+                    $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->PDO->resultSet()[0]['AccountsLoL']);
+                    $this->PDO->execute();
+                    $leagueOfLegends = array(
+                        "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"],
+                        "gameName" => $this->PDO->resultSet()[0]["LeagueOfLegendsGameName"],
+                        "tagLine" => $this->PDO->resultSet()[0]["LeagueOfLegendsTagLine"]
+                    );
+                }
                 $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
                 $account = array(
                     "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
