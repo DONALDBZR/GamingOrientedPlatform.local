@@ -119,7 +119,7 @@ class User extends Password
                     "otp" => $this->getOtp()
                 );
                 $_SESSION['User'] = $user;
-                $this->PDO->query("SELECT * FROM Parkinston.Accounts WHERE AccountsUser = :AccountsUser");
+                $this->PDO->query("SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = (SELECT AccountsLoL FROM Parkinston.Accounts WHERE AccountsUser = :AccountsUser)");
                 $this->PDO->bind(":AccountsUser", $this->getUsername());
                 $this->PDO->execute();
                 if (empty($this->PDO->resultSet())) {
@@ -129,13 +129,10 @@ class User extends Password
                         "tagLine" => null
                     );
                 } else {
-                    $this->PDO->query("SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = :LeagueOfLegendsPlayerUniversallyUniqueIdentifier");
-                    $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->PDO->resultSet()[0]['AccountsLoL']);
-                    $this->PDO->execute();
                     $leagueOfLegends = array(
-                        "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"],
-                        "gameName" => $this->PDO->resultSet()[0]["LeagueOfLegendsGameName"],
-                        "tagLine" => $this->PDO->resultSet()[0]["LeagueOfLegendsTagLine"]
+                        "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]['LeagueOfLegendsPlayerUniversallyUniqueIdentifier'],
+                        "gameName" => $this->PDO->resultSet()[0]['LeagueOfLegendsGameName'],
+                        "tagLine" => $this->PDO->resultSet()[0]['LeagueOfLegendsTagLine']
                     );
                 }
                 $_SESSION['LeagueOfLegends'] = $leagueOfLegends;

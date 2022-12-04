@@ -33,3 +33,4 @@ CREATE TABLE Parkinston.Accounts (
 -- DROP TABLE Parkinston.LeagueOfLegends;
 -- SELECT * FROM Parkinston.LeagueOfLegends;
 -- SELECT * FROM Parkinston.Accounts;
+-- SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = (SELECT AccountsLoL FROM Parkinston.Accounts WHERE AccountsUser = "test1");
