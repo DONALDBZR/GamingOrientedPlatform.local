@@ -152,12 +152,6 @@ class Application extends React.Component {
         }
     }
     /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveSessionData();
-    }
-    /**
      * Verifying the winrate before styling it
      * @param {float} win_rate
      * @returns {string}
@@ -200,6 +194,12 @@ class Header extends Application {
 class NavigationBar extends Header {
     constructor(props) {
         super(props);
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveSessionData();
     }
     render() {
         return (
