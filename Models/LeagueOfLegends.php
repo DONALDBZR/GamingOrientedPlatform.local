@@ -80,7 +80,7 @@ class LeagueOfLegends
                         $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[$firstIndex] . "?api_key=" . Environment::RiotAPIKey;
                         $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
                         $puuidKey = 0;
-                        for ($secondIndex = 0; $secondIndex < count($riotMatchApiResponse2->metadata->participants); $secondIndex++) {
+                        for ($secondIndex = 0; $secondIndex < 10; $secondIndex++) {
                             if ($this->getPlayerUniversallyUniqueIdentifier() == $riotMatchApiResponse2->metadata->participants[$secondIndex]) {
                                 $puuidKey = $secondIndex;
                             }
