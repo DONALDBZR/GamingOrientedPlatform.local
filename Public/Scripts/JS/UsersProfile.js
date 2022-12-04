@@ -33,6 +33,16 @@ class Application extends React.Component {
              * @type {string}
              */
             lolUsername: "",
+            /**
+             * User's League of Legends Region
+             * @type {string}
+             */
+            lolRegion: "",
+            /**
+             * User's Riot's ID
+             * @type {string}
+             */
+            riotId: "",
         };
     }
     /**
@@ -49,7 +59,9 @@ class Application extends React.Component {
                 mailAddress: data.User.mailAddress,
                 domain: data.User.domain,
                 profilePicture: data.User.profilePicture,
-                lolUsername: data.Account.leagueOfLegends,
+                lolUsername: data.Account.LeagueOfLegends.gameName,
+                lolRegion: data.Account.LeagueOfLegends.tagLine,
+                riotId: data.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier
             }));
     }
     /**
