@@ -1,7 +1,6 @@
 <?php
 // Starting session
 session_start();
-ini_set('max_execution_time', '300');
 /**
  * The router that will route all the requests to the application.
  */

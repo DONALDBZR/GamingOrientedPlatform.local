@@ -1,4 +1,5 @@
 <?php
+ini_set('max_execution_time', '300');
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
