@@ -31,3 +31,5 @@ CREATE TABLE Parkinston.Accounts (
 -- SELECT * FROM Parkinston.Users;
 -- DROP TABLE Parkinston.Accounts;
 -- DROP TABLE Parkinston.LeagueOfLegends;
+-- SELECT * FROM Parkinston.LeagueOfLegends;
+-- SELECT * FROM Parkinston.Accounts;
