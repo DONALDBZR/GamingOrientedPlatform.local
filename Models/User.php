@@ -122,8 +122,17 @@ class User extends Password
                 $this->PDO->query("SELECT * FROM Parkinston.Accounts WHERE AccountsUser = :AccountsUser");
                 $this->PDO->bind(":AccountsUser", $this->getUsername());
                 $this->PDO->execute();
+                $this->PDO->query("SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = :LeagueOfLegendsPlayerUniversallyUniqueIdentifier");
+                $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->PDO->resultSet()[0]['AccountsLoL']);
+                $this->PDO->execute();
+                $leagueOfLegends = array(
+                    "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"],
+                    "gameName" => $this->PDO->resultSet()[0]["LeagueOfLegendsGameName"],
+                    "tagLine" => $this->PDO->resultSet()[0]["LeagueOfLegendsTagLine"]
+                );
+                $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
                 $account = array(
-                    "leagueOfLegends" => $this->PDO->resultSet()[0]['AccountsLoL']
+                    "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
                 );
                 $_SESSION['Account'] = $account;
                 $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$this->domain}/Login/Verification/{$this->getUsername()}");
