@@ -94,7 +94,7 @@ class LeagueOfLegends
                         "flexLeaguePoints" => $riotLeagueApiResponse[1]->leaguePoints,
                         "flexWinRate" => round($flexWinRate, 2),
                         "flexMatches" => $flexMatches,
-                        "totalTimePlayed" => $totalTimePlayed
+                        "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed)
                     );
                 } else {
                     $response = array(
