@@ -69,6 +69,11 @@ class Application extends React.Component {
              */
             soloDuoLeaguePoints: 0,
             /**
+             * Ranked Solo/Duo rank win rate
+             * @type {float}
+             */
+            soloDuoWinRate: 0.0,
+            /**
              * Ranked Flex rank tier
              * @type {string}
              */
@@ -83,6 +88,11 @@ class Application extends React.Component {
              * @type {int}
              */
             flexLeaguePoints: 0,
+            /**
+             * Ranked Flex rank win rate
+             * @type {float}
+             */
+            flexWinRate: 0.0,
         };
     }
     /**
@@ -120,9 +130,11 @@ class Application extends React.Component {
                     soloDuoTier: summoner.soloDuoTier,
                     soloDuoDivision: summoner.soloDuoRank,
                     soloDuoLeaguePoints: summoner.soloDuoLeaguePoints,
+                    soloDuoWinRate: summoner.soloDuoWinRate,
                     flexTier: summoner.flexTier,
                     flexDivision: summoner.flexRank,
                     flexLeaguePoints: summoner.flexLeaguePoints,
+                    flexWinRate: summoner.flexWinRate,
                 }))
             });
     }
@@ -146,6 +158,20 @@ class Application extends React.Component {
      */
     componentDidMount() {
         this.retrieveData();
+    }
+    /**
+     * Verifying the winrate before styling it
+     * @param {float} win_rate
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_winRate(win_rate) {
+        if (win_rate >= 50) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (win_rate >= 40 && win_rate < 50) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
     }
     /**
      * Renders the components that are being returned
@@ -225,6 +251,7 @@ class Main extends Application {
                                 <img src={`/Public/Images/Ranks/Emblem_${this.state.soloDuoTier}.png`} />
                             </div>
                             <div>{`${this.state.soloDuoTier} ${this.state.soloDuoDivision} - ${this.state.soloDuoLeaguePoints} LP`}</div>
+                            <div style={{ color: this.verifyLeagueOfLegends_winRate(this.state.soloDuoWinRate) }}>{`${this.state.soloDuoWinRate} %`}</div>
                         </div>
                         <div>
                             <div>Flex 5v5</div>
@@ -232,10 +259,10 @@ class Main extends Application {
                                 <img src={`/Public/Images/Ranks/Emblem_${this.state.flexTier}.png`} />
                             </div>
                             <div>{`${this.state.flexTier} ${this.state.flexDivision} - ${this.state.flexLeaguePoints} LP`}</div>
+                            <div style={{ color: this.verifyLeagueOfLegends_winRate(this.state.flexWinRate) }}>{`${this.state.flexWinRate} %`}</div>
                         </div>
                     </div>
                     <div>Level {this.state.level}</div>
-                    <div>Win Rate</div>
                     <div>KDA</div>
                     <div>CS/Min</div>
                     <div>VS/Min</div>
