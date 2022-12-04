@@ -251,6 +251,7 @@ class Main extends Application {
                                 <img src={`/Public/Images/Ranks/Emblem_${this.state.soloDuoTier}.png`} />
                             </div>
                             <div>{`${this.state.soloDuoTier} ${this.state.soloDuoDivision} - ${this.state.soloDuoLeaguePoints} LP`}</div>
+                            <div>Win Rate:</div>
                             <div style={{ color: this.verifyLeagueOfLegends_winRate(this.state.soloDuoWinRate) }}>{`${this.state.soloDuoWinRate} %`}</div>
                         </div>
                         <div>
@@ -259,6 +260,7 @@ class Main extends Application {
                                 <img src={`/Public/Images/Ranks/Emblem_${this.state.flexTier}.png`} />
                             </div>
                             <div>{`${this.state.flexTier} ${this.state.flexDivision} - ${this.state.flexLeaguePoints} LP`}</div>
+                            <div>Win Rate:</div>
                             <div style={{ color: this.verifyLeagueOfLegends_winRate(this.state.flexWinRate) }}>{`${this.state.flexWinRate} %`}</div>
                         </div>
                     </div>
