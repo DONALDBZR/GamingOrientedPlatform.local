@@ -74,11 +74,11 @@ class LeagueOfLegends
                     "soloDuoTier" => ucfirst(strtolower($riotLeagueApiResponse[0]->tier)),
                     "soloDuoRank" => $riotLeagueApiResponse[0]->rank,
                     "soloDuoLeaguePoints" => $riotLeagueApiResponse[0]->leaguePoints,
-                    "soloDuoWinrate" => $soloDuoWinrate,
+                    "soloDuoWinrate" => round($soloDuoWinrate, 2),
                     "flexTier" => ucfirst(strtolower($riotLeagueApiResponse[1]->tier)),
                     "flexRank" => $riotLeagueApiResponse[1]->rank,
                     "flexLeaguePoints" => $riotLeagueApiResponse[1]->leaguePoints,
-                    "flexWinrate" => $flexWinrate
+                    "flexWinrate" => round($flexWinrate, 2)
                 );
             }
         } else {
