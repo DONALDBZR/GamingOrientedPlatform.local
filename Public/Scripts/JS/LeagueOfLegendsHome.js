@@ -103,6 +103,11 @@ class Application extends React.Component {
              * @type {float}
              */
             csMin: 0.0,
+            /**
+             * Vision Score per minute of the player
+             * @type {float}
+             */
+            vsMin: 0.0,
         };
     }
     /**
@@ -146,6 +151,7 @@ class Application extends React.Component {
                 flexWinRate: data.flexWinRate,
                 kdaRatio: data.kdaRatio,
                 csMin: data.csMin,
+                vsMin: data.vsMin,
             }));
     }
     /**
@@ -200,6 +206,20 @@ class Application extends React.Component {
         if (cs_min >= 6) {
             return "rgb(0%, 100%, 0%)";
         } else if (cs_min >= 1 && cs_min < 5) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the VS/Min before styling it
+     * @param {float} vs_min
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_vsMin(vs_min) {
+        if (vs_min >= 2) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (vs_min >= 1 && vs_min < 2) {
             return "rgb(100%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -318,7 +338,10 @@ class Main extends Application {
                             <div>CS/Min:</div>
                             <div style={{ color: this.verifyLeagueOfLegends_csMin(this.state.csMin) }}>{this.state.csMin}</div>
                         </div>
-                        <div>VS/Min</div>
+                        <div>
+                            <div>VS/Min:</div>
+                            <div style={{ color: this.verifyLeagueOfLegends_vsMin(this.state.vsMin) }}>{this.state.vsMin}</div>
+                        </div>
                     </div>
                 </header>
             </main>
