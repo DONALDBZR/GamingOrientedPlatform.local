@@ -73,6 +73,7 @@ class LeagueOfLegends
                 if ($this->getHttpResponseCode($riotMatchApiRequest1)) {
                     $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
                     $totalTimePlayed = 0;
+                    $totalCreepScore = 0;
                     $kdaRatio = 0;
                     // $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[0] . "?api_key=" . Environment::RiotAPIKey;
                     // $response = json_decode(file_get_contents($riotMatchApiRequest2));
@@ -91,6 +92,7 @@ class LeagueOfLegends
                             $kdaRatio += ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / 1;
                         }
                         $totalTimePlayed += $riotMatchApiResponse2->info->gameDuration;
+                        $totalCreepScore += $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled;
                     }
                     $response = array(
                         "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
@@ -109,7 +111,8 @@ class LeagueOfLegends
                         "flexWinRate" => round($flexWinRate, 2),
                         "flexMatches" => $flexMatches,
                         "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed),
-                        "kdaRatio" => round($kdaRatio /= count($riotMatchApiResponse1), 2)
+                        "kdaRatio" => round($kdaRatio /= count($riotMatchApiResponse1), 2),
+                        "csMin" => round($totalCreepScore / ($totalTimePlayed /  60), 2)
                     );
                 } else {
                     $response = array(
