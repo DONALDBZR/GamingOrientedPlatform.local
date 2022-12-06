@@ -98,6 +98,11 @@ class Application extends React.Component {
              * @type {float}
              */
             kdaRatio: 0.0,
+            /**
+             * Creep Score per minute of the player
+             * @type {float}
+             */
+            csMin: 0.0,
         };
     }
     /**
@@ -140,6 +145,7 @@ class Application extends React.Component {
                 flexLeaguePoints: data.flexLeaguePoints,
                 flexWinRate: data.flexWinRate,
                 kdaRatio: data.kdaRatio,
+                csMin: data.csMin,
             }));
     }
     /**
@@ -180,6 +186,20 @@ class Application extends React.Component {
         if (kda >= 4) {
             return "rgb(0%, 100%, 0%)";
         } else if (kda >= 1 && kda < 4) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the CS/Min before styling it
+     * @param {float} cs_min
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_csMin(cs_min) {
+        if (cs_min >= 6) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (cs_min >= 1 && cs_min < 5) {
             return "rgb(100%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -294,7 +314,10 @@ class Main extends Application {
                             <div>KDA:</div>
                             <div style={{ color: this.verifyLeagueOfLegends_kda(this.state.kdaRatio) }}>{this.state.kdaRatio}</div>
                         </div>
-                        <div>CS/Min</div>
+                        <div>
+                            <div>CS/Min:</div>
+                            <div style={{ color: this.verifyLeagueOfLegends_csMin(this.state.csMin) }}>{this.state.csMin}</div>
+                        </div>
                         <div>VS/Min</div>
                     </div>
                 </header>
