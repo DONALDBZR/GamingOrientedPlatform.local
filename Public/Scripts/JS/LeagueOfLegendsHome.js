@@ -344,6 +344,17 @@ class Main extends Application {
                         </div>
                     </div>
                 </header>
+                <div class="matchHistory">
+                    <div>Champion Icon</div>
+                    <div>
+                        <div>
+                            <div>KDA</div>
+                            <div>CS</div>
+                            <div>VS</div>
+                        </div>
+                        <div>Items</div>
+                    </div>
+                </div>
             </main>
         );
     }
