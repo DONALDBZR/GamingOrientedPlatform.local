@@ -94,7 +94,7 @@ class LeagueOfLegends
                         }
                         $totalTimePlayed += $riotMatchApiResponse2->info->gameDuration;
                         $totalCreepScore += $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled;
-                        $totalVisionScore += $riotMatchApiResponse2->info->participants[$puuidKey];
+                        $totalVisionScore += $riotMatchApiResponse2->info->participants[$puuidKey]->visionScore;
                     }
                     $response = array(
                         "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
