@@ -115,6 +115,10 @@ class LeagueOfLegends
                         "csMin" => round($totalCreepScore / ($totalTimePlayed /  60), 2),
                         "vsMin" => round($totalVisionScore / ($totalTimePlayed / 60), 2)
                     );
+                    $cacheData = json_encode($response);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
                 } else {
                     $response = array(
                         "httpResponseCode" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
