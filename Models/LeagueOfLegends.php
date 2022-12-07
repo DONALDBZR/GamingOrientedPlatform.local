@@ -180,6 +180,10 @@ class LeagueOfLegends
                 "httpResponseCode" => intval($this->getHttpResponseCode($riotMatchApiRequest1)),
                 "MatchHistory" => $matchHistory
             );
+            $cacheData = json_encode($response);
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getPlayerUniversallyUniqueIdentifier()}.matchHistory.json", "w");
+            fwrite($cache, $cacheData);
+            fclose($cache);
         } else {
             $response = array(
                 "httpResponseCode" => intval($this->getHttpResponseCode($riotMatchApiRequest1))
