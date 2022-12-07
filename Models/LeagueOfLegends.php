@@ -76,8 +76,6 @@ class LeagueOfLegends
                     $totalCreepScore = 0;
                     $kdaRatio = 0;
                     $totalVisionScore = 0;
-                    // $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[0] . "?api_key=" . Environment::RiotAPIKey;
-                    // $response = json_decode(file_get_contents($riotMatchApiRequest2));
                     for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
                         $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[$firstIndex] . "?api_key=" . Environment::RiotAPIKey;
                         $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
