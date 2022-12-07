@@ -405,7 +405,29 @@ class Main extends Application {
                                         <div style={{ color: this.verifyLeagueOfLegends_cs(match.creepScore, match.matchLength / 60) }}>{match.creepScore}</div>
                                         <div style={{ color: this.verifyLeagueOfLegends_vs(match.visualScore, match.matchLength / 60) }}>{match.visualScore}</div>
                                     </div>
-                                    <div>Items</div>
+                                    <div>
+                                        <div>
+                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item0}.png`} />
+                                        </div>
+                                        <div>
+                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item1}.png`} />
+                                        </div>
+                                        <div>
+                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item2}.png`} />
+                                        </div>
+                                        <div>
+                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item3}.png`} />
+                                        </div>
+                                        <div>
+                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item4}.png`} />
+                                        </div>
+                                        <div>
+                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item5}.png`} />
+                                        </div>
+                                        <div>
+                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item6}.png`} />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         )
