@@ -130,9 +130,9 @@ class Application extends React.Component {
             }));
     }
     /**
-     * Retrieving data from Riot Games data center
+     * Retrieving data from Riot Games data center for the user
      */
-    retrieveLoLData() {
+    retrieveLoL_SummonerData() {
         fetch("/LegendsOfLegends/CurrentSummoner",
             {
                 method: "GET"
@@ -299,7 +299,7 @@ class Main extends Application {
      * Methods to be run as soon as the component is mounted
      */
     componentDidMount() {
-        this.retrieveLoLData();
+        this.retrieveLoL_SummonerData();
     }
     render() {
         return (
