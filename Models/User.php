@@ -141,6 +141,14 @@ class User extends Password
                 );
                 $_SESSION['Account'] = $account;
                 $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$this->domain}/Login/Verification/{$this->getUsername()}");
+                $data = array(
+                    "User" => $_SESSION['User'],
+                    "Account" => $_SESSION['Account']
+                );
+                $cacheData = json_encode($data);
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getUsername()}.json", "w");
+                fwrite($cache, $cacheData);
+                fclose($cache);
                 $response = array(
                     "status" => 0,
                     "url" => "{$this->domain}/Login/Verification/{$this->getUsername()}",
