@@ -366,7 +366,7 @@ class Main extends Application {
                 <div id="matchHistory">
                     {this.state.matchHistory.map((match) => {
                         return (
-                            <div class="matchHistory">
+                            <div>
                                 <div>
                                     <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${match.champion}.png`} />
                                 </div>
