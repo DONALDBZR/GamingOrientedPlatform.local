@@ -145,6 +145,8 @@ class LeagueOfLegends
         if ($this->getHttpResponseCode($riotMatchApiRequest1) == 200) {
             $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
             $matchHistory = array();
+            // $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[0] . "?api_key=" . Environment::RiotAPIKey;
+            // $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
             // $response = $riotMatchApiResponse1;
             for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
                 $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[$firstIndex] . "?api_key=" . Environment::RiotAPIKey;
@@ -161,7 +163,7 @@ class LeagueOfLegends
                     $kdaRatio = ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / 1;
                 }
                 $match = array(
-                    "kda" => $kdaRatio
+                    "kda" => round($kdaRatio, 2)
                 );
                 array_push($matchHistory, $match);
             }
