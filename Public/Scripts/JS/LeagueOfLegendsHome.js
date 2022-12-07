@@ -259,6 +259,21 @@ class Application extends React.Component {
         }
     }
     /**
+     * Verifying the VS/Min before styling it
+     * @param {float} vs
+     * @param {float} min
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_vs(vs, min) {
+        if (vs >= 2 * min) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (vs >= 1 * min && vs < 2 * min) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -376,7 +391,7 @@ class Main extends Application {
                                     <div>
                                         <div style={{ color: this.verifyLeagueOfLegends_kda(match.kda) }}>{match.kda}</div>
                                         <div style={{ color: this.verifyLeagueOfLegends_cs(match.creepScore, match.matchLength / 60) }}>{match.creepScore}</div>
-                                        <div>VS</div>
+                                        <div style={{ color: this.verifyLeagueOfLegends_vs(match.visualScore, match.matchLength / 60) }}>{match.visualScore}</div>
                                     </div>
                                     <div>Items</div>
                                 </div>
