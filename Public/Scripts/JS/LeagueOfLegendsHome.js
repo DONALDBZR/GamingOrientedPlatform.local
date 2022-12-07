@@ -274,6 +274,18 @@ class Application extends React.Component {
         }
     }
     /**
+     * Verifying that the player has won his/her match before styling it
+     * @param {boolean} win
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_vs(win) {
+        if (win) {
+            return "rgb(50%, 100%, 50%)";
+        } else {
+            return "rgb(100%, 50%, 50%)";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -383,7 +395,7 @@ class Main extends Application {
                 <div id="matchHistory">
                     {this.state.matchHistory.map((match) => {
                         return (
-                            <div>
+                            <div style={{ color: this.verifyLeagueOfLegends_win(match.win) }}>
                                 <div>
                                     <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${match.champion}.png`} />
                                 </div>
