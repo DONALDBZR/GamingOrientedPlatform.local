@@ -278,7 +278,7 @@ class Application extends React.Component {
      * @param {boolean} win
      * @returns {string}
      */
-    verifyLeagueOfLegends_vs(win) {
+    verifyLeagueOfLegends_win(win) {
         if (win) {
             return "rgb(50%, 100%, 50%)";
         } else {
