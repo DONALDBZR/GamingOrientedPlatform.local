@@ -165,7 +165,8 @@ class LeagueOfLegends
                 $match = array(
                     "champion" => $riotMatchApiResponse2->info->participants[$puuidKey]->championName,
                     "kda" => round($kdaRatio, 2),
-                    "creepScore" => $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled
+                    "creepScore" => $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled,
+                    "matchLength" => $riotMatchApiResponse2->info->gameDuration
                 );
                 array_push($matchHistory, $match);
             }
