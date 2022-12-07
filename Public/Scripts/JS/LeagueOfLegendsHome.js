@@ -372,7 +372,7 @@ class Main extends Application {
                                 </div>
                                 <div>
                                     <div>
-                                        <div>KDA</div>
+                                        <div style={{ color: this.verifyLeagueOfLegends_kda(match.kda) }}>{match.kda}</div>
                                         <div>CS</div>
                                         <div>VS</div>
                                     </div>
