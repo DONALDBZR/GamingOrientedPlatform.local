@@ -402,3 +402,6 @@ body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(1) {
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(3) {
     text-align: center;
 }
+body[id*="LeagueOfLegends"] main header div:nth-child(3) div div:nth-child(1) {
+    text-align: start;
+}
