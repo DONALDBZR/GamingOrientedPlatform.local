@@ -313,6 +313,7 @@ class Main extends Application {
      */
     componentDidMount() {
         this.retrieveLoL_SummonerData();
+        this.retrieveLoL_SummonerData_matchHistories();
     }
     render() {
         return (
