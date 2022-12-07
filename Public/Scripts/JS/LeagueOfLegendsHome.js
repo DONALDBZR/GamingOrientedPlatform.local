@@ -244,6 +244,21 @@ class Application extends React.Component {
         }
     }
     /**
+     * Verifying the CS before styling it
+     * @param {float} cs
+     * @param {float} min
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_cs(cs, min) {
+        if (cs >= 6 * min) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (cs >= 1 * min && cs < 5 * min) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -285,24 +300,11 @@ class NavigationBar extends Header {
                 <div>
                     <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
                 </div>
-                <ProfileLink />
+                <div>{this.verifyUser_username()}</div>
                 <div>
                     <a href="/Sign-Out" class="fa fa-sign-out"></a>
                 </div>
             </nav>
-        );
-    }
-}
-/**
- * The component which will render the profile picture of the user
- */
-class ProfileLink extends NavigationBar {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div>{this.verifyUser_username()}</div>
         );
     }
 }
@@ -373,7 +375,7 @@ class Main extends Application {
                                 <div>
                                     <div>
                                         <div style={{ color: this.verifyLeagueOfLegends_kda(match.kda) }}>{match.kda}</div>
-                                        <div>CS</div>
+                                        <div style={{ color: this.verifyLeagueOfLegends_cs(match.creepScore, match.matchLength / 60) }}>{match.creepScore}</div>
                                         <div>VS</div>
                                     </div>
                                     <div>Items</div>
