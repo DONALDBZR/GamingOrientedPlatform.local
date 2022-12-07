@@ -172,7 +172,14 @@ class LeagueOfLegends
                     "creepScore" => $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled,
                     "matchLength" => $riotMatchApiResponse2->info->gameDuration,
                     "visualScore" => $riotMatchApiResponse2->info->participants[$puuidKey]->visionScore,
-                    "win" => $riotMatchApiResponse2->info->participants[$puuidKey]->win
+                    "win" => $riotMatchApiResponse2->info->participants[$puuidKey]->win,
+                    "item0" => $riotMatchApiResponse2->info->participants[$puuidKey]->item0,
+                    "item1" => $riotMatchApiResponse2->info->participants[$puuidKey]->item1,
+                    "item2" => $riotMatchApiResponse2->info->participants[$puuidKey]->item2,
+                    "item3" => $riotMatchApiResponse2->info->participants[$puuidKey]->item3,
+                    "item4" => $riotMatchApiResponse2->info->participants[$puuidKey]->item4,
+                    "item5" => $riotMatchApiResponse2->info->participants[$puuidKey]->item5,
+                    "item6" => $riotMatchApiResponse2->info->participants[$puuidKey]->item6
                 );
                 array_push($matchHistory, $match);
             }
