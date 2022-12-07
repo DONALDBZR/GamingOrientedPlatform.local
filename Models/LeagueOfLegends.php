@@ -136,4 +136,7 @@ class LeagueOfLegends
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
+    public function getMatchHistory()
+    {
+    }
 }

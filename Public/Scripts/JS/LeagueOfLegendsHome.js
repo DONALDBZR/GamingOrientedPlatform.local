@@ -155,6 +155,19 @@ class Application extends React.Component {
             }));
     }
     /**
+     * Retrieving data from Riot Games data center for the user's match history
+     */
+    retrieveLoL_SummonerData_matchHistories() {
+        fetch("/LegendsOfLegends/MatchHistories",
+            {
+                method: "GET"
+            })
+            .then((response) => response.json());
+        // .then((data) => this.setState({
+
+        // }));
+    }
+    /**
      * Verifying the state before rendering the link
      * @returns {Application} Component
      */
