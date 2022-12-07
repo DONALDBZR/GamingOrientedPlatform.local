@@ -138,5 +138,43 @@ class LeagueOfLegends
     }
     public function getMatchHistory()
     {
+        $this->setGameName($_SESSION['Account']['LeagueOfLegends']['gameName']);
+        $this->setTagLine($_SESSION['Account']['LeagueOfLegends']['tagLine']);
+        $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/" . $this->getPlayerUniversallyUniqueIdentifier() . "/ids?start=0&count=20&api_key=" . Environment::RiotAPIKey;
+        if ($this->getHttpResponseCode($riotMatchApiRequest1) == 200) {
+            $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
+            $matchHistory = array();
+            // $response = $riotMatchApiResponse1;
+            for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
+                $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/" . $riotMatchApiResponse1[$firstIndex] . "?api_key=" . Environment::RiotAPIKey;
+                $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
+                $puuidKey = 0;
+                for ($secondIndex = 0; $secondIndex < 10; $secondIndex++) {
+                    if ($this->getPlayerUniversallyUniqueIdentifier() == $riotMatchApiResponse2->metadata->participants[$secondIndex]) {
+                        $puuidKey = $secondIndex;
+                    }
+                }
+                if ($riotMatchApiResponse2->info->participants[$puuidKey]->deaths != 0) {
+                    $kdaRatio = ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / $riotMatchApiResponse2->info->participants[$puuidKey]->deaths;
+                } else {
+                    $kdaRatio = ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / 1;
+                }
+                $match = array(
+                    "kda" => $kdaRatio
+                );
+                array_push($matchHistory, $match);
+            }
+            $response = array(
+                "httpResponseCode" => intval($this->getHttpResponseCode($riotMatchApiRequest1)),
+                "MatchHistory" => $matchHistory
+            );
+        } else {
+            $response = array(
+                "httpResponseCode" => intval($this->getHttpResponseCode($riotMatchApiRequest1))
+            );
+        }
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
     }
 }
