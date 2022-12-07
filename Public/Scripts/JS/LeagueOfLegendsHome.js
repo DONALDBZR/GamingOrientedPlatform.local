@@ -280,9 +280,9 @@ class Application extends React.Component {
      */
     verifyLeagueOfLegends_win(win) {
         if (win) {
-            return "rgb(50%, 100%, 50%)";
+            return "rgba(0%, 100%, 0%, 50%)";
         } else {
-            return "rgb(100%, 50%, 50%)";
+            return "rgba(100%, 0%, 0%, 50%)";
         }
     }
     /**
