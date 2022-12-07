@@ -108,6 +108,11 @@ class Application extends React.Component {
              * @type {float}
              */
             vsMin: 0.0,
+            /**
+             * Match history of the player
+             * @type {array}
+             */
+            matchHistory: [],
         };
     }
     /**
@@ -162,10 +167,10 @@ class Application extends React.Component {
             {
                 method: "GET"
             })
-            .then((response) => response.json());
-        // .then((data) => this.setState({
-
-        // }));
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                matchHistory: data.MatchHistory,
+            }));
     }
     /**
      * Verifying the state before rendering the link
@@ -358,16 +363,24 @@ class Main extends Application {
                         </div>
                     </div>
                 </header>
-                <div class="matchHistory">
-                    <div>Champion Icon</div>
-                    <div>
-                        <div>
-                            <div>KDA</div>
-                            <div>CS</div>
-                            <div>VS</div>
-                        </div>
-                        <div>Items</div>
-                    </div>
+                <div id="matchHistory">
+                    {this.state.matchHistory.map((match) => {
+                        return (
+                            <div class="matchHistory">
+                                <div>
+                                    <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${match.champion}.png`} />
+                                </div>
+                                <div>
+                                    <div>
+                                        <div>KDA</div>
+                                        <div>CS</div>
+                                        <div>VS</div>
+                                    </div>
+                                    <div>Items</div>
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
             </main>
         );
