@@ -7,5 +7,5 @@ if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['League
     header('Content-Type: application/json', true, 200);
     echo json_encode($response);
 } else {
-    $LeagueOfLegends->getMatchHistory();
+    $LeagueOfLegends->getMatchHistory($_SESSION['Account']['LeagueOfLegends']['gameName'], $_SESSION['Account']['LeagueOfLegends']['tagLine']);
 }
