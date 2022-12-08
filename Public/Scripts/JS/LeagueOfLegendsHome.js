@@ -286,6 +286,18 @@ class Application extends React.Component {
         }
     }
     /**
+     * Verifying that the player has bought this item before rendering it
+     * @param {int} item
+     * @returns {string | null}
+     */
+    verifyLeagueOfLegends_item(item) {
+        if (item != 0) {
+            return <img src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${item}.png`} />;
+        } else {
+            return null;
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -407,25 +419,25 @@ class Main extends Application {
                                     </div>
                                     <div>
                                         <div>
-                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item0}.png`} />
+                                            {this.verifyLeagueOfLegends_item(match.item0)}
                                         </div>
                                         <div>
-                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item1}.png`} />
+                                            {this.verifyLeagueOfLegends_item(match.item1)}
                                         </div>
                                         <div>
-                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item2}.png`} />
+                                            {this.verifyLeagueOfLegends_item(match.item2)}
                                         </div>
                                         <div>
-                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item3}.png`} />
+                                            {this.verifyLeagueOfLegends_item(match.item3)}
                                         </div>
                                         <div>
-                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item4}.png`} />
+                                            {this.verifyLeagueOfLegends_item(match.item4)}
                                         </div>
                                         <div>
-                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item5}.png`} />
+                                            {this.verifyLeagueOfLegends_item(match.item5)}
                                         </div>
                                         <div>
-                                            <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${match.item6}.png`} />
+                                            {this.verifyLeagueOfLegends_item(match.item6)}
                                         </div>
                                     </div>
                                 </div>
