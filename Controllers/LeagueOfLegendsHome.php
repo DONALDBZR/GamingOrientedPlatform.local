@@ -4,8 +4,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/LeagueOfLegends.php";
 $LeagueOfLegends = new LeagueOfLegends();
 if (json_decode(file_get_contents("php://input")) != null) {
     if (!empty(json_decode(file_get_contents("php://input"))->lolSearch)) {
-        $LeagueOfLegends->getSummoner(json_decode(file_get_contents("php://input"))->lolSearch, $_SESSION['Account']['LeagueOfLegends']['tagLine']);
-        $LeagueOfLegends->getMatchHistory(json_decode(file_get_contents("php://input"))->lolSearch, $_SESSION['Account']['LeagueOfLegends']['tagLine']);
+        $LeagueOfLegends->search(json_decode(file_get_contents("php://input"))->lolSearch, $_SESSION['Account']['LeagueOfLegends']['tagLine']);
     } else {
         $response = array(
             "status" => 1,

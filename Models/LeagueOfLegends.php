@@ -214,4 +214,19 @@ class LeagueOfLegends
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
+    public function search(string $game_name, string $tag_line)
+    {
+        $playerData = json_decode($this->retrieveData($game_name, $tag_line));
+        $response = array(
+            "httpResponseCode_account" => $playerData->httpResponseCode,
+            "playerUniversallyUniqueIdentifier" => $playerData->playerUniversallyUniqueIdentifier,
+            "gameName" => $playerData->gameName,
+            "tagLine" => $playerData->tagLine,
+            "url" => "/LeagueOfLegends/Profile/$playerData->gameName",
+            "message" => "Player found!  Page loading soon...",
+            "status" => 0
+        );
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
 }

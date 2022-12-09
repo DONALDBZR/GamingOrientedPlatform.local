@@ -298,6 +298,75 @@ class Application extends React.Component {
         }
     }
     /**
+     * Redirecting the user to an intended url
+     * @param {int} delay
+     */
+    redirector(delay) {
+        setTimeout(() => {
+            window.location.href = this.state.url;
+        }, delay);
+    }
+    /**
+     * Handling any change that is made in the user interface
+     * @param {Event} event
+     */
+    handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+        });
+    }
+    /**
+     * Handling the form submission
+     * @param {Event} event
+     */
+    handleSubmit(event) {
+        const delay = 1800;
+        event.preventDefault();
+        fetch("/Controllers/LeagueOfLegendsHome.php", {
+            method: "POST",
+            body: JSON.stringify({
+                lolSearch: this.state.lolSearch,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    status: data.status,
+                    message: data.message,
+                    url: data.url,
+                })
+            )
+            .then(() => this.redirector(delay));
+    }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseColor() {
+        if (this.state.status == 0) {
+            return "rgb(0%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseFontSize() {
+        if (this.state.status == 0) {
+            return "71%";
+        } else {
+            return "180%";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
