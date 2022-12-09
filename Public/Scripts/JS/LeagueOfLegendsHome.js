@@ -472,6 +472,19 @@ class Main extends Application {
                             <div style={{ color: this.verifyLeagueOfLegends_vsMin(this.state.vsMin) }}>{this.state.vsMin}</div>
                         </div>
                     </div>
+                    <div>
+                        <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
+                            <input
+                                type="search"
+                                name="lolSearch"
+                                placeholder="Search..."
+                                value={this.state.lolSearch}
+                                onChange={this.handleChange.bind(this)}
+                                required
+                            />
+                            <button class="fa fa-search"></button>
+                        </form>
+                    </div>
                 </header>
                 <div id="matchHistory">
                     {this.state.matchHistory.map((match) => {
