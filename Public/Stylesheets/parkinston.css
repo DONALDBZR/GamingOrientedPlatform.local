@@ -248,7 +248,8 @@ body[id*="LoginVerification"] main form[method="POST"] input,
 #ForgotPassword main form[method="POST"] input,
 body[id*="UsersSecurity"] main form[method="POST"] input,
 body[id*="UsersAccounts"] main form[method="POST"] input,
-body[id*="UsersAccounts"] main form[method="POST"] select {
+body[id*="UsersAccounts"] main form[method="POST"] select,
+body[id*="LeagueOfLegends"] main header div form input {
     font-family: var(--proximaNova);
     font-weight: bold;
     background-color: var(--color12);
@@ -259,7 +260,8 @@ body[id*="UsersAccounts"] main form[method="POST"] select {
 body[id*="LoginVerification"] main form[method="POST"] input::placeholder,
 #ForgotPassword main form[method="POST"] input::placeholder,
 body[id*="UsersSecurity"] main form[method="POST"] input::placeholder,
-body[id*="UsersAccounts"] main form[method="POST"] input::placeholder {
+body[id*="UsersAccounts"] main form[method="POST"] input::placeholder,
+body[id*="LeagueOfLegends"] main header div form input::placeholder {
     color: var(--color4);
 }
 #Register main form[method="POST"] div button,
@@ -267,7 +269,8 @@ body[id*="UsersAccounts"] main form[method="POST"] input::placeholder {
 body[id*="LoginVerification"] main form[method="POST"] div button,
 #ForgotPassword main form[method="POST"] div button,
 body[id*="UsersSecurity"] main form[method="POST"] div button,
-body[id*="UsersAccounts"] main form[method="POST"] div button {
+body[id*="UsersAccounts"] main form[method="POST"] div button,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) form button:hover {
     color: var(--color12);
     background-color: var(--color1);
 }
@@ -276,7 +279,8 @@ body[id*="UsersAccounts"] main form[method="POST"] div button {
 body[id*="LoginVerification"] main form[method="POST"] div button:hover,
 #ForgotPassword main form[method="POST"] div button:hover,
 body[id*="UsersSecurity"] main form[method="POST"] div button:hover,
-body[id*="UsersAccounts"] main form[method="POST"] div button:hover {
+body[id*="UsersAccounts"] main form[method="POST"] div button:hover,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) form button {
     background-color: var(--color12);
     color: var(--color1);
 }
@@ -284,7 +288,8 @@ body[id*="UsersAccounts"] main form[method="POST"] div button:hover {
 #Login main form[method="POST"] #response h1,
 body[id*="LoginVerification"] main form[method="POST"] #response h1,
 #ForgotPassword main form[method="POST"] #response h1,
-body[id*="Users"] main form[method="POST"] #response h1 {
+body[id*="Users"] main form[method="POST"] #response h1,
+body[id*="LeagueOfLegends"] main header div form #response h1 {
     text-align: center;
     font-family: var(--proximaNova);
 }
@@ -404,4 +409,26 @@ body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(3) {
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(3) div div:nth-child(1) {
     text-align: start;
+}
+body[id*="LeagueOfLegends"]
+    main
+    #matchHistory
+    div
+    div:nth-child(2)
+    div:nth-child(1)
+    div {
+    text-align: center;
+    font-family: var(--proximaNova);
+    font-weight: bold;
+    text-shadow: calc(var(--pixelate) / 540) calc(var(--pixelate) / 540)
+        var(--color2);
+}
+body[id*="LeagueOfLegends"]
+    main
+    #matchHistory
+    div
+    div:nth-child(2)
+    div:nth-child(1)
+    div:nth-child(4) {
+    text-shadow: none;
 }
