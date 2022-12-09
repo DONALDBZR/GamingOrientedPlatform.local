@@ -188,7 +188,10 @@ class LeagueOfLegends
                         "item4" => $riotMatchApiResponse2->info->participants[$puuidKey]->item4,
                         "item5" => $riotMatchApiResponse2->info->participants[$puuidKey]->item5,
                         "item6" => $riotMatchApiResponse2->info->participants[$puuidKey]->item6,
-                        "lane" => $riotMatchApiResponse2->info->participants[$puuidKey]->lane
+                        "lane" => $riotMatchApiResponse2->info->participants[$puuidKey]->lane,
+                        "kill" => $riotMatchApiResponse2->info->participants[$puuidKey]->kills,
+                        "death" => $riotMatchApiResponse2->info->participants[$puuidKey]->deaths,
+                        "assist" => $riotMatchApiResponse2->info->participants[$puuidKey]->assists,
                     );
                     array_push($matchHistory, $match);
                 }
