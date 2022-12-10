@@ -53,8 +53,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/LegendsOfLegends/MatchHistories':
                 $Router = new Router("GET", "/LegendsOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
                 break;
-            case "/LeagueOfLegends/Profile/{$_SESSION["LeagueOfLegends"]["Search"]["Summoner"]}":
-                $Router = new Router("GET", "/LeagueOfLegends/Profile/{$_SESSION["LeagueOfLegends"]["Search"]["Summoner"]}", "/Views/LeagueOfLegendsProfile.php");
+            case "/LeagueOfLegends/Profile/{$_SESSION["Search"]["LeagueOfLegends"]["Summoner"]}":
+                $Router = new Router("GET", "/LeagueOfLegends/Profile/{$_SESSION["Search"]["LeagueOfLegends"]["Summoner"]}", "/Views/LeagueOfLegendsProfile.php");
                 break;
             case '/LegendsOfLegends/Search/Summoner':
                 $Router = new Router("GET", "/LegendsOfLegends/Search/Summoner", "/Controllers/SearchSummoner.php");
