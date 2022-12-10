@@ -229,6 +229,7 @@ class LeagueOfLegends
             "message" => "Player found!  Page loading soon...",
             "status" => 0
         );
+        $_SESSION["LeagueOfLegends"]["Search"] = $playerData->gameName;
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
