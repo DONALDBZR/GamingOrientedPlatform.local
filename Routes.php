@@ -1,5 +1,6 @@
 <?php
 ini_set('max_execution_time', '300');
+set_time_limit(300);
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
@@ -51,6 +52,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 break;
             case '/LegendsOfLegends/MatchHistories':
                 $Router = new Router("GET", "/LegendsOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
+                break;
+            case "/LeagueOfLegends/Profile/$gameName":
+                $Router = new Router("GET", "/LeagueOfLegends/Profile/$gameName", "/Views/LeagueOfLegendsProfile.php");
                 break;
         }
         break;
