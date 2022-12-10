@@ -2,4 +2,4 @@
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Routes.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/LeagueOfLegends.php";
 $LeagueOfLegends = new LeagueOfLegends();
-$LeagueOfLegends->getSummoner($_SESSION["LeagueOfLegends"]["Search"]["Summoner"], $_SESSION['Account']['LeagueOfLegends']['tagLine']);
+$LeagueOfLegends->getSummoner($_SESSION["Search"]["LeagueOfLegends"]["Summoner"], $_SESSION['Account']['LeagueOfLegends']['tagLine']);
