@@ -55,12 +55,6 @@ class Application extends React.Component {
         }, delay);
     }
     /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
-    }
-    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -89,6 +83,12 @@ class Header extends Application {
 class Main extends Application {
     constructor(props) {
         super(props);
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
     }
     render() {
         return (
