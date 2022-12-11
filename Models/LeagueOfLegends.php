@@ -68,13 +68,17 @@ class LeagueOfLegends
                     $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
                     if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO") && str_contains($riotLeagueApiResponse[1]->queueType, "FLEX")) {
                         $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
+                        $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
                         $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
                         $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
+                        $flexTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
                         $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
                     } else {
                         $soloDuoMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
+                        $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
                         $soloDuoWinRate = ($riotLeagueApiResponse[1]->wins / $soloDuoMatches) * 100;
                         $flexMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
+                        $flexTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
                         $flexWinRate = ($riotLeagueApiResponse[0]->wins / $flexMatches) * 100;
                     }
                     $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20&api_key=" . Environment::RiotAPIKey;
@@ -109,12 +113,12 @@ class LeagueOfLegends
                             "httpResponseCode_match" => intval($this->getHttpResponseCode($riotMatchApiRequest1)),
                             "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
                             "profileIconId" => $riotSummonerApiResponse->profileIconId,
-                            "soloDuoTier" => ucfirst(strtolower($riotLeagueApiResponse[0]->tier)),
+                            "soloDuoTier" => $soloDuoTier,
                             "soloDuoRank" => $riotLeagueApiResponse[0]->rank,
                             "soloDuoLeaguePoints" => $riotLeagueApiResponse[0]->leaguePoints,
                             "soloDuoWinRate" => round($soloDuoWinRate, 2),
                             "soloDuoMatches" => $soloDuoMatches,
-                            "flexTier" => ucfirst(strtolower($riotLeagueApiResponse[1]->tier)),
+                            "flexTier" => $flexTier,
                             "flexRank" => $riotLeagueApiResponse[1]->rank,
                             "flexLeaguePoints" => $riotLeagueApiResponse[1]->leaguePoints,
                             "flexWinRate" => round($flexWinRate, 2),
