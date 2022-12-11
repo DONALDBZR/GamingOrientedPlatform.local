@@ -177,6 +177,9 @@ class User extends Password
     }
     public function logOut()
     {
+        unlink("/Cache/{$_SESSION['User']['username']}.json");
+        unlink("/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
+        unlink("/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
         unset($_SESSION);
         $response = array(
             "status" => 0,
