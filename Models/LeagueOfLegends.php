@@ -66,10 +66,17 @@ class LeagueOfLegends
                 $riotLeagueApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/league/v4/entries/by-summoner/$riotSummonerApiResponse->id?api_key=" . Environment::RiotAPIKey;
                 if ($this->getHttpResponseCode($riotLeagueApiRequest) == 200) {
                     $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
-                    $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
-                    $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
-                    $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
-                    $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
+                    if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO") && str_contains($riotLeagueApiResponse[1]->queueType, "FLEX")) {
+                        $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
+                        $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
+                        $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
+                        $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
+                    } else {
+                        $soloDuoMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
+                        $soloDuoWinRate = ($riotLeagueApiResponse[1]->wins / $soloDuoMatches) * 100;
+                        $flexMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
+                        $flexWinRate = ($riotLeagueApiResponse[0]->wins / $flexMatches) * 100;
+                    }
                     $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20&api_key=" . Environment::RiotAPIKey;
                     if ($this->getHttpResponseCode($riotMatchApiRequest1) == 200) {
                         $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
