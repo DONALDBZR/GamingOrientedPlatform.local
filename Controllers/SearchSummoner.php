@@ -2,4 +2,10 @@
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Routes.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/LeagueOfLegends.php";
 $LeagueOfLegends = new LeagueOfLegends();
-$LeagueOfLegends->getSummoner($_SESSION["Search"]["LeagueOfLegends"]["Summoner"], $_SESSION['Account']['LeagueOfLegends']['tagLine']);
+if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION["Search"]["LeagueOfLegends"]["Summoner"]['puuid']}.json")) {
+    $response = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION["Search"]["LeagueOfLegends"]["Summoner"]['puuid']}.json"));
+    header('Content-Type: application/json', true, 200);
+    echo json_encode($response);
+} else {
+    $LeagueOfLegends->getSummoner($_SESSION["Search"]["LeagueOfLegends"]["Summoner"]["gameName"], $_SESSION["Search"]["LeagueOfLegends"]["Summoner"]["tagLine"]);
+}

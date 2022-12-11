@@ -229,9 +229,8 @@ class LeagueOfLegends
             "message" => "Player found!  Page loading soon...",
             "status" => 0
         );
-        $_SESSION["Search"]["LeagueOfLegends"]["Summoner"]['gameName'] = $playerData->gameName;
-        $_SESSION["Search"]["LeagueOfLegends"]["Summoner"]['puuid'] = $playerData->playerUniversallyUniqueIdentifier;
-        $_SESSION["Search"]["LeagueOfLegends"]["Summoner"]['tagLine'] = $playerData->tagLine;
+        $search = $response;
+        $_SESSION['Search']['LeagueOfLegends'] = $search;
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
