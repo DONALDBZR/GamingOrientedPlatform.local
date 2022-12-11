@@ -177,7 +177,7 @@ class User extends Password
     }
     public function logOut()
     {
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json");
+        unlink("{$_SERVER['DOCUMENT_ROO']}/Cache/{$_SESSION['User']['username']}.json");
         unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
         unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
         unset($_SESSION);
