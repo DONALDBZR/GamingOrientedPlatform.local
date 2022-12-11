@@ -275,7 +275,7 @@ class Application extends React.Component {
     verifyLeagueOfLegends_cs(cs, min) {
         if (cs >= 6 * min) {
             return "rgb(0%, 100%, 0%)";
-        } else if (cs >= 1 * min && cs < 5 * min) {
+        } else if (cs >= 1 * min && cs < 6 * min) {
             return "rgb(100%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
