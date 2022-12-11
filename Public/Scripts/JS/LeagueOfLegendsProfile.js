@@ -113,6 +113,11 @@ class Application extends React.Component {
              * @type {array}
              */
             matchHistory: [],
+            /**
+             * Game Name of the player
+             * @type {string}
+             */
+            gameName: "",
         };
     }
     /**
@@ -158,6 +163,7 @@ class Application extends React.Component {
                     kdaRatio: data.kdaRatio,
                     csMin: data.csMin,
                     vsMin: data.vsMin,
+                    gameName: data.gameName,
                 }));
         } else {
             fetch("/LegendsOfLegends/Search/Summoner",
@@ -179,6 +185,7 @@ class Application extends React.Component {
                     kdaRatio: data.kdaRatio,
                     csMin: data.csMin,
                     vsMin: data.vsMin,
+                    gameName: data.gameName,
                 }));
         }
     }
@@ -450,6 +457,7 @@ class Main extends Application {
                     <div>
                         <img src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.summonerIcon}.png`} />
                         <div>Level {this.state.level}</div>
+                        <div>{this.state.gameName}</div>
                     </div>
                     <div>
                         <div>

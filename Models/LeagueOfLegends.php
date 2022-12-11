@@ -134,7 +134,8 @@ class LeagueOfLegends
                             "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed),
                             "kdaRatio" => round($kdaRatio /= count($riotMatchApiResponse1), 2),
                             "csMin" => round($totalCreepScore / ($totalTimePlayed /  60), 2),
-                            "vsMin" => round($totalVisionScore / ($totalTimePlayed / 60), 2)
+                            "vsMin" => round($totalVisionScore / ($totalTimePlayed / 60), 2),
+                            "gameName" => $this->getGameName()
                         );
                         $cacheData = json_encode($response);
                         $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
