@@ -505,6 +505,7 @@ class Main extends Application {
                                         </div>
                                         <div style={{ color: this.verifyLeagueOfLegends_cs(match.creepScore, match.matchLength / 60) }}>{match.creepScore}</div>
                                         <div style={{ color: this.verifyLeagueOfLegends_vs(match.visualScore, match.matchLength / 60) }}>{match.visualScore}</div>
+                                        <div>{match.length}</div>
                                         <div>{match.lane}</div>
                                     </div>
                                     <div>

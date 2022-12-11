@@ -198,6 +198,7 @@ class LeagueOfLegends
                         "kda" => round($kdaRatio, 2),
                         "creepScore" => $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled,
                         "matchLength" => $riotMatchApiResponse2->info->gameDuration,
+                        "length" => gmdate('H:i:s', $riotMatchApiResponse2->info->gameDuration),
                         "visualScore" => $riotMatchApiResponse2->info->participants[$puuidKey]->visionScore,
                         "win" => $riotMatchApiResponse2->info->participants[$puuidKey]->win,
                         "item0" => $riotMatchApiResponse2->info->participants[$puuidKey]->item0,
