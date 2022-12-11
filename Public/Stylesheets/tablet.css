@@ -452,9 +452,9 @@ body[id*="LeagueOfLegends"]
     div {
     display: flex;
     flex-wrap: wrap;
-    width: calc(var(--percentage) / 4);
+    width: calc(var(--percentage) / 5);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
-    font-size: var(--textSize);
+    font-size: calc(var(--textSize) * 0.81);
     align-items: center;
     justify-content: center;
     height: auto;

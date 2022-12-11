@@ -467,9 +467,9 @@ body[id*="LeagueOfLegends"]
     div {
     display: flex;
     flex-wrap: wrap;
-    width: calc(var(--percentage) / 3);
+    width: calc(var(--percentage) / 5);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
-    font-size: calc(var(--textSize) * 0.6561);
+    font-size: calc(var(--textSize) / 2);
     align-items: center;
     justify-content: center;
     height: auto;
@@ -544,4 +544,13 @@ body[id*="LeagueOfLegends"]
     div {
     width: var(--percentage);
     height: auto;
+}
+body[id*="LeagueOfLegends"]
+    main
+    #matchHistory
+    div
+    div:nth-child(2)
+    div:nth-child(1)
+    div:nth-child(1) {
+    font-size: calc(var(--percentage) * 0.6561);
 }
