@@ -77,12 +77,6 @@ class Application extends React.Component {
             }));
     }
     /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
-    }
-    /**
      * Verifying the state before rendering the link
      * @returns {Application} Component
      */
@@ -195,10 +189,24 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
     render() {
         return (
             <header>
-                <NavigationBar />
+                <nav>
+                    <div>
+                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                    </div>
+                    <div>{this.verifyState()}</div>
+                    <div>
+                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                    </div>
+                </nav>
             </header>
         );
     }
@@ -210,64 +218,57 @@ class Main extends Application {
     constructor(props) {
         super(props);
     }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
     render() {
         return (
             <main>
                 <header>
-                    <ProfilePicture />
+                    <div id="profilePicture">{this.verifyProfilePicture()}</div>
                     <div id="username">{this.state.username}</div>
                 </header>
-                <Form />
+                <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
+                    <div id="label">Account Security Form</div>
+                    <input
+                        type="mail"
+                        name="mailAddress"
+                        placeholder="Mail Address"
+                        value={this.state.mailAddress}
+                        onChange={this.handleChange.bind(this)}
+                    />
+                    <input
+                        type="password"
+                        name="oldPassword"
+                        placeholder="Old Password"
+                        value={this.state.oldPassword}
+                        onChange={this.handleChange.bind(this)}
+                    />
+                    <input
+                        type="password"
+                        name="newPassword"
+                        placeholder="New Password"
+                        value={this.state.newPassword}
+                        onChange={this.handleChange.bind(this)}
+                    />
+                    <input
+                        type="password"
+                        name="confirmNewPassword"
+                        placeholder="Confirm New Password"
+                        value={this.state.confirmNewPassword}
+                        onChange={this.handleChange.bind(this)}
+                    />
+                    <div id="button">
+                        <button>Change</button>
+                    </div>
+                    <div id="response">
+                        <h1 style={{ color: this.handleResponseColor(), fontSize: this.handleResponseFontSize() }}>{this.state.message}</h1>
+                    </div>
+                </form>
             </main>
-        );
-    }
-}
-/**
- * Form component
- */
-class Form extends Main {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
-                <div id="label">Account Security Form</div>
-                <input
-                    type="mail"
-                    name="mailAddress"
-                    placeholder="Mail Address"
-                    value={this.state.mailAddress}
-                    onChange={this.handleChange.bind(this)}
-                />
-                <input
-                    type="password"
-                    name="oldPassword"
-                    placeholder="Old Password"
-                    value={this.state.oldPassword}
-                    onChange={this.handleChange.bind(this)}
-                />
-                <input
-                    type="password"
-                    name="newPassword"
-                    placeholder="New Password"
-                    value={this.state.newPassword}
-                    onChange={this.handleChange.bind(this)}
-                />
-                <input
-                    type="password"
-                    name="confirmNewPassword"
-                    placeholder="Confirm New Password"
-                    value={this.state.confirmNewPassword}
-                    onChange={this.handleChange.bind(this)}
-                />
-                <div id="button">
-                    <button>Change</button>
-                </div>
-                <div id="response">
-                    <h1 style={{ color: this.handleResponseColor(), fontSize: this.handleResponseFontSize() }}>{this.state.message}</h1>
-                </div>
-            </form>
         );
     }
 }
@@ -278,55 +279,6 @@ class Footer extends Application {
     render() {
         return (
             <footer>Parkinston</footer>
-        );
-    }
-}
-/**
- * The navigation bar component
- */
-class NavigationBar extends Header {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <nav>
-                <div>
-                    <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
-                </div>
-                <ProfileLink />
-                <div>
-                    <a href="/Sign-Out" class="fa fa-sign-out"></a>
-                </div>
-            </nav>
-        );
-    }
-}
-/**
- * The component which will render the profile picture of the user
- */
-class ProfileLink extends NavigationBar {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div>{this.verifyState()}</div>
-        );
-    }
-}
-/**
- * Profile Picture component
- */
-class ProfilePicture extends Main {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div id="profilePicture">
-                {this.verifyProfilePicture()}
-            </div>
         );
     }
 }
