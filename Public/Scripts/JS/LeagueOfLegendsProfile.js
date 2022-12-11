@@ -246,7 +246,7 @@ class Application extends React.Component {
     verifyLeagueOfLegends_csMin(cs_min) {
         if (cs_min >= 6) {
             return "rgb(0%, 100%, 0%)";
-        } else if (cs_min >= 1 && cs_min < 5) {
+        } else if (cs_min >= 1 && cs_min < 6) {
             return "rgb(100%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
