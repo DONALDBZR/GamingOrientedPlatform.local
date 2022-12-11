@@ -299,13 +299,16 @@ class Application extends React.Component {
     /**
      * Verifying that the player has won his/her match before styling it
      * @param {boolean} win
+     * @param {float} length
      * @returns {string}
      */
-    verifyLeagueOfLegends_win(win) {
-        if (win) {
+    verifyLeagueOfLegends_win(win, length) {
+        if (win && length > 3 * 60) {
             return "rgba(0%, 100%, 0%, 50%)";
-        } else {
+        } else if (!win && length > 3 * 60) {
             return "rgba(100%, 0%, 0%, 50%)";
+        } else {
+            return "rgba(50%, 50%, 50%, 100%)";
         }
     }
     /**
@@ -499,7 +502,7 @@ class Main extends Application {
                 <div id="matchHistory">
                     {this.state.matchHistory.map((match) => {
                         return (
-                            <div style={{ backgroundColor: this.verifyLeagueOfLegends_win(match.win) }}>
+                            <div style={{ backgroundColor: this.verifyLeagueOfLegends_win(match.win, match.matchLength) }}>
                                 <div>
                                     <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${match.champion}.png`} />
                                 </div>

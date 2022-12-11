@@ -308,7 +308,7 @@ class Application extends React.Component {
         } else if (!win && length > 3 * 60) {
             return "rgba(100%, 0%, 0%, 50%)";
         } else {
-            return "rgba(50%, 50%, 50%, 50%)";
+            return "rgba(50%, 50%, 50%, 100%)";
         }
     }
     /**
