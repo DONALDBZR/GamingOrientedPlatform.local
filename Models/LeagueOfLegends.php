@@ -70,16 +70,24 @@ class LeagueOfLegends
                         $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
                         $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
                         $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
+                        $soloDuoRank = $riotLeagueApiResponse[0]->rank;
+                        $soloDuoLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
                         $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
                         $flexTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
                         $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
+                        $flexRank = $riotLeagueApiResponse[1]->rank;
+                        $flexLeaguePoints = $riotLeagueApiResponse[1]->leaguePoints;
                     } else {
                         $soloDuoMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
                         $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
                         $soloDuoWinRate = ($riotLeagueApiResponse[1]->wins / $soloDuoMatches) * 100;
+                        $soloDuoRank = $riotLeagueApiResponse[1]->rank;
+                        $soloDuoLeaguePoints = $riotLeagueApiResponse[1]->leaguePoints;
                         $flexMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
                         $flexTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
                         $flexWinRate = ($riotLeagueApiResponse[0]->wins / $flexMatches) * 100;
+                        $flexRank = $riotLeagueApiResponse[0]->rank;
+                        $flexLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
                     }
                     $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20&api_key=" . Environment::RiotAPIKey;
                     if ($this->getHttpResponseCode($riotMatchApiRequest1) == 200) {
@@ -114,13 +122,13 @@ class LeagueOfLegends
                             "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
                             "profileIconId" => $riotSummonerApiResponse->profileIconId,
                             "soloDuoTier" => $soloDuoTier,
-                            "soloDuoRank" => $riotLeagueApiResponse[0]->rank,
-                            "soloDuoLeaguePoints" => $riotLeagueApiResponse[0]->leaguePoints,
+                            "soloDuoRank" => $soloDuoRank,
+                            "soloDuoLeaguePoints" => $soloDuoLeaguePoints,
                             "soloDuoWinRate" => round($soloDuoWinRate, 2),
                             "soloDuoMatches" => $soloDuoMatches,
                             "flexTier" => $flexTier,
-                            "flexRank" => $riotLeagueApiResponse[1]->rank,
-                            "flexLeaguePoints" => $riotLeagueApiResponse[1]->leaguePoints,
+                            "flexRank" => $flexRank,
+                            "flexLeaguePoints" => $flexLeaguePoints,
                             "flexWinRate" => round($flexWinRate, 2),
                             "flexMatches" => $flexMatches,
                             "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed),
