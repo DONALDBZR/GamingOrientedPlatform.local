@@ -65,12 +65,6 @@ class Application extends React.Component {
             }));
     }
     /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
-    }
-    /**
      * Verifying the state before rendering the link
      * @returns {Application} Component
      */
@@ -124,12 +118,26 @@ class Header extends Application {
         super(props);
     }
     /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
+    /**
      * @returns {Header} Component
      */
     render() {
         return (
             <header>
-                <NavigationBar />
+                <nav>
+                    <div>
+                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                    </div>
+                    <div>{this.verifyUser_profilePicture()}</div>
+                    <div>
+                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                    </div>
+                </nav>
             </header>
         );
     }
@@ -142,13 +150,19 @@ class Main extends Application {
         super(props);
     }
     /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
+    /**
      * @returns {Main} Component
      */
     render() {
         return (
             <main>
                 <header>
-                    <ProfilePicture />
+                    <div id="profilePicture">{this.verifyProfilePicture()}</div>
                     <div id="username">{this.state.username}</div>
                 </header>
                 <description>
@@ -171,6 +185,12 @@ class Main extends Application {
 class Footer extends Application {
     constructor(props) {
         super(props);
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
     }
     /**
      * @returns {Footer} Component
@@ -203,58 +223,6 @@ class Footer extends Application {
                 </nav>
                 <div>Parkinston</div>
             </footer>
-        );
-    }
-}
-/**
- * The navigation bar component
- */
-class NavigationBar extends Header {
-    constructor(props) {
-        super(props);
-    }
-    /**
-     * @returns {NavigationBar} Component
-     */
-    render() {
-        return (
-            <nav>
-                <div>
-                    <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
-                </div>
-                <ProfileLink />
-                <div>
-                    <a href="/Sign-Out" class="fa fa-sign-out"></a>
-                </div>
-            </nav>
-        );
-    }
-}
-/**
- * The component which will render the profile picture of the user
- */
-class ProfileLink extends NavigationBar {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div>{this.verifyUser_profilePicture()}</div>
-        );
-    }
-}
-/**
- * Profile Picture component
- */
-class ProfilePicture extends Main {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div id="profilePicture">
-                {this.verifyProfilePicture()}
-            </div>
         );
     }
 }
