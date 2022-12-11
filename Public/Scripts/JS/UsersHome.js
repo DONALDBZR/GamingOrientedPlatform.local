@@ -80,12 +80,6 @@ class Application extends React.Component {
         }
     }
     /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
-    }
-    /**
      * Verifying the state before rendering the link
      * @returns {Application} Component
      */
@@ -137,10 +131,24 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
     render() {
         return (
             <header>
-                <NavigationBar />
+                <nav>
+                    <div>
+                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                    </div>
+                    <div>{this.verifyUser_username()}</div>
+                    <div>
+                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                    </div>
+                </nav>
             </header>
         );
     }
@@ -151,6 +159,12 @@ class Header extends Application {
 class Main extends Application {
     constructor(props) {
         super(props);
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
     }
     render() {
         return (
@@ -168,40 +182,6 @@ class Main extends Application {
 class Footer extends Application {
     render() {
         return <footer>Parkinston</footer>;
-    }
-}
-/**
- * The navigation bar component
- */
-class NavigationBar extends Header {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <nav>
-                <div>
-                    <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
-                </div>
-                <ProfileLink />
-                <div>
-                    <a href="/Sign-Out" class="fa fa-sign-out"></a>
-                </div>
-            </nav>
-        );
-    }
-}
-/**
- * The component which will render the profile picture of the user
- */
-class ProfileLink extends NavigationBar {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div>{this.verifyUser_username()}</div>
-        );
     }
 }
 // Rendering the page
