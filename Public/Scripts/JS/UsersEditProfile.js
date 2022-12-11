@@ -169,10 +169,24 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
     render() {
         return (
             <header>
-                <NavigationBar />
+                <nav>
+                    <div>
+                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                    </div>
+                    <div>{this.verifyState()}</div>
+                    <div>
+                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                    </div>
+                </nav>
             </header>
         );
     }
@@ -184,10 +198,32 @@ class Main extends Application {
     constructor(props) {
         super(props);
     }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
+    }
     render() {
         return (
             <main>
-                <Form />
+                <form method="POST" enctype="multipart/form-data" onSubmit={this.handleSubmit.bind(this)}>
+                    <div id="label">You can customize your profile picture</div>
+                    <input type="file" name="image" accept="image/*" files={this.state.profilePicture} onChange={this.handleFileChange.bind(this)} required />
+                    <div>
+                        <button>Change Profile Picture</button>
+                    </div>
+                    <div id="response">
+                        <h1
+                            style={{
+                                color: this.handleResponseColor(),
+                                fontSize: this.handleResponseFontSize(),
+                            }}
+                        >
+                            {this.state.message}
+                        </h1>
+                    </div>
+                </form>
             </main>
         );
     }
@@ -201,69 +237,6 @@ class Footer extends Application {
             <footer>
                 Parkinston
             </footer>
-        );
-    }
-}
-/**
- * Form component
- */
-class Form extends Main {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <form method="POST" enctype="multipart/form-data" onSubmit={this.handleSubmit.bind(this)}>
-                <div id="label">You can customize your profile picture</div>
-                <input type="file" name="image" accept="image/*" files={this.state.profilePicture} onChange={this.handleFileChange.bind(this)} required />
-                <div>
-                    <button>Change Profile Picture</button>
-                </div>
-                <div id="response">
-                    <h1
-                        style={{
-                            color: this.handleResponseColor(),
-                            fontSize: this.handleResponseFontSize(),
-                        }}
-                    >
-                        {this.state.message}
-                    </h1>
-                </div>
-            </form>
-        );
-    }
-}
-/**
- * The navigation bar component
- */
-class NavigationBar extends Header {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <nav>
-                <div>
-                    <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
-                </div>
-                <ProfileLink />
-                <div>
-                    <a href="/Sign-Out" class="fa fa-sign-out"></a>
-                </div>
-            </nav>
-        );
-    }
-}
-/**
- * The component which will render the profile picture of the user
- */
-class ProfileLink extends NavigationBar {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div>{this.verifyState()}</div>
         );
     }
 }
