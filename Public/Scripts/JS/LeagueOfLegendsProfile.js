@@ -404,21 +404,6 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
-    render() {
-        return (
-            <header>
-                <NavigationBar />
-            </header>
-        );
-    }
-}
-/**
- * The navigation bar component
- */
-class NavigationBar extends Header {
-    constructor(props) {
-        super(props);
-    }
     /**
      * Methods to be run as soon as the component is mounted
      */
@@ -427,15 +412,17 @@ class NavigationBar extends Header {
     }
     render() {
         return (
-            <nav>
-                <div>
-                    <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
-                </div>
-                <div>{this.verifyUser_username()}</div>
-                <div>
-                    <a href="/Sign-Out" class="fa fa-sign-out"></a>
-                </div>
-            </nav>
+            <header>
+                <nav>
+                    <div>
+                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                    </div>
+                    <div>{this.verifyUser_username()}</div>
+                    <div>
+                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                    </div>
+                </nav>
+            </header>
         );
     }
 }
