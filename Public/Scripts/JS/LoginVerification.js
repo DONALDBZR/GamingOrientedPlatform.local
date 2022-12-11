@@ -129,44 +129,31 @@ class Main extends Application {
     render() {
         return (
             <main>
-                <Form />
+                <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
+                    <div id="label">Login Form</div>
+                    <input
+                        type="password"
+                        name="oneTimePassword"
+                        placeholder="One-Time Password"
+                        value={this.state.oneTimePassword}
+                        onChange={this.handleChange.bind(this)}
+                        required
+                    />
+                    <div id="button">
+                        <button>Login</button>
+                    </div>
+                    <div id="response">
+                        <h1
+                            style={{
+                                color: this.handleResponseColor(),
+                                fontSize: this.handleResponseFontSize(),
+                            }}
+                        >
+                            {this.state.message}
+                        </h1>
+                    </div>
+                </form>
             </main>
-        );
-    }
-}
-/**
- * The component that is the form
- */
-class Form extends Main {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
-                <div id="label">Login Form</div>
-                <input
-                    type="password"
-                    name="oneTimePassword"
-                    placeholder="One-Time Password"
-                    value={this.state.oneTimePassword}
-                    onChange={this.handleChange.bind(this)}
-                    required
-                />
-                <div id="button">
-                    <button>Login</button>
-                </div>
-                <div id="response">
-                    <h1
-                        style={{
-                            color: this.handleResponseColor(),
-                            fontSize: this.handleResponseFontSize(),
-                        }}
-                    >
-                        {this.state.message}
-                    </h1>
-                </div>
-            </form>
         );
     }
 }
