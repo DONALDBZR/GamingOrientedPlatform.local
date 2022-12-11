@@ -138,26 +138,49 @@ class Application extends React.Component {
      * Retrieving data from Riot Games data center for the user
      */
     retrieveLoL_SummonerData() {
-        fetch("/LegendsOfLegends/CurrentSummoner",
-            {
-                method: "GET"
-            })
-            .then((response) => response.json())
-            .then((data) => this.setState({
-                level: data.summonerLevel,
-                summonerIcon: data.profileIconId,
-                soloDuoTier: data.soloDuoTier,
-                soloDuoDivision: data.soloDuoRank,
-                soloDuoLeaguePoints: data.soloDuoLeaguePoints,
-                soloDuoWinRate: data.soloDuoWinRate,
-                flexTier: data.flexTier,
-                flexDivision: data.flexRank,
-                flexLeaguePoints: data.flexLeaguePoints,
-                flexWinRate: data.flexWinRate,
-                kdaRatio: data.kdaRatio,
-                csMin: data.csMin,
-                vsMin: data.vsMin,
-            }));
+        if (window.location.pathname.includes("Home")) {
+            fetch("/LegendsOfLegends/CurrentSummoner",
+                {
+                    method: "GET"
+                })
+                .then((response) => response.json())
+                .then((data) => this.setState({
+                    level: data.summonerLevel,
+                    summonerIcon: data.profileIconId,
+                    soloDuoTier: data.soloDuoTier,
+                    soloDuoDivision: data.soloDuoRank,
+                    soloDuoLeaguePoints: data.soloDuoLeaguePoints,
+                    soloDuoWinRate: data.soloDuoWinRate,
+                    flexTier: data.flexTier,
+                    flexDivision: data.flexRank,
+                    flexLeaguePoints: data.flexLeaguePoints,
+                    flexWinRate: data.flexWinRate,
+                    kdaRatio: data.kdaRatio,
+                    csMin: data.csMin,
+                    vsMin: data.vsMin,
+                }));
+        } else {
+            fetch("/LegendsOfLegends/Search/Summoner",
+                {
+                    method: "GET"
+                })
+                .then((response) => response.json())
+                .then((data) => this.setState({
+                    level: data.summonerLevel,
+                    summonerIcon: data.profileIconId,
+                    soloDuoTier: data.soloDuoTier,
+                    soloDuoDivision: data.soloDuoRank,
+                    soloDuoLeaguePoints: data.soloDuoLeaguePoints,
+                    soloDuoWinRate: data.soloDuoWinRate,
+                    flexTier: data.flexTier,
+                    flexDivision: data.flexRank,
+                    flexLeaguePoints: data.flexLeaguePoints,
+                    flexWinRate: data.flexWinRate,
+                    kdaRatio: data.kdaRatio,
+                    csMin: data.csMin,
+                    vsMin: data.vsMin,
+                }));
+        }
     }
     /**
      * Retrieving data from Riot Games data center for the user's match history
@@ -384,35 +407,16 @@ class Header extends Application {
     render() {
         return (
             <header>
-                <NavigationBar />
+                <nav>
+                    <div>
+                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                    </div>
+                    <div>{this.verifyUser_username()}</div>
+                    <div>
+                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                    </div>
+                </nav>
             </header>
-        );
-    }
-}
-/**
- * The navigation bar component
- */
-class NavigationBar extends Header {
-    constructor(props) {
-        super(props);
-    }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveSessionData();
-    }
-    render() {
-        return (
-            <nav>
-                <div>
-                    <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
-                </div>
-                <div>{this.verifyUser_username()}</div>
-                <div>
-                    <a href="/Sign-Out" class="fa fa-sign-out"></a>
-                </div>
-            </nav>
         );
     }
 }
