@@ -414,6 +414,12 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveSessionData();
+    }
     render() {
         return (
             <header>
