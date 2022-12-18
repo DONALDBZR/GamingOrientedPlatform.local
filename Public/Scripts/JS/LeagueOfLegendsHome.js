@@ -562,7 +562,14 @@ class Main extends Application {
  */
 class Footer extends Application {
     render() {
-        return <footer>Parkinston</footer>;
+        return (
+            <footer>
+                <div>Parkinston</div>
+                <div>
+                    <img src="/Public/Images/Riot Games RGB Logos (Web)/001_RG 2021 Logomark/001.1_RG_2021_LOGOMARK_BLACK.png" />
+                </div>
+            </footer>
+        );
     }
 }
 // Rendering the page
