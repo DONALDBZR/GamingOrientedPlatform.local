@@ -1,9 +1,10 @@
 <?php
 // Importing PDO
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PDO.php";
+// Importing Environment
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Environment.php";
 /**
- * • The class that stores all the properties that are related to the password as well as all the actions that are going to be performed in the application by the application.
- * • The class variables are set the same way as the fields in the Users table.  In fact, the class represents a record.
+ * The API and data model for the Passwords which interacts with the application's rainbow table
  */
 class Password
 {
@@ -34,59 +35,48 @@ class Password
     /**
      * The domain of the application
      */
-    public $domain = "http://parkinston.local";
-    // Constructor method
+    private string $domain;
     public function __construct()
     {
-        // Instantiating PDO
+        $this->domain = "http://{$_SERVER['HTTP_HOST']}";
         $this->PDO = new PHPDataObject();
     }
-    // ID accessor method
     public function getId()
     {
         return $this->id;
     }
-    // ID mutator method
     public function setId(int $id)
     {
         $this->id = $id;
     }
-    // Salt accessor method
     public function getSalt()
     {
         return $this->salt;
     }
-    // Salt mutator method
     public function setSalt(string $salt)
     {
         $this->salt = $salt;
     }
-    // Password accessor method
     public function getPassword()
     {
         return $this->password;
     }
-    // Password mutator method
     public function setPassword(string $password)
     {
         $this->password = $password;
     }
-    // Hash accessor method
     public function getHash()
     {
         return $this->hash;
     }
-    // Hash mutator method
     public function setHash(string $hash)
     {
         $this->hash = $hash;
     }
-    // One-Time Password accessor method
     public function getOtp()
     {
         return $this->otp;
     }
-    // One-Time Password mutator method
     public function setOtp(string $otp)
     {
         $this->otp = $otp;
@@ -106,9 +96,9 @@ class Password
         }
         return $randomString;
     }
-
     /**
      * Generating a password for the user
+     * @return string
      */
     public function generatePassword()
     {
@@ -123,6 +113,7 @@ class Password
     }
     /**
      * Generating an one-time password for the user
+     * @return string
      */
     public function otpGenerate()
     {
@@ -137,29 +128,45 @@ class Password
     }
     /**
      * Verifying the one-time password that was sent to the user
+     * @return JSON
      */
     public function otpVerify()
     {
         $request = json_decode(file_get_contents('php://input'));
-        $this->setOtp($_SESSION['User']['otp']);
+        if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
+            $cache = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json"));
+            $this->setOtp($cache->User->otp);
+            file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "");
+        } else {
+            $this->setOtp($_SESSION['User']['otp']);
+        }
         if ($request->oneTimePassword == $this->getOtp()) {
             unset($_SESSION['User']['otp']);
+            $data = array(
+                "User" => $_SESSION['User'],
+                "Account" => $_SESSION['Account']
+            );
+            $cacheData = json_encode($data);
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "w");
+            fwrite($cache, $cacheData);
+            fclose($cache);
             $reponse = array(
                 "status" => 0,
                 "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
                 "message" => "You will be connected to the service as soon as possible..."
             );
-            header('Content-Type: application/json', true, 200);
-            echo json_encode($reponse);
         } else {
+            if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
+                unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json");
+            }
             unset($_SESSION['User']);
             $reponse = array(
                 "status" => 5,
                 "url" => "{$this->domain}/",
                 "message" => "The Password does not correspond to the one that was sent to you!"
             );
-            header('Content-Type: application/json', true, 200);
-            echo json_encode($reponse);
         }
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($reponse);
     }
 }

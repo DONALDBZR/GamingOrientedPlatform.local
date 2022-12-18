@@ -1,13 +1,27 @@
 <?php
+// Importing Mail
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/Models/Mail.php";
+/**
+ * The API and data model for the users
+ */
 class User extends Password
 {
+    /**
+     * Username of the user which is also the primary key
+     */
     private string $username;
+    /**
+     * Mail address of the user which allows the application to communicate with the user
+     */
     private string $mailAddress;
+    /**
+     * Profile picture of the user
+     */
+    private ?string $profilePicture;
     protected Mail $Mail;
-    private string|null $profilePicture;
     public function __construct()
     {
+        $this->domain = "http://{$_SERVER['HTTP_HOST']}";
         $this->PDO = new PHPDataObject();
         $this->Mail = new Mail();
     }
@@ -15,7 +29,7 @@ class User extends Password
     {
         return $this->username;
     }
-    public function setUsername($username)
+    public function setUsername(string $username)
     {
         $this->username = $username;
     }
@@ -39,10 +53,14 @@ class User extends Password
     {
         return $this->profilePicture;
     }
-    public function setProfilePicture($profile_picture)
+    public function setProfilePicture(?string $profile_picture)
     {
         $this->profilePicture = $profile_picture;
     }
+    /**
+     * Registering the user
+     * @return JSON
+     */
     public function register()
     {
         $request = json_decode(file_get_contents('php://input'));
@@ -79,18 +97,20 @@ class User extends Password
                 "url" => "{$this->domain}/Login",
                 "message" => "Account created!  Please check your mail to obtain your password!"
             );
-            header('Content-Type: application/json', true, 200);
-            echo json_encode($response);
         } else {
             $response = array(
                 "status" => 2,
                 "url" => "{$this->domain}/Login",
                 "message" => "Account exists!"
             );
-            header('Content-Type: application/json', true, 300);
-            echo json_encode($response);
         }
+        header('Content-Type: application/json', true, 300);
+        echo json_encode($response);
     }
+    /**
+     * Allow the user to have access to the application
+     * @return JSON
+     */
     public function login()
     {
         $request = json_decode(file_get_contents("php://input"));
@@ -154,16 +174,12 @@ class User extends Password
                     "url" => "{$this->domain}/Login/Verification/{$this->getUsername()}",
                     "message" => "You will be redirected to the verification process just to be sure and a password has been sent to you for that! 🙏"
                 );
-                header('Content-Type: application/json');
-                echo json_encode($response);
             } else {
                 $response = array(
                     "status" => 3,
                     "url" => "{$this->domain}/Login",
                     "message" => "Your password is incorrect!"
                 );
-                header('Content-Type: application/json');
-                echo json_encode($response);
             }
         } else {
             $response = array(
@@ -171,10 +187,14 @@ class User extends Password
                 "url" => "{$this->domain}",
                 "message" => "This account does not exist!"
             );
-            header('Content-Type: application/json');
-            echo json_encode($response);
         }
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
+    /**
+     * Signing out the user and clearing server's cache data
+     * @return JSON
+     */
     public function logOut()
     {
         unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json");
@@ -189,6 +209,10 @@ class User extends Password
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
+    /**
+     * Resetting the password of the user
+     * @return JSON
+     */
     public function forgotPassword()
     {
         $request = json_decode(file_get_contents('php://input'));
@@ -201,9 +225,9 @@ class User extends Password
             $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
             $this->PDO->execute();
             if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
-                $this->setPasswordID(1);
+                $this->setPasswordId(1);
             } else {
-                $this->setPasswordID($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
             }
             $this->setPassword($this->generatePassword());
             $this->Mail->send($this->getMailAddress(), "Password Reset!", "Your new password for the account with username which is {$this->getUsername()}, is {$this->getPassword()} and please consider to change it after logging in!");
@@ -223,18 +247,20 @@ class User extends Password
                 "url" => "{$this->domain}/Login",
                 "message" => "Password Reset!  Please check your mail to obtain your new password!"
             );
-            header('Content-Type: application/json', true, 200);
-            echo json_encode($response);
         } else {
             $response = array(
                 "status" => 6,
                 "url" => "{$this->domain}",
                 "message" => "There is no account that is linked to this mail address!"
             );
-            header('Content-Type: application/json', true, 300);
-            echo json_encode($response);
         }
+        header('Content-Type: application/json', true, 300);
+        echo json_encode($response);
     }
+    /**
+     * Changing the profile picture
+     * @return JSON
+     */
     public function changeProfilePicture()
     {
         $this->setUsername($_SESSION['User']['username']);
@@ -247,7 +273,18 @@ class User extends Password
             $this->PDO->bind(":UsersProfilePicture", $this->getProfilePicture());
             $this->PDO->bind(":UsersUsername", $this->getUsername());
             $this->PDO->execute();
+            if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getUsername()}.json")) {
+                file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getUsername()}.json", "");
+            }
             $_SESSION['User']['profilePicture'] = $this->getProfilePicture();
+            $data = array(
+                "User" => $_SESSION['User'],
+                "Account" => $_SESSION['Account']
+            );
+            $cacheData = json_encode($data);
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "w");
+            fwrite($cache, $cacheData);
+            fclose($cache);
             $response = array(
                 "status" => 0,
                 "url" => "{$this->domain}/Users/Profile/{$this->getUsername()}",
@@ -257,6 +294,10 @@ class User extends Password
             echo json_encode($response);
         }
     }
+    /**
+     * Changing the password of the user
+     * @return JSON
+     */
     public function changePassword()
     {
         $request = json_decode(file_get_contents("php://input"));
@@ -300,16 +341,12 @@ class User extends Password
                     "url" => "{$this->domain}/Sign-Out",
                     "message" => "Your password has been changed!  You will be logged out of your account to test the new password!"
                 );
-                header('Content-Type: application/json', true, 300);
-                echo json_encode($response);
             } else {
                 $response = array(
                     "status" => 8,
                     "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
                     "message" => "The passwords are not identical!"
                 );
-                header('Content-Type: application/json', true, 300);
-                echo json_encode($response);
             }
         } else {
             $response = array(
@@ -317,10 +354,14 @@ class User extends Password
                 "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
                 "message" => "Incorrect Password!"
             );
-            header('Content-Type: application/json', true, 300);
-            echo json_encode($response);
         }
+        header('Content-Type: application/json', true, 300);
+        echo json_encode($response);
     }
+    /**
+     * Changing the mail address of the user
+     * @return JSON
+     */
     public function changeMailAddress()
     {
         $request = json_decode(file_get_contents("php://input"));
@@ -339,10 +380,14 @@ class User extends Password
                 "url" => "{$this->domain}/Sign-Out",
                 "message" => "Your mail address has been changed!  You will be logged out of your account!"
             );
-            header('Content-Type: application/json', true, 300);
-            echo json_encode($response);
         }
+        header('Content-Type: application/json', true, 300);
+        echo json_encode($response);
     }
+    /**
+     * Changing both the mail address and the password
+     * @return JSON
+     */
     public function changePasswordAndMailAddress()
     {
         $request = json_decode(file_get_contents("php://input"));
@@ -394,16 +439,12 @@ class User extends Password
                         "url" => "{$this->domain}/Sign-Out",
                         "message" => "Your password and mail address have been changed!  You will be logged out of your account to test the new password!"
                     );
-                    header('Content-Type: application/json', true, 300);
-                    echo json_encode($response);
                 } else {
                     $response = array(
                         "status" => 10,
                         "url" => "{$this->domain}/Sign-Out",
                         "message" => "The passwords are not identical!"
                     );
-                    header('Content-Type: application/json', true, 300);
-                    echo json_encode($response);
                 }
             } else {
                 $response = array(
@@ -411,9 +452,9 @@ class User extends Password
                     "url" => "{$this->domain}/Sign-Out",
                     "message" => "Incorrect Password!"
                 );
-                header('Content-Type: application/json', true, 300);
-                echo json_encode($response);
             }
         }
+        header('Content-Type: application/json', true, 300);
+        echo json_encode($response);
     }
 }

@@ -1,18 +1,28 @@
 <?php
+// Importing Environment
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Environment.php";
+/**
+ * The API which interacts with Riot Games API to take the data needed from Riot Games Data Center as well as the data model which will be used for data analysis.
+ */
 class LeagueOfLegends
 {
-    private string | null $playerUniversallyUniqueIdentifier;
+    /**
+     * The primary key of the player as well as identifier of the user
+     */
+    private ?string $playerUniversallyUniqueIdentifier;
+    /**
+     * The username of the player
+     */
     private string $gameName;
+    /**
+     * The region of the player
+     */
     private string $tagLine;
-    public function __construct()
-    {
-    }
     public function getPlayerUniversallyUniqueIdentifier()
     {
         return $this->playerUniversallyUniqueIdentifier;
     }
-    public function setPlayerUniversallyUniqueIdentifier(string | null $player_universally_unique_identifier)
+    public function setPlayerUniversallyUniqueIdentifier(?string $player_universally_unique_identifier)
     {
         $this->playerUniversallyUniqueIdentifier = $player_universally_unique_identifier;
     }
@@ -32,6 +42,11 @@ class LeagueOfLegends
     {
         $this->tagLine = $tag_line;
     }
+    /**
+     * Retrieving account's data
+     * @param string $game_name
+     * @param string $tag_line
+     */
     public function retrieveData(string $game_name, string $tag_line)
     {
         $this->setGameName($game_name);
@@ -49,11 +64,22 @@ class LeagueOfLegends
         );
         return json_encode($response);
     }
+    /**
+     * Accessing the HTTP response code
+     * @param string $request_uniform_resource_locator
+     * @return string
+     */
     public function getHttpResponseCode(string $request_uniform_resource_locator)
     {
         $headers = get_headers($request_uniform_resource_locator);
         return substr($headers[0], 9, 3);
     }
+    /**
+     * Acessing the summoner data
+     * @param string $game_name
+     * @param string $tag_line
+     * @return JSON
+     */
     public function getSummoner(string $game_name, string $tag_line)
     {
         if (json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode == 200) {
@@ -63,7 +89,7 @@ class LeagueOfLegends
             $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key=" . Environment::RiotAPIKey;
             if ($this->getHttpResponseCode($riotSummonerApiRequest) == 200) {
                 $riotSummonerApiResponse = json_decode(file_get_contents($riotSummonerApiRequest));
-                $riotLeagueApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/league/v4/entries/by-summoner/$riotSummonerApiResponse->id?api_key=" . Environment::RiotAPIKey;
+                $riotLeagueApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/league/v4/entries/by-summoner/{$riotSummonerApiResponse->id}?api_key=" . Environment::RiotAPIKey;
                 if ($this->getHttpResponseCode($riotLeagueApiRequest) == 200) {
                     $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
                     if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO") && str_contains($riotLeagueApiResponse[1]->queueType, "FLEX")) {
@@ -97,7 +123,7 @@ class LeagueOfLegends
                         $kdaRatio = 0;
                         $totalVisionScore = 0;
                         for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
-                            $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/$riotMatchApiResponse1[$firstIndex]?api_key=" . Environment::RiotAPIKey;
+                            $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}?api_key=" . Environment::RiotAPIKey;
                             $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
                             $puuidKey = 0;
                             for ($secondIndex = 0; $secondIndex < 10; $secondIndex++) {
@@ -170,6 +196,12 @@ class LeagueOfLegends
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
+    /**
+     * Accessing the match history of the player
+     * @param string $game_name
+     * @param string $tag_line
+     * @return JSON
+     */
     public function getMatchHistory(string $game_name, string $tag_line)
     {
         if (json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode == 200) {
@@ -181,7 +213,7 @@ class LeagueOfLegends
                 $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
                 $matchHistory = array();
                 for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
-                    $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/$riotMatchApiResponse1[$firstIndex]?api_key=" . Environment::RiotAPIKey;
+                    $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}?api_key=" . Environment::RiotAPIKey;
                     $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
                     $puuidKey = 0;
                     for ($secondIndex = 0; $secondIndex < 10; $secondIndex++) {
@@ -238,6 +270,12 @@ class LeagueOfLegends
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
+    /**
+     * Searching for a player
+     * @param string $game_name
+     * @param string $tag_line
+     * @return JSON
+     */
     public function search(string $game_name, string $tag_line)
     {
         $playerData = json_decode($this->retrieveData($game_name, $tag_line));

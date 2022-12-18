@@ -29,6 +29,7 @@ class PHPDataObject
      * The SQL query that is used to interact with the database server
      */
     private $statement;
+    // Constructor method
     public function __construct()
     {
         /**
@@ -42,7 +43,7 @@ class PHPDataObject
         }
     }
     /**
-     * Sanitizing the data that is retrieved from the front-end in order to prevent SQL injections
+     * Sanitizing the data that is retrieved in order to prevent SQL injections
      */
     public function bind($parameter, $value, $type = null)
     {

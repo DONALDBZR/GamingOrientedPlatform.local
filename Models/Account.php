@@ -1,12 +1,24 @@
 <?php
+// Importing User
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/User.php";
+// Importing League of Legends
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/LeagueOfLegends.php";
+/**
+ * The API and data model of the accounts that are linked to the user
+ */
 class Account extends User
 {
+    /**
+     * Primary key of the account
+     */
     private int $id;
+    /**
+     * The API which interacts with Riot Games API to take the data needed from Riot Games Data Center as well as the data model which will be used for data analysis.
+     */
     protected LeagueOfLegends $LeagueOfLegends;
     public function __construct()
     {
+        $this->domain = "http://{$_SERVER['HTTP_HOST']}/";
         $this->PDO = new PHPDataObject();
         $this->LeagueOfLegends = new LeagueOfLegends();
     }
@@ -18,6 +30,10 @@ class Account extends User
     {
         $this->id = $id;
     }
+    /**
+     * Adding accounts
+     * @return JSON
+     */
     public function add()
     {
         $request = json_decode(file_get_contents("php://input"));
@@ -46,6 +62,17 @@ class Account extends User
                     "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
                 );
                 $_SESSION['Account'] = $account;
+                if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getUsername()}.json")) {
+                    file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getUsername()}.json", "");
+                }
+                $data = array(
+                    "User" => $_SESSION['User'],
+                    "Account" => $_SESSION['Account']
+                );
+                $cacheData = json_encode($data);
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "w");
+                fwrite($cache, $cacheData);
+                fclose($cache);
                 $response = array(
                     "status" => 0,
                     "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",

@@ -25,39 +25,30 @@ class Mail
      * PHPMailer
      */
     protected $PHPMailer;
-    /**
-     * Instantiating PHPMailer and setting its configuration
-     */
     public function __construct()
     {
         $this->PHPMailer = new PHPMailer\PHPMailer\PHPMailer(true);
     }
-    // Recipient accessor method
     public function getRecipient()
     {
         return $this->recipient;
     }
-    // Recipient mutator method
     public function setRecipient(string $recipient)
     {
         $this->recipient = $recipient;
     }
-    // Subject accessor method
     public function getSubject()
     {
         return $this->subject;
     }
-    // Subject mutator method
     public function setSubject(string $subject)
     {
         $this->subject = $subject;
     }
-    // Message accessor method
     public function getMessage()
     {
         return $this->message;
     }
-    // Message mutator method
     public function setMessage(string $message)
     {
         $this->message = $message;
