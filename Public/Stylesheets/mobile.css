@@ -340,7 +340,8 @@ body[id*="LeagueOfLegends"] main header div:nth-child(2) div div {
     display: block;
 }
 body[id*="LeagueOfLegends"] main {
-    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+    height: calc(var(--pixelate) * (528 / 1080));
+    overflow: hidden;
 }
 body[id*="LeagueOfLegends"] main header div img {
     width: calc(var(--percentage) * 0.96);
@@ -363,6 +364,7 @@ body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(5) {
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(1) div {
     width: var(--percentage);
+    display: block;
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(3) div {
     display: flex;
@@ -373,11 +375,6 @@ body[id*="LeagueOfLegends"] main header div:nth-child(3) div div {
     display: block;
     margin: calc(var(--percentage) * 0);
     width: calc(var(--percentage) / 2);
-}
-body[id*="LeagueOfLegends"] main header div:nth-child(3) div div:nth-child(1) {
-    font-size: calc(var(--textSize) * 0.4782969);
-}
-body[id*="LeagueOfLegends"] main header div:nth-child(3) div div:nth-child(2) {
     font-size: calc(var(--textSize) * 0.729);
 }
 body[id*="LeagueOfLegends"] main .matchHistory {
@@ -418,13 +415,14 @@ body[id*="LeagueOfLegends"]
     text-align: center;
     display: block;
 }
-body[id*="LeagueOfLegends"] main header div:nth-child(1),
 body[id*="LeagueOfLegends"] main header div:nth-child(3) {
-    width: calc(var(--percentage) / 4);
+    width: var(--percentage);
 }
 body[id*="LeagueOfLegends"] main #matchHistory {
     width: var(--percentage);
     margin: calc(var(--percentage) * 0);
+    height: calc(var(--pixelate) * (220.376 / 1080));
+    overflow: auto;
 }
 body[id*="LeagueOfLegends"] main #matchHistory div {
     display: flex;
@@ -591,4 +589,10 @@ body[id*="LeagueOfLegends"] footer div {
 }
 body[id*="LeagueOfLegends"] footer div img {
     height: calc(var(--pixelate) / 43.2);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(1) {
+    width: calc(var(--percentage) / 2);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(3) {
+    display: flex;
 }
