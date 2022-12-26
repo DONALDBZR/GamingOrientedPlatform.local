@@ -293,4 +293,19 @@ class LeagueOfLegends
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
+    /**
+     * Deleting the data that is in the cache so that new data can be stored
+     * @return JSON
+     */
+    public function delete()
+    {
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
+        $response = array(
+            "status" => 0,
+            "url" => "{$_SERVER["HTTP_REFERER"]}"
+        );
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
 }
