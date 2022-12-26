@@ -299,8 +299,13 @@ class LeagueOfLegends
      */
     public function delete()
     {
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
+        if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
+        } else {
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.matchHistory.json");
+        }
         $response = array(
             "status" => 0,
             "url" => "{$_SERVER["HTTP_REFERER"]}"

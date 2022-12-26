@@ -118,6 +118,16 @@ class Application extends React.Component {
              * @type {string}
              */
             gameName: "",
+            /**
+             * The url to be redirected after displaying the message
+             * @type {string}
+             */
+            url: "",
+            /**
+             * The status returned from the request
+             * @type {int}
+             */
+            status: 0,
         };
     }
     /**
@@ -410,10 +420,12 @@ class Application extends React.Component {
             },
         )
             .then((response) => response.json())
-            .then((data) => this.setState({
-                status: data.status,
-                url: data.url,
-            }))
+            .then((data) =>
+                this.setState({
+                    status: data.status,
+                    url: data.url,
+                })
+            )
             .then(() => this.redirector(delay));
     }
     /**
@@ -525,7 +537,7 @@ class Main extends Application {
                             </form>
                         </div>
                         <div>
-                            <button onClick={this.updateData}>
+                            <button onClick={this.updateData.bind(this)}>
                                 Update
                                 <span></span>
                                 <span></span>
