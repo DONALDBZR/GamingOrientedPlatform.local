@@ -494,17 +494,28 @@ class Main extends Application {
                         </div>
                     </div>
                     <div>
-                        <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
-                            <input
-                                type="search"
-                                name="lolSearch"
-                                placeholder="Search..."
-                                value={this.state.lolSearch}
-                                onChange={this.handleChange.bind(this)}
-                                required
-                            />
-                            <button class="fa fa-search"></button>
-                        </form>
+                        <div>
+                            <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
+                                <input
+                                    type="search"
+                                    name="lolSearch"
+                                    placeholder="Search..."
+                                    value={this.state.lolSearch}
+                                    onChange={this.handleChange.bind(this)}
+                                    required
+                                />
+                                <button class="fa fa-search"></button>
+                            </form>
+                        </div>
+                        <div>
+                            <button>
+                                Update
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
                     </div>
                 </header>
                 <div id="matchHistory">
