@@ -400,6 +400,23 @@ class Application extends React.Component {
         }
     }
     /**
+     * Sending a request to the server to update the data in its cache database before refreshing the page
+     */
+    updateData() {
+        const delay = 1000;
+        fetch("/Controllers/LeagueOfLegendsDelete.php",
+            {
+                method: "POST",
+            },
+        )
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                status: data.status,
+                url: data.url,
+            }))
+            .then(() => this.redirector(delay));
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -508,7 +525,7 @@ class Main extends Application {
                             </form>
                         </div>
                         <div>
-                            <button>
+                            <button onClick={this.updateData}>
                                 Update
                                 <span></span>
                                 <span></span>

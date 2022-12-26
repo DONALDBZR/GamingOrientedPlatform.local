@@ -87,5 +87,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}":
                 $Router = new Router("POST", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Controllers/LeagueOfLegendsHome.php");
                 break;
+            case "/LeagueOfLegends/Delete":
+                $Router = new Router("POST", "/LeagueOfLegends/Delete", "/Controllers/LeagueOfLegendsDelete.php");
+                break;
         }
 }
