@@ -508,7 +508,13 @@ class Main extends Application {
                             </form>
                         </div>
                         <div>
-                            <button>Update</button>
+                            <button>
+                                Update
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
                         </div>
                     </div>
                 </header>

@@ -51,7 +51,13 @@ body[id*="LeagueOfLegends"] footer {
     font-size: calc(var(--textSize) * 0.9);
 }
 #Homepage main #buttons div a,
-body[id*="UsersProfile"] footer nav a {
+body[id*="UsersProfile"] footer nav a,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button {
     padding: calc(var(--pixelate) / 54) calc(var(--pixelate) / 27);
     margin: calc(var(--pixelate) / 90);
     display: inline-block;
@@ -66,7 +72,13 @@ body[id*="UsersProfile"] footer nav a {
         var(--color4);
 }
 #Homepage main #buttons div a::before,
-body[id*="UsersProfile"] footer nav a::before {
+body[id*="UsersProfile"] footer nav a::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button::before {
     position: absolute;
     top: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
@@ -75,11 +87,25 @@ body[id*="UsersProfile"] footer nav a::before {
     transition: calc(var(--time) / 5) opacity ease-in-out;
 }
 #Homepage main #buttons div a span,
-body[id*="UsersProfile"] footer nav a span {
+body[id*="UsersProfile"] footer nav a span,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span {
     position: absolute;
 }
 #Homepage main #buttons div a span:nth-child(1),
-body[id*="UsersProfile"] footer nav a span:nth-child(1) {
+body[id*="UsersProfile"] footer nav a span:nth-child(1),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span:nth-child(1) {
     top: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
     width: var(--percentage);
@@ -95,7 +121,14 @@ body[id*="UsersProfile"] footer nav a span:nth-child(1) {
     }
 }
 #Homepage main #buttons div a span:nth-child(2),
-body[id*="UsersProfile"] footer nav a span:nth-child(2) {
+body[id*="UsersProfile"] footer nav a span:nth-child(2),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span:nth-child(2) {
     top: calc(var(--pixelate) * 0);
     right: calc(var(--pixelate) * 0);
     height: var(--percentage);
@@ -112,7 +145,14 @@ body[id*="UsersProfile"] footer nav a span:nth-child(2) {
     }
 }
 #Homepage main #buttons div a span:nth-child(3),
-body[id*="UsersProfile"] footer nav a span:nth-child(3) {
+body[id*="UsersProfile"] footer nav a span:nth-child(3),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span:nth-child(3) {
     bottom: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
     width: var(--percentage);
@@ -128,7 +168,14 @@ body[id*="UsersProfile"] footer nav a span:nth-child(3) {
     }
 }
 #Homepage main #buttons div a span:nth-child(4),
-body[id*="UsersProfile"] footer nav a span:nth-child(4) {
+body[id*="UsersProfile"] footer nav a span:nth-child(4),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span:nth-child(4) {
     top: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
     height: var(--percentage);
@@ -592,9 +639,12 @@ body[id*="LeagueOfLegends"] main header div:nth-child(4) {
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(1) {
     width: var(--percentage);
-    margin-bottom: calc(var(--percentage) / 100);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2) {
-    width: calc(var(--percentage) / 4);
+    width: calc(var(--percentage) / 2);
     display: block;
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2) button {
+    margin: calc(var(--pixelate) / 270);
+    padding: calc(var(--pixelate) / 216) calc(var(--pixelate) / 108);
 }

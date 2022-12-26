@@ -128,7 +128,13 @@ body[id*="LeagueOfLegends"] footer {
     font-family: var(--ethnocentric);
 }
 #Homepage main #buttons div a,
-body[id*="UsersProfile"] footer nav a {
+body[id*="UsersProfile"] footer nav a,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button {
     font-family: var(--sourceCodePro);
     text-decoration: none;
     background: linear-gradient(
@@ -141,29 +147,69 @@ body[id*="UsersProfile"] footer nav a {
     text-transform: uppercase;
 }
 #Homepage main #buttons div a::before,
-body[id*="UsersProfile"] footer nav a::before {
+body[id*="UsersProfile"] footer nav a::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button::before {
     content: "";
     background-color: var(--color7);
     opacity: calc(var(--percentage) * 0);
 }
 #Homepage main #buttons div a span:nth-child(1),
-body[id*="UsersProfile"] footer nav a span:nth-child(1) {
+body[id*="UsersProfile"] footer nav a span:nth-child(1),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span:nth-child(1) {
     background: linear-gradient(to left, var(--color8), var(--color9));
 }
 #Homepage main #buttons div a span:nth-child(2),
-body[id*="UsersProfile"] footer nav a span:nth-child(2) {
+body[id*="UsersProfile"] footer nav a span:nth-child(2),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span:nth-child(2) {
     background: linear-gradient(to top, var(--color8), var(--color9));
 }
 #Homepage main #buttons div a span:nth-child(3),
-body[id*="UsersProfile"] footer nav a span:nth-child(3) {
+body[id*="UsersProfile"] footer nav a span:nth-child(3),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span:nth-child(3) {
     background: linear-gradient(to right, var(--color8), var(--color9));
 }
 #Homepage main #buttons div a span:nth-child(4),
-body[id*="UsersProfile"] footer nav a span:nth-child(4) {
+body[id*="UsersProfile"] footer nav a span:nth-child(4),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span:nth-child(4) {
     background: linear-gradient(to bottom, var(--color8), var(--color9));
 }
 #Homepage main #buttons div a:hover,
-body[id*="UsersProfile"] footer nav a:hover {
+body[id*="UsersProfile"] footer nav a:hover,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button:hover {
     --color4: rgb(
         var(--percentage),
         calc(var(--percentage) / 2),
@@ -449,4 +495,12 @@ body[id*="LeagueOfLegends"]
 }
 ::-webkit-scrollbar {
     display: none;
+}
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button {
+    border: none;
 }

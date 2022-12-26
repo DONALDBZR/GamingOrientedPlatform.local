@@ -51,7 +51,13 @@ body[id*="LeagueOfLegends"] footer {
     font-size: calc(var(--textSize) * 0.9);
 }
 #Homepage main #buttons div a,
-body[id*="UsersProfile"] footer nav a {
+body[id*="UsersProfile"] footer nav a,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button {
     padding: calc(var(--pixelate) / 54 * 0.81)
         calc(var(--pixelate) / 27 * 0.4782969);
     margin: calc(var(--pixelate) / 90) calc(var(--pixelate) / 90 * 0.3486784401);
@@ -65,15 +71,41 @@ body[id*="UsersProfile"] footer nav a {
 #Homepage main #buttons div a::before,
 #Homepage main #buttons div a span,
 body[id*="UsersProfile"] footer nav a::before,
-body[id*="UsersProfile"] footer nav a span {
+body[id*="UsersProfile"] footer nav a span,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span {
     display: none;
 }
 #Homepage main #buttons div a span,
-body[id*="UsersProfile"] footer nav a span {
+body[id*="UsersProfile"] footer nav a span,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button
+    span {
     background: none !important;
 }
 #Homepage main #buttons div a:hover,
-body[id*="UsersProfile"] footer nav a:hover {
+body[id*="UsersProfile"] footer nav a:hover,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    button:hover {
     --color6: rgb(
         var(--percentage),
         calc(var(--percentage) * 0.9),
@@ -602,9 +634,13 @@ body[id*="LeagueOfLegends"] main #matchHistory div:last-child {
     margin: calc(var(--percentage) * 0);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(1) {
-    width: calc(var(--percentage) / 2);
+    width: calc(var(--percentage) * (2 / 3));
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2) {
-    width: calc(var(--percentage) / 4);
+    width: calc(var(--percentage) / 3);
     display: block;
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2) button {
+    margin: calc(var(--pixelate) / 270);
+    padding: calc(var(--pixelate) / 432) calc(var(--pixelate) / 216);
 }
