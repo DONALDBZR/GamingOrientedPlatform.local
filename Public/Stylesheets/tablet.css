@@ -568,3 +568,7 @@ body[id*="LeagueOfLegends"] footer div {
 body[id*="LeagueOfLegends"] footer div img {
     height: calc(var(--pixelate) / 43.2);
 }
+body[id*="LeagueOfLegends"] main #matchHistory div:nth-child(1),
+body[id*="LeagueOfLegends"] main #matchHistory div:last-child {
+    margin: calc(var(--percentage) * 0);
+}

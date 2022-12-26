@@ -596,3 +596,7 @@ body[id*="LeagueOfLegends"] main header div:nth-child(1) {
 body[id*="LeagueOfLegends"] main header div:nth-child(3) {
     display: flex;
 }
+body[id*="LeagueOfLegends"] main #matchHistory div:nth-child(1),
+body[id*="LeagueOfLegends"] main #matchHistory div:last-child {
+    margin: calc(var(--percentage) * 0);
+}
