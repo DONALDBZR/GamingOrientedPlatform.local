@@ -581,3 +581,14 @@ body[id*="LeagueOfLegends"] header,
 body[id*="LeagueOfLegends"] footer {
     background-color: var(--color1);
 }
+body[id*="LeagueOfLegends"] footer {
+    display: flex;
+    justify-content: space-evenly;
+}
+body[id*="LeagueOfLegends"] footer div {
+    display: flex;
+    align-items: center;
+}
+body[id*="LeagueOfLegends"] footer div img {
+    height: calc(var(--pixelate) / 43.2);
+}
