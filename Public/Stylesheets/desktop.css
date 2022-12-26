@@ -399,6 +399,8 @@ body[id*="LeagueOfLegends"] main header div div img {
 body[id*="LeagueOfLegends"] main header div:nth-child(2),
 body[id*="LeagueOfLegends"] main header div:nth-child(4) {
     width: calc(var(--percentage) / 5);
+    display: flex;
+    flex-wrap: wrap;
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(4),
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(5) {
@@ -584,4 +586,15 @@ body[id*="LeagueOfLegends"] footer div img {
 body[id*="LeagueOfLegends"] main #matchHistory div:nth-child(1),
 body[id*="LeagueOfLegends"] main #matchHistory div:last-child {
     margin: calc(var(--percentage) * 0);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) {
+    height: var(--percentage);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(1) {
+    width: var(--percentage);
+    margin-bottom: calc(var(--percentage) / 100);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2) {
+    width: calc(var(--percentage) / 4);
+    display: block;
 }

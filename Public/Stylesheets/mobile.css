@@ -517,8 +517,6 @@ body[id*="LeagueOfLegends"]
     width: auto;
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) form {
-    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 4);
-    width: calc(var(--percentage) / 2);
     display: flex;
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) form input {
@@ -532,6 +530,9 @@ body[id*="LeagueOfLegends"] main header div:nth-child(4) form button {
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) {
     width: var(--percentage);
+    height: var(--percentage);
+    display: flex;
+    flex-wrap: wrap;
 }
 body[id*="LeagueOfLegends"]
     main
@@ -599,4 +600,11 @@ body[id*="LeagueOfLegends"] main header div:nth-child(3) {
 body[id*="LeagueOfLegends"] main #matchHistory div:nth-child(1),
 body[id*="LeagueOfLegends"] main #matchHistory div:last-child {
     margin: calc(var(--percentage) * 0);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(1) {
+    width: calc(var(--percentage) / 2);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2) {
+    width: calc(var(--percentage) / 4);
+    display: block;
 }
