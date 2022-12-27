@@ -57,7 +57,7 @@ class LeagueOfLegends
             $this->setPlayerUniversallyUniqueIdentifier($riotAccountApiResponse->puuid);
         }
         $response = array(
-            "httpResponseCode" => $this->getHttpResponseCode($riotAccountApiRequest),
+            "httpResponseCode" => intval($this->getHttpResponseCode($riotAccountApiRequest)),
             "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
             "gameName" => $this->getGameName(),
             "tagLine" => $this->getTagLine()
@@ -310,6 +310,64 @@ class LeagueOfLegends
             "status" => 0,
             "url" => "{$_SERVER["HTTP_REFERER"]}"
         );
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
+    /**
+     * Accessing the champion mastery of the player
+     * @param string $game_name
+     * @param string $tag_line
+     * @return JSON
+     */
+    public function getChampionMastery(string $game_name, string $tag_line)
+    {
+        if (json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode == 200) {
+            $this->setGameName(json_decode($this->retrieveData($game_name, $tag_line))->gameName);
+            $this->setTagLine(json_decode($this->retrieveData($game_name, $tag_line))->tagLine);
+            $this->setPlayerUniversallyUniqueIdentifier(json_decode($this->retrieveData($game_name, $tag_line))->playerUniversallyUniqueIdentifier);
+            $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key=" . Environment::RiotAPIKey;
+            if ($this->getHttpResponseCode($riotSummonerApiRequest) == 200) {
+                $riotSummonerApiResponse = json_decode(file_get_contents($riotSummonerApiRequest));
+                $riotChampionMasteryApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{$riotSummonerApiResponse->id}/top?count=3&api_key=" . Environment::RiotAPIKey;
+                if ($this->getHttpResponseCode($riotChampionMasteryApiRequest) == 200) {
+                    $riotChampionMasteryApiResponse = json_decode(file_get_contents($riotChampionMasteryApiRequest));
+                    $championMastery = array();
+                    for ($index = 0; $index < count($riotChampionMasteryApiResponse); $index++) {
+                        $champion = array(
+                            "championId" => $riotChampionMasteryApiResponse[$index]->championId,
+                            "championLevel" => $riotChampionMasteryApiResponse[$index]->championLevel,
+                            "championPoints" => $riotChampionMasteryApiResponse[$index]->championPoints,
+                        );
+                        array_push($championMastery, $champion);
+                    }
+                    $response = array(
+                        "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
+                        "httpResponseCode_summoner" => $this->getHttpResponseCode($riotSummonerApiRequest),
+                        "httpResponseCode_championMastery" => $this->getHttpResponseCode($riotChampionMasteryApiRequest),
+                        "championMastery" => $championMastery
+                    );
+                    $cacheData = json_encode($response);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getPlayerUniversallyUniqueIdentifier()}.championMastery.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
+                } else {
+                    $response = array(
+                        "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
+                        "httpResponseCode_summoner" => $this->getHttpResponseCode($riotSummonerApiRequest),
+                        "httpResponseCode_championMastery" => $this->getHttpResponseCode($riotChampionMasteryApiRequest)
+                    );
+                }
+            } else {
+                $response = array(
+                    "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
+                    "httpResponseCode_summoner" => $this->getHttpResponseCode($riotSummonerApiRequest)
+                );
+            }
+        } else {
+            $response = array(
+                "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode
+            );
+        }
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
