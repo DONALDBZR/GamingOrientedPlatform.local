@@ -134,7 +134,8 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(2)
-    button {
+    button,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a {
     font-family: var(--sourceCodePro);
     text-decoration: none;
     background: linear-gradient(
@@ -153,7 +154,13 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(2)
-    button::before {
+    button::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(3)
+    a::before {
     content: "";
     background-color: var(--color7);
     opacity: calc(var(--percentage) * 0);
@@ -166,6 +173,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(2)
     button
+    span:nth-child(1),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(3)
+    a
     span:nth-child(1) {
     background: linear-gradient(to left, var(--color8), var(--color9));
 }
@@ -177,6 +191,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(2)
     button
+    span:nth-child(2),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(3)
+    a
     span:nth-child(2) {
     background: linear-gradient(to top, var(--color8), var(--color9));
 }
@@ -188,6 +209,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(2)
     button
+    span:nth-child(3),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(3)
+    a
     span:nth-child(3) {
     background: linear-gradient(to right, var(--color8), var(--color9));
 }
@@ -199,6 +227,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(2)
     button
+    span:nth-child(4),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(3)
+    a
     span:nth-child(4) {
     background: linear-gradient(to bottom, var(--color8), var(--color9));
 }
@@ -209,7 +244,13 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(2)
-    button:hover {
+    button:hover,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(3)
+    a:hover {
     --color4: rgb(
         var(--percentage),
         calc(var(--percentage) / 2),
@@ -503,4 +544,5 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2)
     button {
     border: none;
+    cursor: pointer;
 }
