@@ -641,7 +641,8 @@ body[id*="LeagueOfLegends"] main header div:nth-child(4) {
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(1) {
     width: var(--percentage);
 }
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2) {
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2),
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) {
     width: calc(var(--percentage) / 2);
     display: block;
 }
