@@ -546,7 +546,7 @@ class Main extends Application {
                             </button>
                         </div>
                         <div>
-                            <a href="https://www.proguides.com/leagueoflegends/champions/search">
+                            <a href="https://www.proguides.com/leagueoflegends/champions/search" target="__blank">
                                 Meta
                                 <span></span>
                                 <span></span>
