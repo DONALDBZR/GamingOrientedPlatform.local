@@ -128,6 +128,11 @@ class Application extends React.Component {
              * @type {int}
              */
             status: 0,
+            /**
+             * Champion Mastery of the player
+             * @type {array}
+             */
+            championMastery: [],
         };
     }
     /**
@@ -427,6 +432,19 @@ class Application extends React.Component {
                 })
             )
             .then(() => this.redirector(delay));
+    }
+    /**
+     * Retrieving data from Riot Games data center for the user's champion's mastery
+     */
+    retrieveLoL_SummonerData_championMastery() {
+        fetch("/LegendsOfLegends/ChampionMastery",
+            {
+                method: "GET"
+            })
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                championMastery: data.championMastery,
+            }));
     }
     /**
      * Renders the components that are being returned

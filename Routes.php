@@ -59,6 +59,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/LegendsOfLegends/Search/Summoner':
                 $Router = new Router("GET", "/LegendsOfLegends/Search/Summoner", "/Controllers/SearchSummoner.php");
                 break;
+            case '/LegendsOfLegends/ChampionMastery':
+                $Router = new Router("GET", "/LegendsOfLegends/ChampionMastery", "/Controllers/ChampionMastery.php");
+                break;
         }
         break;
     case 'POST':
