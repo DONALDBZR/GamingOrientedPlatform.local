@@ -545,6 +545,15 @@ class Main extends Application {
                                 <span></span>
                             </button>
                         </div>
+                        <div>
+                            <a href="https://www.proguides.com/leagueoflegends/champions/search">
+                                Meta
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
                     </div>
                 </header>
                 <div id="matchHistory">
