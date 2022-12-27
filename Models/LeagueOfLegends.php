@@ -302,9 +302,11 @@ class LeagueOfLegends
         if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
             unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
             unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.championMastery.json");
         } else {
             unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.json");
             unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.matchHistory.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.championMastery.json");
         }
         $response = array(
             "status" => 0,
