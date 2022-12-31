@@ -344,8 +344,8 @@ class LeagueOfLegends
                     }
                     $response = array(
                         "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                        "httpResponseCode_summoner" => $this->getHttpResponseCode($riotSummonerApiRequest),
-                        "httpResponseCode_championMastery" => $this->getHttpResponseCode($riotChampionMasteryApiRequest),
+                        "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
+                        "httpResponseCode_championMastery" => intval($this->getHttpResponseCode($riotChampionMasteryApiRequest)),
                         "championMastery" => $championMastery
                     );
                     $cacheData = json_encode($response);
@@ -355,14 +355,14 @@ class LeagueOfLegends
                 } else {
                     $response = array(
                         "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                        "httpResponseCode_summoner" => $this->getHttpResponseCode($riotSummonerApiRequest),
-                        "httpResponseCode_championMastery" => $this->getHttpResponseCode($riotChampionMasteryApiRequest)
+                        "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
+                        "httpResponseCode_championMastery" => intval($this->getHttpResponseCode($riotChampionMasteryApiRequest))
                     );
                 }
             } else {
                 $response = array(
                     "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                    "httpResponseCode_summoner" => $this->getHttpResponseCode($riotSummonerApiRequest)
+                    "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest))
                 );
             }
         } else {
