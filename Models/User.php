@@ -18,6 +18,9 @@ class User extends Password
      * Profile picture of the user
      */
     private ?string $profilePicture;
+    /**
+     * Simplifying the use of PHPMailer
+     */
     protected Mail $Mail;
     public function __construct()
     {
@@ -166,7 +169,7 @@ class User extends Password
                     "Account" => $_SESSION['Account']
                 );
                 $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getUsername()}.json", "w");
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "w");
                 fwrite($cache, $cacheData);
                 fclose($cache);
                 $response = array(
@@ -197,9 +200,9 @@ class User extends Password
      */
     public function logOut()
     {
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json");
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json");
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
         unset($_SESSION);
         $response = array(
             "status" => 0,
@@ -282,7 +285,7 @@ class User extends Password
                 "Account" => $_SESSION['Account']
             );
             $cacheData = json_encode($data);
-            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "w");
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
             fwrite($cache, $cacheData);
             fclose($cache);
             $response = array(
