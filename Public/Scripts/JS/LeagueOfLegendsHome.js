@@ -575,51 +575,54 @@ class Main extends Application {
                         </div>
                     </div>
                 </header>
-                <div id="matchHistory">
-                    {this.state.matchHistory.map((match) => {
-                        return (
-                            <div style={{ backgroundColor: this.verifyLeagueOfLegends_win(match.win, match.matchLength) }}>
-                                <div>
-                                    <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${match.champion}.png`} />
-                                </div>
-                                <div>
+                <div>
+                    <div id="championMastery"></div>
+                    <div id="matchHistory">
+                        {this.state.matchHistory.map((match) => {
+                            return (
+                                <div style={{ backgroundColor: this.verifyLeagueOfLegends_win(match.win, match.matchLength) }}>
                                     <div>
-                                        <div>
-                                            <div>{`${match.kill}/${match.death}/${match.assist}`}</div>
-                                            <div style={{ color: this.verifyLeagueOfLegends_kda(match.kda) }}>{match.kda}</div>
-                                        </div>
-                                        <div style={{ color: this.verifyLeagueOfLegends_cs(match.creepScore, match.matchLength / 60) }}>{match.creepScore}</div>
-                                        <div style={{ color: this.verifyLeagueOfLegends_vs(match.visualScore, match.matchLength / 60) }}>{match.visualScore}</div>
-                                        <div>{match.length}</div>
-                                        <div>{match.lane}</div>
+                                        <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${match.champion}.png`} />
                                     </div>
                                     <div>
                                         <div>
-                                            {this.verifyLeagueOfLegends_item(match.item0)}
+                                            <div>
+                                                <div>{`${match.kill}/${match.death}/${match.assist}`}</div>
+                                                <div style={{ color: this.verifyLeagueOfLegends_kda(match.kda) }}>{match.kda}</div>
+                                            </div>
+                                            <div style={{ color: this.verifyLeagueOfLegends_cs(match.creepScore, match.matchLength / 60) }}>{match.creepScore}</div>
+                                            <div style={{ color: this.verifyLeagueOfLegends_vs(match.visualScore, match.matchLength / 60) }}>{match.visualScore}</div>
+                                            <div>{match.length}</div>
+                                            <div>{match.lane}</div>
                                         </div>
                                         <div>
-                                            {this.verifyLeagueOfLegends_item(match.item1)}
-                                        </div>
-                                        <div>
-                                            {this.verifyLeagueOfLegends_item(match.item2)}
-                                        </div>
-                                        <div>
-                                            {this.verifyLeagueOfLegends_item(match.item3)}
-                                        </div>
-                                        <div>
-                                            {this.verifyLeagueOfLegends_item(match.item4)}
-                                        </div>
-                                        <div>
-                                            {this.verifyLeagueOfLegends_item(match.item5)}
-                                        </div>
-                                        <div>
-                                            {this.verifyLeagueOfLegends_item(match.item6)}
+                                            <div>
+                                                {this.verifyLeagueOfLegends_item(match.item0)}
+                                            </div>
+                                            <div>
+                                                {this.verifyLeagueOfLegends_item(match.item1)}
+                                            </div>
+                                            <div>
+                                                {this.verifyLeagueOfLegends_item(match.item2)}
+                                            </div>
+                                            <div>
+                                                {this.verifyLeagueOfLegends_item(match.item3)}
+                                            </div>
+                                            <div>
+                                                {this.verifyLeagueOfLegends_item(match.item4)}
+                                            </div>
+                                            <div>
+                                                {this.verifyLeagueOfLegends_item(match.item5)}
+                                            </div>
+                                            <div>
+                                                {this.verifyLeagueOfLegends_item(match.item6)}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
+                    </div>
                 </div>
             </main>
         );
