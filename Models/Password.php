@@ -147,7 +147,7 @@ class Password
                 "Account" => $_SESSION['Account']
             );
             $cacheData = json_encode($data);
-            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "w");
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
             fwrite($cache, $cacheData);
             fclose($cache);
             $reponse = array(
