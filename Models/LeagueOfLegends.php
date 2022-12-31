@@ -164,7 +164,7 @@ class LeagueOfLegends
                             "gameName" => $this->getGameName()
                         );
                         $cacheData = json_encode($response);
-                        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
+                        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
                         fwrite($cache, $cacheData);
                         fclose($cache);
                     } else {
@@ -253,7 +253,7 @@ class LeagueOfLegends
                     "MatchHistory" => $matchHistory
                 );
                 $cacheData = json_encode($response);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Match Histories/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
                 fwrite($cache, $cacheData);
                 fclose($cache);
             } else {
@@ -300,13 +300,13 @@ class LeagueOfLegends
     public function delete()
     {
         if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
-            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
-            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.matchHistory.json");
-            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.championMastery.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
         } else {
-            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.json");
-            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.matchHistory.json");
-            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.championMastery.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.json");
+            unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$_SESSION['Search']['LeagueOfLegends']["playerUniversallyUniqueIdentifier"]}.json");
         }
         $response = array(
             "status" => 0,
