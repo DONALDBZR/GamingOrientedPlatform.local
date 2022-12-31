@@ -447,6 +447,18 @@ class Application extends React.Component {
             }));
     }
     /**
+     * Handling the level that is retrieved from the data
+     * @param {int} champion_level
+     * @returns {int | string}
+     */
+    verifyLeagueOfLegends_championMastery_level(champion_level) {
+        if (champion_level >= 4) {
+            return champion_level;
+        } else {
+            return "default";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -576,7 +588,23 @@ class Main extends Application {
                     </div>
                 </header>
                 <div>
-                    <div id="championMastery"></div>
+                    <div id="championMastery">
+                        {this.state.championMastery.map((championMastery) => {
+                            return (
+                                <div>
+                                    <div>
+                                        <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${championMastery.championId}.png`} />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <img src={`https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_${this.verifyLeagueOfLegends_championMastery_level(championMastery.championLevel)}.png`} />
+                                        </div>
+                                        <div>{`${championMastery.championPoints} pts`}</div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                     <div id="matchHistory">
                         {this.state.matchHistory.map((match) => {
                             return (
