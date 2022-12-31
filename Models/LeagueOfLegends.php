@@ -249,7 +249,8 @@ class LeagueOfLegends
                     array_push($matchHistory, $match);
                 }
                 $response = array(
-                    "httpResponseCode" => intval($this->getHttpResponseCode($riotMatchApiRequest1)),
+                    "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
+                    "httpResponseCode_match" => intval($this->getHttpResponseCode($riotMatchApiRequest1)),
                     "MatchHistory" => $matchHistory
                 );
                 $cacheData = json_encode($response);
