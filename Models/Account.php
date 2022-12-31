@@ -62,15 +62,15 @@ class Account extends User
                     "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
                 );
                 $_SESSION['Account'] = $account;
-                if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getUsername()}.json")) {
-                    file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getUsername()}.json", "");
+                if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
+                    file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
                 }
                 $data = array(
                     "User" => $_SESSION['User'],
                     "Account" => $_SESSION['Account']
                 );
                 $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "w");
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
                 fwrite($cache, $cacheData);
                 fclose($cache);
                 $response = array(
