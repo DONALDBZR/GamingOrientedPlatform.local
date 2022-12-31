@@ -164,7 +164,7 @@ class LeagueOfLegends
                             "gameName" => $this->getGameName()
                         );
                         $cacheData = json_encode($response);
-                        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
+                        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
                         fwrite($cache, $cacheData);
                         fclose($cache);
                     } else {
@@ -253,7 +253,7 @@ class LeagueOfLegends
                     "MatchHistory" => $matchHistory
                 );
                 $cacheData = json_encode($response);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getPlayerUniversallyUniqueIdentifier()}.matchHistory.json", "w");
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Match Histories/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
                 fwrite($cache, $cacheData);
                 fclose($cache);
             } else {
@@ -349,7 +349,7 @@ class LeagueOfLegends
                         "championMastery" => $championMastery
                     );
                     $cacheData = json_encode($response);
-                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$this->getPlayerUniversallyUniqueIdentifier()}.championMastery.json", "w");
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
                     fwrite($cache, $cacheData);
                     fclose($cache);
                 } else {
