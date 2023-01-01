@@ -447,6 +447,18 @@ class Application extends React.Component {
             }));
     }
     /**
+     * Handling the level that is retrieved from the data
+     * @param {int} champion_level
+     * @returns {int | string}
+     */
+    verifyLeagueOfLegends_championMastery_level(champion_level) {
+        if (champion_level >= 4) {
+            return champion_level;
+        } else {
+            return "default";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
