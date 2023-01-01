@@ -55,6 +55,17 @@ class Application extends React.Component {
         }, delay);
     }
     /**
+     * Handling the response from the server
+     * @returns {string}
+     */
+    handleResponseColor() {
+        if (this.state.status == 0) {
+            return "rgb(0%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -92,7 +103,7 @@ class Main extends Application {
     }
     render() {
         return (
-            <main>
+            <main style={{ color: this.handleResponseColor() }}>
                 {this.state.message}
             </main>
         );
