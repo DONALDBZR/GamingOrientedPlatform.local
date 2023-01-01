@@ -328,6 +328,8 @@ class LeagueOfLegends
             $this->setGameName(json_decode($this->retrieveData($game_name, $tag_line))->gameName);
             $this->setTagLine(json_decode($this->retrieveData($game_name, $tag_line))->tagLine);
             $this->setPlayerUniversallyUniqueIdentifier(json_decode($this->retrieveData($game_name, $tag_line))->playerUniversallyUniqueIdentifier);
+            $ddragonLeagueOfLegendsChampionsCDN = (array)json_decode(file_get_contents("http://ddragon.leagueoflegends.com/cdn/12.23.1/data/en_US/champion.json"))->data;
+            $championIds = array_keys($ddragonLeagueOfLegendsChampionsCDN);
             $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key=" . Environment::RiotAPIKey;
             if ($this->getHttpResponseCode($riotSummonerApiRequest) == 200) {
                 $riotSummonerApiResponse = json_decode(file_get_contents($riotSummonerApiRequest));
@@ -335,12 +337,10 @@ class LeagueOfLegends
                 if ($this->getHttpResponseCode($riotChampionMasteryApiRequest) == 200) {
                     $riotChampionMasteryApiResponse = json_decode(file_get_contents($riotChampionMasteryApiRequest));
                     $championMastery = array();
-                    $ddragonChampionJson = json_decode(file_get_contents("http://ddragon.leagueoflegends.com/cdn/12.23.1/data/en_US/champion.json"));
-                    $championIds = array_keys((array)$ddragonChampionJson->data);
                     for ($firstIndex = 0; $firstIndex < count($riotChampionMasteryApiResponse); $firstIndex++) {
                         for ($secondIndex = 0; $secondIndex < count($championIds); $secondIndex++) {
-                            if ($ddragonChampionJson->data->$championIds[$secondIndex]->key == $riotChampionMasteryApiResponse[$firstIndex]->championId) {
-                                $championName = $ddragonChampionJson->data->$championIds[$secondIndex]->id;
+                            if ($riotChampionMasteryApiResponse[$firstIndex]->championId == $ddragonLeagueOfLegendsChampionsCDN[$championIds[$secondIndex]]->key) {
+                                $championName = $ddragonLeagueOfLegendsChampionsCDN[$championIds[$secondIndex]]->id;
                             }
                         }
                         $champion = array(
