@@ -335,11 +335,18 @@ class LeagueOfLegends
                 if ($this->getHttpResponseCode($riotChampionMasteryApiRequest) == 200) {
                     $riotChampionMasteryApiResponse = json_decode(file_get_contents($riotChampionMasteryApiRequest));
                     $championMastery = array();
-                    for ($index = 0; $index < count($riotChampionMasteryApiResponse); $index++) {
+                    $ddragonChampionJson = json_decode(file_get_contents("http://ddragon.leagueoflegends.com/cdn/12.23.1/data/en_US/champion.json"));
+                    $championIds = array_keys((array)$ddragonChampionJson->data);
+                    for ($firstIndex = 0; $firstIndex < count($riotChampionMasteryApiResponse); $firstIndex++) {
+                        for ($secondIndex = 0; $secondIndex < count($championIds); $secondIndex++) {
+                            if ($ddragonChampionJson->data->$championIds[$secondIndex]->key == $riotChampionMasteryApiResponse[$firstIndex]->championId) {
+                                $championName = $ddragonChampionJson->data->$championIds[$secondIndex]->id;
+                            }
+                        }
                         $champion = array(
-                            "championId" => $riotChampionMasteryApiResponse[$index]->championId,
-                            "championLevel" => $riotChampionMasteryApiResponse[$index]->championLevel,
-                            "championPoints" => $riotChampionMasteryApiResponse[$index]->championPoints,
+                            "championId" => $championName,
+                            "championLevel" => $riotChampionMasteryApiResponse[$firstIndex]->championLevel,
+                            "championPoints" => $riotChampionMasteryApiResponse[$firstIndex]->championPoints,
                         );
                         array_push($championMastery, $champion);
                     }
