@@ -24,7 +24,6 @@ class User extends Password
     protected Mail $Mail;
     public function __construct()
     {
-        $this->domain = "http://{$_SERVER['HTTP_HOST']}";
         $this->PDO = new PHPDataObject();
         $this->Mail = new Mail();
     }
@@ -97,13 +96,13 @@ class User extends Password
             $this->PDO->execute();
             $response = array(
                 "status" => 0,
-                "url" => "{$this->domain}/Login",
+                "url" => "http://{$_SERVER['HTTP_HOST']}/Login",
                 "message" => "Account created!  Please check your mail to obtain your password!"
             );
         } else {
             $response = array(
                 "status" => 2,
-                "url" => "{$this->domain}/Login",
+                "url" => "http://{$_SERVER['HTTP_HOST']}/Login",
                 "message" => "Account exists!"
             );
         }
@@ -138,7 +137,7 @@ class User extends Password
                     "username" => $this->getUsername(),
                     "mailAddress" => $this->getMailAddress(),
                     "profilePicture" => $this->getProfilePicture(),
-                    "domain" => $this->domain,
+                    "domain" => "http://{$_SERVER['HTTP_HOST']}",
                     "otp" => $this->getOtp()
                 );
                 $_SESSION['User'] = $user;
@@ -163,7 +162,7 @@ class User extends Password
                     "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
                 );
                 $_SESSION['Account'] = $account;
-                $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$this->domain}/Login/Verification/{$this->getUsername()}");
+                $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on http://{$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
                 $data = array(
                     "User" => $_SESSION['User'],
                     "Account" => $_SESSION['Account']
@@ -174,20 +173,20 @@ class User extends Password
                 fclose($cache);
                 $response = array(
                     "status" => 0,
-                    "url" => "{$this->domain}/Login/Verification/{$this->getUsername()}",
+                    "url" => "http://{$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}",
                     "message" => "You will be redirected to the verification process just to be sure and a password has been sent to you for that! 🙏"
                 );
             } else {
                 $response = array(
                     "status" => 3,
-                    "url" => "{$this->domain}/Login",
+                    "url" => "http://{$_SERVER['HTTP_HOST']}/Login",
                     "message" => "Your password is incorrect!"
                 );
             }
         } else {
             $response = array(
                 "status" => 4,
-                "url" => "{$this->domain}",
+                "url" => "http://{$_SERVER['HTTP_HOST']}",
                 "message" => "This account does not exist!"
             );
         }
@@ -207,13 +206,13 @@ class User extends Password
             unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
             $response = array(
                 "status" => 0,
-                "url" => "{$this->domain}",
+                "url" => "http://{$_SERVER['HTTP_HOST']}",
                 "message" => "You have been successfully logged out!"
             );
         } else {
             $response = array(
                 "status" => 13,
-                "url" => "{$this->domain}",
+                "url" => "http://{$_SERVER['HTTP_HOST']}",
                 "message" => "You have been successfully logged out but the cache has not been cleared on the application server!"
             );
         }
@@ -256,13 +255,13 @@ class User extends Password
             $this->PDO->execute();
             $response = array(
                 "status" => 0,
-                "url" => "{$this->domain}/Login",
+                "url" => "http://{$_SERVER['HTTP_HOST']}/Login",
                 "message" => "Password Reset!  Please check your mail to obtain your new password!"
             );
         } else {
             $response = array(
                 "status" => 6,
-                "url" => "{$this->domain}",
+                "url" => "http://{$_SERVER['HTTP_HOST']}",
                 "message" => "There is no account that is linked to this mail address!"
             );
         }
@@ -299,7 +298,7 @@ class User extends Password
             fclose($cache);
             $response = array(
                 "status" => 0,
-                "url" => "{$this->domain}/Users/Profile/{$this->getUsername()}",
+                "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Profile/{$this->getUsername()}",
                 "message" => "Your profile picture has been changed!"
             );
             header('Content-Type: application/json', true, 200);
@@ -329,7 +328,7 @@ class User extends Password
         if (password_verify($this->getPassword(), $this->getHash())) {
             if ($request->newPassword == $request->confirmNewPassword) {
                 $this->setPassword($request->newPassword);
-                $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: {$this->domain}/ForgotPassword");
+                $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$_SERVER['HTTP_HOST']}/ForgotPassword");
                 $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
                 $this->PDO->execute();
                 if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
@@ -350,20 +349,20 @@ class User extends Password
                 $this->PDO->execute();
                 $response = array(
                     "status" => 0,
-                    "url" => "{$this->domain}/Sign-Out",
+                    "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
                     "message" => "Your password has been changed!  You will be logged out of your account to test the new password!"
                 );
             } else {
                 $response = array(
                     "status" => 8,
-                    "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                    "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Security/{$this->getUsername()}",
                     "message" => "The passwords are not identical!"
                 );
             }
         } else {
             $response = array(
                 "status" => 7,
-                "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Security/{$this->getUsername()}",
                 "message" => "Incorrect Password!"
             );
         }
@@ -389,7 +388,7 @@ class User extends Password
             $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "This mail is an update for your new mail address which username is {$this->getUsername()}.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
             $response = array(
                 "status" => 0,
-                "url" => "{$this->domain}/Sign-Out",
+                "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
                 "message" => "Your mail address has been changed!  You will be logged out of your account!"
             );
         }
@@ -427,7 +426,7 @@ class User extends Password
             if (password_verify($this->getPassword(), $this->getHash())) {
                 if ($request->newPassword == $request->confirmNewPassword) {
                     $this->setPassword($request->newPassword);
-                    $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: {$this->domain}/ForgotPassword");
+                    $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$_SERVER['HTTP_HOST']}/ForgotPassword");
                     $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
                     $this->PDO->execute();
                     if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
@@ -448,20 +447,20 @@ class User extends Password
                     $this->PDO->execute();
                     $response = array(
                         "status" => 0,
-                        "url" => "{$this->domain}/Sign-Out",
+                        "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
                         "message" => "Your password and mail address have been changed!  You will be logged out of your account to test the new password!"
                     );
                 } else {
                     $response = array(
                         "status" => 10,
-                        "url" => "{$this->domain}/Sign-Out",
+                        "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
                         "message" => "The passwords are not identical!"
                     );
                 }
             } else {
                 $response = array(
                     "status" => 9,
-                    "url" => "{$this->domain}/Sign-Out",
+                    "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
                     "message" => "Incorrect Password!"
                 );
             }
