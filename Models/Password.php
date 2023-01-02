@@ -35,7 +35,7 @@ class Password
     /**
      * The domain of the application
      */
-    private string $domain;
+    public string $domain;
     public function __construct()
     {
         $this->domain = "http://{$_SERVER['HTTP_HOST']}";
@@ -92,7 +92,7 @@ class Password
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($index = 0; $index < $length; $index++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
         }
         return $randomString;
     }
@@ -107,7 +107,7 @@ class Password
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($index = 0; $index < $length; $index++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
         }
         return $randomString;
     }
@@ -122,7 +122,7 @@ class Password
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($index = 0; $index < $length; $index++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
         }
         return $randomString;
     }
@@ -143,6 +143,7 @@ class Password
         if ($request->oneTimePassword == $this->getOtp()) {
             unset($_SESSION['User']['otp']);
             $data = array(
+                "Client" => $_SESSION['Client'],
                 "User" => $_SESSION['User'],
                 "Account" => $_SESSION['Account']
             );
