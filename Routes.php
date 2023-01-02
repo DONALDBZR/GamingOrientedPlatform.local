@@ -2,65 +2,170 @@
 ini_set('max_execution_time', '300');
 set_time_limit(300);
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
+error_reporting(E_ERROR | E_PARSE);
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         switch ($_SERVER['REQUEST_URI']) {
             case '/':
-                $Router = new Router("GET", "/", "/Views/Homepage.php");
+                if (isset($_SESSION['User'])) {
+                    header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                } else {
+                    $Router = new Router("GET", "/", "/Views/Homepage.php");
+                }
                 break;
             case '/Login':
-                $Router = new Router("GET", "/Login", "/Views/Login.php");
+                if (isset($_SESSION['User'])) {
+                    header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                } else {
+                    $Router = new Router("GET", "/Login", "/Views/Login.php");
+                }
                 break;
             case '/Register':
-                $Router = new Router("GET", "/Register", "/Views/Register.php");
+                if (isset($_SESSION['User'])) {
+                    header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                } else {
+                    $Router = new Router("GET", "/Register", "/Views/Register.php");
+                }
                 break;
             case "/Login/Verification/{$_SESSION['User']['username']}":
-                $Router = new Router("GET", "/Login/Verification/{$_SESSION['User']['username']}", "/Views/LoginVerification.php");
+                if (isset($_SESSION['User'])) {
+                    if (!isset($_SESSION['User']['otp'])) {
+                        header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                    } else {
+                        $Router = new Router("GET", "/Login/Verification/{$_SESSION['User']['username']}", "/Views/LoginVerification.php");
+                    }
+                } else {
+                    header("Location: /");
+                }
                 break;
             case "/Users/Home/{$_SESSION['User']['username']}":
-                $Router = new Router("GET", "/Users/Home/{$_SESSION['User']['username']}", "/Views/UsersHome.php");
+                if (isset($_SESSION['User'])) {
+                    $Router = new Router("GET", "/Users/Home/{$_SESSION['User']['username']}", "/Views/UsersHome.php");
+                } else {
+                    header("Location: /");
+                }
                 break;
             case '/Users/CurrentUser':
-                $Router = new Router("GET", "/Users/CurrentUser", "/Controllers/CurrentUser.php");
+                if (isset($_SESSION['User'])) {
+                    $Router = new Router("GET", "/Users/CurrentUser", "/Controllers/CurrentUser.php");
+                } else {
+                    header("Location: /Sign-Out");
+                }
                 break;
             case '/Sign-Out':
-                $Router = new Router("GET", "/Sign-Out", "/Views/SignOut.php");
+                if (isset($_SESSION)) {
+                    $Router = new Router("GET", "/Sign-Out", "/Views/SignOut.php");
+                } else {
+                    header("Location: /");
+                }
                 break;
             case '/LogOut':
-                $Router = new Router("GET", "/LogOut", "/Controllers/SignOut.php");
+                if (isset($_SESSION)) {
+                    $Router = new Router("GET", "/LogOut", "/Controllers/SignOut.php");
+                } else {
+                    header("Location: /");
+                }
                 break;
             case '/ForgotPassword':
-                $Router = new Router("GET", "/ForgotPassword", "/Views/ForgotPassword.php");
+                if (isset($_SESSION['User'])) {
+                    header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                } else {
+                    $Router = new Router("GET", "/ForgotPassword", "/Views/ForgotPassword.php");
+                }
                 break;
             case "/Users/Profile/{$_SESSION['User']['username']}":
-                $Router = new Router("GET", "/Users/Profile/{$_SESSION['User']['username']}", "/Views/UsersProfile.php");
+                if (isset($_SESSION['User'])) {
+                    $Router = new Router("GET", "/Users/Profile/{$_SESSION['User']['username']}", "/Views/UsersProfile.php");
+                } else {
+                    header("Location: /");
+                }
                 break;
             case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
-                $Router = new Router("GET", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Views/UsersEditProfile.php");
+                if (isset($_SESSION['User'])) {
+                    $Router = new Router("GET", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Views/UsersEditProfile.php");
+                } else {
+                    header("Location: /");
+                }
                 break;
             case "/Users/Security/{$_SESSION['User']['username']}":
-                $Router = new Router("GET", "/Users/Security/{$_SESSION['User']['username']}", "/Views/UsersSecurity.php");
+                if (isset($_SESSION['User'])) {
+                    $Router = new Router("GET", "/Users/Security/{$_SESSION['User']['username']}", "/Views/UsersSecurity.php");
+                } else {
+                    header("Location: /");
+                }
                 break;
             case "/Users/Accounts/{$_SESSION['User']['username']}":
-                $Router = new Router("GET", "/Users/Accounts/{$_SESSION['User']['username']}", "/Views/UsersAccounts.php");
+                if (isset($_SESSION['User'])) {
+                    $Router = new Router("GET", "/Users/Accounts/{$_SESSION['User']['username']}", "/Views/UsersAccounts.php");
+                } else {
+                    header("Location: /");
+                }
                 break;
             case "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}":
-                $Router = new Router("GET", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Views/LeagueOfLegendsHome.php");
+                if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                    $Router = new Router("GET", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Views/LeagueOfLegendsHome.php");
+                } else {
+                    if (isset($_SESSION['User'])) {
+                        header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /");
+                    }
+                }
                 break;
             case '/LegendsOfLegends/CurrentSummoner':
-                $Router = new Router("GET", "/LegendsOfLegends/CurrentSummoner", "/Controllers/CurrentSummoner.php");
+                if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                    $Router = new Router("GET", "/LegendsOfLegends/CurrentSummoner", "/Controllers/CurrentSummoner.php");
+                } else {
+                    if (isset($_SESSION['User'])) {
+                        header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /Sign-Out");
+                    }
+                }
                 break;
             case '/LegendsOfLegends/MatchHistories':
-                $Router = new Router("GET", "/LegendsOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
+                if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                    $Router = new Router("GET", "/LegendsOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
+                } else {
+                    if (isset($_SESSION['User'])) {
+                        header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /");
+                    }
+                }
                 break;
             case "/LeagueOfLegends/Profile/{$_SESSION['Search']['LeagueOfLegends']["gameName"]}":
-                $Router = new Router("GET", "/LeagueOfLegends/Profile/{$_SESSION['Search']['LeagueOfLegends']["gameName"]}", "/Views/LeagueOfLegendsProfile.php");
+                if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                    $Router = new Router("GET", "/LeagueOfLegends/Profile/{$_SESSION['Search']['LeagueOfLegends']["gameName"]}", "/Views/LeagueOfLegendsProfile.php");
+                } else {
+                    if (isset($_SESSION['User'])) {
+                        header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /");
+                    }
+                }
                 break;
             case '/LegendsOfLegends/Search/Summoner':
-                $Router = new Router("GET", "/LegendsOfLegends/Search/Summoner", "/Controllers/SearchSummoner.php");
+                if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                    $Router = new Router("GET", "/LegendsOfLegends/Search/Summoner", "/Controllers/SearchSummoner.php");
+                } else {
+                    if (isset($_SESSION['User'])) {
+                        header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /");
+                    }
+                }
                 break;
             case '/LegendsOfLegends/ChampionMastery':
-                $Router = new Router("GET", "/LegendsOfLegends/ChampionMastery", "/Controllers/ChampionMastery.php");
+                if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                    $Router = new Router("GET", "/LegendsOfLegends/ChampionMastery", "/Controllers/ChampionMastery.php");
+                } else {
+                    if (isset($_SESSION['User'])) {
+                        header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /");
+                    }
+                }
                 break;
         }
         break;
