@@ -1,5 +1,4 @@
 <?php
-// Starting session
 session_start();
 /**
  * The router that will route all the requests to the application.
@@ -22,51 +21,43 @@ class Router
      * The method of the request
      */
     private string $requestMethod;
-    // Constructor method
-    public function __construct(string $requestMethod, string $route, string $path)
+    public function __construct(string $request_method, string $route, string $path)
     {
         $this->setRoot($_SERVER['DOCUMENT_ROOT']);
-        $this->verifyRequestMethod($requestMethod, $route, $path);
+        $this->verifySession();
+        $this->verifyRequestMethod($request_method, $route, $path);
     }
-    // Route accessor method
-    public function getRoute()
+    public function getRoute(): string
     {
         return $this->route;
     }
-    // Route mutator method
     public function setRoute(string $route)
     {
         $this->route = $route;
     }
-    // Path accessor method
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
-    // Path mutator method
     public function setPath(string $path)
     {
         $this->path = $path;
     }
-    // Root accessor method
-    public function getRoot()
+    public function getRoot(): string
     {
         return $this->root;
     }
-    // Root mutator method
     public function setRoot(string $root)
     {
         $this->root = $root;
     }
-    // Request Method accessor method
-    public function getRequestMethod()
+    public function getRequestMethod(): string
     {
         return $this->requestMethod;
     }
-    // Request Method mutator method
-    public function setRequestMethod(string $requestMethod)
+    public function setRequestMethod(string $request_method)
     {
-        $this->requestMethod = $requestMethod;
+        $this->requestMethod = $request_method;
     }
     /**
      * Verifying the request method before setting the route of the request for generating the adequate response
@@ -130,33 +121,39 @@ class Router
         exit();
     }
     /**
-     * Displaying HTML elements
+     * Creating Session
      */
-    public function out(string $text)
+    public function createSession()
     {
-        echo htmlspecialchars($text);
+        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
+            $httpClientIP = $_SERVER['HTTP_CLIENT_IP'];
+        }
+        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+            $proxyAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        $data = array(
+            "ip_address" => $_SERVER['REMOTE_ADDR'],
+            "http_client_ip_address" => $httpClientIP,
+            "proxy_ip_address" => $proxyAddress,
+            "user_agent" => $_SERVER['HTTP_USER_AGENT'],
+            "access_time" => time()
+        );
+        $_SESSION['Client'] = $data;
     }
     /**
-     * Preventing Cross-Site Request Forgery
+     * Verifying that the session is not hijacked
      */
-    public function csrfSet()
+    public function verifySession()
     {
-        if (!isset($_SESSION["csrf"])) {
-            $_SESSION["csrf"] = bin2hex(random_bytes(50));
+        if (isset($_SESSION['Client'])) {
+            if ($_SERVER['HTTP_USER_AGENT'] == $_SESSION['Client']['user_agent'] && $_SERVER['REMOTE_ADDR'] == $_SESSION['Client']['ip_address']) {
+                $_SESSION['Client']['access_time'] = time();
+            } else {
+                session_unset();
+                session_destroy();
+            }
+        } else {
+            $this->createSession();
         }
-        echo "<input type='hidden' name='csrf' value='{$_SESSION['csrf']}' />";
-    }
-    /**
-     * Verifying the session variable that was set in order to prevent cross-site request forgery
-     */
-    public function verifyCSRF()
-    {
-        if (!isset($_SESSION['csrf']) || !isset($_POST['csrf'])) {
-            return false;
-        }
-        if ($_SESSION['csrf'] != $_POST['csrf']) {
-            return false;
-        }
-        return true;
     }
 }
