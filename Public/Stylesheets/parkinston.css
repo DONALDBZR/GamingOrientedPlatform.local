@@ -478,6 +478,10 @@ body[id*="UsersHome"] main div div a {
     text-decoration: none;
     color: var(--color6);
 }
+body[id*="LeagueOfLegends"] header,
+body[id*="LeagueOfLegends"] footer {
+    background-color: var(--color1);
+}
 body[id*="UsersHome"] main div div a:hover {
     text-decoration: underline;
     color: var(--color2);
@@ -488,7 +492,9 @@ body[id*="LeagueOfLegends"] main div #championMastery div div:nth-child(2) {
     font-family: var(--proximaNova);
     font-weight: bold;
 }
-body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(1) {
+body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(1),
+body[id*="LeagueOfLegends"] main header div:nth-child(5) div:nth-child(1) div:nth-child(1),
+body[id*="LeagueOfLegends"] main header div:nth-child(5) div:nth-child(2) div:nth-child(1) {
     font-family: var(--ethnocentric);
     text-align: center;
 }
@@ -546,4 +552,7 @@ body[id*="LeagueOfLegends"]
     button {
     border: none;
     cursor: pointer;
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(5) div:nth-child(2) div:nth-child(2) div:nth-child(1) {
+    font-family: var(--proximaNova);
 }
