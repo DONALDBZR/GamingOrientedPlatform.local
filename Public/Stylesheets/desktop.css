@@ -8,6 +8,7 @@
 /* Default application's styling */
 body {
     width: var(--percentage);
+    height: var(--percentage);
     font-size: var(--textSize);
     margin: calc(var(--percentage) * 0);
 }
@@ -325,8 +326,8 @@ body[id*="LeagueOfLegends"] header nav div:nth-child(1) {
 }
 body[id*="Users"] header nav div a,
 body[id*="LeagueOfLegends"] header nav div a {
-    font-size: calc(var(--textSize) * 3.125);
-    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+    font-size: calc(var(--pixelate) / 21.6);
+    margin: calc(var(--percentage) * 0);
 }
 body[id*="UsersHome"] main {
     display: flex;
@@ -445,21 +446,23 @@ body[id*="LeagueOfLegends"] main header {
     flex-wrap: wrap;
     width: var(--percentage);
     background: unset;
+    height: calc(var(--pixelate) / 6);
 }
 body[id*="LeagueOfLegends"] main header div {
     width: calc(var(--percentage) / 10);
+    height: var(--percentage);
     display: block;
     margin: calc(var(--percentage) * 0);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div {
     display: flex;
     flex-wrap: wrap;
-    margin: calc(var(--percentage) / 50) calc(var(--percentage) / 100);
-    width: calc(var(--percentage) * 0.98);
+    width: var(--percentage);
+    height: calc(var(--pixelate) / 12);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(1) {
-    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
     width: var(--percentage);
+    height: calc(var(--pixelate) / 54);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(2) {
     width: calc(var(--percentage) / 5);
@@ -468,19 +471,21 @@ body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(2) {
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(3) {
     width: calc(var(--percentage) * 0.8);
-    height: fit-content;
+    height: calc(var(--pixelate) / 21.6);
     margin: calc(var(--percentage) * 0);
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div {
     display: block;
 }
 body[id*="LeagueOfLegends"] main {
-    height: calc(var(--pixelate) * (548 / 1080));
+    height: calc(var(--pixelate) * (55 / 108));
     overflow: hidden;
 }
 body[id*="LeagueOfLegends"] main header div img {
-    width: calc(var(--percentage) * 0.96);
-    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 50);
+    height: calc(var(--pixelate) / 10.8);
 }
 body[id*="LeagueOfLegends"] main header div div img {
     height: var(--percentage);
@@ -496,17 +501,18 @@ body[id*="LeagueOfLegends"] main header div:nth-child(4) {
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(4),
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(5) {
     width: calc(var(--percentage) / 2);
-    height: fit-content;
+    height: calc(var(--pixelate) / 54);
     margin: calc(var(--percentage) * 0);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(1) div {
     width: var(--percentage);
+    height: calc(var(--percentage) / 7);
     display: block;
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(3) div {
     display: flex;
     width: var(--percentage);
-    margin: calc(var(--percentage) / 50) calc(var(--percentage) * 0);
+    height: calc(var(--percentage) / 3);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(3) div div {
     display: block;
@@ -521,14 +527,15 @@ body[id*="LeagueOfLegends"] main header div:nth-child(3) div div:nth-child(2) {
 body[id*="LeagueOfLegends"] main #matchHistory {
     width: calc(var(--percentage) * (5 / 6));
     overflow: auto;
-    height: calc(var(--pixelate) * (262 / 1080));
+    height: var(--percentage);
     display: block;
     margin: calc(var(--percentage) * 0);
 }
 body[id*="LeagueOfLegends"] main #matchHistory div {
     display: flex;
-    margin: calc(var(--percentage) / 200) calc(var(--percentage) * 0);
     width: var(--percentage);
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+    height: calc(var(--percentage) * (1 / 3.7));
 }
 body[id*="LeagueOfLegends"] main #matchHistory div div:nth-child(1) {
     width: calc(var(--percentage) / 10);
@@ -537,11 +544,13 @@ body[id*="LeagueOfLegends"] main #matchHistory div div:nth-child(1) {
     justify-content: center;
     margin: calc(var(--percentage) * 0);
     flex-wrap: wrap;
+    height: calc(var(--pixelate) / 10.8);
 }
 body[id*="LeagueOfLegends"] main #matchHistory div div:nth-child(2) {
     width: calc(var(--percentage) * 0.9);
     display: block;
     margin: calc(var(--percentage) * 0);
+    height: calc(var(--pixelate) / 10.8);
 }
 body[id*="LeagueOfLegends"] main #matchHistory div div:nth-child(1) img {
     width: auto;
@@ -558,6 +567,7 @@ body[id*="LeagueOfLegends"]
     align-content: unset;
     justify-content: unset;
     margin: calc(var(--percentage) * 0);
+    height: calc(var(--pixelate) / 21.6);
 }
 body[id*="LeagueOfLegends"]
     main
@@ -569,7 +579,6 @@ body[id*="LeagueOfLegends"]
     display: flex;
     flex-wrap: wrap;
     width: calc(var(--percentage) / 5);
-    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
     font-size: calc(var(--textSize) * 1.1);
     align-items: center;
     justify-content: center;
@@ -662,13 +671,10 @@ body[id*="LeagueOfLegends"] main,
 body[id*="LeagueOfLegends"] footer {
     position: relative;
 }
-body[id*="LeagueOfLegends"] header,
-body[id*="LeagueOfLegends"] footer {
-    background-color: var(--color1);
-}
 body[id*="LeagueOfLegends"] footer {
     display: flex;
     justify-content: space-evenly;
+    height: calc(var(--pixelate) / 43.2);
 }
 body[id*="LeagueOfLegends"] footer div {
     display: flex;
@@ -677,19 +683,17 @@ body[id*="LeagueOfLegends"] footer div {
 body[id*="LeagueOfLegends"] footer div img {
     height: calc(var(--pixelate) / 43.2);
 }
-body[id*="LeagueOfLegends"] main #matchHistory div:nth-child(1),
-body[id*="LeagueOfLegends"] main #matchHistory div:last-child {
-    margin: calc(var(--percentage) * 0);
-}
 body[id*="LeagueOfLegends"] main header div:nth-child(4) {
-    height: var(--percentage);
+    height: calc(var(--pixelate) / 14.4);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(1) {
     width: var(--percentage);
+    height: calc(var(--pixelate) / 43.2);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2),
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) {
     width: calc(var(--percentage) / 2);
+    height: calc(var(--pixelate) / 21.6);
     display: block;
 }
 body[id*="LeagueOfLegends"]
@@ -707,16 +711,18 @@ body[id*="LeagueOfLegends"] main div {
     margin: calc(var(--percentage) * 0) calc(var(--percentage) / 100);
     width: calc(var(--percentage) * 0.98);
     flex-wrap: wrap;
+    height: calc(var(--pixelate) * (37 / 108));
 }
 body[id*="LeagueOfLegends"] main div #championMastery {
     width: calc(var(--percentage) / 6);
     margin: calc(var(--percentage) * 0);
     display: block;
-    height: calc(var(--pixelate) * (250.938 / 1080));
+    height: var(--percentage);
 }
 body[id*="LeagueOfLegends"] main div #championMastery div {
-    margin: calc(var(--percentage) / 9) calc(var(--percentage) * 0);
     width: var(--percentage);
+    height: calc(var(--pixelate) / 21.6);
+    margin: calc(var(--percentage) / 4) calc(var(--percentage) * 0);
 }
 body[id*="LeagueOfLegends"] main div #championMastery div div {
     margin: calc(var(--percentage) * 0);
@@ -751,4 +757,88 @@ body[id*="LeagueOfLegends"]
     width: calc(var(--percentage) * (2 / 3));
     justify-content: center;
     align-items: center;
+}
+body[id*="LeagueOfLegends"] header {
+    height: calc(var(--pixelate) / 18);
+}
+body[id*="LeagueOfLegends"] header nav {
+    height: var(--percentage);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(1) {
+    height: calc(var(--pixelate) * (7 / 54));
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(2) {
+    height: calc(var(--pixelate) / 6);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(3) {
+    height: calc(var(--pixelate) / 18);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(5) {
+    width: calc(var(--percentage) / 2.5);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(5) div {
+    width: var(--percentage);
+    display: flex;
+    flex-wrap: wrap;
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(5) div:nth-child(1) {
+    height: calc(var(--pixelate) / 27);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(5) div:nth-child(1) div {
+    height: calc(var(--pixelate) / 54);
+    display: block;
+}
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(5)
+    div:nth-child(1)
+    div:nth-child(2) {
+    margin-left: calc(var(--percentage) / 100);
+    width: calc(var(--percentage) * 0.99);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(5) div:nth-child(2) {
+    height: calc(var(--pixelate) / 18);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(5) div:nth-child(2) div {
+    height: calc(var(--pixelate) / 54);
+    display: block;
+}
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(5)
+    div:nth-child(2)
+    div:nth-child(2) {
+    height: calc(var(--pixelate) / 27);
+    display: flex;
+}
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(5)
+    div:nth-child(2)
+    div:nth-child(2)
+    div {
+    display: block;
+    height: calc(var(--pixelate) / 27);
+}
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(5)
+    div:nth-child(2)
+    div:nth-child(2)
+    div:nth-child(1) {
+    width: calc(var(--percentage) / 4);
+}
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(5)
+    div:nth-child(2)
+    div:nth-child(2)
+    div:nth-child(2) {
+    width: calc(var(--percentage) * 0.75);
+    text-align: start;
 }
