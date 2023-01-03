@@ -133,6 +133,16 @@ class Application extends React.Component {
              * @type {array}
              */
             championMastery: [],
+            /**
+             * status of the game about the maintenance
+             * @type {array}
+             */
+            maintenance: [],
+            /**
+             * status of the game about the incidents
+             * @type {array}
+             */
+            incidents: [],
         };
     }
     /**
@@ -459,6 +469,31 @@ class Application extends React.Component {
         }
     }
     /**
+     * Retrieving data from Riot Games data center for the user's champion's mastery
+     */
+    retrieveLoL_PlatformStatus() {
+        fetch("/LegendsOfLegends/PlatformStatus",
+            {
+                method: "GET"
+            })
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                maintenance: data.maintenance,
+                incidents: data.incidents,
+            }));
+    }
+    /**
+     * Handling the maintenance that is retrieved from the data
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_platformStatus_maintenance() {
+        if (this.state.maintenance > 0) {
+            return this.state.maintenance[0].content;
+        } else {
+            return "None";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -509,6 +544,7 @@ class Main extends Application {
         this.retrieveLoL_SummonerData();
         this.retrieveLoL_SummonerData_matchHistories();
         this.retrieveLoL_SummonerData_championMastery();
+        this.retrieveLoL_PlatformStatus();
     }
     render() {
         return (
@@ -584,6 +620,23 @@ class Main extends Application {
                                 <span></span>
                                 <span></span>
                             </a>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>Maintenance</div>
+                            <div>{this.verifyLeagueOfLegends_platformStatus_maintenance()}</div>
+                        </div>
+                        <div>
+                            <div>Incidents</div>
+                            {this.state.incidents.map((incident) => {
+                                return (
+                                    <div>
+                                        <div>{`${incident.title}:`}</div>
+                                        <div>{incident.content}</div>
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>
                 </header>
