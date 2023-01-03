@@ -145,6 +145,15 @@ class Router
      */
     public function verifySession()
     {
+        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/";
+        $sessionFiles = array_values(array_diff(scandir($directory), array(".", "..")));
+        for ($index = 0; $index < count($sessionFiles); $index++) {
+            $session = json_decode(file_get_contents("{$directory}{$sessionFiles[$index]}"));
+            $sessionData = $this->objectToArray($session);
+            if ($_SESSION['Client']['user_agent'] == $session->Client->user_agent && $_SESSION['Client']['ip_address'] == $session->Client->ip_address) {
+                $_SESSION = $sessionData;
+            }
+        }
         if (isset($_SESSION['Client'])) {
             if ($_SERVER['HTTP_USER_AGENT'] == $_SESSION['Client']['user_agent'] && $_SERVER['REMOTE_ADDR'] == $_SESSION['Client']['ip_address']) {
                 $_SESSION['Client']['access_time'] = time();
@@ -155,5 +164,19 @@ class Router
         } else {
             $this->createSession();
         }
+    }
+    /**
+     * Converting an object to an array
+     */
+    public function objectToArray(mixed $data): array
+    {
+        if (is_array($data) || is_object($data)) {
+            $result = array();
+            foreach ($data as $key => $value) {
+                $result[$key] = (is_array($value) || is_object($value) ? $this->objectToArray($value) : $value);
+            }
+            return $result;
+        }
+        return $data;
     }
 }

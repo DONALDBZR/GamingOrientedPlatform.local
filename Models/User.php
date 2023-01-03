@@ -137,7 +137,6 @@ class User extends Password
                     "username" => $this->getUsername(),
                     "mailAddress" => $this->getMailAddress(),
                     "profilePicture" => $this->getProfilePicture(),
-                    "domain" => "http://{$_SERVER['HTTP_HOST']}",
                     "otp" => $this->getOtp()
                 );
                 $_SESSION['User'] = $user;
