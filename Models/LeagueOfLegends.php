@@ -289,12 +289,22 @@ class LeagueOfLegends
             "playerUniversallyUniqueIdentifier" => $playerData->playerUniversallyUniqueIdentifier,
             "gameName" => $playerData->gameName,
             "tagLine" => $playerData->tagLine,
-            "url" => "/LeagueOfLegends/Profile/$playerData->gameName",
-            "message" => "Player found!  Page loading soon...",
-            "status" => 0
+            "url" => "/LeagueOfLegends/Profile/$playerData->gameName"
         );
-        $search = $response;
-        $_SESSION['Search']['LeagueOfLegends'] = $search;
+        $searchLoL = $response;
+        $search = array(
+            "LeagueOfLegends" => $searchLoL
+        );
+        $session = array(
+            "Client" => $_SESSION['Client'],
+            "User" => $_SESSION['User'],
+            "Account" => $_SESSION['Account'],
+            "Search" => $search
+        );
+        $cacheData = json_encode($session);
+        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+        fwrite($cache, $cacheData);
+        fclose($cache);
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
