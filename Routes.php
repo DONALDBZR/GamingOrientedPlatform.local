@@ -156,9 +156,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     }
                 }
                 break;
-            case '/LegendsOfLegends/ChampionMastery':
+            case '/LegendsOfLegends/PlatformStatus':
                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                    $Router = new Router("GET", "/LegendsOfLegends/ChampionMastery", "/Controllers/ChampionMastery.php");
+                    $Router = new Router("GET", "/LegendsOfLegends/PlatformStatus", "/Controllers/PlatformStatus.php");
                 } else {
                     if (isset($_SESSION['User'])) {
                         header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
