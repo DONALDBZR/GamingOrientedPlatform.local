@@ -393,30 +393,39 @@ class LeagueOfLegends
         $riotStatusApiRequest = "https://{$tag_line}1.api.riotgames.com/lol/status/v4/platform-data?api_key=" . Environment::RiotAPIKey;
         if (intval($this->getHttpResponseCode($riotStatusApiRequest)) == 200) {
             $riotStatusApiResponse = json_decode(file_get_contents($riotStatusApiRequest));
+            $maintenances = array();
             $incidents = array();
-            for ($firstIndex = 0; $firstIndex < count($riotStatusApiResponse->incidents); $firstIndex++) {
-                $updates = array();
-                for ($secondIndex = 0; $secondIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates); $secondIndex++) {
-                    $translations = array();
-                    for ($thirdIndex = 0; $thirdIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations); $thirdIndex++) {
-                        if (str_contains($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->locale, "en_US") && str_contains($riotStatusApiResponse->incidents[$firstIndex]->titles[$thirdIndex]->locale, "en_US")) {
-                            $translation = array(
-                                "title" => $riotStatusApiResponse->incidents[$firstIndex]->titles[$thirdIndex]->content,
-                                "content" => $riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->content
-                            );
-                            array_push($translations, $translation);
+            if (!empty($riotStatusApiResponse->maintenance)) {
+                for ($index = 0; $index < count($riotStatusApiResponse->maintenance); $index++) {
+                    array_push($maintenances, $riotStatusApiResponse->maintenance[$index]);
+                }
+            }
+            if (!empty($riotStatusApiResponse->incidents)) {
+                for ($firstIndex = 0; $firstIndex < count($riotStatusApiResponse->incidents); $firstIndex++) {
+                    $title = "";
+                    $content = "";
+                    for ($secondIndex = 0; $secondIndex < count($riotStatusApiResponse->incidents[$firstIndex]->titles); $secondIndex++) {
+                        if (str_contains($riotStatusApiResponse->incidents[$firstIndex]->titles[$secondIndex]->locale, "en_US")) {
+                            $title = $riotStatusApiResponse->incidents[$firstIndex]->titles[$secondIndex]->content;
                         }
                     }
-                    array_push($updates, $translations);
+                    for ($secondIndex = 0; $secondIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates); $secondIndex++) {
+                        for ($thirdIndex = 0; $thirdIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations); $thirdIndex++) {
+                            if (str_contains($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->locale, "en_US")) {
+                                $content = $riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->content;
+                            }
+                        }
+                    }
+                    $incident = array(
+                        "title" => $title,
+                        "content" => $content
+                    );
+                    array_push($incidents, $incident);
                 }
-                $incident = array(
-                    "maintenance_status" => $riotStatusApiResponse->incidents[$firstIndex]->maintenance_status,
-                    "updates" => $updates
-                );
-                array_push($incidents, $incident);
             }
             $response = array(
                 "httpResponse" => intval($this->getHttpResponseCode($riotStatusApiRequest)),
+                "maintenances" => $maintenances,
                 "incidents" => $incidents
             );
         } else {
