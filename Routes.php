@@ -135,7 +135,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 }
                 break;
             case "/LeagueOfLegends/Profile/{$_SESSION['Search']['LeagueOfLegends']["gameName"]}":
-                if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                if (isset($_SESSION['Search']['LeagueOfLegends'])) {
                     $Router = new Router("GET", "/LeagueOfLegends/Profile/{$_SESSION['Search']['LeagueOfLegends']["gameName"]}", "/Views/LeagueOfLegendsProfile.php");
                 } else {
                     if (isset($_SESSION['User'])) {
