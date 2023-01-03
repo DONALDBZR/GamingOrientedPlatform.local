@@ -55,13 +55,17 @@ class LeagueOfLegends
         if ($this->getHttpResponseCode($riotAccountApiRequest) == 200) {
             $riotAccountApiResponse = json_decode(file_get_contents($riotAccountApiRequest));
             $this->setPlayerUniversallyUniqueIdentifier($riotAccountApiResponse->puuid);
+            $response = array(
+                "httpResponseCode" => intval($this->getHttpResponseCode($riotAccountApiRequest)),
+                "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
+                "gameName" => $this->getGameName(),
+                "tagLine" => $this->getTagLine()
+            );
+        } else {
+            $response = array(
+                "httpResponseCode" => intval($this->getHttpResponseCode($riotAccountApiRequest))
+            );
         }
-        $response = array(
-            "httpResponseCode" => intval($this->getHttpResponseCode($riotAccountApiRequest)),
-            "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
-            "gameName" => $this->getGameName(),
-            "tagLine" => $this->getTagLine()
-        );
         return json_encode($response);
     }
     /**
@@ -379,6 +383,48 @@ class LeagueOfLegends
             );
         }
         header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
+    /**
+     * Accessing the status of the game
+     */
+    public function getStatus(string $tag_line)
+    {
+        $riotStatusApiRequest = "https://{$tag_line}1.api.riotgames.com/lol/status/v4/platform-data?api_key=" . Environment::RiotAPIKey;
+        if (intval($this->getHttpResponseCode($riotStatusApiRequest)) == 200) {
+            $riotStatusApiResponse = json_decode(file_get_contents($riotStatusApiRequest));
+            $incidents = array();
+            for ($firstIndex = 0; $firstIndex < count($riotStatusApiResponse->incidents); $firstIndex++) {
+                $updates = array();
+                for ($secondIndex = 0; $secondIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates); $secondIndex++) {
+                    $translations = array();
+                    for ($thirdIndex = 0; $thirdIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations); $thirdIndex++) {
+                        if (str_contains($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->locale, "en_US") && str_contains($riotStatusApiResponse->incidents[$firstIndex]->titles[$thirdIndex]->locale, "en_US")) {
+                            $translation = array(
+                                "title" => $riotStatusApiResponse->incidents[$firstIndex]->titles[$thirdIndex]->content,
+                                "content" => $riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->content
+                            );
+                            array_push($translations, $translation);
+                        }
+                    }
+                    array_push($updates, $translations);
+                }
+                $incident = array(
+                    "maintenance_status" => $riotStatusApiResponse->incidents[$firstIndex]->maintenance_status,
+                    "updates" => $updates
+                );
+                array_push($incidents, $incident);
+            }
+            $response = array(
+                "httpResponse" => intval($this->getHttpResponseCode($riotStatusApiRequest)),
+                "incidents" => $incidents
+            );
+        } else {
+            $response = array(
+                "httpResponse" => intval($this->getHttpResponseCode($riotStatusApiRequest))
+            );
+        }
+        header('Content-Type: application/json', true, intval($this->getHttpResponseCode($riotStatusApiRequest)));
         echo json_encode($response);
     }
 }
