@@ -178,6 +178,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     }
                 }
                 break;
+            case '/LegendsOfLegends/PatchNotes':
+                if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                    $Router = new Router("GET", "/LegendsOfLegends/PatchNotes", "/Controllers/PatchNotes.php");
+                } else {
+                    if (isset($_SESSION['User'])) {
+                        header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /");
+                    }
+                }
+                break;
         }
         break;
     case 'POST':
