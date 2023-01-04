@@ -457,9 +457,9 @@ class LeagueOfLegends
             $latestVersion = $versionResponse[0];
             $latestVersionArray = explode(".", $latestVersion);
             $response = array(
-                "major" => $latestVersionArray[0],
-                "minor" => $latestVersionArray[1],
-                "patchNotes" => $latestVersionArray[2],
+                "major" => intval($latestVersionArray[0]),
+                "minor" => intval($latestVersionArray[1]),
+                "patchNotes" => intval($latestVersionArray[2]),
             );
         } else {
             $response = array(
