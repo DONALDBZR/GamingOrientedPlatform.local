@@ -446,4 +446,27 @@ class LeagueOfLegends
         header('Content-Type: application/json', true, intval($this->getHttpResponseCode($riotStatusApiRequest)));
         echo json_encode($response);
     }
+    /**
+     * Retrieving the patch notes of the game
+     */
+    public function getPatchNotes()
+    {
+        $request = "https://ddragon.leagueoflegends.com/api/versions.json";
+        if (intval($this->getHttpResponseCode($request))) {
+            $versionResponse = json_decode(file_get_contents($request));
+            $latestVersion = $versionResponse[0];
+            $latestVersionArray = explode(".", $latestVersion);
+            $response = array(
+                "major" => $latestVersionArray[0],
+                "minor" => $latestVersionArray[1],
+                "patchNotes" => $latestVersionArray[2],
+            );
+        } else {
+            $response = array(
+                "httpResponse" => intval($this->getHttpResponseCode($request))
+            );
+        }
+        header('Content-Type: application/json', true, intval($this->getHttpResponseCode($request)));
+        echo json_encode($response);
+    }
 }
