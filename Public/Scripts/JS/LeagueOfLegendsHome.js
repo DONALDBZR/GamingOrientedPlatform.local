@@ -143,6 +143,21 @@ class Application extends React.Component {
              * @type {array}
              */
             incidents: [],
+            /**
+             * Major version of the game
+             * @type {int}
+             */
+            majorVersion: 0,
+            /**
+             * Minor version of the game
+             * @type {int}
+             */
+            minorVersion: 0,
+            /**
+             * Patch Notes of the game
+             * @type {int}
+             */
+            patchNotes: 0,
         };
     }
     /**
@@ -494,6 +509,21 @@ class Application extends React.Component {
         }
     }
     /**
+     * Retrieving the software version of the game
+     */
+    retrieveLoL_PatchNotes() {
+        fetch("/LegendsOfLegends/PatchNotes",
+            {
+                method: "GET"
+            })
+            .then((response) => response.json())
+            .then((data) => this.setState({
+                majorVersion: data.major,
+                minorVersion: data.minor,
+                patchNotes: data.patchNotes,
+            }));
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -545,6 +575,7 @@ class Main extends Application {
         this.retrieveLoL_SummonerData_matchHistories();
         this.retrieveLoL_SummonerData_championMastery();
         this.retrieveLoL_PlatformStatus();
+        this.retrieveLoL_PatchNotes();
     }
     render() {
         return (
@@ -615,6 +646,15 @@ class Main extends Application {
                         <div>
                             <a href="https://www.proguides.com/leagueoflegends/champions/search" target="__blank">
                                 Meta
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
+                        <div>
+                            <a href={`https://www.leagueoflegends.com/en-us/news/game-updates/patch-${this.state.majorVersion}-${this.state.minorVersion}-notes/`} target="__blank">
+                                Patch Notes
                                 <span></span>
                                 <span></span>
                                 <span></span>
