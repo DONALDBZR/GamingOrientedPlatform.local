@@ -59,7 +59,8 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(2)
     button,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a {
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a {
     padding: calc(var(--pixelate) / 54 * 0.81)
         calc(var(--pixelate) / 27 * 0.531441);
     margin: calc(var(--pixelate) / 90);
@@ -99,7 +100,20 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(3)
-    a::before {
+    a::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(4)
+    a::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(4)
+    a
+    span {
     display: none;
 }
 #Homepage main #buttons div a span,
@@ -117,6 +131,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(3)
     a
+    span,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(4)
+    a
     span {
     background: none !important;
 }
@@ -133,6 +154,12 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(3)
+    a:hover,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(4)
     a:hover {
     --color6: rgb(
         var(--percentage),
@@ -358,7 +385,7 @@ body[id*="LeagueOfLegends"] main header {
     flex-wrap: wrap;
     width: var(--percentage);
     background: unset;
-    height: calc(var(--pixelate) / 3.6);
+    height: calc(var(--pixelate) * (340 / 1080));
 }
 body[id*="LeagueOfLegends"] main header div {
     width: var(--percentage);
@@ -407,7 +434,7 @@ body[id*="LeagueOfLegends"] main header div div img {
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(2) {
     width: calc(var(--percentage) / 2);
-    height: calc(var(--pixelate) / 6);
+    height: calc(var(--percentage) * (180 / 340));
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(4),
 body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(5) {
@@ -479,14 +506,14 @@ body[id*="LeagueOfLegends"] main #matchHistory {
     width: var(--percentage);
     display: block;
     margin: calc(var(--percentage) * 0);
-    height: calc(var(--pixelate) * (225 / 1080));
+    height: calc(var(--percentage) * (185 / 235));
     overflow: auto;
 }
 body[id*="LeagueOfLegends"] main #matchHistory div {
     display: flex;
     width: var(--percentage);
-    height: calc(var(--percentage) / 2.25);
-    margin: calc(var(--percentage) / 76) calc(var(--percentage) * 0);
+    height: calc(var(--percentage) * (100 / 185));
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
 body[id*="LeagueOfLegends"] main #matchHistory div div:nth-child(1) {
     width: calc(var(--percentage) / 5);
@@ -596,7 +623,7 @@ body[id*="LeagueOfLegends"] main header div:nth-child(4) form button {
 body[id*="LeagueOfLegends"] main header div:nth-child(4),
 body[id*="LeagueOfLegends"] main header div:nth-child(5) {
     width: var(--percentage);
-    height: calc(var(--pixelate) / 27);
+    height: calc(var(--percentage) * (80 / 340));
     display: flex;
     flex-wrap: wrap;
 }
@@ -647,13 +674,21 @@ body[id*="LeagueOfLegends"] footer div img {
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(1) {
     width: calc(var(--percentage) / 2);
-    height: var(--percentage);
+    height: calc(var(--percentage) / 2);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2),
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3),
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) {
+    display: block;
+    height: calc(var(--percentage) / 2);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2),
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) {
     width: calc(var(--percentage) / 4);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) {
+    width: var(--percentage);
     display: block;
-    height: var(--percentage);
 }
 body[id*="LeagueOfLegends"]
     main
@@ -661,17 +696,18 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(2)
     button,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a {
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a {
     margin: calc(var(--pixelate) / 360);
     padding: calc(var(--pixelate) / 216) calc(var(--pixelate) / 108);
 }
 body[id*="LeagueOfLegends"] main div {
     display: flex;
     flex-wrap: wrap;
-    height: calc(var(--pixelate) * (275 / 1080));
+    height: calc(var(--pixelate) * (235 / 1080));
 }
 body[id*="LeagueOfLegends"] main div #championMastery {
-    height: calc(var(--pixelate) / 21.6);
+    height: calc(var(--percentage) * (50 / 235));
     width: var(--percentage);
 }
 body[id*="LeagueOfLegends"] main div #championMastery div {
@@ -716,16 +752,16 @@ body[id*="LeagueOfLegends"] header {
     height: calc(var(--pixelate) / 36);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(1) {
-    height: calc(var(--pixelate) * (7 / 54));
+    height: calc(var(--percentage) * (140 / 340));
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(1) div {
     height: calc(var(--percentage) / 7);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(3) {
-    height: calc(var(--pixelate) / 18);
+    height: calc(var(--percentage) * (60 / 340));
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(5) {
-    height: calc(var(--pixelate) / 13.5);
+    height: calc(var(--percentage) * (80 / 340));
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(5) div:nth-child(1) {
     height: calc(var(--percentage) * (2 / 3));
@@ -788,5 +824,5 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2) {
     width: calc(var(--percentage) * 0.64);
     text-align: start;
-    font-size: calc(var(--textSize) * 0.9 * 0.9 * 0.9);
+    font-size: calc(var(--textSize) * 0.729);
 }
