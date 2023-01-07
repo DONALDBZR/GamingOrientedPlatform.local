@@ -1,4 +1,4 @@
-<?php
+<?ph
 // Importing Mail
 require_once "{$_SERVER["DOCUMENT_ROOT"]}/Models/Mail.php";
 /**
