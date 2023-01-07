@@ -197,7 +197,7 @@ class LeagueOfLegends
                 "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode
             );
         }
-        header('Content-Type: application/json', true, 200);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
         echo json_encode($response);
     }
     /**
@@ -272,7 +272,7 @@ class LeagueOfLegends
                 "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode
             );
         }
-        header('Content-Type: application/json', true, 200);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
         echo json_encode($response);
     }
     /**
@@ -305,7 +305,7 @@ class LeagueOfLegends
         $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
         fwrite($cache, $cacheData);
         fclose($cache);
-        header('Content-Type: application/json', true, 200);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
         echo json_encode($response);
     }
     /**
@@ -392,7 +392,7 @@ class LeagueOfLegends
                 "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode
             );
         }
-        header('Content-Type: application/json', true, 200);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
         echo json_encode($response);
     }
     /**
