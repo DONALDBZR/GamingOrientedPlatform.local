@@ -106,7 +106,7 @@ class User extends Password
                 "message" => "Account exists!"
             );
         }
-        header('Content-Type: application/json', true, 300);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
         echo json_encode($response);
     }
     /**
@@ -190,7 +190,7 @@ class User extends Password
                 "message" => "This account does not exist!"
             );
         }
-        header('Content-Type: application/json');
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block');
         echo json_encode($response);
     }
     /**
@@ -228,7 +228,7 @@ class User extends Password
                 "message" => "You have been successfully logged out but the cache has not been cleared on the application server!"
             );
         }
-        header('Content-Type: application/json', true, 200);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
         echo json_encode($response);
     }
     /**
@@ -276,7 +276,7 @@ class User extends Password
                 "message" => "There is no account that is linked to this mail address!"
             );
         }
-        header('Content-Type: application/json', true, 300);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
         echo json_encode($response);
     }
     /**
@@ -312,7 +312,7 @@ class User extends Password
                 "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Profile/{$this->getUsername()}",
                 "message" => "Your profile picture has been changed!"
             );
-            header('Content-Type: application/json', true, 200);
+            header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
             echo json_encode($response);
         }
     }
@@ -377,7 +377,7 @@ class User extends Password
                 "message" => "Incorrect Password!"
             );
         }
-        header('Content-Type: application/json', true, 300);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
         echo json_encode($response);
     }
     /**
@@ -403,7 +403,7 @@ class User extends Password
                 "message" => "Your mail address has been changed!  You will be logged out of your account!"
             );
         }
-        header('Content-Type: application/json', true, 300);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
         echo json_encode($response);
     }
     /**
@@ -476,7 +476,7 @@ class User extends Password
                 );
             }
         }
-        header('Content-Type: application/json', true, 300);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
         echo json_encode($response);
     }
 }
