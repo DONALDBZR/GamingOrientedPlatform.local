@@ -92,7 +92,7 @@ class Account extends User
                 "message" => "There is an issue with the application.  Please try again later!"
             );
         }
-        header('Content-Type: application/json', true, 200);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
         echo json_encode($response);
     }
 }
