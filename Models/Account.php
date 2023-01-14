@@ -40,59 +40,87 @@ class Account extends User
         $requestArray = json_decode(file_get_contents("php://input"), true);
         $requestKeys = array_keys($requestArray);
         if (str_contains($requestKeys[0], "lol")) {
-            $leagueOfLegends = json_decode($this->LeagueOfLegends->retrieveData($request->lolUsername, $request->lolRegion));
-            if ($leagueOfLegends->httpResponseCode == 200) {
-                $this->PDO->query("INSERT INTO Parkinston.LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
-                $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                $this->PDO->bind(":LeagueOfLegendsGameName", $this->LeagueOfLegends->getGameName());
-                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->LeagueOfLegends->getTagLine());
-                $this->PDO->execute();
-                $this->setUsername($_SESSION['User']['username']);
-                $this->PDO->query("INSERT INTO Parkinston.Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
-                $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                $this->PDO->bind(":AccountsUser", $this->getUsername());
-                $this->PDO->execute();
-                $leagueOfLegends = array(
-                    "playerUniversallyUniqueIdentifier" => $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier(),
-                    "gameName" => $this->LeagueOfLegends->getGameName(),
-                    "tagLine" => $this->LeagueOfLegends->getTagLine()
-                );
-                $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
-                $account = array(
-                    "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
-                );
-                $_SESSION['Account'] = $account;
-                if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
-                    file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+            if (!is_null($request->lolUsername) && !is_null($request->lolRegion)) {
+                $leagueOfLegends = json_decode($this->LeagueOfLegends->retrieveData($request->lolUsername, $request->lolRegion));
+                if ($leagueOfLegends->httpResponseCode == 200) {
+                    $this->PDO->query("INSERT INTO Parkinston.LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
+                    $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+                    $this->PDO->bind(":LeagueOfLegendsGameName", $this->LeagueOfLegends->getGameName());
+                    $this->PDO->bind(":LeagueOfLegendsTagLine", $this->LeagueOfLegends->getTagLine());
+                    $this->PDO->execute();
+                    $this->setUsername($_SESSION['User']['username']);
+                    $this->PDO->query("INSERT INTO Parkinston.Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
+                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    $leagueOfLegends = array(
+                        "playerUniversallyUniqueIdentifier" => $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier(),
+                        "gameName" => $this->LeagueOfLegends->getGameName(),
+                        "tagLine" => $this->LeagueOfLegends->getTagLine()
+                    );
+                    $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
+                    $account = array(
+                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
+                    );
+                    $_SESSION['Account'] = $account;
+                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
+                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+                    }
+                    $data = array(
+                        "User" => $_SESSION['User'],
+                        "Account" => $_SESSION['Account']
+                    );
+                    $cacheData = json_encode($data);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
+                    $response = array(
+                        "status" => 0,
+                        "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
+                        "message" => "Your account has been added!"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 200
+                    );
+                } else {
+                    $response = array(
+                        "status" => 11,
+                        "url" => "{$this->domain}/Users/Accounts/{$_SESSION['User']['username']}",
+                        "message" => "This League of Legends Username does not exist!"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 400
+                    );
                 }
-                $data = array(
-                    "User" => $_SESSION['User'],
-                    "Account" => $_SESSION['Account']
-                );
-                $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-                fwrite($cache, $cacheData);
-                fclose($cache);
-                $response = array(
-                    "status" => 0,
-                    "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
-                    "message" => "Your account has been added!"
-                );
             } else {
                 $response = array(
-                    "status" => 11,
+                    "status" => 12,
                     "url" => "{$this->domain}/Users/Accounts/{$_SESSION['User']['username']}",
-                    "message" => "This League of Legends Username does not exist!"
+                    "message" => "There is an issue with the application.  Please try again later!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 500
                 );
             }
         } else {
             $response = array(
-                "status" => 12,
+                "status" => 1,
                 "url" => "{$this->domain}/Users/Accounts/{$_SESSION['User']['username']}",
-                "message" => "There is an issue with the application.  Please try again later!"
+                "message" => "The form must be completely filled!"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 300
             );
         }
-        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
+        header($headers["headers"], $headers["replace"], $headers["responseCode"]);
         echo json_encode($response);
     }
 }
