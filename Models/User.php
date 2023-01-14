@@ -139,81 +139,109 @@ class User extends Password
     public function login()
     {
         $request = json_decode(file_get_contents("php://input"));
-        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
-        $this->PDO->bind(":UsersUsername", $request->username);
-        $this->PDO->execute();
-        if (!empty($this->PDO->resultSet())) {
-            $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
-            $this->setMailAddress($this->PDO->resultSet()[0]['UsersMailAddress']);
-            $this->setProfilePicture($this->PDO->resultSet()[0]['UsersProfilePicture']);
-            $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
-            $this->setPassword($request->password);
-            $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
-            $this->PDO->bind(":PasswordsId", $this->getPasswordId());
+        if (!is_null($request->username) && !is_null($request->password)) {
+            $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
+            $this->PDO->bind(":UsersUsername", $request->username);
             $this->PDO->execute();
-            $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
-            $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
-            $this->setPassword($this->getPassword() . $this->getSalt());
-            if (password_verify($this->getPassword(), $this->getHash())) {
-                $this->setOtp($this->generator("otp"));
-                $user = array(
-                    "username" => $this->getUsername(),
-                    "mailAddress" => $this->getMailAddress(),
-                    "profilePicture" => $this->getProfilePicture(),
-                    "otp" => $this->getOtp()
-                );
-                $_SESSION['User'] = $user;
-                $this->PDO->query("SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = (SELECT AccountsLoL FROM Parkinston.Accounts WHERE AccountsUser = :AccountsUser)");
-                $this->PDO->bind(":AccountsUser", $this->getUsername());
+            if (!empty($this->PDO->resultSet())) {
+                $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
+                $this->setMailAddress($this->PDO->resultSet()[0]['UsersMailAddress']);
+                $this->setProfilePicture($this->PDO->resultSet()[0]['UsersProfilePicture']);
+                $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
+                $this->setPassword($request->password);
+                $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
+                $this->PDO->bind(":PasswordsId", $this->getPasswordId());
                 $this->PDO->execute();
-                if (empty($this->PDO->resultSet())) {
-                    $leagueOfLegends = array(
-                        "playerUniversallyUniqueIdentifier" => null,
-                        "gameName" => null,
-                        "tagLine" => null
+                $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
+                $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
+                $this->setPassword($this->getPassword() . $this->getSalt());
+                if (password_verify($this->getPassword(), $this->getHash())) {
+                    $this->setOtp($this->generator("otp"));
+                    $user = array(
+                        "username" => $this->getUsername(),
+                        "mailAddress" => $this->getMailAddress(),
+                        "profilePicture" => $this->getProfilePicture(),
+                        "otp" => $this->getOtp()
+                    );
+                    $_SESSION['User'] = $user;
+                    $this->PDO->query("SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = (SELECT AccountsLoL FROM Parkinston.Accounts WHERE AccountsUser = :AccountsUser)");
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    if (empty($this->PDO->resultSet())) {
+                        $leagueOfLegends = array(
+                            "playerUniversallyUniqueIdentifier" => null,
+                            "gameName" => null,
+                            "tagLine" => null
+                        );
+                    } else {
+                        $leagueOfLegends = array(
+                            "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]['LeagueOfLegendsPlayerUniversallyUniqueIdentifier'],
+                            "gameName" => $this->PDO->resultSet()[0]['LeagueOfLegendsGameName'],
+                            "tagLine" => $this->PDO->resultSet()[0]['LeagueOfLegendsTagLine']
+                        );
+                    }
+                    $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
+                    $account = array(
+                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
+                    );
+                    $_SESSION['Account'] = $account;
+                    $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on http://{$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
+                    $data = array(
+                        "Client" => $_SESSION['Client'],
+                        "User" => $_SESSION['User'],
+                        "Account" => $_SESSION['Account']
+                    );
+                    $cacheData = json_encode($data);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
+                    $response = array(
+                        "status" => 0,
+                        "url" => "{$this->domain}/Login/Verification/{$this->getUsername()}",
+                        "message" => "You will be redirected to the verification process just to be sure and a password has been sent to you for that! 🙏"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 200
                     );
                 } else {
-                    $leagueOfLegends = array(
-                        "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]['LeagueOfLegendsPlayerUniversallyUniqueIdentifier'],
-                        "gameName" => $this->PDO->resultSet()[0]['LeagueOfLegendsGameName'],
-                        "tagLine" => $this->PDO->resultSet()[0]['LeagueOfLegendsTagLine']
+                    $response = array(
+                        "status" => 3,
+                        "url" => "{$this->domain}/Login",
+                        "message" => "Your password is incorrect!"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 300
                     );
                 }
-                $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
-                $account = array(
-                    "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
-                );
-                $_SESSION['Account'] = $account;
-                $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on http://{$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
-                $data = array(
-                    "Client" => $_SESSION['Client'],
-                    "User" => $_SESSION['User'],
-                    "Account" => $_SESSION['Account']
-                );
-                $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "w");
-                fwrite($cache, $cacheData);
-                fclose($cache);
-                $response = array(
-                    "status" => 0,
-                    "url" => "http://{$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}",
-                    "message" => "You will be redirected to the verification process just to be sure and a password has been sent to you for that! 🙏"
-                );
             } else {
                 $response = array(
-                    "status" => 3,
-                    "url" => "http://{$_SERVER['HTTP_HOST']}/Login",
-                    "message" => "Your password is incorrect!"
+                    "status" => 4,
+                    "url" => $this->domain,
+                    "message" => "This account does not exist!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 400
                 );
             }
         } else {
             $response = array(
-                "status" => 4,
-                "url" => "http://{$_SERVER['HTTP_HOST']}",
-                "message" => "This account does not exist!"
+                "status" => 1,
+                "url" => "{$this->domain}/Login",
+                "message" => "Invalid Form!"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 300
             );
         }
-        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block');
+        header($headers["headers"], $headers["replace"], $headers["responseCode"]);
         echo json_encode($response);
     }
     /**
