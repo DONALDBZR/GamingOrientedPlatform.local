@@ -209,26 +209,41 @@ class User extends Password
                 session_destroy();
                 $response = array(
                     "status" => 0,
-                    "url" => "http://{$_SERVER['HTTP_HOST']}",
+                    "url" => $this->domain,
                     "message" => "You have been successfully logged out!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 200
                 );
             } else {
                 session_unset();
                 session_destroy();
                 $response = array(
                     "status" => 13,
-                    "url" => "http://{$_SERVER['HTTP_HOST']}",
+                    "url" => $this->domain,
                     "message" => "You have been successfully logged out but the cache has not been cleared on the application server!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 300
                 );
             }
         } else {
             $response = array(
                 "status" => 13,
-                "url" => "http://{$_SERVER['HTTP_HOST']}",
+                "url" => $this->domain,
                 "message" => "You have been successfully logged out but the cache has not been cleared on the application server!"
             );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 300
+            );
         }
-        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
+        header($headers["headers"], $headers["replace"], $headers["responseCode"]);
         echo json_encode($response);
     }
     /**
