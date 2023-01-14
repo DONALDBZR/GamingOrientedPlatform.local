@@ -140,7 +140,7 @@ class User extends Password
     {
         $request = json_decode(file_get_contents("php://input"));
         if (!is_null($request->username) && !is_null($request->password)) {
-            $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
+            $this->PDO->query("SELECT * FROM Users WHERE UsersUsername = :UsersUsername");
             $this->PDO->bind(":UsersUsername", $request->username);
             $this->PDO->execute();
             if (!empty($this->PDO->resultSet())) {
@@ -149,7 +149,7 @@ class User extends Password
                 $this->setProfilePicture($this->PDO->resultSet()[0]['UsersProfilePicture']);
                 $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
                 $this->setPassword($request->password);
-                $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
+                $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = :PasswordsId");
                 $this->PDO->bind(":PasswordsId", $this->getPasswordId());
                 $this->PDO->execute();
                 $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
@@ -164,7 +164,7 @@ class User extends Password
                         "otp" => $this->getOtp()
                     );
                     $_SESSION['User'] = $user;
-                    $this->PDO->query("SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = (SELECT AccountsLoL FROM Parkinston.Accounts WHERE AccountsUser = :AccountsUser)");
+                    $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = (SELECT AccountsLoL FROM Accounts WHERE AccountsUser = :AccountsUser)");
                     $this->PDO->bind(":AccountsUser", $this->getUsername());
                     $this->PDO->execute();
                     if (empty($this->PDO->resultSet())) {
@@ -305,44 +305,67 @@ class User extends Password
     {
         $request = json_decode(file_get_contents('php://input'));
         $this->setMailAddress($request->mailAddress);
-        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersMailAddress = :UsersMailAddress");
-        $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
-        $this->PDO->execute();
-        if (!empty($this->PDO->resultSet())) {
-            $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
-            $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
-            $this->PDO->execute();
-            if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
-                $this->setPasswordId(1);
-            } else {
-                $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
-            }
-            $this->setPassword($this->generator("password"));
-            $this->Mail->send($this->getMailAddress(), "Password Reset!", "Your new password for the account with username which is {$this->getUsername()}, is {$this->getPassword()} and please consider to change it after logging in!");
-            $this->setSalt($this->generator("salt"));
-            $this->setPassword($this->getPassword() . $this->getSalt());
-            $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
-            $this->PDO->query("INSERT INTO Parkinston.Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
-            $this->PDO->bind(":PasswordsSalt", $this->getSalt());
-            $this->PDO->bind(":PasswordsHash", $this->getHash());
-            $this->PDO->execute();
-            $this->PDO->query("UPDATE Parkinston.Users SET UsersPassword = :UsersPassword WHERE UsersMailAddress = :UsersMailAddress");
-            $this->PDO->bind(":UsersPassword", $this->getPasswordID());
+        if (!is_null($this->getMailAddress())) {
+            $this->PDO->query("SELECT * FROM Users WHERE UsersMailAddress = :UsersMailAddress");
             $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
             $this->PDO->execute();
-            $response = array(
-                "status" => 0,
-                "url" => "http://{$_SERVER['HTTP_HOST']}/Login",
-                "message" => "Password Reset!  Please check your mail to obtain your new password!"
-            );
+            if (!empty($this->PDO->resultSet())) {
+                $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
+                $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
+                $this->PDO->execute();
+                if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
+                    $this->setPasswordId(1);
+                } else {
+                    $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                }
+                $this->setPassword($this->generator("password"));
+                $this->Mail->send($this->getMailAddress(), "Password Reset!", "Your new password for the account with username which is {$this->getUsername()}, is {$this->getPassword()} and please consider to change it after logging in!");
+                $this->setSalt($this->generator("salt"));
+                $this->setPassword($this->getPassword() . $this->getSalt());
+                $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
+                $this->PDO->query("INSERT INTO Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
+                $this->PDO->bind(":PasswordsSalt", $this->getSalt());
+                $this->PDO->bind(":PasswordsHash", $this->getHash());
+                $this->PDO->execute();
+                $this->PDO->query("UPDATE Users SET UsersPassword = :UsersPassword WHERE UsersMailAddress = :UsersMailAddress");
+                $this->PDO->bind(":UsersPassword", $this->getPasswordID());
+                $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
+                $this->PDO->execute();
+                $response = array(
+                    "status" => 0,
+                    "url" => "{$this->domain}/Login",
+                    "message" => "Password Reset!  Please check your mail to obtain your new password!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 200
+                );
+            } else {
+                $response = array(
+                    "status" => 6,
+                    "url" => $this->domain,
+                    "message" => "There is no account that is linked to this mail address!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 400
+                );
+            }
         } else {
             $response = array(
-                "status" => 6,
-                "url" => "http://{$_SERVER['HTTP_HOST']}",
-                "message" => "There is no account that is linked to this mail address!"
+                "status" => 1,
+                "url" => "{$this->domain}/ForgotPassword",
+                "message" => "Invalid Form!"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 400
             );
         }
-        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
+        header($headers["headers"], $headers["replace"], $headers["responseCode"]);
         echo json_encode($response);
     }
     /**
@@ -357,7 +380,7 @@ class User extends Password
         $uploadedPath = $_SERVER['DOCUMENT_ROOT'] . $imageFile;
         if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadedPath)) {
             $this->setProfilePicture($imageFile);
-            $this->PDO->query("UPDATE Parkinston.Users SET UsersProfilePicture = :UsersProfilePicture WHERE UsersUsername = :UsersUsername");
+            $this->PDO->query("UPDATE Users SET UsersProfilePicture = :UsersProfilePicture WHERE UsersUsername = :UsersUsername");
             $this->PDO->bind(":UsersProfilePicture", $this->getProfilePicture());
             $this->PDO->bind(":UsersUsername", $this->getUsername());
             $this->PDO->execute();

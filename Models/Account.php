@@ -43,13 +43,13 @@ class Account extends User
             if (!is_null($request->lolUsername) && !is_null($request->lolRegion)) {
                 $leagueOfLegends = json_decode($this->LeagueOfLegends->retrieveData($request->lolUsername, $request->lolRegion));
                 if ($leagueOfLegends->httpResponseCode == 200) {
-                    $this->PDO->query("INSERT INTO Parkinston.LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
+                    $this->PDO->query("INSERT INTO LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
                     $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
                     $this->PDO->bind(":LeagueOfLegendsGameName", $this->LeagueOfLegends->getGameName());
                     $this->PDO->bind(":LeagueOfLegendsTagLine", $this->LeagueOfLegends->getTagLine());
                     $this->PDO->execute();
                     $this->setUsername($_SESSION['User']['username']);
-                    $this->PDO->query("INSERT INTO Parkinston.Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
+                    $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
                     $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
                     $this->PDO->bind(":AccountsUser", $this->getUsername());
                     $this->PDO->execute();
