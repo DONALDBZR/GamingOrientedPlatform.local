@@ -18,7 +18,7 @@ class Account extends User
     protected LeagueOfLegends $LeagueOfLegends;
     public function __construct()
     {
-        $this->domain = "http://{$_SERVER['HTTP_HOST']}/";
+        $this->domain = $_SERVER['HTTP_HOST'];
         $this->PDO = new PHPDataObject();
         $this->LeagueOfLegends = new LeagueOfLegends();
     }
