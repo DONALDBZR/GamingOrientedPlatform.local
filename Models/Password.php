@@ -126,41 +126,64 @@ class Password
     public function otpVerify()
     {
         $request = json_decode(file_get_contents('php://input'));
-        if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
-            $cache = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json"));
-            $this->setOtp($cache->User->otp);
-            file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "");
-        } else {
-            $this->setOtp($_SESSION['User']['otp']);
-        }
-        if ($request->oneTimePassword == $this->getOtp()) {
-            unset($_SESSION['User']['otp']);
-            $data = array(
-                "Client" => $_SESSION['Client'],
-                "User" => $_SESSION['User'],
-                "Account" => $_SESSION['Account']
-            );
-            $cacheData = json_encode($data);
-            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-            fwrite($cache, $cacheData);
-            fclose($cache);
-            $reponse = array(
-                "status" => 0,
-                "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
-                "message" => "You will be connected to the service as soon as possible..."
-            );
-        } else {
+        if (!is_null($request->oneTimePassword)) {
             if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
-                unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json");
+                $cache = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json"));
+                $this->setOtp($cache->User->otp);
+                file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json", "");
+            } else {
+                $this->setOtp($_SESSION['User']['otp']);
             }
-            unset($_SESSION['User']);
-            $reponse = array(
-                "status" => 5,
-                "url" => "{$this->domain}/",
-                "message" => "The Password does not correspond to the one that was sent to you!"
+            if ($request->oneTimePassword == $this->getOtp()) {
+                unset($_SESSION['User']['otp']);
+                $data = array(
+                    "Client" => $_SESSION['Client'],
+                    "User" => $_SESSION['User'],
+                    "Account" => $_SESSION['Account']
+                );
+                $cacheData = json_encode($data);
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+                fwrite($cache, $cacheData);
+                fclose($cache);
+                $response = array(
+                    "status" => 0,
+                    "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
+                    "message" => "You will be connected to the service as soon as possible..."
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 200
+                );
+            } else {
+                if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
+                    unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json");
+                }
+                unset($_SESSION['User']);
+                $response = array(
+                    "status" => 5,
+                    "url" => $this->domain,
+                    "message" => "The Password does not correspond to the one that was sent to you!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 400
+                );
+            }
+        } else {
+            $response = array(
+                "status" => 1,
+                "url" => "{$this->domain}/Login/Verification/{$_SESSION['User']['username']}",
+                "message" => "Invalid Form!"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 400
             );
         }
-        header('Content-Type: application/json', true, 200);
-        echo json_encode($reponse);
+        header($headers["headers"], $headers["replace"], $headers["responseCode"]);
+        echo json_encode($response);
     }
 }
