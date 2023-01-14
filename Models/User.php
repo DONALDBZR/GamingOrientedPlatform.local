@@ -312,7 +312,12 @@ class User extends Password
                 "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Profile/{$this->getUsername()}",
                 "message" => "Your profile picture has been changed!"
             );
-            header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 200
+            );
+            header($headers["headers"], $headers["replace"], $headers["responseCode"]);
             echo json_encode($response);
         }
     }
