@@ -68,45 +68,68 @@ class User extends Password
         $request = json_decode(file_get_contents('php://input'));
         $this->setUsername($request->username);
         $this->setMailAddress($request->mailAddress);
-        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername OR UsersMailAddress = :UsersMailAddress");
-        $this->PDO->bind(":UsersUsername", $this->getUsername());
-        $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
-        $this->PDO->execute();
-        if (empty($this->PDO->resultSet())) {
-            $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
-            $this->PDO->execute();
-            if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
-                $this->setPasswordId(1);
-            } else {
-                $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
-            }
-            $this->setPassword($this->generatePassword());
-            $this->Mail->send($this->getMailAddress(), "Registration Complete", "Your account with username, {$this->getUsername()} and password, {$this->getPassword()} has been created.  Please consider to change it after logging in!");
-            $this->setSalt($this->generateSalt());
-            $this->setPassword($this->getPassword() . $this->getSalt());
-            $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
-            $this->PDO->query("INSERT INTO Parkinston.Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
-            $this->PDO->bind(":PasswordsSalt", $this->getSalt());
-            $this->PDO->bind(":PasswordsHash", $this->getHash());
-            $this->PDO->execute();
-            $this->PDO->query("INSERT INTO Parkinston.Users(UsersUsername, UsersMailAddress, UsersPassword) VALUES (:UsersUsername, :UsersMailAddress, :UsersPassword)");
+        if (!is_null($this->getUsername()) && !is_null($this->getMailAddress())) {
+            $this->PDO->query("SELECT * FROM Users WHERE UsersUsername = :UsersUsername OR UsersMailAddress = :UsersMailAddress");
             $this->PDO->bind(":UsersUsername", $this->getUsername());
             $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
-            $this->PDO->bind(":UsersPassword", $this->getPasswordId());
             $this->PDO->execute();
-            $response = array(
-                "status" => 0,
-                "url" => "http://{$_SERVER['HTTP_HOST']}/Login",
-                "message" => "Account created!  Please check your mail to obtain your password!"
-            );
+            if (empty($this->PDO->resultSet())) {
+                $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
+                $this->PDO->execute();
+                if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
+                    $this->setPasswordId(1);
+                } else {
+                    $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                }
+                $this->setPassword($this->generator("password"));
+                $this->Mail->send($this->getMailAddress(), "Registration Complete", "Your account with username, {$this->getUsername()} and password, {$this->getPassword()} has been created.  Please consider to change it after logging in!");
+                $this->setSalt($this->generator("salt"));
+                $this->setPassword($this->getPassword() . $this->getSalt());
+                $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
+                $this->PDO->query("INSERT INTO Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
+                $this->PDO->bind(":PasswordsSalt", $this->getSalt());
+                $this->PDO->bind(":PasswordsHash", $this->getHash());
+                $this->PDO->execute();
+                $this->PDO->query("INSERT INTO Users(UsersUsername, UsersMailAddress, UsersPassword) VALUES (:UsersUsername, :UsersMailAddress, :UsersPassword)");
+                $this->PDO->bind(":UsersUsername", $this->getUsername());
+                $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
+                $this->PDO->bind(":UsersPassword", $this->getPasswordId());
+                $this->PDO->execute();
+                $response = array(
+                    "status" => 0,
+                    "url" => "{$this->domain}/Login",
+                    "message" => "Account created!  Please check your mail to obtain your password!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 200
+                );
+            } else {
+                $response = array(
+                    "status" => 2,
+                    "url" => "{$this->domain}/Login",
+                    "message" => "Account exists!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 400
+                );
+            }
         } else {
             $response = array(
-                "status" => 2,
-                "url" => "http://{$_SERVER['HTTP_HOST']}/Login",
-                "message" => "Account exists!"
+                "status" => 1,
+                "url" => "{$this->domain}/Register",
+                "message" => "Invalid Form!"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 400
             );
         }
-        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
+        header($headers["headers"], $headers["replace"], $headers["responseCode"]);
         echo json_encode($response);
     }
     /**
@@ -132,7 +155,7 @@ class User extends Password
             $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
             $this->setPassword($this->getPassword() . $this->getSalt());
             if (password_verify($this->getPassword(), $this->getHash())) {
-                $this->setOtp($this->otpGenerate());
+                $this->setOtp($this->generator("otp"));
                 $user = array(
                     "username" => $this->getUsername(),
                     "mailAddress" => $this->getMailAddress(),
@@ -266,9 +289,9 @@ class User extends Password
             } else {
                 $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
             }
-            $this->setPassword($this->generatePassword());
+            $this->setPassword($this->generator("password"));
             $this->Mail->send($this->getMailAddress(), "Password Reset!", "Your new password for the account with username which is {$this->getUsername()}, is {$this->getPassword()} and please consider to change it after logging in!");
-            $this->setSalt($this->generateSalt());
+            $this->setSalt($this->generator("salt"));
             $this->setPassword($this->getPassword() . $this->getSalt());
             $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
             $this->PDO->query("INSERT INTO Parkinston.Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
@@ -373,7 +396,7 @@ class User extends Password
                             } else {
                                 $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
                             }
-                            $this->setSalt($this->generateSalt());
+                            $this->setSalt($this->generator("salt"));
                             $this->setPassword($this->getPassword() . $this->getSalt());
                             $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
                             $this->PDO->query("INSERT INTO Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
@@ -479,7 +502,7 @@ class User extends Password
                         } else {
                             $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
                         }
-                        $this->setSalt($this->generateSalt());
+                        $this->setSalt($this->generator("salt"));
                         $this->setPassword($this->getPassword() . $this->getSalt());
                         $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
                         $this->PDO->query("INSERT INTO Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");

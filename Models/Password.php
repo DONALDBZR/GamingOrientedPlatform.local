@@ -82,49 +82,42 @@ class Password
         $this->otp = $otp;
     }
     /**
-     * Generating the salt that will be appended the password in its plain form before inserting it in the database
-     * @return string
+     * Generating either a string or an integer
+     * @param string $parameter
+     * @return int|string
      */
-    public function generateSalt()
+    public function generator(string $parameter)
     {
-        $length = 8;
+        $length = 0;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/.';
         $charactersLength = strlen($characters);
         $randomString = '';
-        for ($index = 0; $index < $length; $index++) {
-            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        $response = "";
+        switch ($parameter) {
+            case 'salt':
+                $length = 8;
+                for ($index = 0; $index < $length; $index++) {
+                    $randomString .= $characters[random_int(0, $charactersLength - 1)];
+                }
+                $response = $randomString;
+                break;
+            case 'password':
+                $length = 16;
+                for ($index = 0; $index < $length; $index++) {
+                    $randomString .= $characters[random_int(0, $charactersLength - 1)];
+                }
+                $response = $randomString;
+                break;
+            case 'otp':
+                $length = 6;
+                $characters = '0123456789';
+                for ($index = 0; $index < $length; $index++) {
+                    $randomString .= $characters[random_int(0, $charactersLength - 1)];
+                }
+                $response = (int)$randomString;
+                break;
         }
-        return $randomString;
-    }
-    /**
-     * Generating a password for the user
-     * @return string
-     */
-    public function generatePassword()
-    {
-        $length = 16;
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/.';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($index = 0; $index < $length; $index++) {
-            $randomString .= $characters[random_int(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
-    /**
-     * Generating an one-time password for the user
-     * @return string
-     */
-    public function otpGenerate()
-    {
-        $length = 6;
-        $characters = '0123456789';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($index = 0; $index < $length; $index++) {
-            $randomString .= $characters[random_int(0, $charactersLength - 1)];
-        }
-        return $randomString;
+        return $response;
     }
     /**
      * Verifying the one-time password that was sent to the user
