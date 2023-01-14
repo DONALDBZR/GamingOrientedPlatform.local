@@ -317,96 +317,6 @@ class User extends Password
         }
     }
     /**
-     * Changing the password of the user
-     * @return JSON
-     */
-    public function changePassword()
-    {
-        $request = json_decode(file_get_contents("php://input"));
-        $this->setUsername($_SESSION['User']['username']);
-        $this->setMailAddress($_SESSION['User']['mailAddress']);
-        $this->setPassword($request->oldPassword);
-        $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
-        $this->PDO->bind(":UsersUsername", $this->getUsername());
-        $this->PDO->execute();
-        $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
-        $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
-        $this->PDO->bind(":PasswordsId", $this->getPasswordId());
-        $this->PDO->execute();
-        $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
-        $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
-        $this->setPassword($this->getPassword() . $this->getSalt());
-        if (password_verify($this->getPassword(), $this->getHash())) {
-            if ($request->newPassword == $request->confirmNewPassword) {
-                $this->setPassword($request->newPassword);
-                $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$_SERVER['HTTP_HOST']}/ForgotPassword");
-                $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
-                $this->PDO->execute();
-                if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
-                    $this->setPasswordId(1);
-                } else {
-                    $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
-                }
-                $this->setSalt($this->generateSalt());
-                $this->setPassword($this->getPassword() . $this->getSalt());
-                $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
-                $this->PDO->query("INSERT INTO Parkinston.Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
-                $this->PDO->bind(":PasswordsSalt", $this->getSalt());
-                $this->PDO->bind(":PasswordsHash", $this->getHash());
-                $this->PDO->execute();
-                $this->PDO->query("UPDATE Parkinston.Users SET UsersPassword = :UsersPassword WHERE UsersUsername = :UsersUsername");
-                $this->PDO->bind(":UsersPassword", $this->getPasswordId());
-                $this->PDO->bind(":UsersUsername", $this->getUsername());
-                $this->PDO->execute();
-                $response = array(
-                    "status" => 0,
-                    "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
-                    "message" => "Your password has been changed!  You will be logged out of your account to test the new password!"
-                );
-            } else {
-                $response = array(
-                    "status" => 8,
-                    "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Security/{$this->getUsername()}",
-                    "message" => "The passwords are not identical!"
-                );
-            }
-        } else {
-            $response = array(
-                "status" => 7,
-                "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Security/{$this->getUsername()}",
-                "message" => "Incorrect Password!"
-            );
-        }
-        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
-        echo json_encode($response);
-    }
-    /**
-     * Changing the mail address of the user
-     * @return JSON
-     */
-    public function changeMailAddress()
-    {
-        $request = json_decode(file_get_contents("php://input"));
-        $this->setUsername($_SESSION['User']['username']);
-        $this->setMailAddress($_SESSION['User']['mailAddress']);
-        if ($this->getMailAddress() != $request->mailAddress) {
-            $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
-            $this->setMailAddress($request->mailAddress);
-            $this->PDO->query("UPDATE Parkinston.Users SET UsersMailAddress = :UsersMailAddress WHERE UsersUsername = :UsersUsername");
-            $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
-            $this->PDO->bind(":UsersUsername", $this->getUsername());
-            $this->PDO->execute();
-            $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "This mail is an update for your new mail address which username is {$this->getUsername()}.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
-            $response = array(
-                "status" => 0,
-                "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
-                "message" => "Your mail address has been changed!  You will be logged out of your account!"
-            );
-        }
-        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
-        echo json_encode($response);
-    }
-    /**
      * Changing both the mail address and the password
      * @return JSON
      */
@@ -415,68 +325,210 @@ class User extends Password
         $request = json_decode(file_get_contents("php://input"));
         $this->setUsername($_SESSION['User']['username']);
         $this->setMailAddress($_SESSION['User']['mailAddress']);
-        if ($this->getMailAddress() != $request->mailAddress) {
-            $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
-            $this->setMailAddress($request->mailAddress);
-            $this->PDO->query("UPDATE Parkinston.Users SET UsersMailAddress = :UsersMailAddress WHERE UsersUsername = :UsersUsername");
-            $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
-            $this->PDO->bind(":UsersUsername", $this->getUsername());
-            $this->PDO->execute();
-            $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "This mail is an update for your new mail address which username is {$this->getUsername()}.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
-            $this->setPassword($request->oldPassword);
-            $this->PDO->query("SELECT * FROM Parkinston.Users WHERE UsersUsername = :UsersUsername");
-            $this->PDO->bind(":UsersUsername", $this->getUsername());
-            $this->PDO->execute();
-            $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
-            $this->PDO->query("SELECT * FROM Parkinston.Passwords WHERE PasswordsId = :PasswordsId");
-            $this->PDO->bind(":PasswordsId", $this->getPasswordId());
-            $this->PDO->execute();
-            $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
-            $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
-            $this->setPassword($this->getPassword() . $this->getSalt());
-            if (password_verify($this->getPassword(), $this->getHash())) {
-                if ($request->newPassword == $request->confirmNewPassword) {
-                    $this->setPassword($request->newPassword);
-                    $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$_SERVER['HTTP_HOST']}/ForgotPassword");
-                    $this->PDO->query("SELECT * FROM Parkinston.Passwords ORDER BY PasswordsId DESC");
-                    $this->PDO->execute();
-                    if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
-                        $this->setPasswordId(1);
-                    } else {
-                        $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
-                    }
-                    $this->setSalt($this->generateSalt());
-                    $this->setPassword($this->getPassword() . $this->getSalt());
-                    $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
-                    $this->PDO->query("INSERT INTO Parkinston.Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
-                    $this->PDO->bind(":PasswordsSalt", $this->getSalt());
-                    $this->PDO->bind(":PasswordsHash", $this->getHash());
-                    $this->PDO->execute();
-                    $this->PDO->query("UPDATE Parkinston.Users SET UsersPassword = :UsersPassword WHERE UsersUsername = :UsersUsername");
-                    $this->PDO->bind(":UsersPassword", $this->getPasswordId());
+        $this->setPassword($request->oldPassword);
+        if (!empty($request)) {
+            if (!is_null($request->mailAddress) && !is_null($request->oldPassword)) {
+                if ($this->getMailAddress() != $request->mailAddress) {
+                    $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
+                    $this->setMailAddress($request->mailAddress);
+                    $this->PDO->query("UPDATE Users SET UsersMailAddress = :UsersMailAddress WHERE UsersUsername = :UsersUsername");
+                    $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
                     $this->PDO->bind(":UsersUsername", $this->getUsername());
                     $this->PDO->execute();
+                    $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "This mail is an update for your new mail address which username is {$this->getUsername()}.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
+                    $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = SELECT UsersPassword FROM Users WHERE UsersUsername = :UsersUsername");
+                    $this->PDO->bind(":UsersUsername", $this->getUsername());
+                    $this->PDO->execute();
+                    $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
+                    $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
+                    $this->setPassword($this->getPassword() . $this->getSalt());
+                    if (password_verify($this->getPassword(), $this->getHash())) {
+                        if ($request->newPassword == $request->confirmNewPassword) {
+                            $this->setPassword($request->newPassword);
+                            $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$this->domain}/ForgotPassword");
+                            $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
+                            $this->PDO->execute();
+                            if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
+                                $this->setPasswordId(1);
+                            } else {
+                                $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                            }
+                            $this->setSalt($this->generateSalt());
+                            $this->setPassword($this->getPassword() . $this->getSalt());
+                            $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
+                            $this->PDO->query("INSERT INTO Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
+                            $this->PDO->bind(":PasswordsSalt", $this->getSalt());
+                            $this->PDO->bind(":PasswordsHash", $this->getHash());
+                            $this->PDO->execute();
+                            $this->PDO->query("UPDATE Users SET UsersPassword = :UsersPassword WHERE UsersUsername = :UsersUsername");
+                            $this->PDO->bind(":UsersPassword", $this->getPasswordId());
+                            $this->PDO->bind(":UsersUsername", $this->getUsername());
+                            $this->PDO->execute();
+                            $response = array(
+                                "status" => 0,
+                                "url" => "{$this->domain}/Sign-Out",
+                                "message" => "Your mail address and password has been changed!  You will be logged out of your account to test the new password!"
+                            );
+                            $headers = array(
+                                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                                "replace" => true,
+                                "responseCode" => 200
+                            );
+                        } else {
+                            $response = array(
+                                "status" => 9,
+                                "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                                "message" => "The passwords are not identical!"
+                            );
+                            $headers = array(
+                                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                                "replace" => true,
+                                "responseCode" => 300
+                            );
+                        }
+                    } else {
+                        $response = array(
+                            "status" => 8,
+                            "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                            "message" => "Incorrect Password!"
+                        );
+                        $headers = array(
+                            "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                            "replace" => true,
+                            "responseCode" => 300
+                        );
+                    }
+                } else {
+                    $response = array(
+                        "status" => 7,
+                        "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                        "message" => "You need a different mail address to change your mail address!"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 300
+                    );
+                }
+            } else if (!is_null($request->mailAddress) && is_null($request->oldPassword)) {
+                if ($this->getMailAddress() != $request->mailAddress) {
+                    $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
+                    $this->setMailAddress($request->mailAddress);
+                    $this->PDO->query("UPDATE Users SET UsersMailAddress = :UsersMailAddress WHERE UsersUsername = :UsersUsername");
+                    $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
+                    $this->PDO->bind(":UsersUsername", $this->getUsername());
+                    $this->PDO->execute();
+                    $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "This mail is an update for your new mail address which username is {$this->getUsername()}.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
                     $response = array(
                         "status" => 0,
-                        "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
-                        "message" => "Your password and mail address have been changed!  You will be logged out of your account to test the new password!"
+                        "url" => "{$this->domain}/Sign-Out",
+                        "message" => "Your mail address has been changed!  You will be logged out of your account!"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 200
                     );
                 } else {
                     $response = array(
-                        "status" => 10,
-                        "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
-                        "message" => "The passwords are not identical!"
+                        "status" => 7,
+                        "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                        "message" => "You need a different mail address to change your mail address!"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 300
+                    );
+                }
+            } else if (is_null($request->mailAddress) && !is_null($request->oldPassword)) {
+                $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = SELECT UsersPassword FROM Users WHERE UsersUsername = :UsersUsername");
+                $this->PDO->bind(":UsersUsername", $this->getUsername());
+                $this->PDO->execute();
+                $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
+                $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
+                $this->setPassword($this->getPassword() . $this->getSalt());
+                if (password_verify($this->getPassword(), $this->getHash())) {
+                    if ($request->newPassword == $request->confirmNewPassword) {
+                        $this->setPassword($request->newPassword);
+                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$this->domain}/ForgotPassword");
+                        $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
+                        $this->PDO->execute();
+                        if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
+                            $this->setPasswordId(1);
+                        } else {
+                            $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                        }
+                        $this->setSalt($this->generateSalt());
+                        $this->setPassword($this->getPassword() . $this->getSalt());
+                        $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
+                        $this->PDO->query("INSERT INTO Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
+                        $this->PDO->bind(":PasswordsSalt", $this->getSalt());
+                        $this->PDO->bind(":PasswordsHash", $this->getHash());
+                        $this->PDO->execute();
+                        $this->PDO->query("UPDATE Users SET UsersPassword = :UsersPassword WHERE UsersUsername = :UsersUsername");
+                        $this->PDO->bind(":UsersPassword", $this->getPasswordId());
+                        $this->PDO->bind(":UsersUsername", $this->getUsername());
+                        $this->PDO->execute();
+                        $response = array(
+                            "status" => 0,
+                            "url" => "{$this->domain}/Sign-Out",
+                            "message" => "Your password has been changed!  You will be logged out of your account to test the new password!"
+                        );
+                        $headers = array(
+                            "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                            "replace" => true,
+                            "responseCode" => 200
+                        );
+                    } else {
+                        $response = array(
+                            "status" => 9,
+                            "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                            "message" => "The passwords are not identical!"
+                        );
+                        $headers = array(
+                            "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                            "replace" => true,
+                            "responseCode" => 300
+                        );
+                    }
+                } else {
+                    $response = array(
+                        "status" => 8,
+                        "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                        "message" => "Incorrect Password!"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 300
                     );
                 }
             } else {
                 $response = array(
-                    "status" => 9,
-                    "url" => "http://{$_SERVER['HTTP_HOST']}/Sign-Out",
-                    "message" => "Incorrect Password!"
+                    "status" => 1,
+                    "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                    "message" => "Invalid Form!"
+                );
+                $headers = array(
+                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                    "replace" => true,
+                    "responseCode" => 300
                 );
             }
+        } else {
+            $response = array(
+                "status" => 1,
+                "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                "message" => "Invalid Form!"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 300
+            );
         }
-        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 300);
+        header($headers["headers"], $headers["replace"], $headers["responseCode"]);
         echo json_encode($response);
     }
 }
