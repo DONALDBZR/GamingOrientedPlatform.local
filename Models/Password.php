@@ -38,7 +38,7 @@ class Password
     public string $domain;
     public function __construct()
     {
-        $this->domain = "http://{$_SERVER['HTTP_HOST']}";
+        $this->domain = $_SERVER['HTTP_HOST'];
         $this->PDO = new PHPDataObject();
     }
     public function getId()
