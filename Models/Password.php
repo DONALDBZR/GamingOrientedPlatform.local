@@ -147,7 +147,7 @@ class Password
                 fclose($cache);
                 $response = array(
                     "status" => 0,
-                    "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
+                    "url" => "/Users/Home/{$_SESSION['User']['username']}",
                     "message" => "You will be connected to the service as soon as possible..."
                 );
                 $headers = array(
@@ -174,7 +174,7 @@ class Password
         } else {
             $response = array(
                 "status" => 1,
-                "url" => "{$this->domain}/Login/Verification/{$_SESSION['User']['username']}",
+                "url" => "/Login/Verification/{$_SESSION['User']['username']}",
                 "message" => "Invalid Form!"
             );
             $headers = array(
