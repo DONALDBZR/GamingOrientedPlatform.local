@@ -261,7 +261,7 @@ class User extends Password
                 session_destroy();
                 $response = array(
                     "status" => 0,
-                    "url" => $this->domain,
+                    "url" => "/",
                     "message" => "You have been successfully logged out!"
                 );
                 $headers = array(
@@ -274,7 +274,7 @@ class User extends Password
                 session_destroy();
                 $response = array(
                     "status" => 13,
-                    "url" => $this->domain,
+                    "url" => "/",
                     "message" => "You have been successfully logged out but the cache has not been cleared on the application server!"
                 );
                 $headers = array(
