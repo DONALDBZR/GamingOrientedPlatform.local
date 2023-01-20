@@ -51,7 +51,7 @@ class LeagueOfLegends
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" . $this->getGameName() . "/" . $this->getTagLine() . "?api_key=" . Environment::RiotAPIKey;
+        $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{$this->getGameName()}/{$this->getTagLine()}1?api_key=" . Environment::RiotAPIKey;
         if ($this->getHttpResponseCode($riotAccountApiRequest) == 200) {
             $riotAccountApiResponse = json_decode(file_get_contents($riotAccountApiRequest));
             $this->setPlayerUniversallyUniqueIdentifier($riotAccountApiResponse->puuid);
