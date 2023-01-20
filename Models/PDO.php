@@ -12,7 +12,7 @@ class PHPDataObject
     /**
      * The data source name which contains the database's name the IP address and the Port of the database server
      */
-    public string $dataSourceName = Environment::ProductionMySQLDataSourceName;
+    public string $dataSourceName = Environment::MySQLDataSourceName;
     /**
      * The username that is used to authenticate on MySQL server
      */
@@ -20,7 +20,7 @@ class PHPDataObject
     /**
      * The password of the username that is used to authenticate on MySQL server
      */
-    private string $password = Environment::ProductionMySQLPassword;
+    private string $password = Environment::MySQLPassword;
     /**
      * The database handler that is being used for this application which is PHP Data Objects
      */
