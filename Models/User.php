@@ -26,6 +26,7 @@ class User extends Password
     {
         $this->PDO = new PHPDataObject();
         $this->Mail = new Mail();
+        $this->domain = $_SERVER['HTTP_HOST'];
     }
     public function getUsername()
     {
