@@ -98,7 +98,7 @@ class User extends Password
                 $this->PDO->execute();
                 $response = array(
                     "status" => 0,
-                    "url" => "{$this->domain}/Login",
+                    "url" => "/Login",
                     "message" => "Account created!  Please check your mail to obtain your password!"
                 );
                 $headers = array(
@@ -109,7 +109,7 @@ class User extends Password
             } else {
                 $response = array(
                     "status" => 2,
-                    "url" => "{$this->domain}/Login",
+                    "url" => "/Login",
                     "message" => "Account exists!"
                 );
                 $headers = array(
@@ -121,7 +121,7 @@ class User extends Password
         } else {
             $response = array(
                 "status" => 1,
-                "url" => "{$this->domain}/Register",
+                "url" => "/Register",
                 "message" => "Invalid Form!"
             );
             $headers = array(
@@ -198,7 +198,7 @@ class User extends Password
                     fclose($cache);
                     $response = array(
                         "status" => 0,
-                        "url" => "{$this->domain}/Login/Verification/{$this->getUsername()}",
+                        "url" => "/Login/Verification/{$this->getUsername()}",
                         "message" => "You will be redirected to the verification process just to be sure and a password has been sent to you for that! 🙏"
                     );
                     $headers = array(
@@ -209,7 +209,7 @@ class User extends Password
                 } else {
                     $response = array(
                         "status" => 3,
-                        "url" => "{$this->domain}/Login",
+                        "url" => "/Login",
                         "message" => "Your password is incorrect!"
                     );
                     $headers = array(
@@ -233,7 +233,7 @@ class User extends Password
         } else {
             $response = array(
                 "status" => 1,
-                "url" => "{$this->domain}/Login",
+                "url" => "/Login",
                 "message" => "Invalid Form!"
             );
             $headers = array(
@@ -334,7 +334,7 @@ class User extends Password
                 $this->PDO->execute();
                 $response = array(
                     "status" => 0,
-                    "url" => "{$this->domain}/Login",
+                    "url" => "/Login",
                     "message" => "Password Reset!  Please check your mail to obtain your new password!"
                 );
                 $headers = array(
@@ -357,7 +357,7 @@ class User extends Password
         } else {
             $response = array(
                 "status" => 1,
-                "url" => "{$this->domain}/ForgotPassword",
+                "url" => "/ForgotPassword",
                 "message" => "Invalid Form!"
             );
             $headers = array(
@@ -440,7 +440,7 @@ class User extends Password
                     if (password_verify($this->getPassword(), $this->getHash())) {
                         if ($request->newPassword == $request->confirmNewPassword) {
                             $this->setPassword($request->newPassword);
-                            $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$this->domain}/ForgotPassword");
+                            $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http:///ForgotPassword");
                             $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                             $this->PDO->execute();
                             if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
@@ -461,7 +461,7 @@ class User extends Password
                             $this->PDO->execute();
                             $response = array(
                                 "status" => 0,
-                                "url" => "{$this->domain}/Sign-Out",
+                                "url" => "/Sign-Out",
                                 "message" => "Your mail address and password has been changed!  You will be logged out of your account to test the new password!"
                             );
                             $headers = array(
@@ -472,7 +472,7 @@ class User extends Password
                         } else {
                             $response = array(
                                 "status" => 9,
-                                "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                                "url" => "/Users/Security/{$this->getUsername()}",
                                 "message" => "The passwords are not identical!"
                             );
                             $headers = array(
@@ -484,7 +484,7 @@ class User extends Password
                     } else {
                         $response = array(
                             "status" => 8,
-                            "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                            "url" => "/Users/Security/{$this->getUsername()}",
                             "message" => "Incorrect Password!"
                         );
                         $headers = array(
@@ -496,7 +496,7 @@ class User extends Password
                 } else {
                     $response = array(
                         "status" => 7,
-                        "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                        "url" => "/Users/Security/{$this->getUsername()}",
                         "message" => "You need a different mail address to change your mail address!"
                     );
                     $headers = array(
@@ -516,7 +516,7 @@ class User extends Password
                     $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "This mail is an update for your new mail address which username is {$this->getUsername()}.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
                     $response = array(
                         "status" => 0,
-                        "url" => "{$this->domain}/Sign-Out",
+                        "url" => "/Sign-Out",
                         "message" => "Your mail address has been changed!  You will be logged out of your account!"
                     );
                     $headers = array(
@@ -527,7 +527,7 @@ class User extends Password
                 } else {
                     $response = array(
                         "status" => 7,
-                        "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                        "url" => "/Users/Security/{$this->getUsername()}",
                         "message" => "You need a different mail address to change your mail address!"
                     );
                     $headers = array(
@@ -546,7 +546,7 @@ class User extends Password
                 if (password_verify($this->getPassword(), $this->getHash())) {
                     if ($request->newPassword == $request->confirmNewPassword) {
                         $this->setPassword($request->newPassword);
-                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$this->domain}/ForgotPassword");
+                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http:///ForgotPassword");
                         $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                         $this->PDO->execute();
                         if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
@@ -567,7 +567,7 @@ class User extends Password
                         $this->PDO->execute();
                         $response = array(
                             "status" => 0,
-                            "url" => "{$this->domain}/Sign-Out",
+                            "url" => "/Sign-Out",
                             "message" => "Your password has been changed!  You will be logged out of your account to test the new password!"
                         );
                         $headers = array(
@@ -578,7 +578,7 @@ class User extends Password
                     } else {
                         $response = array(
                             "status" => 9,
-                            "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                            "url" => "/Users/Security/{$this->getUsername()}",
                             "message" => "The passwords are not identical!"
                         );
                         $headers = array(
@@ -590,7 +590,7 @@ class User extends Password
                 } else {
                     $response = array(
                         "status" => 8,
-                        "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                        "url" => "/Users/Security/{$this->getUsername()}",
                         "message" => "Incorrect Password!"
                     );
                     $headers = array(
@@ -602,7 +602,7 @@ class User extends Password
             } else {
                 $response = array(
                     "status" => 1,
-                    "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                    "url" => "/Users/Security/{$this->getUsername()}",
                     "message" => "Invalid Form!"
                 );
                 $headers = array(
@@ -614,7 +614,7 @@ class User extends Password
         } else {
             $response = array(
                 "status" => 1,
-                "url" => "{$this->domain}/Users/Security/{$this->getUsername()}",
+                "url" => "/Users/Security/{$this->getUsername()}",
                 "message" => "Invalid Form!"
             );
             $headers = array(

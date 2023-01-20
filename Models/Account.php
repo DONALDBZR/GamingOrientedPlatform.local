@@ -76,7 +76,7 @@ class Account extends User
                     fclose($cache);
                     $response = array(
                         "status" => 0,
-                        "url" => "{$this->domain}/Users/Home/{$_SESSION['User']['username']}",
+                        "url" => "/Users/Home/{$_SESSION['User']['username']}",
                         "message" => "Your account has been added!"
                     );
                     $headers = array(
@@ -87,7 +87,7 @@ class Account extends User
                 } else {
                     $response = array(
                         "status" => 11,
-                        "url" => "{$this->domain}/Users/Accounts/{$_SESSION['User']['username']}",
+                        "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
                         "message" => "This League of Legends Username does not exist!"
                     );
                     $headers = array(
@@ -99,7 +99,7 @@ class Account extends User
             } else {
                 $response = array(
                     "status" => 12,
-                    "url" => "{$this->domain}/Users/Accounts/{$_SESSION['User']['username']}",
+                    "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
                     "message" => "There is an issue with the application.  Please try again later!"
                 );
                 $headers = array(
@@ -111,7 +111,7 @@ class Account extends User
         } else {
             $response = array(
                 "status" => 1,
-                "url" => "{$this->domain}/Users/Accounts/{$_SESSION['User']['username']}",
+                "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
                 "message" => "The form must be completely filled!"
             );
             $headers = array(
