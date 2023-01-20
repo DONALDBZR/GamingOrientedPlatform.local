@@ -125,6 +125,18 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 4075;
         event.preventDefault();
+        if (this.state.mailAddress == "") {
+            this.state.mailAddress = null;
+        }
+        if (this.state.oldPassword == "") {
+            this.state.oldPassword = null;
+        }
+        if (this.state.newPassword == "") {
+            this.state.newPassword = null;
+        }
+        if (this.state.confirmNewPassword == "") {
+            this.state.confirmNewPassword = null;
+        }
         fetch(`/Users/Security/${this.state.username}`, {
             method: "POST",
             body: JSON.stringify({
