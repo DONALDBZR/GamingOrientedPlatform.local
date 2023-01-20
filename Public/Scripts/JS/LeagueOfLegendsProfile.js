@@ -164,83 +164,88 @@ class Application extends React.Component {
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveSessionData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-                lolUsername: data.Account.LeagueOfLegends.gameName,
-                lolRegion: data.Account.LeagueOfLegends.tagLine,
-                riotId: data.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier,
-            }));
+            .then((data) =>
+                this.setState({
+                    username: data.User.username,
+                    mailAddress: data.User.mailAddress,
+                    domain: data.User.domain,
+                    profilePicture: data.User.profilePicture,
+                    lolUsername: data.Account.LeagueOfLegends.gameName,
+                    lolRegion: data.Account.LeagueOfLegends.tagLine,
+                    riotId: data.Account.LeagueOfLegends
+                        .playerUniversallyUniqueIdentifier,
+                })
+            );
     }
     /**
      * Retrieving data from Riot Games data center for the user
      */
     retrieveLoL_SummonerData() {
         if (window.location.pathname.includes("Home")) {
-            fetch("/LegendsOfLegends/CurrentSummoner",
-                {
-                    method: "GET"
-                })
+            fetch("/LegendsOfLegends/CurrentSummoner", {
+                method: "GET",
+            })
                 .then((response) => response.json())
-                .then((data) => this.setState({
-                    level: data.summonerLevel,
-                    summonerIcon: data.profileIconId,
-                    soloDuoTier: data.soloDuoTier,
-                    soloDuoDivision: data.soloDuoRank,
-                    soloDuoLeaguePoints: data.soloDuoLeaguePoints,
-                    soloDuoWinRate: data.soloDuoWinRate,
-                    flexTier: data.flexTier,
-                    flexDivision: data.flexRank,
-                    flexLeaguePoints: data.flexLeaguePoints,
-                    flexWinRate: data.flexWinRate,
-                    kdaRatio: data.kdaRatio,
-                    csMin: data.csMin,
-                    vsMin: data.vsMin,
-                    gameName: data.gameName,
-                }));
+                .then((data) =>
+                    this.setState({
+                        level: data.summonerLevel,
+                        summonerIcon: data.profileIconId,
+                        soloDuoTier: data.soloDuoTier,
+                        soloDuoDivision: data.soloDuoRank,
+                        soloDuoLeaguePoints: data.soloDuoLeaguePoints,
+                        soloDuoWinRate: data.soloDuoWinRate,
+                        flexTier: data.flexTier,
+                        flexDivision: data.flexRank,
+                        flexLeaguePoints: data.flexLeaguePoints,
+                        flexWinRate: data.flexWinRate,
+                        kdaRatio: data.kdaRatio,
+                        csMin: data.csMin,
+                        vsMin: data.vsMin,
+                        gameName: data.gameName,
+                    })
+                );
         } else {
-            fetch("/LegendsOfLegends/Search/Summoner",
-                {
-                    method: "GET"
-                })
+            fetch("/LegendsOfLegends/Search/Summoner", {
+                method: "GET",
+            })
                 .then((response) => response.json())
-                .then((data) => this.setState({
-                    level: data.summonerLevel,
-                    summonerIcon: data.profileIconId,
-                    soloDuoTier: data.soloDuoTier,
-                    soloDuoDivision: data.soloDuoRank,
-                    soloDuoLeaguePoints: data.soloDuoLeaguePoints,
-                    soloDuoWinRate: data.soloDuoWinRate,
-                    flexTier: data.flexTier,
-                    flexDivision: data.flexRank,
-                    flexLeaguePoints: data.flexLeaguePoints,
-                    flexWinRate: data.flexWinRate,
-                    kdaRatio: data.kdaRatio,
-                    csMin: data.csMin,
-                    vsMin: data.vsMin,
-                    gameName: data.gameName,
-                }));
+                .then((data) =>
+                    this.setState({
+                        level: data.summonerLevel,
+                        summonerIcon: data.profileIconId,
+                        soloDuoTier: data.soloDuoTier,
+                        soloDuoDivision: data.soloDuoRank,
+                        soloDuoLeaguePoints: data.soloDuoLeaguePoints,
+                        soloDuoWinRate: data.soloDuoWinRate,
+                        flexTier: data.flexTier,
+                        flexDivision: data.flexRank,
+                        flexLeaguePoints: data.flexLeaguePoints,
+                        flexWinRate: data.flexWinRate,
+                        kdaRatio: data.kdaRatio,
+                        csMin: data.csMin,
+                        vsMin: data.vsMin,
+                        gameName: data.gameName,
+                    })
+                );
         }
     }
     /**
      * Retrieving data from Riot Games data center for the user's match history
      */
     retrieveLoL_SummonerData_matchHistories() {
-        fetch("/LegendsOfLegends/MatchHistories",
-            {
-                method: "GET"
-            })
+        fetch("/LegendsOfLegends/MatchHistories", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                matchHistory: data.MatchHistory,
-            }));
+            .then((data) =>
+                this.setState({
+                    matchHistory: data.MatchHistory,
+                })
+            );
     }
     /**
      * Verifying the state before rendering the link
@@ -254,7 +259,12 @@ class Application extends React.Component {
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
@@ -365,7 +375,11 @@ class Application extends React.Component {
      */
     verifyLeagueOfLegends_item(item) {
         if (item != 0) {
-            return <img src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${item}.png`} />;
+            return (
+                <img
+                    src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${item}.png`}
+                />
+            );
         } else {
             return null;
         }
@@ -444,11 +458,9 @@ class Application extends React.Component {
      */
     updateData() {
         const delay = 1000;
-        fetch("/Controllers/LeagueOfLegendsDelete.php",
-            {
-                method: "POST",
-            },
-        )
+        fetch("/Controllers/LeagueOfLegendsDelete.php", {
+            method: "POST",
+        })
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
@@ -462,14 +474,15 @@ class Application extends React.Component {
      * Retrieving data from Riot Games data center for the user's champion's mastery
      */
     retrieveLoL_SummonerData_championMastery() {
-        fetch("/LegendsOfLegends/ChampionMastery",
-            {
-                method: "GET"
-            })
+        fetch("/LegendsOfLegends/ChampionMastery", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                championMastery: data.championMastery,
-            }));
+            .then((data) =>
+                this.setState({
+                    championMastery: data.championMastery,
+                })
+            );
     }
     /**
      * Handling the level that is retrieved from the data
@@ -487,15 +500,16 @@ class Application extends React.Component {
      * Retrieving data from Riot Games data center for the user's champion's mastery
      */
     retrieveLoL_PlatformStatus() {
-        fetch("/LegendsOfLegends/PlatformStatus",
-            {
-                method: "GET"
-            })
+        fetch("/LegendsOfLegends/PlatformStatus", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                maintenance: data.maintenance,
-                incidents: data.incidents,
-            }));
+            .then((data) =>
+                this.setState({
+                    maintenance: data.maintenance,
+                    incidents: data.incidents,
+                })
+            );
     }
     /**
      * Handling the maintenance that is retrieved from the data
@@ -512,16 +526,43 @@ class Application extends React.Component {
      * Retrieving the software version of the game
      */
     retrieveLoL_PatchNotes() {
-        fetch("/LegendsOfLegends/PatchNotes",
-            {
-                method: "GET"
-            })
+        fetch("/LegendsOfLegends/PatchNotes", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                majorVersion: data.major,
-                minorVersion: data.minor,
-                patchNotes: data.patchNotes,
-            }));
+            .then((data) =>
+                this.setState({
+                    majorVersion: data.major,
+                    minorVersion: data.minor,
+                    patchNotes: data.patchNotes,
+                })
+            );
+    }
+    /**
+     * Verifying the ranks of the player
+     * @param {string | null} tier
+     * @param {string | null} rank
+     * @param {number | null} point
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_rank(tier, rank, point) {
+        if (tier == "" || tier == null) {
+            return "Unranked";
+        } else {
+            return `${tier} ${rank} - ${point} LP`;
+        }
+    }
+    /**
+     * Verifying the ranks of the player for the logo
+     * @param {string | null} tier
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_rank_emblem(tier) {
+        if (tier == "" || tier == null) {
+            return "/Public/Images/Ranks/Emblem_Unranked.png";
+        } else {
+            return `/Public/Images/Ranks/Emblem_${tier}.png`;
+        }
     }
     /**
      * Renders the components that are being returned
@@ -549,7 +590,9 @@ class Header extends Application {
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyUser_username()}</div>
                     <div>
@@ -582,7 +625,9 @@ class Main extends Application {
             <main>
                 <header>
                     <div>
-                        <img src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.summonerIcon}.png`} />
+                        <img
+                            src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.summonerIcon}.png`}
+                        />
                         <div>Level {this.state.level}</div>
                         <div>{this.state.gameName}</div>
                     </div>
@@ -590,39 +635,98 @@ class Main extends Application {
                         <div>
                             <div>Solo/Duo</div>
                             <div>
-                                <img src={`/Public/Images/Ranks/Emblem_${this.state.soloDuoTier}.png`} />
+                                <img
+                                    src={this.verifyLeagueOfLegends_rank_emblem(
+                                        this.state.soloDuoTier
+                                    )}
+                                />
                             </div>
-                            <div>{`${this.state.soloDuoTier} ${this.state.soloDuoDivision} - ${this.state.soloDuoLeaguePoints} LP`}</div>
+                            <div>
+                                {this.verifyLeagueOfLegends_rank(
+                                    this.state.soloDuoTier,
+                                    this.state.soloDuoDivision,
+                                    this.state.soloDuoLeaguePoints
+                                )}
+                            </div>
                             <div>Win Rate:</div>
-                            <div style={{ color: this.verifyLeagueOfLegends_winRate(this.state.soloDuoWinRate) }}>{`${this.state.soloDuoWinRate} %`}</div>
+                            <div
+                                style={{
+                                    color: this.verifyLeagueOfLegends_winRate(
+                                        this.state.soloDuoWinRate
+                                    ),
+                                }}
+                            >{`${this.state.soloDuoWinRate} %`}</div>
                         </div>
                         <div>
                             <div>Flex 5v5</div>
                             <div>
-                                <img src={`/Public/Images/Ranks/Emblem_${this.state.flexTier}.png`} />
+                                <img
+                                    src={this.verifyLeagueOfLegends_rank_emblem(
+                                        this.state.flexTier
+                                    )}
+                                />
                             </div>
-                            <div>{`${this.state.flexTier} ${this.state.flexDivision} - ${this.state.flexLeaguePoints} LP`}</div>
+                            <div>
+                                {this.verifyLeagueOfLegends_rank(
+                                    this.state.flexTier,
+                                    this.state.flexDivision,
+                                    this.state.flexLeaguePoints
+                                )}
+                            </div>
                             <div>Win Rate:</div>
-                            <div style={{ color: this.verifyLeagueOfLegends_winRate(this.state.flexWinRate) }}>{`${this.state.flexWinRate} %`}</div>
+                            <div
+                                style={{
+                                    color: this.verifyLeagueOfLegends_winRate(
+                                        this.state.flexWinRate
+                                    ),
+                                }}
+                            >{`${this.state.flexWinRate} %`}</div>
                         </div>
                     </div>
                     <div>
                         <div>
                             <div>KDA:</div>
-                            <div style={{ color: this.verifyLeagueOfLegends_kda(this.state.kdaRatio) }}>{this.state.kdaRatio}</div>
+                            <div
+                                style={{
+                                    color: this.verifyLeagueOfLegends_kda(
+                                        this.state.kdaRatio
+                                    ),
+                                }}
+                            >
+                                {this.state.kdaRatio}
+                            </div>
                         </div>
                         <div>
                             <div>CS/Min:</div>
-                            <div style={{ color: this.verifyLeagueOfLegends_csMin(this.state.csMin) }}>{this.state.csMin}</div>
+                            <div
+                                style={{
+                                    color: this.verifyLeagueOfLegends_csMin(
+                                        this.state.csMin
+                                    ),
+                                }}
+                            >
+                                {this.state.csMin}
+                            </div>
                         </div>
                         <div>
                             <div>VS/Min:</div>
-                            <div style={{ color: this.verifyLeagueOfLegends_vsMin(this.state.vsMin) }}>{this.state.vsMin}</div>
+                            <div
+                                style={{
+                                    color: this.verifyLeagueOfLegends_vsMin(
+                                        this.state.vsMin
+                                    ),
+                                }}
+                            >
+                                {this.state.vsMin}
+                            </div>
                         </div>
                     </div>
                     <div>
                         <div>
-                            <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
+                            <form
+                                method="POST"
+                                onSubmit={this.handleSubmit.bind(this)}
+                            >
                                 <input
                                     type="search"
                                     name="lolSearch"
@@ -644,7 +748,10 @@ class Main extends Application {
                             </button>
                         </div>
                         <div>
-                            <a href="https://www.proguides.com/leagueoflegends/champions/search" target="__blank">
+                            <a
+                                href="https://www.proguides.com/leagueoflegends/champions/search"
+                                target="__blank"
+                            >
                                 Meta
                                 <span></span>
                                 <span></span>
@@ -653,7 +760,10 @@ class Main extends Application {
                             </a>
                         </div>
                         <div>
-                            <a href={`https://www.leagueoflegends.com/en-us/news/game-updates/patch-${this.state.majorVersion}-${this.state.minorVersion}-notes/`} target="__blank">
+                            <a
+                                href={`https://www.leagueoflegends.com/en-us/news/game-updates/patch-${this.state.majorVersion}-${this.state.minorVersion}-notes/`}
+                                target="__blank"
+                            >
                                 Patch Notes
                                 <span></span>
                                 <span></span>
@@ -665,7 +775,9 @@ class Main extends Application {
                     <div>
                         <div>
                             <div>Maintenance</div>
-                            <div>{this.verifyLeagueOfLegends_platformStatus_maintenance()}</div>
+                            <div>
+                                {this.verifyLeagueOfLegends_platformStatus_maintenance()}
+                            </div>
                         </div>
                         <div>
                             <div>Incidents</div>
@@ -675,7 +787,7 @@ class Main extends Application {
                                         <div>{`${incident.title}:`}</div>
                                         <div>{incident.content}</div>
                                     </div>
-                                )
+                                );
                             })}
                         </div>
                     </div>
@@ -686,62 +798,118 @@ class Main extends Application {
                             return (
                                 <div>
                                     <div>
-                                        <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${championMastery.championId}.png`} />
+                                        <img
+                                            src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${championMastery.championId}.png`}
+                                        />
                                     </div>
                                     <div>
                                         <div>
-                                            <img src={`https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_${this.verifyLeagueOfLegends_championMastery_level(championMastery.championLevel)}.png`} />
+                                            <img
+                                                src={`https://raw.communitydragon.org/latest/game/assets/ux/mastery/mastery_icon_${this.verifyLeagueOfLegends_championMastery_level(
+                                                    championMastery.championLevel
+                                                )}.png`}
+                                            />
                                         </div>
                                         <div>{`${championMastery.championPoints} pts`}</div>
                                     </div>
                                 </div>
-                            )
+                            );
                         })}
                     </div>
                     <div id="matchHistory">
                         {this.state.matchHistory.map((match) => {
                             return (
-                                <div style={{ backgroundColor: this.verifyLeagueOfLegends_win(match.win, match.matchLength) }}>
+                                <div
+                                    style={{
+                                        backgroundColor:
+                                            this.verifyLeagueOfLegends_win(
+                                                match.win,
+                                                match.matchLength
+                                            ),
+                                    }}
+                                >
                                     <div>
-                                        <img src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${match.champion}.png`} />
+                                        <img
+                                            src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${match.champion}.png`}
+                                        />
                                     </div>
                                     <div>
                                         <div>
                                             <div>
                                                 <div>{`${match.kill}/${match.death}/${match.assist}`}</div>
-                                                <div style={{ color: this.verifyLeagueOfLegends_kda(match.kda) }}>{match.kda}</div>
+                                                <div
+                                                    style={{
+                                                        color: this.verifyLeagueOfLegends_kda(
+                                                            match.kda
+                                                        ),
+                                                    }}
+                                                >
+                                                    {match.kda}
+                                                </div>
                                             </div>
-                                            <div style={{ color: this.verifyLeagueOfLegends_cs(match.creepScore, match.matchLength / 60) }}>{match.creepScore}</div>
-                                            <div style={{ color: this.verifyLeagueOfLegends_vs(match.visualScore, match.matchLength / 60) }}>{match.visualScore}</div>
+                                            <div
+                                                style={{
+                                                    color: this.verifyLeagueOfLegends_cs(
+                                                        match.creepScore,
+                                                        match.matchLength / 60
+                                                    ),
+                                                }}
+                                            >
+                                                {match.creepScore}
+                                            </div>
+                                            <div
+                                                style={{
+                                                    color: this.verifyLeagueOfLegends_vs(
+                                                        match.visualScore,
+                                                        match.matchLength / 60
+                                                    ),
+                                                }}
+                                            >
+                                                {match.visualScore}
+                                            </div>
                                             <div>{match.length}</div>
                                             <div>{match.lane}</div>
                                         </div>
                                         <div>
                                             <div>
-                                                {this.verifyLeagueOfLegends_item(match.item0)}
+                                                {this.verifyLeagueOfLegends_item(
+                                                    match.item0
+                                                )}
                                             </div>
                                             <div>
-                                                {this.verifyLeagueOfLegends_item(match.item1)}
+                                                {this.verifyLeagueOfLegends_item(
+                                                    match.item1
+                                                )}
                                             </div>
                                             <div>
-                                                {this.verifyLeagueOfLegends_item(match.item2)}
+                                                {this.verifyLeagueOfLegends_item(
+                                                    match.item2
+                                                )}
                                             </div>
                                             <div>
-                                                {this.verifyLeagueOfLegends_item(match.item3)}
+                                                {this.verifyLeagueOfLegends_item(
+                                                    match.item3
+                                                )}
                                             </div>
                                             <div>
-                                                {this.verifyLeagueOfLegends_item(match.item4)}
+                                                {this.verifyLeagueOfLegends_item(
+                                                    match.item4
+                                                )}
                                             </div>
                                             <div>
-                                                {this.verifyLeagueOfLegends_item(match.item5)}
+                                                {this.verifyLeagueOfLegends_item(
+                                                    match.item5
+                                                )}
                                             </div>
                                             <div>
-                                                {this.verifyLeagueOfLegends_item(match.item6)}
+                                                {this.verifyLeagueOfLegends_item(
+                                                    match.item6
+                                                )}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            )
+                            );
                         })}
                     </div>
                 </div>
