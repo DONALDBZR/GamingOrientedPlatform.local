@@ -1,6 +1,6 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
-error_reporting(E_ALL);
+error_reporting(E_ERROR | E_PARSE);
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         switch ($_SERVER['REQUEST_URI']) {
