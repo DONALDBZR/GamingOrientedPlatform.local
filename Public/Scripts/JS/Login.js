@@ -63,7 +63,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1550;
         event.preventDefault();
-        fetch("/Controllers/Login.php", {
+        fetch("/Login", {
             method: "POST",
             body: JSON.stringify({
                 username: this.state.username,
@@ -178,7 +178,10 @@ class Footer extends Application {
     render() {
         return (
             <footer>
-                <div>You have forgotten your password?  Reset it <a href="/ForgotPassword">Here</a>!</div>
+                <div>
+                    You have forgotten your password? Reset it{" "}
+                    <a href="/ForgotPassword">Here</a>!
+                </div>
                 <div>Parkinston</div>
             </footer>
         );

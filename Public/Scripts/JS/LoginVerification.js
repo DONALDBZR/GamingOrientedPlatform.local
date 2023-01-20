@@ -28,6 +28,41 @@ class Application extends React.Component {
              * @type {string}
              */
             message: "",
+            /**
+             * Username of the user
+             * @type {string}
+             */
+            username: "",
+            /**
+             * Mail Address of the user
+             * @type {string}
+             */
+            mailAddress: "",
+            /**
+             * Domain of the application
+             * @type {string}
+             */
+            domain: "",
+            /**
+             * User's profile picture
+             * @type {string}
+             */
+            profilePicture: "",
+            /**
+             * User's League of Legends username
+             * @type {string}
+             */
+            lolUsername: "",
+            /**
+             * User's League of Legends Region
+             * @type {string}
+             */
+            lolRegion: "",
+            /**
+             * User's Riot's ID
+             * @type {string}
+             */
+            riotId: "",
         };
     }
     /**
@@ -65,7 +100,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1500;
         event.preventDefault();
-        fetch("/Controllers/LoginVerification.php", {
+        fetch(`/Login/Verification/${this.state.username}`, {
             method: "POST",
             body: JSON.stringify({
                 oneTimePassword: this.state.oneTimePassword,
@@ -94,6 +129,27 @@ class Application extends React.Component {
         } else {
             return "rgb(100%, 0%, 0%)";
         }
+    }
+    /**
+     * Retrieving the session's data that is stored as a JSON to be used in the rendering
+     */
+    retrieveData() {
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    username: data.User.username,
+                    mailAddress: data.User.mailAddress,
+                    domain: data.User.domain,
+                    profilePicture: data.User.profilePicture,
+                    lolUsername: data.Account.LeagueOfLegends.gameName,
+                    lolRegion: data.Account.LeagueOfLegends.tagLine,
+                    riotId: data.Account.LeagueOfLegends
+                        .playerUniversallyUniqueIdentifier,
+                })
+            );
     }
     /**
      * Handling the response from the server
@@ -125,6 +181,12 @@ class Header extends Application {
 class Main extends Application {
     constructor(props) {
         super(props);
+    }
+    /**
+     * Methods to be run as soon as the component is mounted
+     */
+    componentDidMount() {
+        this.retrieveData();
     }
     render() {
         return (

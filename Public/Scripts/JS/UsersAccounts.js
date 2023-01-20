@@ -64,20 +64,22 @@ class Application extends React.Component {
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-                lolUsername: data.Account.LeagueOfLegends.gameName,
-                lolRegion: data.Account.LeagueOfLegends.tagLine,
-                riotId: data.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier
-            }));
+            .then((data) =>
+                this.setState({
+                    username: data.User.username,
+                    mailAddress: data.User.mailAddress,
+                    domain: data.User.domain,
+                    profilePicture: data.User.profilePicture,
+                    lolUsername: data.Account.LeagueOfLegends.gameName,
+                    lolRegion: data.Account.LeagueOfLegends.tagLine,
+                    riotId: data.Account.LeagueOfLegends
+                        .playerUniversallyUniqueIdentifier,
+                })
+            );
     }
     /**
      * Verifying the state before rendering the link
@@ -91,7 +93,12 @@ class Application extends React.Component {
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
@@ -122,7 +129,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 2150;
         event.preventDefault();
-        fetch("/Controllers/UsersAccounts.php", {
+        fetch(`"/Users/Accounts/${this.state.username}`, {
             method: "POST",
             body: JSON.stringify({
                 lolUsername: this.state.lolUsername,
@@ -172,7 +179,7 @@ class Application extends React.Component {
         if (this.state.profilePicture != null) {
             return <img src={this.state.profilePicture} />;
         } else {
-            return <i class="fa fa-user"></i>
+            return <i class="fa fa-user"></i>;
         }
     }
     /**
@@ -201,7 +208,9 @@ class Header extends Application {
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyState()}</div>
                     <div>
@@ -238,7 +247,12 @@ class Main extends Application {
                         onChange={this.handleChange.bind(this)}
                         required
                     />
-                    <select name="lolRegion" onChange={this.handleChange.bind(this)} value={this.state.lolRegion} required>
+                    <select
+                        name="lolRegion"
+                        onChange={this.handleChange.bind(this)}
+                        value={this.state.lolRegion}
+                        required
+                    >
                         <option value=""></option>
                         <option value="EUW">EUW</option>
                         {/* <option value="NA">NA</option> */}
@@ -247,7 +261,14 @@ class Main extends Application {
                         <button>Change</button>
                     </div>
                     <div id="response">
-                        <h1 style={{ color: this.handleResponseColor(), fontSize: this.handleResponseFontSize() }}>{this.state.message}</h1>
+                        <h1
+                            style={{
+                                color: this.handleResponseColor(),
+                                fontSize: this.handleResponseFontSize(),
+                            }}
+                        >
+                            {this.state.message}
+                        </h1>
                     </div>
                 </form>
             </main>
@@ -259,9 +280,7 @@ class Main extends Application {
  */
 class Footer extends Application {
     render() {
-        return (
-            <footer>Parkinston</footer>
-        );
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page

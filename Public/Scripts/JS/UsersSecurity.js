@@ -64,17 +64,18 @@ class Application extends React.Component {
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-            }));
+            .then((data) =>
+                this.setState({
+                    username: data.User.username,
+                    mailAddress: data.User.mailAddress,
+                    domain: data.User.domain,
+                    profilePicture: data.User.profilePicture,
+                })
+            );
     }
     /**
      * Verifying the state before rendering the link
@@ -88,7 +89,12 @@ class Application extends React.Component {
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
@@ -119,7 +125,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 4075;
         event.preventDefault();
-        fetch("/Controllers/UsersSecurity.php", {
+        fetch(`/Users/Security/${this.state.username}`, {
             method: "POST",
             body: JSON.stringify({
                 mailAddress: this.state.mailAddress,
@@ -171,7 +177,7 @@ class Application extends React.Component {
         if (this.state.profilePicture != null) {
             return <img src={this.state.profilePicture} />;
         } else {
-            return <i class="fa fa-user"></i>
+            return <i class="fa fa-user"></i>;
         }
     }
     /**
@@ -200,7 +206,9 @@ class Header extends Application {
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyState()}</div>
                     <div>
@@ -265,7 +273,14 @@ class Main extends Application {
                         <button>Change</button>
                     </div>
                     <div id="response">
-                        <h1 style={{ color: this.handleResponseColor(), fontSize: this.handleResponseFontSize() }}>{this.state.message}</h1>
+                        <h1
+                            style={{
+                                color: this.handleResponseColor(),
+                                fontSize: this.handleResponseFontSize(),
+                            }}
+                        >
+                            {this.state.message}
+                        </h1>
                     </div>
                 </form>
             </main>
@@ -277,9 +292,7 @@ class Main extends Application {
  */
 class Footer extends Application {
     render() {
-        return (
-            <footer>Parkinston</footer>
-        );
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page

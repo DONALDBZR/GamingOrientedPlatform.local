@@ -58,7 +58,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 2500;
         event.preventDefault();
-        fetch("/Controllers/ForgotPassword.php", {
+        fetch("/ForgotPassword", {
             method: "POST",
             body: JSON.stringify({
                 mailAddress: this.state.mailAddress,

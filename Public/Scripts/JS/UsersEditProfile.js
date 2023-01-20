@@ -51,17 +51,18 @@ class Application extends React.Component {
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-            }));
+            .then((data) =>
+                this.setState({
+                    username: data.User.username,
+                    mailAddress: data.User.mailAddress,
+                    domain: data.User.domain,
+                    profilePicture: data.User.profilePicture,
+                })
+            );
     }
     /**
      * Handling any change that is made in the interface
@@ -79,8 +80,8 @@ class Application extends React.Component {
      */
     handleSubmit(event) {
         /**
-        * The amount of milliseconds that the registration process takes
-        */
+         * The amount of milliseconds that the registration process takes
+         */
         const delay = 2600;
         /**
          * Using Form-Data to upload the file
@@ -90,21 +91,23 @@ class Application extends React.Component {
             formData.append("image", this.state.profilePicture[index]);
         }
         event.preventDefault();
-        fetch("/Controllers/UsersEditProfile.php", {
+        fetch(`/Users/Edit/Profile/${this.state.username}`, {
             method: "POST",
             body: formData,
         })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                success: data.success,
-                message: data.message,
-                url: data.url,
-            }))
+            .then((data) =>
+                this.setState({
+                    success: data.success,
+                    message: data.message,
+                    url: data.url,
+                })
+            )
             .then(() => this.redirector(delay));
     }
     /**
      * Redirecting the user to an intended url
-     * @param {int} delay 
+     * @param {int} delay
      */
     redirector(delay) {
         setTimeout(() => {
@@ -123,7 +126,12 @@ class Application extends React.Component {
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
@@ -180,7 +188,9 @@ class Header extends Application {
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyState()}</div>
                     <div>
@@ -207,9 +217,20 @@ class Main extends Application {
     render() {
         return (
             <main>
-                <form method="POST" enctype="multipart/form-data" onSubmit={this.handleSubmit.bind(this)}>
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                    onSubmit={this.handleSubmit.bind(this)}
+                >
                     <div id="label">You can customize your profile picture</div>
-                    <input type="file" name="image" accept="image/*" files={this.state.profilePicture} onChange={this.handleFileChange.bind(this)} required />
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        files={this.state.profilePicture}
+                        onChange={this.handleFileChange.bind(this)}
+                        required
+                    />
                     <div>
                         <button>Change Profile Picture</button>
                     </div>
@@ -233,11 +254,7 @@ class Main extends Application {
  */
 class Footer extends Application {
     render() {
-        return (
-            <footer>
-                Parkinston
-            </footer>
-        );
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page
