@@ -536,7 +536,7 @@ class User extends Password
                     );
                 }
             } else if (is_null($request->mailAddress) && !is_null($request->oldPassword)) {
-                $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = SELECT UsersPassword FROM Users WHERE UsersUsername = :UsersUsername");
+                $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = (SELECT UsersPassword FROM Users WHERE UsersUsername = :UsersUsername)");
                 $this->PDO->bind(":UsersUsername", $this->getUsername());
                 $this->PDO->execute();
                 $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
