@@ -385,7 +385,7 @@ body[id*="UsersAccounts"] main form[method="POST"] {
     padding: calc(var(--percentage) / 50) calc(var(--percentage) / 100);
 }
 body[id*="UsersAccounts"] main form[method="POST"] input {
-    width: calc(var(--percentage) * 0.77);
+    width: calc(var(--percentage) * 0.693);
     margin: calc(var(--percentage) / 100);
 }
 body[id*="UsersAccounts"] main form[method="POST"] select {
@@ -850,4 +850,7 @@ body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) {
     width: calc(var(--percentage) * (2 / 3));
     display: block;
     height: calc(var(--percentage) / 2);
+}
+body[id*="UsersAccounts"] header {
+    height: calc(var(--pixelate) / 13.5);
 }
