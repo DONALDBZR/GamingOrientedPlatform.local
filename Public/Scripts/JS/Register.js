@@ -63,7 +63,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1975;
         event.preventDefault();
-        fetch("/Register", {
+        fetch("/Controllers/Register.php", {
             method: "POST",
             body: JSON.stringify({
                 username: this.state.username,
@@ -74,8 +74,14 @@ class Application extends React.Component {
             },
         })
             .then((response) => response.json())
-            .then((data) => console.log(data));
-        // .then(() => this.redirector(delay));
+            .then((data) =>
+                this.setState({
+                    status: data.status,
+                    message: data.message,
+                    url: data.url,
+                })
+            )
+            .then(() => this.redirector(delay));
     }
     /**
      * Handling the response from the server
