@@ -74,13 +74,7 @@ class Application extends React.Component {
             },
         })
             .then((response) => response.json())
-            .then((data) =>
-                this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
-                })
-            )
+            .then((data) => console.log(data))
             .then(() => this.redirector(delay));
     }
     /**
