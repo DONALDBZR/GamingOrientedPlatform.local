@@ -458,7 +458,7 @@ class Application extends React.Component {
      */
     updateData() {
         const delay = 1000;
-        fetch("/LeagueOfLegends/Delete.php", {
+        fetch("/LeagueOfLegends/Delete", {
             method: "POST",
         })
             .then((response) => response.json())
