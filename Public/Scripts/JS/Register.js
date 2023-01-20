@@ -72,9 +72,8 @@ class Application extends React.Component {
             headers: {
                 "Content-Type": "application/json",
             },
-        })
-            .then((response) => response)
-            .then((data) => console.log(data));
+        }).then((response) => console.log(response.headers));
+        // .then((data) => console.log(data))
         // .then(() => this.redirector(delay));
     }
     /**
