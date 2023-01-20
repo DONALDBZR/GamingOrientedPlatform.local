@@ -644,7 +644,7 @@ class Main extends Application {
                             <div>
                                 {this.verifyLeagueOfLegends_rank(
                                     this.state.soloDuoTier,
-                                    this.state.soloDuoRank,
+                                    this.state.soloDuoDivision,
                                     this.state.soloDuoLeaguePoints
                                 )}
                             </div>
@@ -669,7 +669,7 @@ class Main extends Application {
                             <div>
                                 {this.verifyLeagueOfLegends_rank(
                                     this.state.flexTier,
-                                    this.state.flexRank,
+                                    this.state.flexDivision,
                                     this.state.flexLeaguePoints
                                 )}
                             </div>
