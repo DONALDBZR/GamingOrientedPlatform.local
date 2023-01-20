@@ -12,7 +12,7 @@ class PHPDataObject
     /**
      * The data source name which contains the database's name the IP address and the Port of the database server
      */
-    public string $dataSourceName = Environment::MySQLDataSourceName;
+    public string $dataSourceName = Environment::ProductionMySQLDataSourceName;
     /**
      * The username that is used to authenticate on MySQL server
      */
@@ -20,7 +20,7 @@ class PHPDataObject
     /**
      * The password of the username that is used to authenticate on MySQL server
      */
-    private string $password = Environment::MySQLPassword;
+    private string $password = Environment::ProductionMySQLPassword;
     /**
      * The database handler that is being used for this application which is PHP Data Objects
      */
@@ -35,7 +35,10 @@ class PHPDataObject
         /**
          * The options that are going to be passed in the database handler while instantiating PHP Data Objects
          */
-        $options = array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
+        $options = array(
+            PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        );
         try {
             $this->databaseHandler = new PDO($this->dataSourceName, $this->username, $this->password, $options);
         } catch (PDOException $error) {
