@@ -99,23 +99,39 @@ class LeagueOfLegends
                     if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO") && str_contains($riotLeagueApiResponse[1]->queueType, "FLEX")) {
                         $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
                         $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
-                        $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
+                        if ($soloDuoMatches == 0) {
+                            $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / 1) * 100;
+                        } else {
+                            $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
+                        }
                         $soloDuoRank = $riotLeagueApiResponse[0]->rank;
                         $soloDuoLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
                         $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
                         $flexTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
-                        $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
+                        if ($flexMatches == 0) {
+                            $flexWinRate = ($riotLeagueApiResponse[0]->wins / 1) * 100;
+                        } else {
+                            $flexWinRate = ($riotLeagueApiResponse[0]->wins / $flexMatches) * 100;
+                        }
                         $flexRank = $riotLeagueApiResponse[1]->rank;
                         $flexLeaguePoints = $riotLeagueApiResponse[1]->leaguePoints;
                     } else {
                         $soloDuoMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
                         $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
-                        $soloDuoWinRate = ($riotLeagueApiResponse[1]->wins / $soloDuoMatches) * 100;
+                        if ($soloDuoMatches == 0) {
+                            $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / 1) * 100;
+                        } else {
+                            $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
+                        }
                         $soloDuoRank = $riotLeagueApiResponse[1]->rank;
                         $soloDuoLeaguePoints = $riotLeagueApiResponse[1]->leaguePoints;
                         $flexMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
                         $flexTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
-                        $flexWinRate = ($riotLeagueApiResponse[0]->wins / $flexMatches) * 100;
+                        if ($flexMatches == 0) {
+                            $flexWinRate = ($riotLeagueApiResponse[0]->wins / 1) * 100;
+                        } else {
+                            $flexWinRate = ($riotLeagueApiResponse[0]->wins / $flexMatches) * 100;
+                        }
                         $flexRank = $riotLeagueApiResponse[0]->rank;
                         $flexLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
                     }
