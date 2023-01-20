@@ -74,8 +74,8 @@ class Application extends React.Component {
             },
         })
             .then((response) => response.json())
-            .then((data) => console.log(data))
-            .then(() => this.redirector(delay));
+            .then((data) => console.log(data));
+        // .then(() => this.redirector(delay));
     }
     /**
      * Handling the response from the server
