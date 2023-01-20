@@ -26,6 +26,7 @@ class User extends Password
     {
         $this->PDO = new PHPDataObject();
         $this->Mail = new Mail();
+        $this->domain = $_SERVER['HTTP_HOST'];
     }
     public function getUsername()
     {
@@ -545,7 +546,7 @@ class User extends Password
                 if (password_verify($this->getPassword(), $this->getHash())) {
                     if ($request->newPassword == $request->confirmNewPassword) {
                         $this->setPassword($request->newPassword);
-                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$this->domain}/ForgotPassword");
+                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: https://{$this->domain}/ForgotPassword");
                         $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                         $this->PDO->execute();
                         if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
