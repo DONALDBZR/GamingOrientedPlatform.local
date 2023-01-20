@@ -412,7 +412,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1800;
         event.preventDefault();
-        fetch(`/LeagueOfLegends/Home/${this.state.gameName}`, {
+        fetch(`/LeagueOfLegends/Home/${this.state.lolUsername}`, {
             method: "POST",
             body: JSON.stringify({
                 lolSearch: this.state.lolSearch,
