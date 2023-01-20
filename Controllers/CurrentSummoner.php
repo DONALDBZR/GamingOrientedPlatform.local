@@ -7,5 +7,5 @@ if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_
     header('Content-Type: application/json', true, 200);
     echo json_encode($response);
 } else {
-    $LeagueOfLegends->getSummoner($_SESSION['Account']['LeagueOfLegends']['gameName'], $_SESSION['Account']['LeagueOfLegends']['tagLine']);
+    $LeagueOfLegends->getSummoner(rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']), $_SESSION['Account']['LeagueOfLegends']['tagLine']);
 }
