@@ -73,7 +73,7 @@ class Application extends React.Component {
                 "Content-Type": "application/json",
             },
         })
-            .then((response) => response.text())
+            .then((response) => response.body)
             .then((data) => console.log(data));
         // .then(() => this.redirector(delay));
     }
