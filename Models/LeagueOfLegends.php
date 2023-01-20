@@ -192,7 +192,7 @@ class LeagueOfLegends
                             "kdaRatio" => round($kdaRatio /= $amountOfMatches, 2),
                             "csMin" => round($totalCreepScore / ($totalTime /  60), 2),
                             "vsMin" => round($totalVisionScore / ($totalTime / 60), 2),
-                            "gameName" => $this->getGameName()
+                            "gameName" => rawurldecode($this->getGameName())
                         );
                         $cacheData = json_encode($response);
                         $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
