@@ -25,12 +25,3 @@ CREATE TABLE Parkinston.Accounts (
     AccountsLoL VARCHAR(128),
     AccountsUser VARCHAR(32)
 );
--- Testing Codes
--- DROP DATABASE Parkinston;
--- SELECT * FROM Parkinston.Passwords;
--- SELECT * FROM Parkinston.Users;
--- DROP TABLE Parkinston.Accounts;
--- DROP TABLE Parkinston.LeagueOfLegends;
--- SELECT * FROM Parkinston.LeagueOfLegends;
--- SELECT * FROM Parkinston.Accounts;
--- SELECT * FROM Parkinston.LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = (SELECT AccountsLoL FROM Parkinston.Accounts WHERE AccountsUser = "test1");
