@@ -49,20 +49,22 @@ class Application extends React.Component {
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-                lolUsername: data.Account.LeagueOfLegends.gameName,
-                lolRegion: data.Account.LeagueOfLegends.tagLine,
-                riotId: data.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier
-            }));
+            .then((data) =>
+                this.setState({
+                    username: data.User.username,
+                    mailAddress: data.User.mailAddress,
+                    domain: data.User.domain,
+                    profilePicture: data.User.profilePicture,
+                    lolUsername: data.Account.LeagueOfLegends.gameName,
+                    lolRegion: data.Account.LeagueOfLegends.tagLine,
+                    riotId: data.Account.LeagueOfLegends
+                        .playerUniversallyUniqueIdentifier,
+                })
+            );
     }
     /**
      * Verifying the state before rendering the link
@@ -76,7 +78,12 @@ class Application extends React.Component {
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
@@ -87,13 +94,16 @@ class Application extends React.Component {
         if (this.state.riotId != null) {
             return (
                 <a href={`/LeagueOfLegends/Home/${this.state.lolUsername}`}>
-                    <img src="/Public/Images/(12).ico" />
+                    <img src="/Public/Images/League Of Legends Logo.png" />
                 </a>
             );
         } else {
             return (
                 <div>
-                    You should add your account for League of Legends before having accessed to the required content.  You can click <a href={`/Users/Accounts/${this.state.username}`}>here</a> to process into adding your account!
+                    You should add your account for League of Legends before
+                    having accessed to the required content. You can click{" "}
+                    <a href={`/Users/Accounts/${this.state.username}`}>here</a>{" "}
+                    to process into adding your account!
                 </div>
             );
         }
@@ -105,15 +115,13 @@ class Application extends React.Component {
         if (this.state.riotId != null) {
             return null;
         } else {
-            return (
-                {
-                    width: "100%",
-                    textAlign: "center",
-                    fontFamily: "Proxima Nova",
-                    fontWeight: "bold",
-                    margin: "1% 0%"
-                }
-            );
+            return {
+                width: "100%",
+                textAlign: "center",
+                fontFamily: "Proxima Nova",
+                fontWeight: "bold",
+                margin: "1% 0%",
+            };
         }
     }
     /**
@@ -142,7 +150,9 @@ class Header extends Application {
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyUser_username()}</div>
                     <div>
