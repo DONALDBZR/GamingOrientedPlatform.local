@@ -33,21 +33,22 @@ class Application extends React.Component {
          * The amount of milliseconds that the registration process takes
          */
         const delay = 800;
-        fetch("/Controllers/SignOut.php",
-            {
-                method: "GET"
-            })
+        fetch("/LogOut", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                status: data.status,
-                message: data.message,
-                url: data.url,
-            }))
+            .then((data) =>
+                this.setState({
+                    status: data.status,
+                    message: data.message,
+                    url: data.url,
+                })
+            )
             .then(() => this.redirector(delay));
     }
     /**
      * Redirecting the user to an intended url
-     * @param {int} delay 
+     * @param {int} delay
      */
     redirector(delay) {
         setTimeout(() => {
@@ -81,11 +82,7 @@ class Header extends Application {
         super(props);
     }
     render() {
-        return (
-            <header>
-                Parkinston
-            </header>
-        );
+        return <header>Parkinston</header>;
     }
 }
 /**
