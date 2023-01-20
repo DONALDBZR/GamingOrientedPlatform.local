@@ -539,6 +539,32 @@ class Application extends React.Component {
             );
     }
     /**
+     * Verifying the ranks of the player
+     * @param {string | null} tier
+     * @param {string | null} rank
+     * @param {number | null} point
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_rank(tier, rank, point) {
+        if (tier == "" || tier == null) {
+            return "Unranked";
+        } else {
+            return `${tier} ${rank} - ${point} LP`;
+        }
+    }
+    /**
+     * Verifying the ranks of the player for the logo
+     * @param {string | null} tier
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_rank_emblem(tier) {
+        if (tier == "" || tier == null) {
+            return "/Public/Images/Ranks/Emblem_Unranked.png";
+        } else {
+            return `/Public/Images/Ranks/Emblem_${tier}.png`;
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -610,10 +636,18 @@ class Main extends Application {
                             <div>Solo/Duo</div>
                             <div>
                                 <img
-                                    src={`/Public/Images/Ranks/Emblem_${this.state.soloDuoTier}.png`}
+                                    src={this.verifyLeagueOfLegends_rank_emblem(
+                                        this.state.soloDuoTier
+                                    )}
                                 />
                             </div>
-                            <div>{`${this.state.soloDuoTier} ${this.state.soloDuoDivision} - ${this.state.soloDuoLeaguePoints} LP`}</div>
+                            <div>
+                                {this.verifyLeagueOfLegends_rank(
+                                    this.state.soloDuoTier,
+                                    this.state.soloDuoRank,
+                                    this.state.soloDuoLeaguePoints
+                                )}
+                            </div>
                             <div>Win Rate:</div>
                             <div
                                 style={{
@@ -627,10 +661,18 @@ class Main extends Application {
                             <div>Flex 5v5</div>
                             <div>
                                 <img
-                                    src={`/Public/Images/Ranks/Emblem_${this.state.flexTier}.png`}
+                                    src={this.verifyLeagueOfLegends_rank_emblem(
+                                        this.state.flexTier
+                                    )}
                                 />
                             </div>
-                            <div>{`${this.state.flexTier} ${this.state.flexDivision} - ${this.state.flexLeaguePoints} LP`}</div>
+                            <div>
+                                {this.verifyLeagueOfLegends_rank(
+                                    this.state.flexTier,
+                                    this.state.flexRank,
+                                    this.state.flexLeaguePoints
+                                )}
+                            </div>
                             <div>Win Rate:</div>
                             <div
                                 style={{
