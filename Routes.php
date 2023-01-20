@@ -103,7 +103,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 break;
             case "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']):
                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                    $Router = new Router("GET", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Views/LeagueOfLegendsHome.php");
+                    $Router = new Router("GET", "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']), "/Views/LeagueOfLegendsHome.php");
                 } else {
                     if (isset($_SESSION['User'])) {
                         header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
