@@ -60,7 +60,8 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2)
     button,
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a {
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(5) a {
     padding: calc(var(--pixelate) / 216) calc(var(--pixelate) / 108);
     margin: calc(var(--pixelate) / 360);
     display: inline-block;
@@ -93,6 +94,12 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(4)
+    a::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
     a::before {
     position: absolute;
     top: calc(var(--pixelate) * 0);
@@ -123,6 +130,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(4)
     a
+    span,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
+    a
     span {
     position: absolute;
 }
@@ -147,6 +161,13 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(4)
+    a
+    span:nth-child(1),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
     a
     span:nth-child(1) {
     top: calc(var(--pixelate) * 0);
@@ -184,6 +205,13 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(4)
+    a
+    span:nth-child(2),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
     a
     span:nth-child(2) {
     top: calc(var(--pixelate) * 0);
@@ -223,6 +251,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(4)
     a
+    span:nth-child(3),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
+    a
     span:nth-child(3) {
     bottom: calc(var(--pixelate) * 0);
     left: calc(var(--pixelate) * 0);
@@ -259,6 +294,13 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(4)
+    a
+    span:nth-child(4),
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
     a
     span:nth-child(4) {
     top: calc(var(--pixelate) * 0);
@@ -884,7 +926,8 @@ body[id*="LeagueOfLegends"]
     width: calc(var(--percentage) * 0.75);
     text-align: start;
 }
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) {
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4),
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(5){
     width: var(--percentage);
     height: calc(var(--pixelate) / 21.6);
     display: block;
