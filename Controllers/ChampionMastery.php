@@ -8,7 +8,7 @@ if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     } else {
-        $LeagueOfLegends->getChampionMastery($_SESSION['Account']['LeagueOfLegends']['gameName'], $_SESSION['Account']['LeagueOfLegends']['tagLine']);
+        $LeagueOfLegends->getChampionMastery(rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']), $_SESSION['Account']['LeagueOfLegends']['tagLine']);
     }
 } else {
     if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$_SESSION['Search']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json")) {
@@ -16,6 +16,6 @@ if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     } else {
-        $LeagueOfLegends->getChampionMastery($_SESSION['Search']['LeagueOfLegends']['gameName'], $_SESSION['Search']['LeagueOfLegends']['tagLine']);
+        $LeagueOfLegends->getChampionMastery(rawurlencode($_SESSION['Search']['LeagueOfLegends']['gameName']), $_SESSION['Search']['LeagueOfLegends']['tagLine']);
     }
 }

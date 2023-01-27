@@ -771,6 +771,15 @@ class Main extends Application {
                                 <span></span>
                             </a>
                         </div>
+                        <div>
+                            <a href="https://lolesports.com/" target="__blank">
+                                Esports
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
                     </div>
                     <div>
                         <div>

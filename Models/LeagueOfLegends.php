@@ -51,7 +51,7 @@ class LeagueOfLegends
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" . rawurlencode($this->getGameName()) . "/{$this->getTagLine()}1?api_key=" . Environment::RiotAPIKey;
+        $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{$this->getGameName()}/{$this->getTagLine()}1?api_key=" . Environment::RiotAPIKey;
         if ($this->getHttpResponseCode($riotAccountApiRequest) == 200) {
             $riotAccountApiResponse = json_decode(file_get_contents($riotAccountApiRequest));
             $this->setPlayerUniversallyUniqueIdentifier($riotAccountApiResponse->puuid);
@@ -160,6 +160,17 @@ class LeagueOfLegends
                             $totalCreepScore += $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled;
                             $totalVisionScore += $riotMatchApiResponse2->info->participants[$puuidKey]->visionScore;
                         }
+                        if (count($riotMatchApiResponse1) != 0) {
+                            $amountOfMatches = count($riotMatchApiResponse1);
+                        } else {
+                            $amountOfMatches = 1;
+                        }
+                        if ($totalTimePlayed != 0) {
+                            $totalTime = $totalTimePlayed;
+                        } else {
+                            $totalTime = 1;
+                        }
+
                         $response = array(
                             "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
                             "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
@@ -178,10 +189,10 @@ class LeagueOfLegends
                             "flexWinRate" => round($flexWinRate, 2),
                             "flexMatches" => $flexMatches,
                             "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed),
-                            "kdaRatio" => round($kdaRatio /= count($riotMatchApiResponse1), 2),
-                            "csMin" => round($totalCreepScore / ($totalTimePlayed /  60), 2),
-                            "vsMin" => round($totalVisionScore / ($totalTimePlayed / 60), 2),
-                            "gameName" => $this->getGameName()
+                            "kdaRatio" => round($kdaRatio /= $amountOfMatches, 2),
+                            "csMin" => round($totalCreepScore / ($totalTime /  60), 2),
+                            "vsMin" => round($totalVisionScore / ($totalTime / 60), 2),
+                            "gameName" => rawurldecode($this->getGameName())
                         );
                         $cacheData = json_encode($response);
                         $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");

@@ -1,5 +1,4 @@
-/* Variables */
-:root {
+* Variables */ :root {
     --percentage: 100%;
     --pixelate: 1080px;
     --tabletCoefficient: 0.59049;
@@ -60,7 +59,8 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2)
     button,
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a {
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(5) a {
     padding: calc(var(--pixelate) / 216) calc(var(--pixelate) / 108);
     margin: calc(var(--pixelate) / 360);
     display: inline-block;
@@ -112,7 +112,20 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(4)
-    a::before {
+    a::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
+    a::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
+    a
+    span {
     display: none;
 }
 #Homepage main #buttons div a span,
@@ -137,6 +150,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(4)
     a
+    span,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
+    a
     span {
     background: none !important;
 }
@@ -159,6 +179,12 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(4)
+    a:hover,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
     a:hover {
     --color6: rgb(
         var(--percentage),
@@ -697,7 +723,7 @@ body[id*="LeagueOfLegends"] main header div:nth-child(1) {
     height: calc(var(--percentage) * (7 / 19));
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(1) {
-    width: calc(var(--percentage) * (2 / 3));
+    width: calc(var(--percentage) / 3);
     height: calc(var(--percentage) / 2);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2),
@@ -847,10 +873,15 @@ body[id*="LeagueOfLegends"]
     height: calc(var(--percentage) / 2);
 }
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) {
-    width: calc(var(--percentage) * (2 / 3));
+    width: calc(var(--percentage) * 0.55);
     display: block;
     height: calc(var(--percentage) / 2);
 }
 body[id*="UsersAccounts"] header {
     height: calc(var(--pixelate) / 13.5);
+}
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(5) {
+    width: calc(var(--percentage) * 0.45);
+    display: block;
+    height: calc(var(--percentage) / 2);
 }

@@ -41,7 +41,7 @@ class Account extends User
         $requestKeys = array_keys($requestArray);
         if (str_contains($requestKeys[0], "lol")) {
             if (!is_null($request->lolUsername) && !is_null($request->lolRegion)) {
-                $leagueOfLegends = json_decode($this->LeagueOfLegends->retrieveData($request->lolUsername, $request->lolRegion));
+                $leagueOfLegends = json_decode($this->LeagueOfLegends->retrieveData(rawurlencode($request->lolUsername), $request->lolRegion));
                 if ($leagueOfLegends->httpResponseCode == 200) {
                     $this->PDO->query("INSERT INTO LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
                     $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());

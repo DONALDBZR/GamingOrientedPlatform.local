@@ -60,7 +60,8 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2)
     button,
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a {
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(5) a {
     padding: calc(var(--pixelate) / 54 * 0.81)
         calc(var(--pixelate) / 27 * 0.531441);
     margin: calc(var(--pixelate) / 90);
@@ -113,6 +114,19 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(4)
     a
+    span,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
+    a::before,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
+    a
     span {
     display: none;
 }
@@ -138,6 +152,13 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(4)
     a
+    span,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
+    a
     span {
     background: none !important;
 }
@@ -160,6 +181,12 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(4)
+    a:hover,
+body[id*="LeagueOfLegends"]
+    main
+    header
+    div:nth-child(4)
+    div:nth-child(5)
     a:hover {
     --color6: rgb(
         var(--percentage),
@@ -686,8 +713,9 @@ body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(2),
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) {
     width: calc(var(--percentage) / 4);
 }
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) {
-    width: var(--percentage);
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4),
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(5) {
+    width: calc(var(--percentage) / 2);
     display: block;
 }
 body[id*="LeagueOfLegends"]
@@ -697,7 +725,8 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2)
     button,
 body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a {
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a,
+body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(5) a {
     margin: calc(var(--pixelate) / 360);
     padding: calc(var(--pixelate) / 216) calc(var(--pixelate) / 108);
 }
