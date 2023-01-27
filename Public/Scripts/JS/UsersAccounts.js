@@ -254,8 +254,21 @@ class Main extends Application {
                         required
                     >
                         <option value=""></option>
+                        <option value="BR">BR</option>
+                        <option value="EUN">EUN</option>
                         <option value="EUW">EUW</option>
-                        {/* <option value="NA">NA</option> */}
+                        <option value="JP">JP</option>
+                        <option value="KR">KR</option>
+                        <option value="LA">LA</option>
+                        <option value="NA">NA</option>
+                        <option value="OC">OC</option>
+                        <option value="TR">TR</option>
+                        <option value="RU">RU</option>
+                        <option value="PH">PH</option>
+                        <option value="SG">SG</option>
+                        <option value="TH">TH</option>
+                        <option value="TW">TW</option>
+                        <option value="VN">VN</option>
                     </select>
                     <div id="button">
                         <button>Change</button>

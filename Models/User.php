@@ -440,7 +440,7 @@ class User extends Password
                     if (password_verify($this->getPassword(), $this->getHash())) {
                         if ($request->newPassword == $request->confirmNewPassword) {
                             $this->setPassword($request->newPassword);
-                            $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http://{$this->domain}/ForgotPassword");
+                            $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: {$this->domain}/ForgotPassword");
                             $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                             $this->PDO->execute();
                             if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
@@ -537,7 +537,7 @@ class User extends Password
                     );
                 }
             } else if (is_null($request->mailAddress) && !is_null($request->oldPassword)) {
-                $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = (SELECT UsersPassword FROM Users WHERE UsersUsername = :UsersUsername)");
+                $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = SELECT UsersPassword FROM Users WHERE UsersUsername = :UsersUsername");
                 $this->PDO->bind(":UsersUsername", $this->getUsername());
                 $this->PDO->execute();
                 $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
@@ -546,7 +546,7 @@ class User extends Password
                 if (password_verify($this->getPassword(), $this->getHash())) {
                     if ($request->newPassword == $request->confirmNewPassword) {
                         $this->setPassword($request->newPassword);
-                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: https://{$this->domain}/ForgotPassword");
+                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: {$this->domain}/ForgotPassword");
                         $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                         $this->PDO->execute();
                         if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
