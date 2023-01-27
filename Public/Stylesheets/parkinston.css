@@ -25,78 +25,61 @@
     src: url("../Fonts/Ethnocentric - Regular.otf");
     src: url("../Fonts/Ethnocentric - Regular Italic.otf");
 }
-/* Variables */
 :root {
     --percentage: 100%;
     --color1: rgb(
-        var(--percentage),
-        calc(var(--percentage) / 2),
-        calc(var(--percentage) * 0)
+        calc(var(--percentage) * 0.9),
+        calc(var(--percentage) * 0.9),
+        calc(var(--percentage) * 0.9)
     );
     --color2: rgb(
         calc(var(--percentage) * 0),
         calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0)
+        calc(var(--percentage) / 2)
     );
-    --color3: rgba(
+    --color3: rgb(
         calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0),
-        calc(var(--percentage) / 4)
+        calc(var(--percentage) / 2),
+        var(--percentage)
     );
     --proximaNova: "Proxima Nova";
     --sourceCodePro: "Source Code Pro";
-    --color4: rgb(
-        calc(var(--percentage) / 2),
-        calc(var(--percentage) / 4),
-        calc(var(--percentage) * 0)
-    );
-    --color5: rgb(
-        calc(var(--percentage) / 4),
-        calc(var(--percentage) / 8),
-        calc(var(--percentage) * 0)
-    );
-    --angle: 30deg;
-    --color6: rgb(
-        var(--percentage),
-        calc(var(--percentage) * 0.9),
-        calc(var(--percentage) * 0.8)
-    );
-    --color7: rgb(
-        calc(var(--percentage) * 0.68),
-        calc(var(--percentage) * 0.34),
-        calc(var(--percentage) * 0)
-    );
-    --color8: rgba(
-        calc(var(--percentage) / 5),
-        calc(var(--percentage) / 10),
-        calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0)
-    );
-    --color9: rgb(
-        var(--percentage),
-        calc(var(--percentage) / 2),
-        calc(var(--percentage) * 0.15)
-    );
-    --color10: rgb(
-        var(--percentage),
-        calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0)
-    );
     --ethnocentric: "Ethnocentric";
-    --color11: rgb(
-        calc(var(--percentage) * 0),
-        var(--percentage),
-        calc(var(--percentage) * 0)
-    );
-    --color12: rgb(var(--percentage), var(--percentage), var(--percentage));
 }
-/* Default application's styling */
 body {
     font-family: sans-serif;
-    background-color: var(--color1);
-    color: var(--color2);
+    background-color: var(--color2);
+    color: var(--color1);
 }
+#Homepage header div:nth-child(1) {
+    font-family: var(--ethnocentric);
+}
+#Homepage header div a {
+    text-decoration: none;
+    font-family: var(--sourceCodePro);
+    color: var(--color1);
+    background-color: var(--color3);
+}
+#Homepage header div a:hover {
+    color: var(--color1);
+    background-color: var(--color2);
+    text-decoration: underline;
+}
+#Homepage footer {
+    font-family: var(--ethnocentric);
+}
+#Homepage main {
+    background-image: url("../Images/Graph-Analytics.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+#Homepage main div {
+    font-family: var(--proximaNova);
+}
+#Homepage main div span {
+    font-family: var(--ethnocentric);
+}
+/*
 #Homepage header,
 body[class="404"] header,
 #Register header,
@@ -654,3 +637,4 @@ body[id*="LeagueOfLegends"]
     div:nth-child(1) {
     font-family: var(--proximaNova);
 }
+*/

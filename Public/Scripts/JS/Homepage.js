@@ -3,6 +3,36 @@
  */
 class Application extends React.Component {
     /**
+     * Component that is rendered depending on the media query
+     * @returns {Application} Component
+     */
+    headerDivA_Login() {
+        if (window.innerWidth <= 340) {
+            return (
+                <a href="/Login">
+                    <span class="fa fa-sign-in"></span>
+                </a>
+            );
+        } else {
+            return <a href="/Login">Login</a>;
+        }
+    }
+    /**
+     * Component that is rendered depending on the media query
+     * @returns {Application} Component
+     */
+    headerDivA_PatchNotes() {
+        if (window.innerWidth <= 340) {
+            return (
+                <a href="/PatchNotes">
+                    <span class="fas fa-sticky-note"></span>
+                </a>
+            );
+        } else {
+            return <a href="/PatchNotes">Patch-Notes</a>;
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -15,7 +45,13 @@ class Application extends React.Component {
  */
 class Header extends Application {
     render() {
-        return <header>Parkinston</header>;
+        return (
+            <header>
+                <div>Parkinston</div>
+                <div>{this.headerDivA_PatchNotes()}</div>
+                <div>{this.headerDivA_Login()}</div>
+            </header>
+        );
     }
 }
 /**
@@ -25,29 +61,13 @@ class Main extends Application {
     render() {
         return (
             <main>
-                <div id="notice">
-                    In order to use the application, you need to have the permissions
-                    required.
+                <div>
+                    Welcome to <span>Parkinston</span>
                 </div>
-                <div id="buttons">
-                    <div>
-                        <a href="/Login">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            Login
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/Register">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            Register
-                        </a>
-                    </div>
+                <div>
+                    Our aim is to help you into analyzing your stats from your
+                    journey in various competitive games as well as giving you
+                    access to various resources that can be helpful to you!
                 </div>
             </main>
         );
