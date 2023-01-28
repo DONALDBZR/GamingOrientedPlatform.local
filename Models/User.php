@@ -221,8 +221,8 @@ class User extends Password
             } else {
                 $response = array(
                     "status" => 4,
-                    "url" => $this->domain,
-                    "message" => "This account does not exist!"
+                    "url" => "/Register",
+                    "message" => "This account does not exist!  You will be redirected so that you can create one!"
                 );
                 $headers = array(
                     "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",

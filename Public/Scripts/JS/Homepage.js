@@ -62,12 +62,18 @@ class Main extends Application {
         return (
             <main>
                 <div>
-                    Welcome to <span>Parkinston</span>
+                    <img src="/Public/Images/istockphoto-1175691444-612x612.jpg" />
                 </div>
                 <div>
-                    Our aim is to help you into analyzing your stats from your
-                    journey in various competitive games as well as giving you
-                    access to various resources that can be helpful to you!
+                    <div>
+                        Welcome to <span>Parkinston</span>
+                    </div>
+                    <div>
+                        Our aim is to help you into analyzing your stats from
+                        your journey in various competitive games as well as
+                        giving you access to various resources that can be
+                        helpful to you!
+                    </div>
                 </div>
             </main>
         );

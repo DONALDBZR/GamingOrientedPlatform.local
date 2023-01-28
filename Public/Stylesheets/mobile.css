@@ -1,7 +1,7 @@
 :root {
     --percentage: 100%;
     --pixelate: 1080px;
-    --mobileCoefficient: calc(100000 / 161051);
+    --mobileCoefficient: calc(10000000000000 / 34522712143931);
     --textSize: calc(
         var(--percentage) * var(--mobileCoefficient) * (214358881 / 100000000)
     );
@@ -21,44 +21,59 @@ body {
 #Homepage header {
     display: flex;
     width: var(--percentage);
-    height: calc(var(--pixelate) / 13.5);
-    flex-wrap: wrap;
+    height: calc(var(--pixelate) / 54);
 }
 #Homepage header div {
     justify-content: center;
-    /* align-items: center; */
-    height: calc(var(--percentage) / 2);
+    align-items: center;
+    height: var(--percentage);
     display: flex;
 }
 #Homepage header div:nth-child(1) {
     width: var(--percentage);
-    font-size: calc(var(--textSize) * 1.18098);
+    font-size: calc(var(--textSize) * (20 / 6));
 }
 #Homepage header div:nth-child(2),
 #Homepage header div:nth-child(3) {
     width: calc(var(--percentage) / 2);
 }
 #Homepage header div a {
-    padding: calc(var(--pixelate) * (5 / 1080))
-        calc(var(--pixelate) * (10 / 1080));
-    font-size: calc(var(--textSize) * 0.729);
+    font-size: calc(var(--textSize) * (20 / 8));
 }
 #Homepage footer {
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
     text-align: center;
+    font-size: calc(var(--textSize) * (20 / 6));
 }
 #Homepage main {
     width: var(--percentage);
-    height: calc(var(--pixelate) * (525 / 1080));
-    background: none;
-    background-color: var(--color1);
-    color: var(--color2);
+    height: calc(var(--pixelate) * (600 / 1080));
+    display: flex;
 }
 #Homepage main div {
-    font-size: calc(var(--textSize) * 0.729);
-    padding: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+    display: flex;
+    width: calc(var(--percentage) / 2);
 }
 #Homepage main div:nth-child(1) {
+    justify-content: center;
+    align-items: center;
+}
+#Homepage main div:nth-child(1) img {
+    width: var(--percentage);
+}
+#Homepage main div:nth-child(2) {
+    flex-wrap: wrap;
+    align-content: space-evenly;
+}
+#Homepage main div:nth-child(2) div {
+    display: block;
+    width: var(--percentage);
+}
+#Homepage main div:nth-child(2) div:nth-child(1) {
+    font-size: calc(var(--textSize) * 2);
     text-align: center;
+}
+#Homepage main div:nth-child(2) div:nth-child(2) {
+    font-size: calc(var(--textSize) * 1.62);
 }

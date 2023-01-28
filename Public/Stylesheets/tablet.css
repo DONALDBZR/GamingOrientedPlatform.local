@@ -1,7 +1,7 @@
 :root {
     --percentage: 100%;
     --pixelate: 1080px;
-    --tabletCoefficient: calc(1000 / 1331);
+    --tabletCoefficient: calc(100000 / 161051);
     --textSize: calc(
         var(--percentage) * var(--tabletCoefficient) * (1331 / 1000)
     );
@@ -43,11 +43,31 @@ body {
 #Homepage main {
     width: var(--percentage);
     height: calc(var(--pixelate) * (565 / 1080));
+    display: flex;
 }
 #Homepage main div {
-    font-size: calc(var(--textSize) * 1.331);
-    padding: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+    display: flex;
+    width: calc(var(--percentage) / 2);
 }
 #Homepage main div:nth-child(1) {
+    justify-content: center;
+    align-items: center;
+}
+#Homepage main div:nth-child(1) img {
+    width: var(--percentage);
+}
+#Homepage main div:nth-child(2) {
+    flex-wrap: wrap;
+    align-content: space-evenly;
+}
+#Homepage main div:nth-child(2) div {
+    display: block;
+    width: var(--percentage);
+}
+#Homepage main div:nth-child(2) div:nth-child(1) {
+    font-size: calc(var(--textSize) * 2);
     text-align: center;
+}
+#Homepage main div:nth-child(2) div:nth-child(2) {
+    font-size: calc(var(--textSize) * 1.62);
 }

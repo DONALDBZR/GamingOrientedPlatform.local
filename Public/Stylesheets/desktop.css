@@ -38,14 +38,30 @@ body {
     text-align: center;
 }
 #Homepage main {
-    width: calc(var(--pixelate) * (866 / 1080));
+    width: var(--percentage);
     height: calc(var(--pixelate) * (575 / 1080));
-    margin: calc(var(--percentage) * 0) calc(var(--pixelate) * (250 / 1080));
+    display: flex;
 }
 #Homepage main div {
-    font-size: calc(var(--textSize) * 1.331);
-    padding: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+    display: flex;
+    width: calc(var(--percentage) / 2);
 }
 #Homepage main div:nth-child(1) {
+    justify-content: center;
+    align-items: center;
+}
+#Homepage main div:nth-child(2) {
+    flex-wrap: wrap;
+    align-content: space-evenly;
+}
+#Homepage main div:nth-child(2) div {
+    display: block;
+    width: var(--percentage);
+}
+#Homepage main div:nth-child(2) div:nth-child(1) {
+    font-size: calc(var(--textSize) * 2);
     text-align: center;
+}
+#Homepage main div:nth-child(2) div:nth-child(2) {
+    font-size: calc(var(--textSize) * 1.62);
 }
