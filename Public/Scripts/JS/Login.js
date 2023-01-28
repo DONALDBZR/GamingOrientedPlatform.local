@@ -106,6 +106,21 @@ class Application extends React.Component {
         }
     }
     /**
+     * Component that is rendered depending on the media query
+     * @returns {Application} Component
+     */
+    headerDivA_Register() {
+        if (window.innerWidth <= 340) {
+            return (
+                <a href="/Register">
+                    <span class="fa fa-sign-in"></span>
+                </a>
+            );
+        } else {
+            return <a href="/Register">Register</a>;
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -120,7 +135,10 @@ class Header extends Application {
     render() {
         return (
             <header>
-                <a href="/">Parkinston</a>
+                <div>
+                    <a href="/">Parkinston</a>
+                </div>
+                <div>{this.headerDivA_Register()}</div>
             </header>
         );
     }
@@ -135,6 +153,9 @@ class Main extends Application {
     render() {
         return (
             <main>
+                <div>
+                    <img src="/Public/Images/istockphoto-1175691444-612x612.jpg" />
+                </div>
                 <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                     <div id="label">Login Form</div>
                     <input
@@ -178,7 +199,10 @@ class Footer extends Application {
     render() {
         return (
             <footer>
-                <div>You have forgotten your password?  Reset it <a href="/ForgotPassword">Here</a>!</div>
+                <div>
+                    You have forgotten your password? Reset it{" "}
+                    <a href="/ForgotPassword">Here</a>!
+                </div>
                 <div>Parkinston</div>
             </footer>
         );

@@ -43,39 +43,81 @@
         var(--percentage)
     );
     --color4: rgb(var(--percentage), var(--percentage), var(--percentage));
+    --color5: rgba(
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) / 2),
+        calc(var(--percentage) / 2)
+    );
     --proximaNova: "Proxima Nova";
     --sourceCodePro: "Source Code Pro";
     --ethnocentric: "Ethnocentric";
 }
-#Homepage {
+#Homepage,
+#Login {
     font-family: sans-serif;
     background-color: var(--color1);
     color: var(--color2);
 }
-#Homepage header div:nth-child(1) {
+#Homepage header div:nth-child(1),
+#Login header div:nth-child(1) a,
+#Homepage footer,
+#Homepage main div span,
+#Login footer div:nth-child(2) {
     font-family: var(--ethnocentric);
 }
-#Homepage header div a {
+#Login header div:nth-child(1) a,
+#Login footer div:nth-child(1) a {
+    color: var(--color2);
+}
+#Homepage header div a,
+#Login header div a {
     text-decoration: none;
     font-family: var(--sourceCodePro);
     font-weight: bold;
     color: var(--color3);
-    background-color: var(--color1);
 }
-#Homepage header div a:hover {
+#Homepage header div a:hover,
+#Login header div a:hover {
     color: var(--color2);
-    background-color: var(--color1);
     text-decoration: underline;
 }
-#Homepage footer {
-    font-family: var(--ethnocentric);
-}
-#Homepage main div {
+#Homepage main div,
+#Login footer div:nth-child(1) {
     font-family: var(--proximaNova);
 }
-#Homepage main div span {
-    font-family: var(--ethnocentric);
-}
-#Homepage main {
+#Homepage main,
+#Login main {
     background-color: var(--color4);
+}
+#Login footer div:nth-child(1) a {
+    text-decoration: none;
+}
+#Login footer div:nth-child(1) a:hover {
+    text-decoration: underline;
+}
+#Login main form div:nth-child(1) {
+    font-family: var(--proximaNova);
+    font-weight: bold;
+}
+#Login main form input {
+    background-color: var(--color1);
+    color: var(--color2);
+    font-family: var(--sourceCodePro);
+}
+#Login main form input::placeholder,
+#Login main form input::-webkit-input-placeholder {
+    color: var(--color5);
+}
+#Login main form div[id="button"] button {
+    font-family: var(--sourceCodePro);
+    background-color: var(--color3);
+    color: var(--color4);
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: bold;
+}
+#Login main form div[id="button"] button:hover {
+    background-color: var(--color4);
+    color: var(--color2);
 }

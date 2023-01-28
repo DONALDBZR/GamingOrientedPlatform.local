@@ -12,24 +12,21 @@ body {
     font-size: var(--textSize);
     margin: calc(var(--percentage) * 0);
 }
-body {
-    width: var(--percentage);
-    height: var(--percentage);
-    font-size: var(--textSize);
-    margin: calc(var(--percentage) * 0);
-}
-#Homepage header {
+#Homepage header,
+#Login header {
     display: flex;
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
 }
-#Homepage header div {
+#Homepage header div,
+#Login header div {
     justify-content: center;
     align-items: center;
     height: var(--percentage);
     display: flex;
 }
-#Homepage header div:nth-child(1) {
+#Homepage header div:nth-child(1),
+#Login header div {
     width: var(--percentage);
     font-size: calc(var(--textSize) * (20 / 6));
 }
@@ -51,15 +48,18 @@ body {
     height: calc(var(--pixelate) * (600 / 1080));
     display: flex;
 }
-#Homepage main div {
+#Homepage main div,
+#Login main div {
     display: flex;
     width: calc(var(--percentage) / 2);
 }
-#Homepage main div:nth-child(1) {
+#Homepage main div:nth-child(1),
+#Login main div:nth-child(1) {
     justify-content: center;
     align-items: center;
 }
-#Homepage main div:nth-child(1) img {
+#Homepage main div:nth-child(1) img,
+#Login main div:nth-child(1) img {
     width: var(--percentage);
 }
 #Homepage main div:nth-child(2) {
@@ -76,4 +76,45 @@ body {
 }
 #Homepage main div:nth-child(2) div:nth-child(2) {
     font-size: calc(var(--textSize) * 1.62);
+}
+#Login main {
+    width: var(--percentage);
+    height: calc(var(--pixelate) * (580 / 1080));
+    display: flex;
+}
+#Login main form {
+    width: calc(var(--percentage) / 2);
+    height: calc(var(--percentage) / 2);
+    margin: calc(var(--percentage) * (580 / 320) / 4)
+        calc(var(--percentage) / 2 * 0);
+}
+#Login main form div:nth-child(1) {
+    display: block;
+    width: var(--percentage);
+    text-align: center;
+    font-size: calc(var(--textSize) * 2);
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+#Login main form input {
+    width: calc(var(--percentage) * 0.96);
+    margin: calc(var(--percentage) / 100);
+    padding: calc(var(--percentage) / 100);
+    border: none;
+}
+#Login main form div[id="button"],
+#Login main form div[id="response"] {
+    width: var(--percentage);
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+    justify-content: center;
+}
+#Login main form div[id="button"] button {
+    font-size: calc(var(--textSize) * 1.8);
+    border: none;
+    padding: calc(var(--pixelate) * (5 / 1080))
+        calc(var(--pixelate) * (10 / 1080));
+}
+#Login footer {
+    width: var(--percentage);
+    height: calc(var(--pixelate) / 27);
+    text-align: center;
 }
