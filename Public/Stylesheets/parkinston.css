@@ -73,9 +73,7 @@
 #Register,
 #ForgotPassword,
 body[id*="LoginVerification"],
-body[id*="UsersHome"],
-body[id*="UsersProfile"],
-body[id*="UsersEditProfile"] {
+body[id*="Users"] {
     font-family: sans-serif;
     background-color: var(--color1);
     color: var(--color2);
@@ -91,19 +89,15 @@ body[id*="UsersEditProfile"] {
 #ForgotPassword footer,
 body[id*="LoginVerification"] header a,
 body[id*="LoginVerification"] footer,
-body[id*="UsersHome"] header nav div:nth-child(1) a,
-body[id*="UsersHome"] footer,
+body[id*="Users"] header nav div:nth-child(1) a,
+body[id*="Users"] footer,
 body[id*="UsersHome"]
     main
     #leagueOfLegendsCard
     div:nth-child(2)
     div:nth-child(2)
     div
-    div:nth-child(1),
-body[id*="UsersProfile"] header nav div:nth-child(1) a,
-body[id*="UsersProfile"] footer,
-body[id*="UsersEditProfile"] header nav div:nth-child(1) a,
-body[id*="UsersEditProfile"] footer {
+    div:nth-child(1) {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
@@ -112,16 +106,10 @@ body[id*="UsersEditProfile"] footer {
 #Register footer div:nth-child(1) a,
 #ForgotPassword header a,
 body[id*="LoginVerification"] header a,
-body[id*="UsersHome"] header nav div:nth-child(1) a,
-body[id*="UsersProfile"] header nav div:nth-child(1) a,
-body[id*="UsersHome"] header nav div:nth-child(2) a:hover,
-body[id*="UsersHome"] header nav div:nth-child(3) a:hover,
-body[id*="UsersProfile"] header nav div:nth-child(2) a:hover,
-body[id*="UsersProfile"] header nav div:nth-child(3) a:hover,
-body[id*="UsersProfile"] main nav div a:hover,
-body[id*="UsersEditProfile"] header nav div:nth-child(2) a:hover,
-body[id*="UsersEditProfile"] header nav div:nth-child(3) a:hover,
-body[id*="UsersEditProfile"] header nav div:nth-child(1) a {
+body[id*="Users"] header nav div:nth-child(1) a,
+body[id*="Users"] header nav div:nth-child(2) a:hover,
+body[id*="Users"] header nav div:nth-child(3) a:hover,
+body[id*="UsersProfile"] main nav div a:hover {
     color: var(--color2);
 }
 #Homepage header div a,
@@ -188,9 +176,7 @@ body[id*="LoginVerification"] main {
 }
 #Login footer div:nth-child(1) a,
 #Register footer div:nth-child(1) a,
-body[id*="UsersHome"] header nav div:nth-child(1) a,
-body[id*="UsersProfile"] header nav div:nth-child(1) a,
-body[id*="UsersEditProfile"] header nav div:nth-child(1) a {
+body[id*="Users"] header nav div:nth-child(1) a {
     text-decoration: none;
 }
 #Login footer div:nth-child(1) a:hover,
@@ -198,9 +184,7 @@ body[id*="UsersEditProfile"] header nav div:nth-child(1) a {
 #Register footer div:nth-child(1) a:hover,
 #ForgotPassword header a:hover,
 body[id*="LoginVerification"] header a:hover,
-body[id*="UsersHome"] header nav div:nth-child(1) a:hover,
-body[id*="UsersProfile"] header nav div:nth-child(1) a:hover,
-body[id*="UsersEditProfile"] header nav div:nth-child(1) a:hover {
+body[id*="Users"] header nav div:nth-child(1) a:hover {
     text-decoration: underline;
 }
 #Login main form div:nth-child(1),
@@ -214,7 +198,9 @@ body[id*="UsersProfile"] main div header div:nth-child(2) {
 #Login main form input,
 #Register main form input,
 #ForgotPassword main form input,
-body[id*="LoginVerification"] main form input {
+body[id*="LoginVerification"] main form input,
+body[id*="UsersAccounts"] main form input,
+body[id*="UsersAccounts"] main form select {
     background-color: var(--color1);
     color: var(--color2);
     font-family: var(--sourceCodePro);
@@ -226,7 +212,9 @@ body[id*="LoginVerification"] main form input {
 #ForgotPassword main form input::placeholder,
 #ForgotPassword main form input::-webkit-input-placeholder,
 body[id*="LoginVerification"] main form input::placeholder,
-body[id*="LoginVerification"] main form input::-webkit-input-placeholder {
+body[id*="LoginVerification"] main form input::-webkit-input-placeholder,
+body[id*="UsersAccounts"] main form input::placeholder,
+body[id*="UsersAccounts"] main form input::-webkit-input-placeholder {
     color: var(--color5);
 }
 #Login main form div[id="button"] button,
@@ -253,24 +241,16 @@ body[id*="LoginVerification"] header a {
     text-decoration: none;
     font-weight: bold;
 }
-body[id*="UsersHome"] header nav div:nth-child(2) a img,
-body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img,
-body[id*="UsersProfile"] header nav div:nth-child(2) a img,
-body[id*="UsersEditProfile"] header nav div:nth-child(2) a img {
+body[id*="Users"] header nav div:nth-child(2) a img,
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img {
     opacity: calc(var(--percentage) / 2);
 }
-body[id*="UsersHome"] header nav div:nth-child(2) a img:hover,
-body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover,
-body[id*="UsersProfile"] header nav div:nth-child(2) a img:hover,
-body[id*="UsersEditProfile"] header nav div:nth-child(2) a img:hover {
+body[id*="Users"] header nav div:nth-child(2) a img:hover,
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover {
     opacity: var(--percentage);
 }
-body[id*="UsersHome"] header nav div:nth-child(2) a,
-body[id*="UsersHome"] header nav div:nth-child(3) a,
-body[id*="UsersProfile"] header nav div:nth-child(2) a,
-body[id*="UsersProfile"] header nav div:nth-child(3) a,
-body[id*="UsersEditProfile"] header nav div:nth-child(2) a,
-body[id*="UsersEditProfile"] header nav div:nth-child(3) a {
+body[id*="Users"] header nav div:nth-child(2) a,
+body[id*="Users"] header nav div:nth-child(3) a {
     color: var(--color3);
     text-decoration: none;
 }
@@ -287,7 +267,8 @@ body[id*="UsersProfile"] main nav div a {
 }
 body[id*="UsersEditProfile"] main form input::file-selector-button,
 body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button,
-body[id*="UsersEditProfile"] main form div button {
+body[id*="UsersEditProfile"] main form div button,
+body[id*="UsersAccounts"] main form div button {
     font-family: var(--proximaNova);
     color: var(--color1);
     background-color: var(--color3);
@@ -295,7 +276,12 @@ body[id*="UsersEditProfile"] main form div button {
 }
 body[id*="UsersEditProfile"] main form input::file-selector-button:hover,
 body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button:hover,
-body[id*="UsersEditProfile"] main form div button:hover {
+body[id*="UsersEditProfile"] main form div button:hover,
+body[id*="UsersAccounts"] main form div button:hover {
     color: var(--color2);
     background-color: var(--color1);
+}
+body[id*="UsersAccounts"] main form div[id="button"] {
+    text-align: center;
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
