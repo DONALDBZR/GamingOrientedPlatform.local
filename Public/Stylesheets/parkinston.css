@@ -54,7 +54,8 @@
     --ethnocentric: "Ethnocentric";
 }
 #Homepage,
-#Login {
+#Login,
+#Register {
     font-family: sans-serif;
     background-color: var(--color1);
     color: var(--color2);
@@ -63,11 +64,15 @@
 #Login header div:nth-child(1) a,
 #Homepage footer,
 #Homepage main div span,
-#Login footer div:nth-child(2) {
+#Login footer div:nth-child(2),
+#Register header a,
+#Register footer div:nth-child(2) {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
-#Login footer div:nth-child(1) a {
+#Login footer div:nth-child(1) a,
+#Register header a,
+#Register footer div:nth-child(1) a {
     color: var(--color2);
 }
 #Homepage header div a,
@@ -83,33 +88,43 @@
     text-decoration: underline;
 }
 #Homepage main div,
-#Login footer div:nth-child(1) {
+#Login footer div:nth-child(1),
+#Register footer div:nth-child(1) {
     font-family: var(--proximaNova);
 }
 #Homepage main,
-#Login main {
+#Login main,
+#Register main {
     background-color: var(--color4);
 }
-#Login footer div:nth-child(1) a {
+#Login footer div:nth-child(1) a,
+#Register footer div:nth-child(1) a {
     text-decoration: none;
 }
-#Login footer div:nth-child(1) a:hover {
+#Login footer div:nth-child(1) a:hover,
+#Register header a:hover,
+#Register footer div:nth-child(1) a:hover {
     text-decoration: underline;
 }
-#Login main form div:nth-child(1) {
+#Login main form div:nth-child(1),
+#Register main form div:nth-child(1) {
     font-family: var(--proximaNova);
     font-weight: bold;
 }
-#Login main form input {
+#Login main form input,
+#Register main form input {
     background-color: var(--color1);
     color: var(--color2);
     font-family: var(--sourceCodePro);
 }
 #Login main form input::placeholder,
-#Login main form input::-webkit-input-placeholder {
+#Login main form input::-webkit-input-placeholder,
+#Register main form input::placeholder,
+#Register main form input::-webkit-input-placeholder {
     color: var(--color5);
 }
-#Login main form div[id="button"] button {
+#Login main form div[id="button"] button,
+#Register main form div[id="button"] button {
     font-family: var(--sourceCodePro);
     background-color: var(--color3);
     color: var(--color4);
@@ -117,7 +132,12 @@
     cursor: pointer;
     font-weight: bold;
 }
-#Login main form div[id="button"] button:hover {
+#Login main form div[id="button"] button:hover,
+#Register main form div[id="button"] button:hover {
     background-color: var(--color4);
     color: var(--color2);
+}
+#Register header a {
+    text-decoration: none;
+    font-weight: bold;
 }

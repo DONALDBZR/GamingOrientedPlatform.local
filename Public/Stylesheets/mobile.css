@@ -13,13 +13,15 @@ body {
     margin: calc(var(--percentage) * 0);
 }
 #Homepage header,
-#Login header {
+#Login header,
+#Register header {
     display: flex;
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
 }
-#Homepage header div,
-#Login header div {
+#Homepage main div,
+#Login main div,
+#Register main div {
     justify-content: center;
     align-items: center;
     height: var(--percentage);
@@ -49,17 +51,20 @@ body {
     display: flex;
 }
 #Homepage main div,
-#Login main div {
+#Login main div,
+#Register main div {
     display: flex;
     width: calc(var(--percentage) / 2);
 }
 #Homepage main div:nth-child(1),
-#Login main div:nth-child(1) {
+#Login main div:nth-child(1),
+#Register main div:nth-child(1) {
     justify-content: center;
     align-items: center;
 }
 #Homepage main div:nth-child(1) img,
-#Login main div:nth-child(1) img {
+#Login main div:nth-child(1) img,
+#Register main div:nth-child(1) img {
     width: var(--percentage);
 }
 #Homepage main div:nth-child(2) {
@@ -77,44 +82,61 @@ body {
 #Homepage main div:nth-child(2) div:nth-child(2) {
     font-size: calc(var(--textSize) * 1.62);
 }
-#Login main {
+#Login main,
+#Register main {
     width: var(--percentage);
     height: calc(var(--pixelate) * (580 / 1080));
     display: flex;
 }
-#Login main form {
+#Login main form,
+#Register main form {
     width: calc(var(--percentage) / 2);
-    height: calc(var(--percentage) / 2);
-    margin: calc(var(--percentage) * (580 / 320) / 4)
+    height: calc(var(--percentage) * (105 / 580));
+    margin: calc(var(--percentage) * (580 / 320) * (237.5 / 580))
         calc(var(--percentage) / 2 * 0);
 }
-#Login main form div:nth-child(1) {
+#Login main form div:nth-child(1),
+#Register main form div:nth-child(1) {
     display: block;
     width: var(--percentage);
     text-align: center;
     font-size: calc(var(--textSize) * 2);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
-#Login main form input {
+#Login main form input,
+#Register main form input {
     width: calc(var(--percentage) * 0.96);
     margin: calc(var(--percentage) / 100);
     padding: calc(var(--percentage) / 100);
     border: none;
 }
 #Login main form div[id="button"],
-#Login main form div[id="response"] {
+#Login main form div[id="response"],
+#Register main form div[id="button"],
+#Register main form div[id="response"] {
     width: var(--percentage);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
     justify-content: center;
 }
-#Login main form div[id="button"] button {
+#Login main form div[id="button"] button,
+#Register main form div[id="button"] button {
     font-size: calc(var(--textSize) * 1.8);
     border: none;
     padding: calc(var(--pixelate) * (5 / 1080))
         calc(var(--pixelate) * (10 / 1080));
 }
-#Login footer {
+#Login footer,
+#Register footer {
     width: var(--percentage);
     height: calc(var(--pixelate) / 27);
     text-align: center;
 }
+#Register header {
+    justify-content: center;
+    font-size: calc(var(--textSize) * 2);
+}
+#Register main form div:nth-child(1) {height: calc(var(--percentage) / 5.25);}
+#Register main form div[id="button"] {
+    height: calc(var(--percentage) / 5.25);
+}
+#Register main form div[id="response"] {height: calc(var(--percentage) / 5.25);}

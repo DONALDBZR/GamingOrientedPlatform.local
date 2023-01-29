@@ -134,6 +134,9 @@ class Main extends Application {
     render() {
         return (
             <main>
+                <div>
+                    <img src="/Public/Images/istockphoto-1175691444-612x612.jpg" />
+                </div>
                 <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                     <div id="label">Registration Form</div>
                     <input
@@ -178,11 +181,10 @@ class Footer extends Application {
         return (
             <footer>
                 <div>
-                    Already have an account?  Click <a href="/Login">Here</a> to log in!
+                    Already have an account? Click <a href="/Login">Here</a> to
+                    log in!
                 </div>
-                <div>
-                    Parkinston
-                </div>
+                <div>Parkinston</div>
             </footer>
         );
     }
