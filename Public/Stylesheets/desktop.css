@@ -12,7 +12,8 @@ body {
 #Homepage header,
 #Login header,
 #Register header,
-#ForgotPassword header {
+#ForgotPassword header,
+body[id*="LoginVerification"] header {
     display: flex;
     width: var(--percentage);
     height: calc(var(--pixelate) / 27);
@@ -34,13 +35,15 @@ body {
     width: calc(var(--percentage) / 4);
 }
 #Homepage footer,
-#ForgotPassword footer {
+#ForgotPassword footer,
+body[id*="LoginVerification"] footer {
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
     text-align: center;
 }
 #Homepage main,
-#ForgotPassword main {
+#ForgotPassword main,
+body[id*="LoginVerification"] main {
     width: var(--percentage);
     height: calc(var(--pixelate) * (575 / 1080));
     display: flex;
@@ -48,13 +51,15 @@ body {
 #Homepage main div,
 #Login main div,
 #Register main div,
-#ForgotPassword main div {
+#ForgotPassword main div,
+body[id*="LoginVerification"] main div {
     display: flex;
     width: calc(var(--percentage) / 2);
 }
 #Homepage main div:nth-child(1),
 #Register main div:nth-child(1),
-#ForgotPassword main div:nth-child(1) {
+#ForgotPassword main div:nth-child(1),
+body[id*="LoginVerification"] main div:nth-child(1) {
     justify-content: center;
     align-items: center;
 }
@@ -88,7 +93,8 @@ body {
 }
 #Login main form div:nth-child(1),
 #Register main form div:nth-child(1),
-#ForgotPassword main form div:nth-child(1) {
+#ForgotPassword main form div:nth-child(1),
+body[id*="LoginVerification"] main form div:nth-child(1) {
     display: block;
     width: var(--percentage);
     text-align: center;
@@ -97,7 +103,8 @@ body {
 }
 #Login main form input,
 #Register main form input,
-#ForgotPassword main form input {
+#ForgotPassword main form input,
+body[id*="LoginVerification"] main form input {
     width: calc(var(--percentage) * 0.96);
     margin: calc(var(--percentage) / 100);
     padding: calc(var(--percentage) / 100);
@@ -108,14 +115,17 @@ body {
 #Register main form div[id="button"],
 #Register main form div[id="response"],
 #ForgotPassword main form div[id="button"],
-#ForgotPassword main form div[id="response"] {
+#ForgotPassword main form div[id="response"],
+body[id*="LoginVerification"] main form div[id="button"],
+body[id*="LoginVerification"] main form div[id="response"] {
     width: var(--percentage);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
     justify-content: center;
 }
 #Login main form div[id="button"] button,
 #Register main form div[id="button"] button,
-#ForgotPassword main form div[id="button"] button {
+#ForgotPassword main form div[id="button"] button,
+body[id*="LoginVerification"] main form div[id="button"] button {
     font-size: calc(var(--textSize) * 1.8);
     border: none;
     padding: calc(var(--pixelate) * (5 / 1080))
@@ -128,14 +138,16 @@ body {
     text-align: center;
 }
 #Register header,
-#ForgotPassword header {
+#ForgotPassword header,
+body[id*="LoginVerification"] header {
     justify-content: center;
     font-size: calc(var(--textSize) * 2);
 }
 #Register footer div {
     height: calc(var(--percentage) / 2);
 }
-#ForgotPassword main form {
+#ForgotPassword main form,
+body[id*="LoginVerification"] main form {
     width: calc(var(--percentage) / 4);
     height: calc(var(--percentage) / 2);
     margin: calc(var(--percentage) * (575 / 1366) / 4)

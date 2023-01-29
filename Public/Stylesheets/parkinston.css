@@ -56,7 +56,8 @@
 #Homepage,
 #Login,
 #Register,
-#ForgotPassword {
+#ForgotPassword,
+body[id*="LoginVerification"] {
     font-family: sans-serif;
     background-color: var(--color1);
     color: var(--color2);
@@ -69,14 +70,17 @@
 #Register header a,
 #Register footer div:nth-child(2),
 #ForgotPassword header a,
-#ForgotPassword footer {
+#ForgotPassword footer,
+body[id*="LoginVerification"] header a,
+body[id*="LoginVerification"] footer {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
 #Login footer div:nth-child(1) a,
 #Register header a,
 #Register footer div:nth-child(1) a,
-#ForgotPassword header a {
+#ForgotPassword header a,
+body[id*="LoginVerification"] header a {
     color: var(--color2);
 }
 #Homepage header div a,
@@ -99,7 +103,8 @@
 #Homepage main,
 #Login main,
 #Register main,
-#ForgotPassword main {
+#ForgotPassword main,
+body[id*="LoginVerification"] main {
     background-color: var(--color4);
 }
 #Login footer div:nth-child(1) a,
@@ -109,18 +114,21 @@
 #Login footer div:nth-child(1) a:hover,
 #Register header a:hover,
 #Register footer div:nth-child(1) a:hover,
-#ForgotPassword header a:hover {
+#ForgotPassword header a:hover,
+body[id*="LoginVerification"] header a:hover {
     text-decoration: underline;
 }
 #Login main form div:nth-child(1),
 #Register main form div:nth-child(1),
-#ForgotPassword main form div:nth-child(1) {
+#ForgotPassword main form div:nth-child(1),
+body[id*="LoginVerification"] main form div:nth-child(1) {
     font-family: var(--proximaNova);
     font-weight: bold;
 }
 #Login main form input,
 #Register main form input,
-#ForgotPassword main form input {
+#ForgotPassword main form input,
+body[id*="LoginVerification"] main form input {
     background-color: var(--color1);
     color: var(--color2);
     font-family: var(--sourceCodePro);
@@ -130,12 +138,15 @@
 #Register main form input::placeholder,
 #Register main form input::-webkit-input-placeholder,
 #ForgotPassword main form input::placeholder,
-#ForgotPassword main form input::-webkit-input-placeholder {
+#ForgotPassword main form input::-webkit-input-placeholder,
+body[id*="LoginVerification"] main form input::placeholder,
+body[id*="LoginVerification"] main form input::-webkit-input-placeholder {
     color: var(--color5);
 }
 #Login main form div[id="button"] button,
 #Register main form div[id="button"] button,
-#ForgotPassword main form div[id="button"] button {
+#ForgotPassword main form div[id="button"] button,
+body[id*="LoginVerification"] main form div[id="button"] button {
     font-family: var(--sourceCodePro);
     background-color: var(--color3);
     color: var(--color4);
@@ -145,12 +156,14 @@
 }
 #Login main form div[id="button"] button:hover,
 #Register main form div[id="button"] button:hover,
-#ForgotPassword main form div[id="button"] button:hover {
+#ForgotPassword main form div[id="button"] button:hover,
+body[id*="LoginVerification"] main form div[id="button"] button:hover {
     background-color: var(--color4);
     color: var(--color2);
 }
 #Register header a,
-#ForgotPassword header a {
+#ForgotPassword header a,
+body[id*="LoginVerification"] header a {
     text-decoration: none;
     font-weight: bold;
 }
