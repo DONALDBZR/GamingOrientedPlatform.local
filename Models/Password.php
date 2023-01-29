@@ -84,7 +84,7 @@ class Password
     /**
      * Generating either a string or an integer
      * @param string $parameter
-     * @return int|string
+     * @return string
      */
     public function generator(string $parameter)
     {
@@ -112,9 +112,9 @@ class Password
                 $length = 6;
                 $characters = '0123456789';
                 for ($index = 0; $index < $length; $index++) {
-                    $randomString .= $characters[random_int(0, $charactersLength - 1)];
+                    $randomString .= $characters[random_int(0, strlen($characters) - 1)];
                 }
-                $response = (int)$randomString;
+                $response = $randomString;
                 break;
         }
         return $response;
