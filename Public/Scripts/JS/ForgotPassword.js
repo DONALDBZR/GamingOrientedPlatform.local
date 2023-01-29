@@ -129,6 +129,9 @@ class Main extends Application {
     render() {
         return (
             <main>
+                <div>
+                    <img src="/Public/Images/istockphoto-1175691444-612x612.jpg" />
+                </div>
                 <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                     <div id="label">Reset Password Form</div>
                     <input

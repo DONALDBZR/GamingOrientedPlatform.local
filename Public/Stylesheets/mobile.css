@@ -14,7 +14,8 @@ body {
 }
 #Homepage header,
 #Login header,
-#Register header {
+#Register header,
+#ForgotPassword header {
     display: flex;
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
@@ -39,32 +40,37 @@ body {
 #Homepage header div a {
     font-size: calc(var(--textSize) * (20 / 8));
 }
-#Homepage footer {
+#Homepage footer,
+#ForgotPassword footer {
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
     text-align: center;
     font-size: calc(var(--textSize) * (20 / 6));
 }
-#Homepage main {
+#Homepage main,
+#ForgotPassword main {
     width: var(--percentage);
     height: calc(var(--pixelate) * (600 / 1080));
     display: flex;
 }
 #Homepage main div,
 #Login main div,
-#Register main div {
+#Register main div,
+#ForgotPassword main div {
     display: flex;
     width: calc(var(--percentage) / 2);
 }
 #Homepage main div:nth-child(1),
 #Login main div:nth-child(1),
-#Register main div:nth-child(1) {
+#Register main div:nth-child(1),
+#ForgotPassword main div:nth-child(1) {
     justify-content: center;
     align-items: center;
 }
 #Homepage main div:nth-child(1) img,
 #Login main div:nth-child(1) img,
-#Register main div:nth-child(1) img {
+#Register main div:nth-child(1) img,
+#ForgotPassword main div:nth-child(1) img {
     width: var(--percentage);
 }
 #Homepage main div:nth-child(2) {
@@ -96,7 +102,8 @@ body {
         calc(var(--percentage) / 2 * 0);
 }
 #Login main form div:nth-child(1),
-#Register main form div:nth-child(1) {
+#Register main form div:nth-child(1),
+#ForgotPassword main form div:nth-child(1) {
     display: block;
     width: var(--percentage);
     text-align: center;
@@ -104,7 +111,8 @@ body {
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
 #Login main form input,
-#Register main form input {
+#Register main form input,
+#ForgotPassword main form input {
     width: calc(var(--percentage) * 0.96);
     margin: calc(var(--percentage) / 100);
     padding: calc(var(--percentage) / 100);
@@ -113,13 +121,16 @@ body {
 #Login main form div[id="button"],
 #Login main form div[id="response"],
 #Register main form div[id="button"],
-#Register main form div[id="response"] {
+#Register main form div[id="response"],
+#ForgotPassword main form div[id="button"],
+#ForgotPassword main form div[id="response"] {
     width: var(--percentage);
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
     justify-content: center;
 }
 #Login main form div[id="button"] button,
-#Register main form div[id="button"] button {
+#Register main form div[id="button"] button,
+#ForgotPassword main form div[id="button"] button {
     font-size: calc(var(--textSize) * 1.8);
     border: none;
     padding: calc(var(--pixelate) * (5 / 1080))
@@ -131,12 +142,28 @@ body {
     height: calc(var(--pixelate) / 27);
     text-align: center;
 }
-#Register header {
+#Register header,
+#ForgotPassword header {
     justify-content: center;
     font-size: calc(var(--textSize) * 2);
 }
-#Register main form div:nth-child(1) {height: calc(var(--percentage) / 5.25);}
-#Register main form div[id="button"] {
+#Register main form div:nth-child(1),
+#Register main form div[id="response"] {
     height: calc(var(--percentage) / 5.25);
 }
-#Register main form div[id="response"] {height: calc(var(--percentage) / 5.25);}
+#Register main form div[id="button"] {
+    height: calc(var(--percentage) / 4.2);
+}
+#ForgotPassword main form {
+    width: calc(var(--percentage) / 2);
+    height: calc(var(--percentage) * (85 / 600));
+    margin: calc(var(--percentage) * (600 / 320) * (257.5 / 600))
+        calc(var(--percentage) * 0);
+}
+#ForgotPassword main form div:nth-child(1),
+#ForgotPassword main form div[id="response"] {
+    height: calc(var(--percentage) / 4.25);
+}
+#ForgotPassword main form div[id="button"] {
+    height: calc(var(--percentage) / 3.4);
+}
