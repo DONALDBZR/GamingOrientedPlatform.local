@@ -44,7 +44,8 @@ body[id*="LoginVerification"] header {
 #Homepage footer,
 #ForgotPassword footer,
 body[id*="LoginVerification"] footer,
-body[id*="UsersHome"] footer {
+body[id*="UsersHome"] footer,
+body[id*="UsersProfile"] footer {
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
     text-align: center;
@@ -184,36 +185,44 @@ body[id*="LoginVerification"] main form div[id="response"] {
 body[id*="LoginVerification"] main form div[id="button"] {
     height: calc(var(--percentage) / 3.4);
 }
-body[id*="UsersHome"] header {
+body[id*="UsersHome"] header,
+body[id*="UsersProfile"] header {
     width: var(--percentage);
     height: calc(var(--pixelate) * (7 / 108));
 }
-body[id*="UsersHome"] header nav {
+body[id*="UsersHome"] header nav,
+body[id*="UsersProfile"] header nav {
     display: flex;
     width: var(--percentage);
     height: var(--percentage);
     flex-wrap: wrap;
 }
-body[id*="UsersHome"] header nav div {
+body[id*="UsersHome"] header nav div,
+body[id*="UsersProfile"] header nav div {
     width: calc(var(--percentage) / 2);
     height: calc(var(--percentage) * (5 / 7));
     display: flex;
     justify-content: center;
     align-items: center;
 }
-body[id*="UsersHome"] header nav div:nth-child(1) {
+body[id*="UsersHome"] header nav div:nth-child(1),
+body[id*="UsersProfile"] header nav div:nth-child(1) {
     width: var(--percentage);
     height: calc(var(--percentage) * (2 / 7));
 }
-body[id*="UsersHome"] header nav div:nth-child(1) a {
+body[id*="UsersHome"] header nav div:nth-child(1) a,
+body[id*="UsersProfile"] header nav div a {
     font-size: calc(var(--textSize) * 3.125);
 }
 body[id*="UsersHome"] header nav div:nth-child(2) a,
-body[id*="UsersHome"] header nav div:nth-child(3) a {
+body[id*="UsersHome"] header nav div:nth-child(3) a,
+body[id*="UsersProfile"] header nav div:nth-child(2) a,
+body[id*="UsersProfile"] header nav div:nth-child(3) a {
     font-size: calc(var(--textSize) * 8);
     height: var(--percentage);
 }
-body[id*="UsersHome"] header nav div:nth-child(2) a img {
+body[id*="UsersHome"] header nav div:nth-child(2) a img,
+body[id*="UsersProfile"] header nav div:nth-child(2) a img {
     height: var(--percentage);
     width: auto;
 }
@@ -427,4 +436,66 @@ body[id*="UsersHome"]
     width: calc(var(--percentage) * (5 / 11));
     display: flex;
     justify-content: center;
+}
+
+body[id*="UsersProfile"] main {
+    width: var(--percentage);
+    height: calc(var(--pixelate) * (550 / 1080));
+}
+body[id*="UsersProfile"] main nav {
+    display: flex;
+    height: calc(var(--percentage) / 10);
+    width: var(--percentage);
+}
+body[id*="UsersProfile"] main nav div {
+    height: var(--percentage);
+    width: calc(var(--percentage) / 3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body[id*="UsersProfile"] main div {
+    width: var(--color1);
+}
+body[id*="UsersProfile"] main div header {
+    height: var(--percentage);
+    display: flex;
+}
+body[id*="UsersProfile"] main div header div:nth-child(1) {
+    display: flex;
+    width: calc(var(--percentage) / 2);
+    justify-content: end;
+    height: var(--percentage);
+}
+body[id*="UsersProfile"] main div header div:nth-child(1) img {
+    height: auto;
+    width: var(--percentage);
+}
+body[id*="UsersProfile"] main div header div:nth-child(2) {
+    width: calc(var(--percentage) / 2);
+    display: flex;
+    align-self: end;
+    font-size: calc(var(--textSize) * (30 / 7.5));
+}
+body[id*="UsersProfile"] main nav div a {
+    font-size: calc(var(--textSize) * (50 / 6.17));
+}
+body[id*="UsersProfile"] main div description {
+    display: block;
+    padding: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+body[id*="UsersProfile"] main div description div {
+    width: var(--percentage);
+    display: flex;
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+body[id*="UsersProfile"] main div description div label {
+    width: calc(var(--percentage) / 2);
+    text-align: end;
+    font-size: calc(var(--textSize) * 1.62);
+}
+body[id*="UsersProfile"] main div description div div {
+    width: calc(var(--percentage) / 2);
+    margin: calc(var(--percentage) * 0);
+    padding-left: calc(var(--percentage) / 100);
 }

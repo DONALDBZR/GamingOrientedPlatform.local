@@ -49,20 +49,22 @@ class Application extends React.Component {
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
     retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-                lolUsername: data.Account.LeagueOfLegends.gameName,
-                lolRegion: data.Account.LeagueOfLegends.tagLine,
-                riotId: data.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier
-            }));
+            .then((data) =>
+                this.setState({
+                    username: data.User.username,
+                    mailAddress: data.User.mailAddress,
+                    domain: data.User.domain,
+                    profilePicture: data.User.profilePicture,
+                    lolUsername: data.Account.LeagueOfLegends.gameName,
+                    lolRegion: data.Account.LeagueOfLegends.tagLine,
+                    riotId: data.Account.LeagueOfLegends
+                        .playerUniversallyUniqueIdentifier,
+                })
+            );
     }
     /**
      * Verifying the state before rendering the link
@@ -76,7 +78,12 @@ class Application extends React.Component {
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
@@ -87,7 +94,7 @@ class Application extends React.Component {
         if (this.state.profilePicture != null) {
             return <img src={this.state.profilePicture} />;
         } else {
-            return <i class="fa fa-user"></i>
+            return <i class="fa fa-user"></i>;
         }
     }
     /**
@@ -95,11 +102,9 @@ class Application extends React.Component {
      */
     verifyAccount_Riot_ID_styling() {
         if (this.state.riotId == null) {
-            return (
-                {
-                    display: "none"
-                }
-            );
+            return {
+                display: "none",
+            };
         }
     }
     /**
@@ -131,7 +136,9 @@ class Header extends Application {
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyUser_profilePicture()}</div>
                     <div>
@@ -161,20 +168,47 @@ class Main extends Application {
     render() {
         return (
             <main>
-                <header>
-                    <div id="profilePicture">{this.verifyProfilePicture()}</div>
-                    <div id="username">{this.state.username}</div>
-                </header>
-                <description>
-                    <div id="mailAddress">
-                        <label>Mail Address:</label>
-                        <div>{this.state.mailAddress}</div>
+                <nav>
+                    <div>
+                        <a
+                            href={`/Users/Edit/Profile/${this.state.username}`}
+                            class="fas fa-edit"
+                        ></a>
                     </div>
-                    <div id="lolUsername" style={this.verifyAccount_Riot_ID_styling()}>
-                        <label>League of Legends's Username:</label>
-                        <div>{this.state.lolUsername}</div>
+                    <div>
+                        <a
+                            href={`/Users/Accounts/${this.state.username}`}
+                            class="fa fa-user"
+                        ></a>
                     </div>
-                </description>
+                    <div>
+                        <a
+                            href={`/Users/Security/${this.state.username}`}
+                            class="fa-solid fa-user-shield"
+                        ></a>
+                    </div>
+                </nav>
+                <div>
+                    <header>
+                        <div id="profilePicture">
+                            {this.verifyProfilePicture()}
+                        </div>
+                        <div id="username">{this.state.username}</div>
+                    </header>
+                    <description>
+                        <div id="mailAddress">
+                            <label>Mail Address:</label>
+                            <div>{this.state.mailAddress}</div>
+                        </div>
+                        <div
+                            id="lolUsername"
+                            style={this.verifyAccount_Riot_ID_styling()}
+                        >
+                            <label>League of Legends's Username:</label>
+                            <div>{this.state.lolUsername}</div>
+                        </div>
+                    </description>
+                </div>
             </main>
         );
     }
@@ -196,34 +230,7 @@ class Footer extends Application {
      * @returns {Footer} Component
      */
     render() {
-        return (
-            <footer>
-                <nav>
-                    <a href={`/Users/Edit/Profile/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Edit
-                    </a>
-                    <a href={`/Users/Accounts/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Accounts
-                    </a>
-                    <a href={`/Users/Security/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Security
-                    </a>
-                </nav>
-                <div>Parkinston</div>
-            </footer>
-        );
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page

@@ -73,7 +73,8 @@
 #Register,
 #ForgotPassword,
 body[id*="LoginVerification"],
-body[id*="UsersHome"] {
+body[id*="UsersHome"],
+body[id*="UsersProfile"] {
     font-family: sans-serif;
     background-color: var(--color1);
     color: var(--color2);
@@ -97,7 +98,9 @@ body[id*="UsersHome"]
     div:nth-child(2)
     div:nth-child(2)
     div
-    div:nth-child(1) {
+    div:nth-child(1),
+body[id*="UsersProfile"] header nav div:nth-child(1) a,
+body[id*="UsersProfile"] footer {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
@@ -106,7 +109,13 @@ body[id*="UsersHome"]
 #Register footer div:nth-child(1) a,
 #ForgotPassword header a,
 body[id*="LoginVerification"] header a,
-body[id*="UsersHome"] header nav div:nth-child(1) a {
+body[id*="UsersHome"] header nav div:nth-child(1) a,
+body[id*="UsersProfile"] header nav div:nth-child(1) a,
+body[id*="UsersHome"] header nav div:nth-child(2) a:hover,
+body[id*="UsersHome"] header nav div:nth-child(3) a:hover,
+body[id*="UsersProfile"] header nav div:nth-child(2) a:hover,
+body[id*="UsersProfile"] header nav div:nth-child(3) a:hover,
+body[id*="UsersProfile"] main nav div a:hover {
     color: var(--color2);
 }
 #Homepage header div a,
@@ -172,7 +181,8 @@ body[id*="LoginVerification"] main {
 }
 #Login footer div:nth-child(1) a,
 #Register footer div:nth-child(1) a,
-body[id*="UsersHome"] header nav div:nth-child(1) a {
+body[id*="UsersHome"] header nav div:nth-child(1) a,
+body[id*="UsersProfile"] header nav div:nth-child(1) a {
     text-decoration: none;
 }
 #Login footer div:nth-child(1) a:hover,
@@ -180,13 +190,15 @@ body[id*="UsersHome"] header nav div:nth-child(1) a {
 #Register footer div:nth-child(1) a:hover,
 #ForgotPassword header a:hover,
 body[id*="LoginVerification"] header a:hover,
-body[id*="UsersHome"] header nav div:nth-child(1) a:hover {
+body[id*="UsersHome"] header nav div:nth-child(1) a:hover,
+body[id*="UsersProfile"] header nav div:nth-child(1) a:hover {
     text-decoration: underline;
 }
 #Login main form div:nth-child(1),
 #Register main form div:nth-child(1),
 #ForgotPassword main form div:nth-child(1),
-body[id*="LoginVerification"] main form div:nth-child(1) {
+body[id*="LoginVerification"] main form div:nth-child(1),
+body[id*="UsersProfile"] main div header div:nth-child(2) {
     font-family: var(--proximaNova);
     font-weight: bold;
 }
@@ -233,23 +245,30 @@ body[id*="LoginVerification"] header a {
     font-weight: bold;
 }
 body[id*="UsersHome"] header nav div:nth-child(2) a img,
-body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img {
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img,
+body[id*="UsersProfile"] header nav div:nth-child(2) a img {
     opacity: calc(var(--percentage) / 2);
 }
 body[id*="UsersHome"] header nav div:nth-child(2) a img:hover,
-body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover {
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover,
+body[id*="UsersProfile"] header nav div:nth-child(2) a img:hover {
     opacity: var(--percentage);
 }
 body[id*="UsersHome"] header nav div:nth-child(2) a,
-body[id*="UsersHome"] header nav div:nth-child(3) a {
+body[id*="UsersHome"] header nav div:nth-child(3) a,
+body[id*="UsersProfile"] header nav div:nth-child(2) a,
+body[id*="UsersProfile"] header nav div:nth-child(3) a {
     color: var(--color3);
     text-decoration: none;
-}
-body[id*="UsersHome"] header nav div:nth-child(2) a:hover,
-body[id*="UsersHome"] header nav div:nth-child(3) a:hover {
-    color: var(--color2);
 }
 body[id*="UsersHome"] main #leagueOfLegendsCard {
     background-color: var(--color6);
     color: var(--color7);
+}
+body[id*="UsersProfile"] main nav {
+    background-color: var(--color3);
+}
+body[id*="UsersProfile"] main nav div a {
+    color: var(--color1);
+    text-decoration: none;
 }
