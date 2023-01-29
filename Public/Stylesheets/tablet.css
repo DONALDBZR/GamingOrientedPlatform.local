@@ -45,7 +45,8 @@ body[id*="LoginVerification"] header {
 #ForgotPassword footer,
 body[id*="LoginVerification"] footer,
 body[id*="UsersHome"] footer,
-body[id*="UsersProfile"] footer {
+body[id*="UsersProfile"] footer,
+body[id*="UsersEditProfile"] footer {
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
     text-align: center;
@@ -166,18 +167,21 @@ body[id*="LoginVerification"] header {
     height: calc(var(--percentage) / 2);
 }
 body[id*="UsersHome"] header,
-body[id*="UsersProfile"] header {
+body[id*="UsersProfile"] header,
+body[id*="UsersEditProfile"] header {
     width: var(--percentage);
     height: calc(var(--pixelate) * (625 / 1080) / 10);
 }
 body[id*="UsersHome"] header nav,
-body[id*="UsersProfile"] header nav {
+body[id*="UsersProfile"] header nav,
+body[id*="UsersEditProfile"] header nav {
     display: flex;
     width: var(--percentage);
     height: var(--percentage);
 }
 body[id*="UsersHome"] header nav div,
-body[id*="UsersProfile"] header nav div {
+body[id*="UsersProfile"] header nav div,
+body[id*="UsersEditProfile"] header nav div {
     width: calc(var(--percentage) / 4);
     height: var(--percentage);
     display: flex;
@@ -185,22 +189,27 @@ body[id*="UsersProfile"] header nav div {
     align-items: center;
 }
 body[id*="UsersHome"] header nav div:nth-child(1),
-body[id*="UsersProfile"] header nav div:nth-child(1) {
+body[id*="UsersProfile"] header nav div:nth-child(1),
+body[id*="UsersEditProfile"] header nav div:nth-child(1) {
     width: calc(var(--percentage) / 2);
 }
 body[id*="UsersHome"] header nav div:nth-child(1) a,
-body[id*="UsersProfile"] header nav div a {
+body[id*="UsersProfile"] header nav div a,
+body[id*="UsersEditProfile"] header nav div a {
     font-size: calc(var(--textSize) * 3.125);
 }
 body[id*="UsersHome"] header nav div:nth-child(2) a,
 body[id*="UsersHome"] header nav div:nth-child(3) a,
 body[id*="UsersProfile"] header nav div:nth-child(2) a,
-body[id*="UsersProfile"] header nav div:nth-child(3) a {
+body[id*="UsersProfile"] header nav div:nth-child(3) a,
+body[id*="UsersEditProfile"] header nav div:nth-child(2) a,
+body[id*="UsersEditProfile"] header nav div:nth-child(3) a {
     font-size: calc(var(--textSize) * 3.125);
     height: calc(var(--percentage) / 1.27);
 }
 body[id*="UsersHome"] header nav div:nth-child(2) a img,
-body[id*="UsersProfile"] header nav div:nth-child(2) a img {
+body[id*="UsersProfile"] header nav div:nth-child(2) a img,
+body[id*="UsersEditProfile"] header nav div:nth-child(2) a img {
     height: var(--percentage);
     width: auto;
 }
@@ -416,7 +425,8 @@ body[id*="UsersHome"]
     justify-content: center;
 }
 
-body[id*="UsersProfile"] main {
+body[id*="UsersProfile"] main,
+body[id*="UsersEditProfile"] main {
     width: var(--percentage);
     height: calc(var(--pixelate) * (542.5 / 1080));
     display: flex;
@@ -477,4 +487,34 @@ body[id*="UsersProfile"] main div description div div {
     width: calc(var(--percentage) / 2);
     margin: calc(var(--percentage) * 0);
     padding-left: calc(var(--percentage) / 100);
+}
+body[id*="UsersEditProfile"] main {
+    justify-content: center;
+    align-items: center;
+}
+body[id*="UsersEditProfile"] main form {
+    height: calc(var(--percentage) * (165 / 551.5));
+}
+body[id*="UsersEditProfile"] main form div:nth-child(1) {
+    height: calc(var(--percentage) * (2 / 11));
+    font-size: calc(var(--textSize) * 1.8);
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+body[id*="UsersEditProfile"] main form input::file-selector-button,
+body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button,
+body[id*="UsersEditProfile"] main form div button {
+    border: none;
+    padding: calc(var(--percentage) / 40) calc(var(--percentage) / 20);
+    font-size: var(--textSize);
+}
+body[id*="UsersEditProfile"] main form input,
+body[id*="UsersEditProfile"] main form div:nth-child(3),
+body[id*="UsersEditProfile"] main form div:nth-child(4) {
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
+}
+body[id*="UsersEditProfile"] main form div:nth-child(3) {
+    height: calc(var(--percentage) * (3 / 11));
+}
+body[id*="UsersEditProfile"] main form div:nth-child(4) {
+    height: calc(var(--percentage) / 8.25);
 }
