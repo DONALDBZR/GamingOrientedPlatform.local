@@ -43,6 +43,81 @@ class Application extends React.Component {
              * @type {string}
              */
             riotId: "",
+            /**
+             * Summoner's level
+             * @type {int}
+             */
+            level: 0,
+            /**
+             * Summoner Icon
+             * @type {int}
+             */
+            summonerIcon: 0,
+            /**
+             * Ranked Solo/Duo rank tier
+             * @type {string}
+             */
+            soloDuoTier: "",
+            /**
+             * Ranked Solo/Duo rank division
+             * @type {string}
+             */
+            soloDuoDivision: "",
+            /**
+             * Ranked Solo/Duo rank league points
+             * @type {int}
+             */
+            soloDuoLeaguePoints: 0,
+            /**
+             * Ranked Solo/Duo rank win rate
+             * @type {float}
+             */
+            soloDuoWinRate: 0.0,
+            /**
+             * Ranked Flex rank tier
+             * @type {string}
+             */
+            flexTier: "",
+            /**
+             * Ranked Flex rank division
+             * @type {string}
+             */
+            flexDivision: "",
+            /**
+             * Ranked Flex rank league points
+             * @type {int}
+             */
+            flexLeaguePoints: 0,
+            /**
+             * Ranked Flex rank win rate
+             * @type {float}
+             */
+            flexWinRate: 0.0,
+            /**
+             * KDA Ratio of the player
+             * @type {float}
+             */
+            kdaRatio: 0.0,
+            /**
+             * Creep Score per minute of the player
+             * @type {float}
+             */
+            csMin: 0.0,
+            /**
+             * Vision Score per minute of the player
+             * @type {float}
+             */
+            vsMin: 0.0,
+            /**
+             * Match history of the player
+             * @type {array}
+             */
+            matchHistory: [],
+            /**
+             * Game Name of the player
+             * @type {string}
+             */
+            gameName: "",
         };
     }
     /**
@@ -93,9 +168,118 @@ class Application extends React.Component {
     verifyAccount_Riot_ID() {
         if (this.state.riotId != null) {
             return (
-                <a href={`/LeagueOfLegends/Home/${this.state.lolUsername}`}>
-                    <img src="/Public/Images/League Of Legends Logo.png" />
-                </a>
+                <div id="leagueOfLegendsCard">
+                    <div>
+                        <a
+                            href={`/LeagueOfLegends/Home/${this.state.gameName}`}
+                        >
+                            <img src="/Public/Images/League Of Legends Logo.png" />
+                        </a>
+                    </div>
+                    <div>
+                        <div>
+                            <img
+                                src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.summonerIcon}.png`}
+                            />
+                            <div>Level {this.state.level}</div>
+                            <div>{this.state.gameName}</div>
+                        </div>
+                        <div>
+                            <div>
+                                <div>Solo/Duo</div>
+                                <div>
+                                    <img
+                                        src={this.verifyLeagueOfLegends_rank_emblem(
+                                            this.state.soloDuoTier
+                                        )}
+                                    />
+                                </div>
+                                <div>
+                                    <div>
+                                        {this.verifyLeagueOfLegends_rank(
+                                            this.state.soloDuoTier,
+                                            this.state.soloDuoDivision,
+                                            this.state.soloDuoLeaguePoints
+                                        )}
+                                    </div>
+                                    <div>Win Rate:</div>
+                                    <div
+                                        style={{
+                                            color: this.verifyLeagueOfLegends_winRate(
+                                                this.state.soloDuoWinRate
+                                            ),
+                                        }}
+                                    >{`${this.state.soloDuoWinRate} %`}</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>Flex 5v5</div>
+                                <div>
+                                    <img
+                                        src={this.verifyLeagueOfLegends_rank_emblem(
+                                            this.state.flexTier
+                                        )}
+                                    />
+                                </div>
+                                <div>
+                                    <div>
+                                        {this.verifyLeagueOfLegends_rank(
+                                            this.state.flexTier,
+                                            this.state.flexDivision,
+                                            this.state.flexLeaguePoints
+                                        )}
+                                    </div>
+                                    <div>Win Rate:</div>
+                                    <div
+                                        style={{
+                                            color: this.verifyLeagueOfLegends_winRate(
+                                                this.state.flexWinRate
+                                            ),
+                                        }}
+                                    >{`${this.state.flexWinRate} %`}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div>KDA:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyLeagueOfLegends_kda(
+                                            this.state.kdaRatio
+                                        ),
+                                    }}
+                                >
+                                    {this.state.kdaRatio}
+                                </div>
+                            </div>
+                            <div>
+                                <div>CS/Min:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyLeagueOfLegends_csMin(
+                                            this.state.csMin
+                                        ),
+                                    }}
+                                >
+                                    {this.state.csMin}
+                                </div>
+                            </div>
+                            <div>
+                                <div>VS/Min:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyLeagueOfLegends_vsMin(
+                                            this.state.vsMin
+                                        ),
+                                    }}
+                                >
+                                    {this.state.vsMin}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             );
         } else {
             return (
@@ -109,19 +293,112 @@ class Application extends React.Component {
         }
     }
     /**
-     * Verifying the state before styling the component
+     * Retrieving data from Riot Games data center for the user
      */
-    verifyAccount_Riot_ID_styling() {
-        if (this.state.riotId != null) {
-            return null;
+    retrieveLoL_SummonerData() {
+        fetch("/LegendsOfLegends/CurrentSummoner", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    level: data.summonerLevel,
+                    summonerIcon: data.profileIconId,
+                    soloDuoTier: data.soloDuoTier,
+                    soloDuoDivision: data.soloDuoRank,
+                    soloDuoLeaguePoints: data.soloDuoLeaguePoints,
+                    soloDuoWinRate: data.soloDuoWinRate,
+                    flexTier: data.flexTier,
+                    flexDivision: data.flexRank,
+                    flexLeaguePoints: data.flexLeaguePoints,
+                    flexWinRate: data.flexWinRate,
+                    kdaRatio: data.kdaRatio,
+                    csMin: data.csMin,
+                    vsMin: data.vsMin,
+                    gameName: data.gameName,
+                })
+            );
+    }
+    /**
+     * Verifying the ranks of the player
+     * @param {string | null} tier
+     * @param {string | null} rank
+     * @param {number | null} point
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_rank(tier, rank, point) {
+        if (tier == "" || tier == null) {
+            return "Unranked";
         } else {
-            return {
-                width: "100%",
-                textAlign: "center",
-                fontFamily: "Proxima Nova",
-                fontWeight: "bold",
-                margin: "1% 0%",
-            };
+            return `${tier} ${rank} - ${point} LP`;
+        }
+    }
+    /**
+     * Verifying the ranks of the player for the logo
+     * @param {string | null} tier
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_rank_emblem(tier) {
+        if (tier == "" || tier == null) {
+            return "/Public/Images/Ranks/Emblem_Unranked.png";
+        } else {
+            return `/Public/Images/Ranks/Emblem_${tier}.png`;
+        }
+    }
+    /**
+     * Verifying the winrate before styling it
+     * @param {float} win_rate
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_winRate(win_rate) {
+        if (win_rate >= 50) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (win_rate >= 40 && win_rate < 50) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the KDA before styling it
+     * @param {float} kda
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_kda(kda) {
+        if (kda >= 4) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (kda >= 1 && kda < 4) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the CS/Min before styling it
+     * @param {float} cs_min
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_csMin(cs_min) {
+        if (cs_min >= 6) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (cs_min >= 1 && cs_min < 6) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the VS/Min before styling it
+     * @param {float} vs_min
+     * @returns {string}
+     */
+    verifyLeagueOfLegends_vsMin(vs_min) {
+        if (vs_min >= 2) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (vs_min >= 1 && vs_min < 2) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
         }
     }
     /**
@@ -175,15 +452,10 @@ class Main extends Application {
      */
     componentDidMount() {
         this.retrieveData();
+        this.retrieveLoL_SummonerData();
     }
     render() {
-        return (
-            <main>
-                <div style={this.verifyAccount_Riot_ID_styling()}>
-                    {this.verifyAccount_Riot_ID()}
-                </div>
-            </main>
-        );
+        return <main>{this.verifyAccount_Riot_ID()}</main>;
     }
 }
 /**

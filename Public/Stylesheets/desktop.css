@@ -36,7 +36,8 @@ body[id*="LoginVerification"] header {
 }
 #Homepage footer,
 #ForgotPassword footer,
-body[id*="LoginVerification"] footer {
+body[id*="LoginVerification"] footer,
+body[id*="UsersHome"] footer {
     width: var(--percentage);
     height: calc(var(--pixelate) / 54);
     text-align: center;
@@ -152,4 +153,246 @@ body[id*="LoginVerification"] main form {
     height: calc(var(--percentage) / 2);
     margin: calc(var(--percentage) * (575 / 1366) / 4)
         calc(var(--percentage) / 2 / 4);
+}
+body[id*="UsersHome"] header {
+    width: var(--percentage);
+    height: calc(var(--pixelate) * (635 / 1080) / 10);
+}
+body[id*="UsersHome"] header nav {
+    display: flex;
+    width: var(--percentage);
+    height: var(--percentage);
+}
+body[id*="UsersHome"] header nav div {
+    width: calc(var(--percentage) / 4);
+    height: var(--percentage);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body[id*="UsersHome"] header nav div:nth-child(1) {
+    width: calc(var(--percentage) / 2);
+}
+body[id*="UsersHome"] header nav div:nth-child(1) a {
+    font-size: calc(var(--textSize) * 3.125);
+}
+body[id*="UsersHome"] header nav div:nth-child(2) a,
+body[id*="UsersHome"] header nav div:nth-child(3) a {
+    font-size: calc(var(--textSize) * 3.125);
+    height: calc(var(--percentage) / 1.27);
+}
+body[id*="UsersHome"] header nav div:nth-child(2) a img {
+    height: var(--percentage);
+    width: auto;
+}
+body[id*="UsersHome"] main {
+    width: var(--percentage);
+    height: calc(var(--pixelate) * (523.5 / 1080));
+}
+body[id*="UsersHome"] main #leagueOfLegendsCard {
+    width: calc(var(--percentage) * (460 / 1366));
+    display: flex;
+    flex-wrap: wrap;
+    height: calc(var(--pixelate) * (190 / 1080));
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) / 200);
+}
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) {
+    height: calc(var(--percentage) / 3.8);
+    width: var(--percentage);
+    display: flex;
+    justify-content: center;
+}
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img {
+    height: var(--percentage);
+    width: auto;
+}
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(2) {
+    width: var(--percentage);
+    display: flex;
+    height: calc(var(--percentage) * (14 / 19));
+}
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(2) div {
+    width: calc(var(--percentage) / 3);
+    display: flex;
+    flex-wrap: wrap;
+    height: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(1)
+    div {
+    height: calc(var(--percentage) / 4.5);
+    width: var(--percentage);
+    text-align: center;
+    display: block;
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(1)
+    img {
+    width: auto;
+    height: calc(var(--percentage) / 1.8);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(3) {
+    width: calc(var(--percentage) * 0.2);
+    height: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(1) {
+    height: calc(var(--percentage) * (9 / 14));
+    width: calc(var(--percentage) * (15 / 46));
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2) {
+    height: var(--percentage);
+    width: calc(var(--percentage) * (20 / 46));
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(3) {
+    height: calc(var(--percentage) / 2.5);
+    width: calc(var(--percentage) * (11 / 46));
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div {
+    height: calc(var(--percentage) / 2);
+    width: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(1) {
+    height: calc(var(--percentage) * (2 / 7));
+    width: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(2) {
+    height: calc(var(--percentage) * (5 / 7));
+    width: calc(var(--percentage) / 4);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(2)
+    img {
+    height: var(--percentage);
+    width: auto;
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(3) {
+    height: calc(var(--percentage) * (5 / 7));
+    width: calc(var(--percentage) * 0.75);
+    display: flex;
+    flex-wrap: wrap;
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(1) {
+    height: calc(var(--percentage) / 2);
+    width: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(2) {
+    height: calc(var(--percentage) / 2);
+    width: calc(var(--percentage) / 2);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(3) {
+    height: calc(var(--percentage) / 2);
+    width: calc(var(--percentage) / 2);
+    justify-content: center;
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(3)
+    div {
+    height: calc(var(--percentage) / 3);
+    width: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(3)
+    div
+    div {
+    height: var(--percentage);
+    width: calc(var(--percentage) / 2);
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(3)
+    div
+    div:nth-child(1) {
+    text-align: start;
+    width: calc(var(--percentage) * (6 / 11));
+    display: block;
+}
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(3)
+    div
+    div:nth-child(2) {
+    width: calc(var(--percentage) * (5 / 11));
+    display: flex;
+    justify-content: center;
 }
