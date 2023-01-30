@@ -144,7 +144,8 @@ body[id*="LoginVerification"] main form div[id="response"] {
 #Login main form div[id="button"] button,
 #Register main form div[id="button"] button,
 #ForgotPassword main form div[id="button"] button,
-body[id*="LoginVerification"] main form div[id="button"] button {
+body[id*="LoginVerification"] main form div[id="button"] button,
+body[id*="UsersSecurity"] main form div:nth-child(6) button {
     font-size: calc(var(--textSize) * 1.8);
     border: none;
     padding: calc(var(--pixelate) * (5 / 1080))
@@ -219,7 +220,9 @@ body[id*="Users"] header nav div:nth-child(2) a img {
     height: var(--percentage);
     width: auto;
 }
-body[id*="UsersHome"] main {
+body[id*="UsersHome"] main,
+body[id*="UsersSecurity"] main,
+body[id*="UsersProfile"] main {
     width: var(--percentage);
     height: calc(var(--pixelate) * (550 / 1080));
 }
@@ -430,10 +433,6 @@ body[id*="UsersHome"]
     display: flex;
     justify-content: center;
 }
-body[id*="UsersProfile"] main {
-    width: var(--percentage);
-    height: calc(var(--pixelate) * (550 / 1080));
-}
 body[id*="UsersProfile"] main nav {
     display: flex;
     height: calc(var(--percentage) / 10);
@@ -459,11 +458,13 @@ body[id*="UsersProfile"] main div header div:nth-child(1) {
     justify-content: end;
     height: var(--percentage);
 }
-body[id*="UsersProfile"] main div header div:nth-child(1) img {
+body[id*="UsersProfile"] main div header div:nth-child(1) img,
+body[id*="UsersSecurity"] main header div:nth-child(1) img {
     height: auto;
     width: var(--percentage);
 }
-body[id*="UsersProfile"] main div header div:nth-child(2) {
+body[id*="UsersProfile"] main div header div:nth-child(2),
+body[id*="UsersSecurity"] main header div:nth-child(2) {
     width: calc(var(--percentage) / 2);
     display: flex;
     align-self: end;
@@ -493,7 +494,8 @@ body[id*="UsersProfile"] main div description div div {
 }
 
 body[id*="UsersEditProfile"] main,
-body[id*="UsersAccounts"] main {
+body[id*="UsersAccounts"] main,
+body[id*="UsersSecurity"] main {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -549,4 +551,58 @@ body[id*="UsersAccounts"] main form input {
 body[id*="UsersAccounts"] main form select {
     width: calc(var(--percentage) * 0.3);
     margin-left: calc(var(--percentage) / 100);
+}
+
+body[id*="UsersSecurity"] main {
+    display: block;
+}
+body[id*="UsersSecurity"] main header {
+    height: calc(var(--percentage) / 5.5);
+    margin-left: calc(var(--percentage) / 5);
+    display: flex;
+    width: calc(var(--percentage) * 0.8);
+}
+body[id*="UsersSecurity"] main header div {
+    height: var(--percentage);
+    width: calc(var(--percentage) / 2);
+}
+body[id*="UsersSecurity"] main header div:nth-child(1) {
+    width: calc(var(--percentage) * (100 / 256));
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+body[id*="UsersSecurity"] main header div:nth-child(2) {
+    display: flex;
+    align-items: end;
+}
+body[id*="UsersSecurity"] main form {
+    margin: calc(var(--percentage) * (106 / 320)) calc(var(--percentage) * 0);
+    width: calc(var(--percentage) * 0.75);
+    padding: calc(var(--percentage) * (14 / 320)) calc(var(--percentage) / 8);
+    height: calc(var(--percentage) * (210 / 550));
+}
+body[id*="UsersSecurity"] main form div:nth-child(1),
+body[id*="UsersSecurity"] main form input,
+body[id*="UsersSecurity"] main form div:nth-child(6) {
+    width: var(--percentage);
+    text-align: center;
+    margin: calc(var(--percentage) * (2 / 240)) calc(var(--percentage) * 0);
+    height: calc(var(--percentage) / 10.5);
+}
+body[id*="UsersSecurity"] main form input {
+    text-align: left;
+    margin: calc(var(--percentage) * (2 / 240)) calc(var(--percentage) * 0);
+    border: none;
+    font-size: var(--textSize);
+    padding: calc(var(--percentage) * (2 / 240)) calc(var(--percentage) * 0);
+}
+body[id*="UsersSecurity"] main form div:nth-child(6) {
+    display: flex;
+    justify-content: center;
+    height: calc(var(--percentage) * (46 / 210));
+}
+body[id*="UsersSecurity"] main form div:nth-child(7) {
+    margin: calc(var(--percentage) * (2 / 240)) calc(var(--percentage) * 0);
+    height: calc(var(--percentage) / 10.5);
 }

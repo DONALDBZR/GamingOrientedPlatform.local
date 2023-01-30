@@ -164,14 +164,16 @@ body[id*="UsersHome"]
     div
     div:nth-child(3)
     div:nth-child(3),
-body[id*="UsersEditProfile"] main form div:nth-child(1) {
+body[id*="UsersEditProfile"] main form div:nth-child(1),
+body[id*="UsersSecurity"] main form div:nth-child(1) {
     font-family: var(--proximaNova);
 }
 #Homepage main,
 #Login main,
 #Register main,
 #ForgotPassword main,
-body[id*="LoginVerification"] main {
+body[id*="LoginVerification"] main,
+body[id*="UsersSecurity"] form {
     background-color: var(--color4);
 }
 #Login footer div:nth-child(1) a,
@@ -191,7 +193,8 @@ body[id*="Users"] header nav div:nth-child(1) a:hover {
 #Register main form div:nth-child(1),
 #ForgotPassword main form div:nth-child(1),
 body[id*="LoginVerification"] main form div:nth-child(1),
-body[id*="UsersProfile"] main div header div:nth-child(2) {
+body[id*="UsersProfile"] main div header div:nth-child(2),
+body[id*="UsersSecurity"] main header div:nth-child(2) {
     font-family: var(--proximaNova);
     font-weight: bold;
 }
@@ -200,7 +203,8 @@ body[id*="UsersProfile"] main div header div:nth-child(2) {
 #ForgotPassword main form input,
 body[id*="LoginVerification"] main form input,
 body[id*="UsersAccounts"] main form input,
-body[id*="UsersAccounts"] main form select {
+body[id*="UsersAccounts"] main form select,
+body[id*="UsersSecurity"] main form input {
     background-color: var(--color1);
     color: var(--color2);
     font-family: var(--sourceCodePro);
@@ -214,13 +218,20 @@ body[id*="UsersAccounts"] main form select {
 body[id*="LoginVerification"] main form input::placeholder,
 body[id*="LoginVerification"] main form input::-webkit-input-placeholder,
 body[id*="UsersAccounts"] main form input::placeholder,
-body[id*="UsersAccounts"] main form input::-webkit-input-placeholder {
+body[id*="UsersAccounts"] main form input::-webkit-input-placeholder,
+body[id*="UsersSecurity"] main form input::placeholder,
+body[id*="UsersSecurity"] main form input::-webkit-input-placeholder {
     color: var(--color5);
 }
 #Login main form div[id="button"] button,
 #Register main form div[id="button"] button,
 #ForgotPassword main form div[id="button"] button,
-body[id*="LoginVerification"] main form div[id="button"] button {
+body[id*="LoginVerification"] main form div[id="button"] button,
+body[id*="UsersSecurity"] main form div:nth-child(6) button,
+body[id*="UsersEditProfile"] main form input::file-selector-button,
+body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button,
+body[id*="UsersEditProfile"] main form div button,
+body[id*="UsersAccounts"] main form div button {
     font-family: var(--sourceCodePro);
     background-color: var(--color3);
     color: var(--color4);
@@ -231,7 +242,12 @@ body[id*="LoginVerification"] main form div[id="button"] button {
 #Login main form div[id="button"] button:hover,
 #Register main form div[id="button"] button:hover,
 #ForgotPassword main form div[id="button"] button:hover,
-body[id*="LoginVerification"] main form div[id="button"] button:hover {
+body[id*="LoginVerification"] main form div[id="button"] button:hover,
+body[id*="UsersSecurity"] main form div:nth-child(6) button:hover,
+body[id*="UsersEditProfile"] main form input::file-selector-button:hover,
+body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button:hover,
+body[id*="UsersEditProfile"] main form div button:hover,
+body[id*="UsersAccounts"] main form div button:hover {
     background-color: var(--color4);
     color: var(--color2);
 }
@@ -264,24 +280,4 @@ body[id*="UsersProfile"] main nav {
 body[id*="UsersProfile"] main nav div a {
     color: var(--color1);
     text-decoration: none;
-}
-body[id*="UsersEditProfile"] main form input::file-selector-button,
-body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button,
-body[id*="UsersEditProfile"] main form div button,
-body[id*="UsersAccounts"] main form div button {
-    font-family: var(--proximaNova);
-    color: var(--color1);
-    background-color: var(--color3);
-    cursor: pointer;
-}
-body[id*="UsersEditProfile"] main form input::file-selector-button:hover,
-body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button:hover,
-body[id*="UsersEditProfile"] main form div button:hover,
-body[id*="UsersAccounts"] main form div button:hover {
-    color: var(--color2);
-    background-color: var(--color1);
-}
-body[id*="UsersAccounts"] main form div[id="button"] {
-    text-align: center;
-    margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
 }
