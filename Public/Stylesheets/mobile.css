@@ -37,6 +37,8 @@ body[id*="LoginVerification"] header {
 #Homepage header div:nth-child(2),
 #Homepage header div:nth-child(3) {
     width: calc(var(--percentage) / 2);
+    display: flex;
+    justify-content: center;
 }
 #Homepage header div a {
     font-size: calc(var(--textSize) * (20 / 8));
