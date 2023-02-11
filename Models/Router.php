@@ -135,7 +135,6 @@ class Router
             "ip_address" => $_SERVER['REMOTE_ADDR'],
             "http_client_ip_address" => $httpClientIP,
             "proxy_ip_address" => $proxyAddress,
-            "user_agent" => $_SERVER['HTTP_USER_AGENT'],
             "access_time" => time()
         );
         $_SESSION['Client'] = $data;
@@ -150,12 +149,12 @@ class Router
         for ($index = 0; $index < count($sessionFiles); $index++) {
             $session = json_decode(file_get_contents("{$directory}{$sessionFiles[$index]}"));
             $sessionData = $this->objectToArray($session);
-            if ($_SESSION['Client']['user_agent'] == $session->Client->user_agent && $_SESSION['Client']['ip_address'] == $session->Client->ip_address) {
+            if ($_SESSION['Client']['ip_address'] == $session->Client->ip_address) {
                 $_SESSION = $sessionData;
             }
         }
         if (isset($_SESSION['Client'])) {
-            if ($_SERVER['HTTP_USER_AGENT'] == $_SESSION['Client']['user_agent'] && $_SERVER['REMOTE_ADDR'] == $_SESSION['Client']['ip_address']) {
+            if ($_SERVER['REMOTE_ADDR'] == $_SESSION['Client']['ip_address']) {
                 $_SESSION['Client']['access_time'] = time();
             } else {
                 session_unset();
