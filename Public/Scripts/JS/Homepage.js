@@ -7,7 +7,7 @@ class Application extends React.Component {
      * @returns {Application} Component
      */
     headerDivA_Login() {
-        if (window.innerWidth <= 340) {
+        if (document.body.clientWidth <= 639) {
             return (
                 <a href="/Login">
                     <span class="fa fa-sign-in"></span>
@@ -22,7 +22,7 @@ class Application extends React.Component {
      * @returns {Application} Component
      */
     headerDivA_PatchNotes() {
-        if (window.innerWidth <= 340) {
+        if (document.body.clientWidth <= 639) {
             return (
                 <a href="/PatchNotes">
                     <span class="fas fa-sticky-note"></span>
