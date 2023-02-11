@@ -417,3 +417,6 @@ body[id*="LeagueOfLegends"]
     text-shadow: calc(var(--pixelate) / 540) calc(var(--pixelate) / 540)
         var(--color6);
 }
+body[id*="UsersAccounts"] main form div:nth-child(1) {
+    font-weight: bold;
+}

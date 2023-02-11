@@ -58,6 +58,16 @@ class Application extends React.Component {
              * @type {string}
              */
             riotId: "",
+            /**
+             * User's Player Unknown Battle Grounds username
+             * @type {string}
+             */
+            pubgUsername: "",
+            /**
+             * User's Player Unknown Battle Grounds platform
+             * @type {string}
+             */
+            pubgPlatform: "",
         };
     }
     /**
@@ -132,8 +142,14 @@ class Application extends React.Component {
         fetch("/Controllers/UsersAccounts.php", {
             method: "POST",
             body: JSON.stringify({
-                lolUsername: this.state.lolUsername,
-                lolRegion: this.state.lolRegion,
+                LeagueOfLegends: {
+                    lolUsername: this.state.lolUsername,
+                    lolRegion: this.state.lolRegion,
+                },
+                PlayerUnknownBattleGrounds: {
+                    pubgUsername: this.state.pubgUsername,
+                    pubgPlatform: this.state.pubgPlatform,
+                },
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -239,19 +255,18 @@ class Main extends Application {
             <main>
                 <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                     <div id="label">Accounts Form</div>
+                    <div>League of Legends</div>
                     <input
                         type="text"
                         name="lolUsername"
                         placeholder="League Of Legends Username"
                         value={this.state.lolUsername}
                         onChange={this.handleChange.bind(this)}
-                        required
                     />
                     <select
                         name="lolRegion"
                         onChange={this.handleChange.bind(this)}
                         value={this.state.lolRegion}
-                        required
                     >
                         <option value=""></option>
                         <option value="BR">BR</option>
@@ -269,6 +284,27 @@ class Main extends Application {
                         <option value="TH">TH</option>
                         <option value="TW">TW</option>
                         <option value="VN">VN</option>
+                    </select>
+                    <div>PUBG</div>
+                    <input
+                        type="text"
+                        name="pubgUsername"
+                        placeholder="PUBG Username"
+                        value={this.state.pubgUsername}
+                        onChange={this.handleChange.bind(this)}
+                    />
+                    <select
+                        name="pubgPlatform"
+                        onChange={this.handleChange.bind(this)}
+                        value={this.state.pubgPlatform}
+                    >
+                        <option value=""></option>
+                        <option value="kakao">Kakao</option>
+                        <option value="stadia">stadia</option>
+                        <option value="steam">Steam</option>
+                        <option value="tournament">Tournaments</option>
+                        <option value="psn">PSN</option>
+                        <option value="xbox">Xbox</option>
                     </select>
                     <div id="button">
                         <button>Change</button>
