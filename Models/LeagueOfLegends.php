@@ -424,6 +424,8 @@ class LeagueOfLegends
     }
     /**
      * Accessing the status of the game
+     * @param string $tag_line
+     * @return JSON
      */
     public function getStatus(string $tag_line)
     {
@@ -475,6 +477,7 @@ class LeagueOfLegends
     }
     /**
      * Retrieving the patch notes of the game
+     * @return JSON
      */
     public function getPatchNotes()
     {
@@ -495,5 +498,20 @@ class LeagueOfLegends
         }
         header('Content-Type: application/json', true, intval($this->getHttpResponseCode($request)));
         echo json_encode($response);
+    }
+    /**
+     * Adding League of Legends account in the database
+     * @param string $game_name
+     * @param string $tag_line
+     * @return int
+     */
+    public function addAccount(string $gameName, string $tagLine)
+    {
+        $riotAccountApiResponse = json_decode($this->retrieveData(rawurlencode($gameName), $tagLine));
+        if ($riotAccountApiResponse->httpResponseCode == 200) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }
