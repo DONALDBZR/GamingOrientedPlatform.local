@@ -97,7 +97,30 @@ body[id*="UsersHome"]
     div:nth-child(2)
     div:nth-child(2)
     div
-    div:nth-child(1) {
+    div:nth-child(1),
+body[id*="LeagueOfLegends"] header nav div:nth-child(1) a,
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(2)
+    div
+    div:nth-child(1),
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(4)
+    div:nth-child(1)
+    div:nth-child(1),
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    div:nth-child(1),
+body[id*="LeagueOfLegends"] footer div {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
@@ -165,7 +188,35 @@ body[id*="UsersHome"]
     div:nth-child(3)
     div:nth-child(3),
 body[id*="UsersEditProfile"] main form div:nth-child(1),
-body[id*="UsersSecurity"] main form div:nth-child(1) {
+body[id*="UsersSecurity"] main form div:nth-child(1),
+body[id*="LeagueOfLegends"] main div header div:nth-child(1),
+body[id*="LeagueOfLegends"] main div header div:nth-child(2),
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(1),
+body[id*="LeagueOfLegends"] main div header div:nth-child(4),
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    div:nth-child(2)
+    div,
+body[id*="LeagueOfLegends"] main div div #championMastery,
+body[id*="LeagueOfLegends"]
+    main
+    div
+    div
+    #matchHistory
+    div
+    div:nth-child(2)
+    div {
     font-family: var(--proximaNova);
 }
 #Homepage main,
@@ -204,7 +255,8 @@ body[id*="UsersSecurity"] main header div:nth-child(2) {
 body[id*="LoginVerification"] main form input,
 body[id*="UsersAccounts"] main form input,
 body[id*="UsersAccounts"] main form select,
-body[id*="UsersSecurity"] main form input {
+body[id*="UsersSecurity"] main form input,
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form input {
     background-color: var(--color1);
     color: var(--color2);
     font-family: var(--sourceCodePro);
@@ -220,7 +272,14 @@ body[id*="LoginVerification"] main form input::-webkit-input-placeholder,
 body[id*="UsersAccounts"] main form input::placeholder,
 body[id*="UsersAccounts"] main form input::-webkit-input-placeholder,
 body[id*="UsersSecurity"] main form input::placeholder,
-body[id*="UsersSecurity"] main form input::-webkit-input-placeholder {
+body[id*="UsersSecurity"] main form input::-webkit-input-placeholder,
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form input::placeholder,
+body[id*="LeagueOfLegends"]
+    header
+    nav
+    div:nth-child(2)
+    form
+    input::-webkit-input-placeholder {
     color: var(--color5);
 }
 #Login main form div[id="button"] button,
@@ -258,11 +317,15 @@ body[id*="LoginVerification"] header a {
     font-weight: bold;
 }
 body[id*="Users"] header nav div:nth-child(2) a img,
-body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img {
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img,
+body[id*="LeagueOfLegends"] main nav div a img,
+body[id*="LeagueOfLegends"] footer nav div a img {
     opacity: calc(var(--percentage) / 2);
 }
 body[id*="Users"] header nav div:nth-child(2) a img:hover,
-body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover {
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover,
+body[id*="LeagueOfLegends"] main nav div a img:hover,
+body[id*="LeagueOfLegends"] footer nav div a img:hover {
     opacity: var(--percentage);
 }
 body[id*="Users"] header nav div:nth-child(2) a,
@@ -280,4 +343,77 @@ body[id*="UsersProfile"] main nav {
 body[id*="UsersProfile"] main nav div a {
     color: var(--color1);
     text-decoration: none;
+}
+body[id*="LeagueOfLegends"] {
+    background-color: var(--color6);
+    color: var(--color7);
+    font-family: sans-serif;
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(1) a,
+body[id*="LeagueOfLegends"] main nav div a,
+body[id*="LeagueOfLegends"] main nav div a:hover,
+body[id*="LeagueOfLegends"] main nav div svg:hover {
+    color: var(--color7);
+    text-decoration: none;
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(1) a:hover,
+body[id*="LeagueOfLegends"] main nav div a,
+body[id*="LeagueOfLegends"] main nav div svg {
+    color: var(--color8);
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form button,
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) button,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) a,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) a,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) a {
+    background-color: var(--color8);
+    color: var(--color6);
+    cursor: pointer;
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form svg,
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) svg,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) svg,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) svg,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) svg,
+body[id*="LeagueOfLegends"] footer nav div svg {
+    color: var(--color8);
+    cursor: pointer;
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form button:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) button:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) a:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) a:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) a:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form svg:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) svg:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) svg:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) svg:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) svg:hover,
+body[id*="LeagueOfLegends"] footer nav div svg:hover {
+    background-color: var(--color6);
+    color: var(--color7);
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) button,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) a,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) a,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) a {
+    font-family: var(--sourceCodePro);
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+body[id*="LeagueOfLegends"]
+    main
+    div
+    div
+    #matchHistory
+    div
+    div:nth-child(2)
+    div {
+    font-weight: bold;
+    text-shadow: calc(var(--pixelate) / 540) calc(var(--pixelate) / 540)
+        var(--color6);
 }
