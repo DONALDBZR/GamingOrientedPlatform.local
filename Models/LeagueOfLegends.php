@@ -521,9 +521,9 @@ class LeagueOfLegends
      * @param string $tag_line
      * @return int
      */
-    public function addAccount(string $gameName, string $tagLine)
+    public function addAccount(string $game_name, string $tagLine)
     {
-        $riotAccountApiResponse = json_decode($this->retrieveData(rawurlencode($gameName), $tagLine));
+        $riotAccountApiResponse = json_decode($this->retrieveData(rawurlencode($game_name), $tagLine));
         if ($riotAccountApiResponse->httpResponseCode == 200) {
             return 0;
         } else {
