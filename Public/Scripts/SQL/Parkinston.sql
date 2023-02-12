@@ -32,4 +32,3 @@ CREATE TABLE Parkinston.Accounts (
     AccountsUser VARCHAR(32),
     AccountsPUBG VARCHAR(128)
 );
-DROP TABLE Parkinston.Accounts;
