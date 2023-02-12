@@ -18,6 +18,14 @@ class LeagueOfLegends
      * The region of the player
      */
     private string $tagLine;
+    /**
+     * Riot Games API Key
+     */
+    private string $apiKey;
+    public function __construct()
+    {
+        $this->setApiKey(Environment::RiotAPIKey);
+    }
     public function getPlayerUniversallyUniqueIdentifier()
     {
         return $this->playerUniversallyUniqueIdentifier;
@@ -42,6 +50,14 @@ class LeagueOfLegends
     {
         $this->tagLine = $tag_line;
     }
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+    public function setApiKey(string $api_key)
+    {
+        $this->apiKey = $api_key;
+    }
     /**
      * Retrieving account's data
      * @param string $game_name
@@ -51,7 +67,7 @@ class LeagueOfLegends
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{$this->getGameName()}/{$this->getTagLine()}1?api_key=" . Environment::RiotAPIKey;
+        $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{$this->getGameName()}/{$this->getTagLine()}1?api_key={$this->getApiKey()}";
         if ($this->getHttpResponseCode($riotAccountApiRequest) == 200) {
             $riotAccountApiResponse = json_decode(file_get_contents($riotAccountApiRequest));
             $this->setPlayerUniversallyUniqueIdentifier($riotAccountApiResponse->puuid);
@@ -90,10 +106,10 @@ class LeagueOfLegends
             $this->setGameName(json_decode($this->retrieveData($game_name, $tag_line))->gameName);
             $this->setTagLine(json_decode($this->retrieveData($game_name, $tag_line))->tagLine);
             $this->setPlayerUniversallyUniqueIdentifier(json_decode($this->retrieveData($game_name, $tag_line))->playerUniversallyUniqueIdentifier);
-            $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key=" . Environment::RiotAPIKey;
+            $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key={$this->getApiKey()}";
             if ($this->getHttpResponseCode($riotSummonerApiRequest) == 200) {
                 $riotSummonerApiResponse = json_decode(file_get_contents($riotSummonerApiRequest));
-                $riotLeagueApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/league/v4/entries/by-summoner/{$riotSummonerApiResponse->id}?api_key=" . Environment::RiotAPIKey;
+                $riotLeagueApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/league/v4/entries/by-summoner/{$riotSummonerApiResponse->id}?api_key={$this->getApiKey()}";
                 if ($this->getHttpResponseCode($riotLeagueApiRequest) == 200) {
                     $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
                     if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO") && str_contains($riotLeagueApiResponse[1]->queueType, "FLEX")) {
@@ -135,7 +151,7 @@ class LeagueOfLegends
                         $flexRank = $riotLeagueApiResponse[0]->rank;
                         $flexLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
                     }
-                    $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20&api_key=" . Environment::RiotAPIKey;
+                    $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20&api_key={$this->getApiKey()}";
                     if ($this->getHttpResponseCode($riotMatchApiRequest1) == 200) {
                         $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
                         $totalTimePlayed = 0;
@@ -143,7 +159,7 @@ class LeagueOfLegends
                         $kdaRatio = 0;
                         $totalVisionScore = 0;
                         for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
-                            $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}?api_key=" . Environment::RiotAPIKey;
+                            $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}?api_key={$this->getApiKey()}";
                             $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
                             $puuidKey = 0;
                             for ($secondIndex = 0; $secondIndex < 10; $secondIndex++) {
@@ -239,12 +255,12 @@ class LeagueOfLegends
             $this->setGameName(json_decode($this->retrieveData($game_name, $tag_line))->gameName);
             $this->setTagLine(json_decode($this->retrieveData($game_name, $tag_line))->tagLine);
             $this->setPlayerUniversallyUniqueIdentifier(json_decode($this->retrieveData($game_name, $tag_line))->playerUniversallyUniqueIdentifier);
-            $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20&api_key=" . Environment::RiotAPIKey;
+            $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20&api_key={$this->getApiKey()}";
             if ($this->getHttpResponseCode($riotMatchApiRequest1) == 200) {
                 $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
                 $matchHistory = array();
                 for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
-                    $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}?api_key=" . Environment::RiotAPIKey;
+                    $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}?api_key={$this->getApiKey()}";
                     $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
                     $puuidKey = 0;
                     for ($secondIndex = 0; $secondIndex < 10; $secondIndex++) {
@@ -371,10 +387,10 @@ class LeagueOfLegends
             $this->setPlayerUniversallyUniqueIdentifier(json_decode($this->retrieveData($game_name, $tag_line))->playerUniversallyUniqueIdentifier);
             $ddragonLeagueOfLegendsChampionsCDN = (array)json_decode(file_get_contents("http://ddragon.leagueoflegends.com/cdn/12.23.1/data/en_US/champion.json"))->data;
             $championIds = array_keys($ddragonLeagueOfLegendsChampionsCDN);
-            $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key=" . Environment::RiotAPIKey;
+            $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key={$this->getApiKey()}";
             if ($this->getHttpResponseCode($riotSummonerApiRequest) == 200) {
                 $riotSummonerApiResponse = json_decode(file_get_contents($riotSummonerApiRequest));
-                $riotChampionMasteryApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{$riotSummonerApiResponse->id}/top?count=3&api_key=" . Environment::RiotAPIKey;
+                $riotChampionMasteryApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{$riotSummonerApiResponse->id}/top?count=3&api_key={$this->getApiKey()}";
                 if ($this->getHttpResponseCode($riotChampionMasteryApiRequest) == 200) {
                     $riotChampionMasteryApiResponse = json_decode(file_get_contents($riotChampionMasteryApiRequest));
                     $championMastery = array();
@@ -429,7 +445,7 @@ class LeagueOfLegends
      */
     public function getStatus(string $tag_line)
     {
-        $riotStatusApiRequest = "https://{$tag_line}1.api.riotgames.com/lol/status/v4/platform-data?api_key=" . Environment::RiotAPIKey;
+        $riotStatusApiRequest = "https://{$tag_line}1.api.riotgames.com/lol/status/v4/platform-data?api_key={$this->getApiKey()}";
         if (intval($this->getHttpResponseCode($riotStatusApiRequest)) == 200) {
             $riotStatusApiResponse = json_decode(file_get_contents($riotStatusApiRequest));
             $maintenances = array();
