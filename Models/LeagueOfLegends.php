@@ -1,6 +1,6 @@
 <?php
-// Importing Environment
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Environment.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PDO.php";
 /**
  * The API which interacts with Riot Games API to take the data needed from Riot Games Data Center as well as the data model which will be used for data analysis.
  */
@@ -22,8 +22,13 @@ class LeagueOfLegends
      * Riot Games API Key
      */
     private string $apiKey;
+    /**
+     * PDO which will interact with the database server
+     */
+    protected PHPDataObject $PDO;
     public function __construct()
     {
+        $this->PDO = new PHPDataObject();
         $this->setApiKey(Environment::RiotAPIKey);
     }
     public function getPlayerUniversallyUniqueIdentifier()
@@ -525,6 +530,17 @@ class LeagueOfLegends
     {
         $riotAccountApiResponse = json_decode($this->retrieveData(rawurlencode($game_name), $tagLine));
         if ($riotAccountApiResponse->httpResponseCode == 200) {
+            $this->PDO->query("INSERT INTO LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
+            $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->getPlayerUniversallyUniqueIdentifier());
+            $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+            $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+            $this->PDO->execute();
+            $leagueOfLegends = array(
+                "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
+                "gameName" => $this->getGameName(),
+                "tagLine" => $this->getTagLine()
+            );
+            $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
             return 0;
         } else {
             return 1;
