@@ -54,6 +54,35 @@ class Account extends User
         } else {
             $Response = $this->edit($request);
         }
+        $leagueOfLegends = array(
+            "playerUniversallyUniqueIdentifier" => $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier(),
+            "gameName" => $this->LeagueOfLegends->getGameName(),
+            "tagLine" => $this->LeagueOfLegends->getTagLine()
+        );
+        $playerUnknownBattleGrounds = array(
+            "identifier" => $this->PlayerUnknownBattleGrounds->getIdentifier(),
+            "playerName" => $this->PlayerUnknownBattleGrounds->getPlayerName(),
+            "platform" => $this->PlayerUnknownBattleGrounds->getPlatform(),
+        );
+        $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
+        $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
+        $account = array(
+            "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+            "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
+        );
+        $_SESSION['Account'] = $account;
+        if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
+            file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+        }
+        $data = array(
+            "Client" => $_SESSION['Client'],
+            "User" => $_SESSION['User'],
+            "Account" => $_SESSION['Account']
+        );
+        $cacheData = json_encode($data);
+        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+        fwrite($cache, $cacheData);
+        fclose($cache);
         $headers = $Response->headers;
         $response = $Response->response;
         header($headers["headers"], $headers["replace"], $headers["responseCode"]);
@@ -243,23 +272,6 @@ class Account extends User
                     $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
                     $this->PDO->bind(":AccountsUser", $this->getUsername());
                     $this->PDO->execute();
-                    $account = array(
-                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
-                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
-                    );
-                    $_SESSION['Account'] = $account;
-                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
-                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
-                    }
-                    $data = array(
-                        "Client" => $_SESSION['Client'],
-                        "User" => $_SESSION['User'],
-                        "Account" => $_SESSION['Account']
-                    );
-                    $cacheData = json_encode($data);
-                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-                    fwrite($cache, $cacheData);
-                    fclose($cache);
                     return 0;
                 } else {
                     return 11;
@@ -270,23 +282,6 @@ class Account extends User
                     $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
                     $this->PDO->bind(":AccountsUser", $this->getUsername());
                     $this->PDO->execute();
-                    $account = array(
-                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
-                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
-                    );
-                    $_SESSION['Account'] = $account;
-                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
-                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
-                    }
-                    $data = array(
-                        "Client" => $_SESSION['Client'],
-                        "User" => $_SESSION['User'],
-                        "Account" => $_SESSION['Account']
-                    );
-                    $cacheData = json_encode($data);
-                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-                    fwrite($cache, $cacheData);
-                    fclose($cache);
                     return 0;
                 } else {
                     return 11;
@@ -311,23 +306,6 @@ class Account extends User
                     $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
                     $this->PDO->bind(":AccountsUser", $this->getUsername());
                     $this->PDO->execute();
-                    $account = array(
-                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
-                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
-                    );
-                    $_SESSION['Account'] = $account;
-                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
-                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
-                    }
-                    $data = array(
-                        "Client" => $_SESSION['Client'],
-                        "User" => $_SESSION['User'],
-                        "Account" => $_SESSION['Account']
-                    );
-                    $cacheData = json_encode($data);
-                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-                    fwrite($cache, $cacheData);
-                    fclose($cache);
                     return 0;
                 } else {
                     return 11;
@@ -338,23 +316,74 @@ class Account extends User
                     $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
                     $this->PDO->bind(":AccountsUser", $this->getUsername());
                     $this->PDO->execute();
-                    $account = array(
-                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
-                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
-                    );
-                    $_SESSION['Account'] = $account;
-                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
-                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
-                    }
-                    $data = array(
-                        "Client" => $_SESSION['Client'],
-                        "User" => $_SESSION['User'],
-                        "Account" => $_SESSION['Account']
-                    );
-                    $cacheData = json_encode($data);
-                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-                    fwrite($cache, $cacheData);
-                    fclose($cache);
+                    return 0;
+                } else {
+                    return 11;
+                }
+            }
+        } else {
+            return 1;
+        }
+    }
+    /**
+     * Creating Player Unknown Battle Grounds Accounts
+     * @param ?string $player_name
+     * @param ?string $platform
+     * @return int
+     */
+    public function createPlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform)
+    {
+        if (!is_null($player_name) && !is_null($platform)) {
+            if ($this->getId() != 0) {
+                if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
+                    $this->PDO->query("UPDATE Accounts SET AccountsPUBG = :AccountsPUBG WHERE AccountsUser = :AccountsUser");
+                    $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    return 0;
+                } else {
+                    return 11;
+                }
+            } else {
+                if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
+                    $this->PDO->query("INSERT INTO Accounts(AccountsPUBG, AccountsUser) VALUES (:AccountsPUBG, :AccountsUser)");
+                    $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    return 0;
+                } else {
+                    return 11;
+                }
+            }
+        } else {
+            return 1;
+        }
+    }
+    /**
+     * Editing Player Unknown Battle Grounds Accounts
+     * @param ?string $player_name
+     * @param ?string $platform
+     * @return int
+     */
+    public function updatePlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform)
+    {
+        if (!is_null($player_name) && !is_null($platform)) {
+            if ($this->getId() != 0) {
+                if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
+                    $this->PDO->query("UPDATE Accounts SET AccountsPUBG = :AccountsPUBG WHERE AccountsUser = :AccountsUser");
+                    $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    return 0;
+                } else {
+                    return 11;
+                }
+            } else {
+                if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
+                    $this->PDO->query("INSERT INTO Accounts(AccountsPUBG, AccountsUser) VALUES (:AccountsPUBG, :AccountsUser)");
+                    $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
                     return 0;
                 } else {
                     return 11;
