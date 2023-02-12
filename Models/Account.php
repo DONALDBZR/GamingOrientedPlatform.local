@@ -10,7 +10,7 @@ class Account extends User
     /**
      * Primary key of the account
      */
-    private ?int $id;
+    private int $id;
     /**
      * The API which interacts with Riot Games API to take the data needed from Riot Games Data Center as well as the data model which will be used for data analysis.
      */
@@ -29,7 +29,7 @@ class Account extends User
     {
         return $this->id;
     }
-    public function setId(?int $id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -41,6 +41,14 @@ class Account extends User
     {
         $request = json_decode(file_get_contents("php://input"));
         $this->setUsername($_SESSION['User']['username']);
+        $this->PDO->query("SELECT * FROM Accounts WHERE AccountsUser = :AccountsUser");
+        $this->PDO->bind(":AccountsUser", $this->getUsername());
+        $this->PDO->execute();
+        if (!empty($this->PDO->resultSet())) {
+            $this->setId($this->PDO->resultSet()[0]['AccountsId']);
+        } else {
+            $this->setId(0);
+        }
         if (!isset($_SESSION['Account'])) {
             $Response = $this->add($request);
         } else {
@@ -198,11 +206,6 @@ class Account extends User
      */
     public function edit(object $request)
     {
-        $this->setUsername($_SESSION['User']['username']);
-        $this->PDO->query("SELECT * FROM Accounts WHERE AccountsUser = :AccountsUser");
-        $this->PDO->bind(":AccountsUser", $this->getUsername());
-        $this->PDO->execute();
-        $this->setId($this->PDO->resultSet()[0]['AccountsId']);
         if (!is_null($request->LeagueOfLegends->lolUsername) && !is_null($request->LeagueOfLegends->lolRegion)) {
             $Response = $this->manageLeagueOfLegends($request->LeagueOfLegends);
         } else if (!is_null($request->PlayerUnknownBattleGrounds->pubgUsername) && !is_null($request->PlayerUnknownBattleGrounds->pubgPlatform)) {
@@ -234,7 +237,7 @@ class Account extends User
     public function createLeagueOfLegendsAccount(?string $username, ?string $region)
     {
         if (!is_null($username) && !is_null($region)) {
-            if (!is_null($this->getId())) {
+            if ($this->getId() != 0) {
                 if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
                     $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL WHERE AccountsUser = :AccountsUser");
                     $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
@@ -302,7 +305,7 @@ class Account extends User
     public function updateLeagueOfLegendsAccount(?string $username, ?string $region)
     {
         if (!is_null($username) && !is_null($region)) {
-            if (!is_null($this->getId())) {
+            if ($this->getId() != 0) {
                 if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
                     $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL WHERE AccountsUser = :AccountsUser");
                     $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
