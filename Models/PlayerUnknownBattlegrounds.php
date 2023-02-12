@@ -20,7 +20,11 @@ class PlayerUnknownBattleGrounds
     /**
      * PUBG API Key
      */
-    private string $ApiKey = Environment::PubgAPIKey;
+    private string $apiKey;
+    public function __construct()
+    {
+        $this->setApiKey(Environment::PubgAPIKey);
+    }
     public function getPlayerName()
     {
         return $this->playerName;
@@ -45,8 +49,16 @@ class PlayerUnknownBattleGrounds
     {
         $this->identifier = $identifier;
     }
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+    public function setApiKey(string $api_key)
+    {
+        $this->apiKey = $api_key;
+    }
     /**
-     * Retrievieng accounts's data
+     * Retrieving accounts's data
      * @param string $player_name
      * @param string $platform
      */
@@ -56,7 +68,7 @@ class PlayerUnknownBattleGrounds
         $this->setPlatform($platform);
         $pubgAccountApiRequest = "https://api.pubg.com/shards/{$this->getPlatform()}/players?filter[playerNames]={$this->getPlayerName()}";
         $headers = array(
-            "Authorization" => "Bearer " . $this->ApiKey,
+            "Authorization" => "Bearer {$this->getApiKey()}",
             "Accept" => "application/json"
         );
         $curl = curl_init($pubgAccountApiRequest);
