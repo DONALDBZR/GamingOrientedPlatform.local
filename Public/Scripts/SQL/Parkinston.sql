@@ -19,9 +19,17 @@ CREATE TABLE Parkinston.LeagueOfLegends (
     LeagueOfLegendsGameName VARCHAR(64),
     LeagueOfLegendsTagLine VARCHAR(8)
 );
+-- Creating the Player Unknown Battle Grounds table
+CREATE TABLE Parkinston.PlayerUnknownBattleGrounds (
+    PlayerUnknownBattleGroundsIdentifier VARCHAR(128) PRIMARY KEY,
+    PlayerUnknownBattleGroundsPlayerName VARCHAR(64),
+    PlayerUnknownBattleGroundsPlatform VARCHAR(16)
+);
 -- Creating the Accounts table
 CREATE TABLE Parkinston.Accounts (
     AccountsId INT PRIMARY KEY AUTO_INCREMENT,
     AccountsLoL VARCHAR(128),
-    AccountsUser VARCHAR(32)
+    AccountsUser VARCHAR(32),
+    AccountsPUBG VARCHAR(128)
 );
+DROP TABLE Parkinston.Accounts;
