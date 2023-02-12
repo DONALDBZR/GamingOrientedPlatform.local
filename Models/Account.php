@@ -21,7 +21,6 @@ class Account extends User
     protected PlayerUnknownBattleGrounds $PlayerUnknownBattleGrounds;
     public function __construct()
     {
-        $this->domain = $_SERVER['HTTP_HOST'];
         $this->PDO = new PHPDataObject();
         $this->LeagueOfLegends = new LeagueOfLegends();
         $this->PlayerUnknownBattleGrounds = new PlayerUnknownBattleGrounds();
