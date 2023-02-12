@@ -10,7 +10,7 @@ class Account extends User
     /**
      * Primary key of the account
      */
-    private int $id;
+    private ?int $id;
     /**
      * The API which interacts with Riot Games API to take the data needed from Riot Games Data Center as well as the data model which will be used for data analysis.
      */
@@ -29,7 +29,7 @@ class Account extends User
     {
         return $this->id;
     }
-    public function setId(int $id)
+    public function setId(?int $id)
     {
         $this->id = $id;
     }
@@ -234,31 +234,60 @@ class Account extends User
     public function createLeagueOfLegendsAccount(?string $username, ?string $region)
     {
         if (!is_null($username) && !is_null($region)) {
-            if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
-                $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
-                $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                $this->PDO->bind(":AccountsUser", $this->getUsername());
-                $this->PDO->execute();
-                $account = array(
-                    "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
-                    "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
-                );
-                $_SESSION['Account'] = $account;
-                if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
-                    file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+            if (!is_null($this->getId())) {
+                if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
+                    $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL WHERE AccountsUser = :AccountsUser");
+                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    $account = array(
+                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
+                    );
+                    $_SESSION['Account'] = $account;
+                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
+                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+                    }
+                    $data = array(
+                        "Client" => $_SESSION['Client'],
+                        "User" => $_SESSION['User'],
+                        "Account" => $_SESSION['Account']
+                    );
+                    $cacheData = json_encode($data);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
+                    return 0;
+                } else {
+                    return 11;
                 }
-                $data = array(
-                    "Client" => $_SESSION['Client'],
-                    "User" => $_SESSION['User'],
-                    "Account" => $_SESSION['Account']
-                );
-                $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-                fwrite($cache, $cacheData);
-                fclose($cache);
-                return 0;
             } else {
-                return 11;
+                if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
+                    $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
+                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    $account = array(
+                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
+                    );
+                    $_SESSION['Account'] = $account;
+                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
+                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+                    }
+                    $data = array(
+                        "Client" => $_SESSION['Client'],
+                        "User" => $_SESSION['User'],
+                        "Account" => $_SESSION['Account']
+                    );
+                    $cacheData = json_encode($data);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
+                    return 0;
+                } else {
+                    return 11;
+                }
             }
         } else {
             return 1;
@@ -273,38 +302,60 @@ class Account extends User
     public function updateLeagueOfLegendsAccount(?string $username, ?string $region)
     {
         if (!is_null($username) && !is_null($region)) {
-            $this->setUsername($_SESSION['User']['username']);
-            $this->LeagueOfLegends->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
-            $this->PDO->query("SELECT * FROM Accounts WHERE AccountsLoL = :AccountsLoL AND AccountsUser = :AccountsUser");
-            $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-            $this->PDO->bind(":AccountsUser", $this->getUsername());
-            $this->PDO->execute();
-            $this->setId($this->PDO->resultSet()[0]['AccountsId']);
-            if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
-                $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
-                $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                $this->PDO->bind(":AccountsUser", $this->getUsername());
-                $this->PDO->execute();
-                $account = array(
-                    "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
-                    "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
-                );
-                $_SESSION['Account'] = $account;
-                if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
-                    file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+            if (!is_null($this->getId())) {
+                if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
+                    $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL WHERE AccountsUser = :AccountsUser");
+                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    $account = array(
+                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
+                    );
+                    $_SESSION['Account'] = $account;
+                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
+                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+                    }
+                    $data = array(
+                        "Client" => $_SESSION['Client'],
+                        "User" => $_SESSION['User'],
+                        "Account" => $_SESSION['Account']
+                    );
+                    $cacheData = json_encode($data);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
+                    return 0;
+                } else {
+                    return 11;
                 }
-                $data = array(
-                    "Client" => $_SESSION['Client'],
-                    "User" => $_SESSION['User'],
-                    "Account" => $_SESSION['Account']
-                );
-                $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-                fwrite($cache, $cacheData);
-                fclose($cache);
-                return 0;
             } else {
-                return 11;
+                if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
+                    $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
+                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    $account = array(
+                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
+                    );
+                    $_SESSION['Account'] = $account;
+                    if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
+                        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+                    }
+                    $data = array(
+                        "Client" => $_SESSION['Client'],
+                        "User" => $_SESSION['User'],
+                        "Account" => $_SESSION['Account']
+                    );
+                    $cacheData = json_encode($data);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
+                    return 0;
+                } else {
+                    return 11;
+                }
             }
         } else {
             return 1;
