@@ -105,4 +105,19 @@ class PlayerUnknownBattleGrounds
         curl_close($request_uniform_resource_locator);
         return $httpResponseCode;
     }
+    /**
+     * Adding Player Unknown Battle Grounds account in the dataase
+     * @param string $player_name
+     * @param string $platform
+     * @return int
+     */
+    public function addAccount(string $player_name, string $platform)
+    {
+        $pubgAccountApiResponse = json_decode($this->retrieveData($player_name, $platform));
+        if ($pubgAccountApiResponse->httpResponseCode == 200) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
