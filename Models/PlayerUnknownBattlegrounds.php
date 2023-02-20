@@ -67,46 +67,44 @@ class PlayerUnknownBattleGrounds
         $this->setPlayerName($player_name);
         $this->setPlatform($platform);
         $pubgAccountApiRequest = "https://api.pubg.com/shards/{$this->getPlatform()}/players?filter[playerNames]={$this->getPlayerName()}";
-        $headers = array(
-            "Authorization" => "Bearer {$this->getApiKey()}",
-            "Accept" => "application/json"
+        $curl = curl_init();
+        curl_setopt_array(
+            $curl,
+            array(
+                CURLOPT_URL => $pubgAccountApiRequest,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Accept: application/vnd.api+json',
+                    "Authorization: Bearer {$this->getApiKey()}"
+                )
+            )
         );
-        $curl = curl_init($pubgAccountApiRequest);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        if ($this->getHTTPResponseCode($curl) == 200) {
-            $pubgAccountApiResponse = json_decode(curl_exec($curl));
+        $pubgAccountApiResponse = json_decode(curl_exec($curl));
+        $pubgAccountApiResponseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        if ($pubgAccountApiResponseCode == 200) {
             $this->setIdentifier($pubgAccountApiResponse->id);
             $response = array(
-                "httpResponseCode" => intval($curl),
+                "httpResponseCode" => $pubgAccountApiResponseCode,
                 "identifier" => $this->getIdentifier(),
                 "playerName" => $this->getPlayerName(),
                 "platform" => $this->getPlatform()
             );
         } else {
             $response = array(
-                "httpResponseCode" => intval($this->getHTTPResponseCode($curl))
+                "httpResponseCode" => $pubgAccountApiResponseCode
             );
         }
         return json_encode($response);
     }
     /**
-     * Accessing the HTTP response code
-     * @param CurlHandle $request_uniform_resource_locator
-     * @return string
-     */
-    public function getHTTPResponseCode(CurlHandle $request_uniform_resource_locator)
-    {
-        curl_setopt($request_uniform_resource_locator, CURLOPT_HEADER, true);
-        curl_setopt($request_uniform_resource_locator, CURLOPT_NOBODY, true);
-        curl_setopt($request_uniform_resource_locator, CURLOPT_RETURNTRANSFER, 1);
-        $headers = curl_exec($request_uniform_resource_locator);
-        $httpResponseCode = curl_getinfo($request_uniform_resource_locator, CURLINFO_HTTP_CODE);
-        curl_close($request_uniform_resource_locator);
-        return $httpResponseCode;
-    }
-    /**
-     * Adding Player Unknown Battle Grounds account in the dataase
+     * Adding Player Unknown Battle Grounds account in the database
      * @param string $player_name
      * @param string $platform
      * @return int
