@@ -43,6 +43,21 @@ class Application extends React.Component {
              * @type {string}
              */
             riotId: "",
+            /**
+             * User's PUBG's account's ID
+             * @type {string}
+             */
+            pubgId: "",
+            /**
+             * User's PUBG's username
+             * @type {string}
+             */
+            pubgUsername: "",
+            /**
+             * User's PUBG's platform
+             * @type {string}
+             */
+            pubgPlatform: "",
         };
     }
     /**
@@ -63,6 +78,11 @@ class Application extends React.Component {
                     lolRegion: data.Account.LeagueOfLegends.tagLine,
                     riotId: data.Account.LeagueOfLegends
                         .playerUniversallyUniqueIdentifier,
+                    pubgId: data.Account.PlayerUnknownBattleGrounds.identifier,
+                    pubgUsername:
+                        data.Account.PlayerUnknownBattleGrounds.playerName,
+                    pubgPlatform:
+                        data.Account.PlayerUnknownBattleGrounds.platform,
                 })
             );
     }
@@ -102,6 +122,16 @@ class Application extends React.Component {
      */
     verifyAccount_Riot_ID_styling() {
         if (this.state.riotId == null) {
+            return {
+                display: "none",
+            };
+        }
+    }
+    /**
+     * Verifying the state before applying style
+     */
+    verifyAccount_PUBG_ID_styling() {
+        if (this.state.pubgId == null) {
             return {
                 display: "none",
             };
@@ -206,6 +236,15 @@ class Main extends Application {
                         >
                             <label>League of Legends's Username:</label>
                             <div>{this.state.lolUsername}</div>
+                        </div>
+                        <div
+                            id="pubgUsername"
+                            style={this.verifyAccount_PUBG_ID_styling()}
+                        >
+                            <label>
+                                Player Unknown Battle Grounds's Username:
+                            </label>
+                            <div>{this.state.pubgUsername}</div>
                         </div>
                     </description>
                 </div>
