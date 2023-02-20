@@ -181,9 +181,27 @@ class User extends Password
                             "tagLine" => $this->PDO->resultSet()[0]['LeagueOfLegendsTagLine']
                         );
                     }
+                    $this->PDO->query("SELECT * FROM PlayerUnknownBattleGrounds WHERE PlayerUnknownBattleGroundsIdentifier = (SELECT AccountsPUBG FROM Accounts WHERE AccountsUser = :AccountsUser)");
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    if (empty($this->PDO->resultSet())) {
+                        $playerUnknownBattleGrounds = array(
+                            "identifier" => null,
+                            "playerName" => null,
+                            "platform" => null
+                        );
+                    } else {
+                        $playerUnknownBattleGrounds = array(
+                            "identifier" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsIdentifier'],
+                            "playerName" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsPlayerName'],
+                            "platform" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsPlatform']
+                        );
+                    }
                     $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
+                    $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
                     $account = array(
-                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
+                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
                     );
                     $_SESSION['Account'] = $account;
                     $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on http://{$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
