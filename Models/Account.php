@@ -58,7 +58,6 @@ class Account extends User
         } else {
             $Response = $this->edit($request);
         }
-        echo "User.username: {$this->getUsername()}<br />Account.id: {$this->getId()}<br />LeagueOfLegends.puuid: {$this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier()}";
         $leagueOfLegends = array(
             "playerUniversallyUniqueIdentifier" => $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier(),
             "gameName" => $this->LeagueOfLegends->getGameName(),
@@ -90,60 +89,19 @@ class Account extends User
         fclose($cache);
         $headers = $Response->headers;
         $response = $Response->response;
-        header($headers["headers"], $headers["replace"], $headers["responseCode"]);
+        header($headers["headers"]["Content-Type"], $headers["replace"], $headers["responseCode"]);
+        header($headers["headers"]["X-XSS-Protection"], $headers["replace"], $headers["responseCode"]);
+        header($headers["headers"]["Mode"], $headers["replace"], $headers["responseCode"]);
         echo json_encode($response);
     }
     /**
      * Managing League of Legends accounts
      * @param object $form
-     * @return object
+     * @return int
      */
     public function manageLeagueOfLegends(object $form)
     {
-        $status = $this->createLeagueOfLegendsAccount($form->lolUsername, $form->lolRegion);
-        switch ($status) {
-            case 0:
-                $response = array(
-                    "status" => $status,
-                    "url" => "/Users/Home/{$_SESSION['User']['username']}",
-                    "message" => "Your account has been added!"
-                );
-                $headers = array(
-                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                    "replace" => true,
-                    "responseCode" => 200
-                );
-                break;
-            case 1:
-                $response = array(
-                    "status" => $status,
-                    "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
-                    "message" => "The form must be completely filled!"
-                );
-                $headers = array(
-                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                    "replace" => true,
-                    "responseCode" => 300
-                );
-                break;
-            case 11:
-                $response = array(
-                    "status" => $status,
-                    "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
-                    "message" => "This account does not exist!"
-                );
-                $headers = array(
-                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                    "replace" => true,
-                    "responseCode" => 400
-                );
-                break;
-        }
-        $Response = (object) array(
-            "response" => $response,
-            "headers" => $headers
-        );
-        return $Response;
+        return $this->createLeagueOfLegendsAccount($form->lolUsername, $form->lolRegion);
     }
     /**
      * Managing Player Unknown Battle Grounds accounts
@@ -151,50 +109,7 @@ class Account extends User
      */
     public function managePlayerUnknownBattleGrounds(object $form)
     {
-        $status = $this->createPlayerUnknownBattleGroundsAccount($form->pubgUsername, $form->pubgPlatform);
-        switch ($status) {
-            case 0:
-                $response = array(
-                    "status" => $status,
-                    "url" => "/Users/Home/{$_SESSION['User']['username']}",
-                    "message" => "Your account has been added!"
-                );
-                $headers = array(
-                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                    "replace" => true,
-                    "responseCode" => 200
-                );
-                break;
-            case 1:
-                $response = array(
-                    "status" => $status,
-                    "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
-                    "message" => "The form must be completely filled!"
-                );
-                $headers = array(
-                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                    "replace" => true,
-                    "responseCode" => 300
-                );
-                break;
-            case 11:
-                $response = array(
-                    "status" => $status,
-                    "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
-                    "message" => "This account does not exist!"
-                );
-                $headers = array(
-                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                    "replace" => true,
-                    "responseCode" => 400
-                );
-                break;
-        }
-        $Response = (object) array(
-            "response" => $response,
-            "headers" => $headers
-        );
-        return $Response;
+        return $this->createPlayerUnknownBattleGroundsAccount($form->pubgUsername, $form->pubgPlatform);
     }
     /**
      * Adding accounts
@@ -203,10 +118,25 @@ class Account extends User
      */
     public function add(object $request)
     {
-        if (!is_null($request->LeagueOfLegends->lolUsername) && !is_null($request->LeagueOfLegends->lolRegion)) {
-            $Response = $this->manageLeagueOfLegends($request->LeagueOfLegends);
-        } else if (!is_null($request->PlayerUnknownBattleGrounds->pubgUsername) && !is_null($request->PlayerUnknownBattleGrounds->pubgPlatform)) {
-            $Response = $this->managePlayerUnknownBattleGrounds($request->PlayerUnknownBattleGrounds);
+        $processes = array(
+            "LeagueOfLegends" => $this->manageLeagueOfLegends($request->LeagueOfLegends),
+            "PlayerUnknownBattleGrounds" => $this->managePlayerUnknownBattleGrounds($request->PlayerUnknownBattleGrounds)
+        );
+        if ($processes["LeagueOfLegends"] == 0 && $processes["PlayerUnknownBattleGrounds"] == 0) {
+            $response = array(
+                "status" => 0,
+                "url" => "/Users/Home/{$_SESSION['User']['username']}",
+                "message" => "Your account has been added!"
+            );
+            $headers = array(
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
+                "replace" => true,
+                "responseCode" => 200
+            );
         } else {
             $response = array(
                 "status" => 1,
@@ -214,15 +144,19 @@ class Account extends User
                 "message" => "The form must be completely filled!"
             );
             $headers = array(
-                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
                 "replace" => true,
                 "responseCode" => 300
             );
-            $Response = (object) array(
-                "response" => $response,
-                "headers" => $headers
-            );
         }
+        $Response = (object) array(
+            "response" => $response,
+            "headers" => $headers
+        );
         $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser, AccountsPUBG) VALUES (:AccountsLoL, :AccountsUser, :AccountsPUBG)");
         $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
         $this->PDO->bind(":AccountsUser", $this->getUsername());
@@ -237,10 +171,25 @@ class Account extends User
      */
     public function edit(object $request)
     {
-        if (!is_null($request->LeagueOfLegends->lolUsername) && !is_null($request->LeagueOfLegends->lolRegion)) {
-            $Response = $this->manageLeagueOfLegends($request->LeagueOfLegends);
-        } else if (!is_null($request->PlayerUnknownBattleGrounds->pubgUsername) && !is_null($request->PlayerUnknownBattleGrounds->pubgPlatform)) {
-            $Response = $this->managePlayerUnknownBattleGrounds($request->PlayerUnknownBattleGrounds);
+        $processes = array(
+            "LeagueOfLegends" => $this->manageLeagueOfLegends($request->LeagueOfLegends),
+            "PlayerUnknownBattleGrounds" => $this->managePlayerUnknownBattleGrounds($request->PlayerUnknownBattleGrounds)
+        );
+        if ($processes["LeagueOfLegends"] == 0 && $processes["PlayerUnknownBattleGrounds"] == 0) {
+            $response = array(
+                "status" => 0,
+                "url" => "/Users/Home/{$_SESSION['User']['username']}",
+                "message" => "Your account has been added!"
+            );
+            $headers = array(
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
+                "replace" => true,
+                "responseCode" => 200
+            );
         } else {
             $response = array(
                 "status" => 1,
@@ -248,15 +197,19 @@ class Account extends User
                 "message" => "The form must be completely filled!"
             );
             $headers = array(
-                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
                 "replace" => true,
                 "responseCode" => 300
             );
-            $Response = (object) array(
-                "response" => $response,
-                "headers" => $headers
-            );
         }
+        $Response = (object) array(
+            "response" => $response,
+            "headers" => $headers
+        );
         $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL, AccountsPUBG = :AccountsPUBG WHERE AccountsUser = :AccountsUser");
         $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
         $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());

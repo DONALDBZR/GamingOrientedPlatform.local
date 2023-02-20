@@ -1,5 +1,6 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Environment.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PDO.php";
 /**
  * The API which interacts with PUBG API to take the data needed from PUBG Data Center as well as the data model which will be used for data analysis.
  */
@@ -21,9 +22,14 @@ class PlayerUnknownBattleGrounds
      * PUBG API Key
      */
     private string $apiKey;
+    /**
+     * PDO which will interact with the database server
+     */
+    protected PHPDataObject $PDO;
     public function __construct()
     {
         $this->setApiKey(Environment::PubgAPIKey);
+        $this->PDO = new PHPDataObject();
     }
     public function getPlayerName()
     {
@@ -89,7 +95,7 @@ class PlayerUnknownBattleGrounds
         $pubgAccountApiResponseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
         if ($pubgAccountApiResponseCode == 200) {
-            $this->setIdentifier($pubgAccountApiResponse->id);
+            $this->setIdentifier($pubgAccountApiResponse->data[0]->id);
             $response = array(
                 "httpResponseCode" => $pubgAccountApiResponseCode,
                 "identifier" => $this->getIdentifier(),
@@ -113,6 +119,22 @@ class PlayerUnknownBattleGrounds
     {
         $pubgAccountApiResponse = json_decode($this->retrieveData($player_name, $platform));
         if ($pubgAccountApiResponse->httpResponseCode == 200) {
+            $this->PDO->query("SELECT * FROM PlayerUnknownBattleGrounds WHERE PlayerUnknownBattleGroundsIdentifier = :PlayerUnknownBattleGroundsIdentifier");
+            $this->PDO->bind(":PlayerUnknownBattleGroundsIdentifier", $this->getIdentifier());
+            $this->PDO->execute();
+            if (empty($this->PDO->resultSet())) {
+                $this->PDO->query("INSERT INTO PlayerUnknownBattleGrounds (PlayerUnknownBattleGroundsIdentifier, PlayerUnknownBattleGroundsPlayerName, PlayerUnknownBattleGroundsPlatform) VALUES (:PlayerUnknownBattleGroundsIdentifier, :PlayerUnknownBattleGroundsPlayerName, :PlayerUnknownBattleGroundsPlatform)");
+                $this->PDO->bind(":PlayerUnknownBattleGroundsIdentifier", $this->getIdentifier());
+                $this->PDO->bind(":PlayerUnknownBattleGroundsPlayerName", $this->getPlayerName());
+                $this->PDO->bind(":PlayerUnknownBattleGroundsPlatform", $this->getPlatform());
+                $this->PDO->execute();
+            }
+            $playerUnknownBattleGrounds = array(
+                "identifier" => $this->getIdentifier(),
+                "playerName" => $this->getPlayerName(),
+                "platform" => $this->getPlatform()
+            );
+            $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
             return 0;
         } else {
             return 1;
