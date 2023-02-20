@@ -530,11 +530,16 @@ class LeagueOfLegends
     {
         $riotAccountApiResponse = json_decode($this->retrieveData(rawurlencode($game_name), $tagLine));
         if ($riotAccountApiResponse->httpResponseCode == 200) {
-            $this->PDO->query("INSERT INTO LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
+            $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = :LeagueOfLegendsPlayerUniversallyUniqueIdentifier");
             $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->getPlayerUniversallyUniqueIdentifier());
-            $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
-            $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
             $this->PDO->execute();
+            if (empty($this->PDO->resultSet())) {
+                $this->PDO->query("INSERT INTO LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
+                $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->getPlayerUniversallyUniqueIdentifier());
+                $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+                $this->PDO->execute();
+            }
             $leagueOfLegends = array(
                 "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
                 "gameName" => $this->getGameName(),
