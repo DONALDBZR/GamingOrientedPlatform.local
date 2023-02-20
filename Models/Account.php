@@ -301,24 +301,32 @@ class Account extends User
     {
         if (!is_null($username) && !is_null($region)) {
             if ($this->getId() != 0) {
-                if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
-                    $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL WHERE AccountsUser = :AccountsUser");
-                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    return 0;
+                if ($_SESSION['Account']['LeagueOfLegends']['gameName'] != $username && $_SESSION['Account']['LeagueOfLegends']['tagLine'] != $region) {
+                    if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
+                        $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL WHERE AccountsUser = :AccountsUser");
+                        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+                        $this->PDO->bind(":AccountsUser", $this->getUsername());
+                        $this->PDO->execute();
+                        return 0;
+                    } else {
+                        return 11;
+                    }
                 } else {
-                    return 11;
+                    return 12;
                 }
             } else {
-                if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
-                    $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
-                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    return 0;
+                if ($_SESSION['Account']['LeagueOfLegends']['gameName'] != $username && $_SESSION['Account']['LeagueOfLegends']['tagLine'] != $region) {
+                    if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
+                        $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
+                        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+                        $this->PDO->bind(":AccountsUser", $this->getUsername());
+                        $this->PDO->execute();
+                        return 0;
+                    } else {
+                        return 11;
+                    }
                 } else {
-                    return 11;
+                    return 12;
                 }
             }
         } else {
