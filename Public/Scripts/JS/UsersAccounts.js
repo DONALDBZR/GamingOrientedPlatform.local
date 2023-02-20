@@ -300,7 +300,7 @@ class Main extends Application {
                     >
                         <option value=""></option>
                         <option value="kakao">Kakao</option>
-                        <option value="stadia">stadia</option>
+                        <option value="stadia">Stadia</option>
                         <option value="steam">Steam</option>
                         <option value="tournament">Tournaments</option>
                         <option value="psn">PSN</option>
