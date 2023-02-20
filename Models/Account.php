@@ -46,14 +46,19 @@ class Account extends User
         $this->PDO->execute();
         if (!empty($this->PDO->resultSet())) {
             $this->setId($this->PDO->resultSet()[0]['AccountsId']);
+            $this->LeagueOfLegends->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]['AccountsLoL']);
+            $this->PlayerUnknownBattleGrounds->setIdentifier($this->PDO->resultSet()[0]['AccountsPUBG']);
         } else {
             $this->setId(0);
+            $this->LeagueOfLegends->setPlayerUniversallyUniqueIdentifier(null);
+            $this->PlayerUnknownBattleGrounds->setIdentifier(null);
         }
-        if (!isset($_SESSION['Account'])) {
+        if ($this->getId() < 1) {
             $Response = $this->add($request);
         } else {
             $Response = $this->edit($request);
         }
+        echo "User.username: {$this->getUsername()}<br />Account.id: {$this->getId()}<br />LeagueOfLegends.puuid: {$this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier()}";
         $leagueOfLegends = array(
             "playerUniversallyUniqueIdentifier" => $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier(),
             "gameName" => $this->LeagueOfLegends->getGameName(),
@@ -95,11 +100,7 @@ class Account extends User
      */
     public function manageLeagueOfLegends(object $form)
     {
-        if (!isset($_SESSION['Account']['LeagueOfLegends'])) {
-            $status = $this->createLeagueOfLegendsAccount($form->lolUsername, $form->lolRegion);
-        } else {
-            $status = $this->updateLeagueOfLegendsAccount($form->lolUsername, $form->lolRegion);
-        }
+        $status = $this->createLeagueOfLegendsAccount($form->lolUsername, $form->lolRegion);
         switch ($status) {
             case 0:
                 $response = array(
@@ -150,11 +151,7 @@ class Account extends User
      */
     public function managePlayerUnknownBattleGrounds(object $form)
     {
-        if (!isset($_SESSION['Account']['PlayerUnknownBattleGrounds'])) {
-            $status = $this->createPlayerUnknownBattleGroundsAccount($form->pubgUsername, $form->pubgPlatform);
-        } else {
-            $status = $this->updatePlayerUnknownBattleGroundsAccount($form->pubgUsername, $form->pubgPlatform);
-        }
+        $status = $this->createPlayerUnknownBattleGroundsAccount($form->pubgUsername, $form->pubgPlatform);
         switch ($status) {
             case 0:
                 $response = array(
@@ -226,6 +223,11 @@ class Account extends User
                 "headers" => $headers
             );
         }
+        $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser, AccountsPUBG) VALUES (:AccountsLoL, :AccountsUser, :AccountsPUBG)");
+        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+        $this->PDO->bind(":AccountsUser", $this->getUsername());
+        $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
+        $this->PDO->execute();
         return $Response;
     }
     /**
@@ -255,6 +257,11 @@ class Account extends User
                 "headers" => $headers
             );
         }
+        $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL, AccountsPUBG = :AccountsPUBG WHERE AccountsUser = :AccountsUser");
+        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+        $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
+        $this->PDO->bind(":AccountsUser", $this->getUsername());
+        $this->PDO->execute();
         return $Response;
     }
     /**
@@ -266,68 +273,10 @@ class Account extends User
     public function createLeagueOfLegendsAccount(?string $username, ?string $region)
     {
         if (!is_null($username) && !is_null($region)) {
-            if ($this->getId() != 0) {
-                if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
-                    $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL WHERE AccountsUser = :AccountsUser");
-                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    return 0;
-                } else {
-                    return 11;
-                }
+            if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
+                return 0;
             } else {
-                if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
-                    $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
-                    $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    return 0;
-                } else {
-                    return 11;
-                }
-            }
-        } else {
-            return 1;
-        }
-    }
-    /**
-     * Editing League Of Legends Accounts
-     * @param ?string $username
-     * @param ?string $region
-     * @return int
-     */
-    public function updateLeagueOfLegendsAccount(?string $username, ?string $region)
-    {
-        if (!is_null($username) && !is_null($region)) {
-            if ($this->getId() != 0) {
-                if ($_SESSION['Account']['LeagueOfLegends']['gameName'] != $username && $_SESSION['Account']['LeagueOfLegends']['tagLine'] != $region) {
-                    if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
-                        $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL WHERE AccountsUser = :AccountsUser");
-                        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                        $this->PDO->bind(":AccountsUser", $this->getUsername());
-                        $this->PDO->execute();
-                        return 0;
-                    } else {
-                        return 11;
-                    }
-                } else {
-                    return 12;
-                }
-            } else {
-                if ($_SESSION['Account']['LeagueOfLegends']['gameName'] != $username && $_SESSION['Account']['LeagueOfLegends']['tagLine'] != $region) {
-                    if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
-                        $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser) VALUES (:AccountsLoL, :AccountsUser)");
-                        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-                        $this->PDO->bind(":AccountsUser", $this->getUsername());
-                        $this->PDO->execute();
-                        return 0;
-                    } else {
-                        return 11;
-                    }
-                } else {
-                    return 12;
-                }
+                return 11;
             }
         } else {
             return 1;
@@ -342,60 +291,10 @@ class Account extends User
     public function createPlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform)
     {
         if (!is_null($player_name) && !is_null($platform)) {
-            if ($this->getId() != 0) {
-                if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
-                    $this->PDO->query("UPDATE Accounts SET AccountsPUBG = :AccountsPUBG WHERE AccountsUser = :AccountsUser");
-                    $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    return 0;
-                } else {
-                    return 11;
-                }
+            if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
+                return 0;
             } else {
-                if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
-                    $this->PDO->query("INSERT INTO Accounts(AccountsPUBG, AccountsUser) VALUES (:AccountsPUBG, :AccountsUser)");
-                    $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    return 0;
-                } else {
-                    return 11;
-                }
-            }
-        } else {
-            return 1;
-        }
-    }
-    /**
-     * Editing Player Unknown Battle Grounds Accounts
-     * @param ?string $player_name
-     * @param ?string $platform
-     * @return int
-     */
-    public function updatePlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform)
-    {
-        if (!is_null($player_name) && !is_null($platform)) {
-            if ($this->getId() != 0) {
-                if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
-                    $this->PDO->query("UPDATE Accounts SET AccountsPUBG = :AccountsPUBG WHERE AccountsUser = :AccountsUser");
-                    $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    return 0;
-                } else {
-                    return 11;
-                }
-            } else {
-                if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
-                    $this->PDO->query("INSERT INTO Accounts(AccountsPUBG, AccountsUser) VALUES (:AccountsPUBG, :AccountsUser)");
-                    $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    return 0;
-                } else {
-                    return 11;
-                }
+                return 11;
             }
         } else {
             return 1;
