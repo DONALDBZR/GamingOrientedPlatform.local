@@ -1,29 +1,14 @@
 @font-face {
     font-family: "Proxima Nova";
-    src: url("../Fonts/Proxima Nova.otf");
-    src: url("../Fonts/Proxima Nova - Alternate.otf");
+    src: url("https://fonts.cdnfonts.com/css/proxima-nova-2");
 }
 @font-face {
     font-family: "Source Code Pro";
-    src: url("../Fonts/Source Code Pro - Black.otf");
-    src: url("../Fonts/Source Code Pro - Black Italic.otf");
-    src: url("../Fonts/Source Code Pro - Bold Italic.otf");
-    src: url("../Fonts/Source Code Pro - Bold.otf");
-    src: url("../Fonts/Source Code Pro - Extra Light Italic.otf");
-    src: url("../Fonts/Source Code Pro - Extra Light.otf");
-    src: url("../Fonts/Source Code Pro - Italic.otf");
-    src: url("../Fonts/Source Code Pro - Light Italic.otf");
-    src: url("../Fonts/Source Code Pro - Light.otf");
-    src: url("../Fonts/Source Code Pro - Medium Italic.otf");
-    src: url("../Fonts/Source Code Pro - Medium.otf");
-    src: url("../Fonts/Source Code Pro - Regular.otf");
-    src: url("../Fonts/Source Code Pro - Semi Bold.otf");
-    src: url("../Fonts/Source Code Pro - Semi Bold Italic.otf");
+    src: url("https://fonts.cdnfonts.com/css/source-sans-pro");
 }
 @font-face {
     font-family: "Ethnocentric";
-    src: url("../Fonts/Ethnocentric - Regular.otf");
-    src: url("../Fonts/Ethnocentric - Regular Italic.otf");
+    src: url("https://fonts.cdnfonts.com/css/ethnocentric");
 }
 :root {
     --percentage: 100%;
@@ -63,6 +48,16 @@
         calc(var(--percentage) * (107 / 255)),
         calc(var(--percentage) * (49 / 255)),
         calc(var(--percentage) * (168 / 255))
+    );
+    --color9: rgb(
+        calc(var(--percentage) * (40 / 255)),
+        calc(var(--percentage) * (52 / 255)),
+        calc(var(--percentage) * (78 / 255))
+    );
+    --color10: rgb(
+        calc(var(--percentage) * (201 / 255)),
+        calc(var(--percentage) * (118 / 255)),
+        calc(var(--percentage) * (14 / 255))
     );
     --proximaNova: "Proxima Nova";
     --sourceCodePro: "Source Code Pro";
