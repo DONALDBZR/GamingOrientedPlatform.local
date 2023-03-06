@@ -109,15 +109,25 @@ class Application extends React.Component {
              */
             vsMin: 0.0,
             /**
-             * Match history of the player
-             * @type {array}
-             */
-            matchHistory: [],
-            /**
              * Game Name of the player
              * @type {string}
              */
             gameName: "",
+            /**
+             * PUBG's ID of the user
+             * @type {string}
+             */
+            pubgId: "",
+            /**
+             * PUBG's platform of the user
+             * @type {string}
+             */
+            pubgPlatform: "",
+            /**
+             * PUBG's username of the user
+             * @type {string}
+             */
+            pubgPlayerName: "",
         };
     }
     /**
@@ -138,6 +148,11 @@ class Application extends React.Component {
                     lolRegion: data.Account.LeagueOfLegends.tagLine,
                     riotId: data.Account.LeagueOfLegends
                         .playerUniversallyUniqueIdentifier,
+                    pubgId: data.Account.PlayerUnknownBattleGrounds.identifier,
+                    pubgPlatform:
+                        data.Account.PlayerUnknownBattleGrounds.platform,
+                    pubgPlayerName:
+                        data.Account.PlayerUnknownBattleGrounds.playerName,
                 })
             );
     }
@@ -402,6 +417,16 @@ class Application extends React.Component {
         }
     }
     /**
+     * Retrieving data from PUBG Corporations data center for the user
+     */
+    retrievePUBG_PlayerData() {
+        fetch("/PlayerUnknownBattleGrounds/CurrentPlayer", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -453,6 +478,7 @@ class Main extends Application {
     componentDidMount() {
         this.retrieveData();
         this.retrieveLoL_SummonerData();
+        this.retrievePUBG_PlayerData();
     }
     render() {
         return <main>{this.verifyAccount_Riot_ID()}</main>;
