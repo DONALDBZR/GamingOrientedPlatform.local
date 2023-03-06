@@ -261,6 +261,21 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
+            case '/PlayerUnknownBattleGrounds/CurrentPlayer':
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        if (isset($_SESSION['Account']['PlayerUnknownBattleGrounds'])) {
+                            $Router = new Router("GET", "/PlayerUnknownBattleGrounds/CurrentPlayer", "/Controllers/CurrentPlayer.php");
+                        } else {
+                            header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                        }
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
         }
         break;
     case 'POST':
