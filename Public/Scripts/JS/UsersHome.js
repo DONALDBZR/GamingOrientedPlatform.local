@@ -465,34 +465,38 @@ class Application extends React.Component {
                             <div>Solo</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{this.pubgCard.solo.winrate}</div>
+                                <div>{this.state.pubgCard.solo.winrate}</div>
                             </div>
                             <div>
                                 <div>Top 10's Probability:</div>
-                                <div>{this.pubgCard.solo.top10Probability}</div>
+                                <div>
+                                    {this.state.pubgCard.solo.top10Probability}
+                                </div>
                             </div>
                         </div>
                         <div>
                             <div>Duo</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{this.pubgCard.duo.winrate}</div>
+                                <div>{this.state.pubgCard.duo.winrate}</div>
                             </div>
                             <div>
                                 <div>Top 10's Probability:</div>
-                                <div>{this.pubgCard.duo.top10Probability}</div>
+                                <div>
+                                    {this.state.pubgCard.duo.top10Probability}
+                                </div>
                             </div>
                         </div>
                         <div>
                             <div>Squad</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{this.pubgCard.squad.winrate}</div>
+                                <div>{this.state.pubgCard.squad.winrate}</div>
                             </div>
                             <div>
                                 <div>Top 10's Probability:</div>
                                 <div>
-                                    {this.pubgCard.squad.top10Probability}
+                                    {this.state.pubgCard.squad.top10Probability}
                                 </div>
                             </div>
                         </div>
