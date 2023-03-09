@@ -567,7 +567,7 @@ class Application extends React.Component {
                                 <div>{`${this.state.pubgCard.solo.winrate} %`}</div>
                             </div>
                             <div>
-                                <div>Top 10's Probability:</div>
+                                <div>Top 10's:</div>
                                 <div>
                                     {`${this.state.pubgCard.solo.top10Probability} %`}
                                 </div>
@@ -580,7 +580,7 @@ class Application extends React.Component {
                                 <div>{`${this.state.pubgCard.duo.winrate} %`}</div>
                             </div>
                             <div>
-                                <div>Top 10's Probability:</div>
+                                <div>Top 10's:</div>
                                 <div>
                                     {`${this.state.pubgCard.duo.top10Probability} %`}
                                 </div>
@@ -593,7 +593,7 @@ class Application extends React.Component {
                                 <div>{`${this.state.pubgCard.squad.winrate} %`}</div>
                             </div>
                             <div>
-                                <div>Top 10's Probability:</div>
+                                <div>Top 10's:</div>
                                 <div>
                                     {`${this.state.pubgCard.squad.top10Probability} %`}
                                 </div>
