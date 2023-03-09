@@ -128,6 +128,11 @@ class Application extends React.Component {
              * @type {string}
              */
             pubgPlayerName: "",
+            /**
+             * PUBG's card's data
+             * @type {object}
+             */
+            pubgCard: {},
         };
     }
     /**
@@ -424,7 +429,18 @@ class Application extends React.Component {
             method: "GET",
         })
             .then((response) => response.json())
-            .then((data) => console.log(data));
+            .then((data) => {
+                if (
+                    data.httpResponseCode_account == 200 &&
+                    data.httpResponseCode_lifetime == 200
+                ) {
+                    this.setState({
+                        pubgCard: data,
+                    });
+                } else {
+                    window.location.reload();
+                }
+            });
     }
     /**
      * Renders the components that are being returned
