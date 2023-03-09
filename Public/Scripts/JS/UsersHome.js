@@ -499,53 +499,23 @@ class Application extends React.Component {
                         <div>
                             <div>
                                 <div>KDA:</div>
-                                <div>
-                                    {this.PUBG_kda(
-                                        this.state.pubgCard.solo.kda,
-                                        this.state.pubgCard.duo.kda,
-                                        this.state.pubgCard.squad.kda
-                                    )}
-                                </div>
+                                <div>{this.state.pubgCard.kda}</div>
                             </div>
                             <div>
                                 <div>Kill Streak:</div>
-                                <div>
-                                    {this.PUBG_killStreak(
-                                        this.state.pubgCard.solo.killStreak,
-                                        this.state.pubgCard.duo.killStreak,
-                                        this.state.pubgCard.squad.killStreak
-                                    )}
-                                </div>
+                                <div>{this.state.pubgCard.killStreak}</div>
                             </div>
                             <div>
                                 <div>Longest Kill Distance:</div>
-                                <div>
-                                    {this.PUBG_longestKill(
-                                        this.state.pubgCard.solo.longestKill,
-                                        this.state.pubgCard.duo.longestKill,
-                                        this.state.pubgCard.squad.longestKill
-                                    )}
-                                </div>
+                                <div>{this.state.pubgCard.longestKill}</div>
                             </div>
                             <div>
                                 <div>Headshot:</div>
-                                <div>
-                                    {this.PUBG_headshot(
-                                        this.state.pubgCard.solo.headshot,
-                                        this.state.pubgCard.duo.headshot,
-                                        this.state.pubgCard.squad.headshot
-                                    )}
-                                </div>
+                                <div>{this.state.pubgCard.headshot}</div>
                             </div>
                             <div>
                                 <div>Damage/Match:</div>
-                                <div>
-                                    {this.PUBG_damagePerMatch(
-                                        this.state.pubgCard.solo.damagePerMatch,
-                                        this.state.pubgCard.duo.damagePerMatch,
-                                        this.state.pubgCard.squad.damagePerMatch
-                                    )}
-                                </div>
+                                <div>{this.state.pubgCard.damagePerMatch}</div>
                             </div>
                         </div>
                     </div>
@@ -561,73 +531,6 @@ class Application extends React.Component {
                 </div>
             );
         }
-    }
-    /**
-     * Processing the data from the server before returning into the interface
-     * @param {number} solo
-     * @param {number} duo
-     * @param {number} squad
-     * @returns {number}
-     */
-    PUBG_kda(solo, duo, squad) {
-        const input = [solo, duo, squad];
-        let sum = 0.0;
-        for (let index = 0; index < input.length; index++) {
-            sum += input[index];
-        }
-        return (sum / input.length).toFixed(2);
-    }
-    /**
-     * Processing the data from the server before returning into the interface
-     * @param {number} solo
-     * @param {number} duo
-     * @param {number} squad
-     * @returns {number}
-     */
-    PUBG_killStreak(solo, duo, squad) {
-        const input = [solo, duo, squad];
-        return Math.max(input);
-    }
-    /**
-     * Processing the data from the server before returning into the interface
-     * @param {number} solo
-     * @param {number} duo
-     * @param {number} squad
-     * @returns {number}
-     */
-    PUBG_longestKill(solo, duo, squad) {
-        const input = [solo, duo, squad];
-        return Math.max(input);
-    }
-    /**
-     * Processing the data from the server before returning into the interface
-     * @param {number} solo
-     * @param {number} duo
-     * @param {number} squad
-     * @returns {number}
-     */
-    PUBG_headshot(solo, duo, squad) {
-        const input = [solo, duo, squad];
-        let sum = 0.0;
-        for (let index = 0; index < input.length; index++) {
-            sum += input[index];
-        }
-        return (sum / input.length).toFixed(2);
-    }
-    /**
-     * Processing the data from the server before returning into the interface
-     * @param {number} solo
-     * @param {number} duo
-     * @param {number} squad
-     * @returns {number}
-     */
-    PUBG_damagePerMatch(solo, duo, squad) {
-        const input = [solo, duo, squad];
-        let sum = 0.0;
-        for (let index = 0; index < input.length; index++) {
-            sum += input[index];
-        }
-        return (sum / input.length).toFixed(2);
     }
     /**
      * Renders the components that are being returned

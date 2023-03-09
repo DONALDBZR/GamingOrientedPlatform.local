@@ -172,39 +172,67 @@ class PlayerUnknownBattleGrounds
             $pubgLifetimeStatsApiResponseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
             if ($pubgLifetimeStatsApiResponseCode == 200) {
+                $kda = 0.0;
+                $headshot = 0.0;
+                $damagePerMatch = 0.0;
+                $kdas = array(
+                    (($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->kills + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->assists) / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses),
+                    (($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->kills + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->assists) / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses),
+                    (($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->kills + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->assists) / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses)
+                );
+                $killStreaks = array(
+                    $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->maxKillStreaks,
+                    $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->maxKillStreaks,
+                    $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->maxKillStreaks
+                );
+                $longestKills = array(
+                    $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->longestKill,
+                    $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->longestKill,
+                    $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->longestKill
+                );
+                $headshots = array(
+                    (($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->headshotKills / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->kills) * 100),
+                    (($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->headshotKills / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->kills) * 100),
+                    (($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->headshotKills / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->kills) * 100)
+                );
+                $damagePerMatchs = array(
+                    ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->damageDealt / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses)),
+                    ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->damageDealt / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses)),
+                    ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->damageDealt / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses))
+                );
+                $lengths = array(
+                    count($kdas),
+                    count($headshots),
+                    count($damagePerMatchs)
+                );
+                for ($index = 0; $index < max($lengths); $index++) {
+                    $kda += $kdas[$index];
+                    $headshot += $headshots[$index];
+                    $damagePerMatch += $damagePerMatchs[$index];
+                }
                 $duo = array(
                     "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses)) * 100), 2),
-                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses)) * 100), 2),
-                    "kda" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->kills + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->assists) / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses), 2),
-                    'damagePerMatch' => round(($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->damageDealt / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses)), 2),
-                    "longestKill" => round($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->longestKill, 2),
-                    "headshot" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->headshotKills / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->kills) * 100), 2),
-                    "killStreak" => $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->maxKillStreaks
+                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses)) * 100), 2)
                 );
                 $solo = array(
                     "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses)) * 100), 2),
-                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses)) * 100), 2),
-                    "kda" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->kills + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->assists) / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses), 2),
-                    'damagePerMatch' => round(($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->damageDealt / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses)), 2),
-                    "longestKill" => round($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->longestKill, 2),
-                    "headshot" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->headshotKills / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->kills) * 100), 2),
-                    "killStreak" => $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->maxKillStreaks
+                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses)) * 100), 2)
                 );
                 $squad = array(
                     "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses)) * 100), 2),
-                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses)) * 100), 2),
-                    "kda" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->kills + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->assists) / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses), 2),
-                    'damagePerMatch' => round(($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->damageDealt / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses)), 2),
-                    "longestKill" => round($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->longestKill, 2),
-                    "headshot" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->headshotKills / $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->kills) * 100), 2),
-                    "killStreak" => $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->maxKillStreaks
+                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses)) * 100), 2)
                 );
                 $response = array(
                     "httpResponseCode_account" => $pubgAccountApiResponse->httpResponseCode,
                     "httpResponseCode_lifetime" => $pubgLifetimeStatsApiResponseCode,
                     "duo" => $duo,
                     "solo" => $solo,
-                    "squad" => $squad
+                    "squad" => $squad,
+                    "kda" => round(($kda / max($lengths)), 2),
+                    "killStreak" => max($killStreaks),
+                    "longestKill" => round(max($longestKills), 2),
+                    "headshot" => round(($headshot / max($lengths)), 2),
+                    "damagePerMatch" => round(($damagePerMatch / max($lengths)), 2)
                 );
                 $cacheData = json_encode($response);
                 $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Profiles/{$this->getIdentifier()}.json", "w");
