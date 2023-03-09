@@ -465,12 +465,12 @@ class Application extends React.Component {
                             <div>Solo</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{this.state.pubgCard.solo.winrate}</div>
+                                <div>{`${this.state.pubgCard.solo.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's Probability:</div>
                                 <div>
-                                    {this.state.pubgCard.solo.top10Probability}
+                                    {`${this.state.pubgCard.solo.top10Probability} %`}
                                 </div>
                             </div>
                         </div>
@@ -478,12 +478,12 @@ class Application extends React.Component {
                             <div>Duo</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{this.state.pubgCard.duo.winrate}</div>
+                                <div>{`${this.state.pubgCard.duo.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's Probability:</div>
                                 <div>
-                                    {this.state.pubgCard.duo.top10Probability}
+                                    {`${this.state.pubgCard.duo.top10Probability} %`}
                                 </div>
                             </div>
                         </div>
@@ -491,12 +491,12 @@ class Application extends React.Component {
                             <div>Squad</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{this.state.pubgCard.squad.winrate}</div>
+                                <div>{`${this.state.pubgCard.squad.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's Probability:</div>
                                 <div>
-                                    {this.state.pubgCard.squad.top10Probability}
+                                    {`${this.state.pubgCard.squad.top10Probability} %`}
                                 </div>
                             </div>
                         </div>
@@ -511,11 +511,11 @@ class Application extends React.Component {
                             </div>
                             <div>
                                 <div>Longest Kill Distance:</div>
-                                <div>{this.state.pubgCard.longestKill}</div>
+                                <div>{`${this.state.pubgCard.longestKill} m`}</div>
                             </div>
                             <div>
                                 <div>Headshot:</div>
-                                <div>{this.state.pubgCard.headshot}</div>
+                                <div>{`${this.state.pubgCard.headshot} %`}</div>
                             </div>
                             <div>
                                 <div>Damage/Match:</div>
