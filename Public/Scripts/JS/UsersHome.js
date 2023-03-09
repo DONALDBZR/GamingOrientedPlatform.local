@@ -443,6 +443,193 @@ class Application extends React.Component {
             });
     }
     /**
+     * Verifying the state before rendering the link
+     * @returns {Application} Component
+     */
+    verifyAccount_PUBG_ID() {
+        if (this.state.pubgId != null) {
+            return (
+                <div id="playerUnknownBattleGroundsCard">
+                    <div>
+                        <a
+                            href={`/PlayerUnknownBattleGrounds/Home/${this.state.pubgPlayerName}`}
+                        >
+                            <img src="/Public/Images/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
+                        </a>
+                    </div>
+                    <div>
+                        <i class="fa fa-steam"></i>
+                    </div>
+                    <div>
+                        <div>
+                            <div>Solo</div>
+                            <div>
+                                <div>Win Rate:</div>
+                                <div>{this.pubgCard.solo.winrate}</div>
+                            </div>
+                            <div>
+                                <div>Top 10's Probability:</div>
+                                <div>{this.pubgCard.solo.top10Probability}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>Duo</div>
+                            <div>
+                                <div>Win Rate:</div>
+                                <div>{this.pubgCard.duo.winrate}</div>
+                            </div>
+                            <div>
+                                <div>Top 10's Probability:</div>
+                                <div>{this.pubgCard.duo.top10Probability}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>Squad</div>
+                            <div>
+                                <div>Win Rate:</div>
+                                <div>{this.pubgCard.squad.winrate}</div>
+                            </div>
+                            <div>
+                                <div>Top 10's Probability:</div>
+                                <div>
+                                    {this.pubgCard.squad.top10Probability}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div>KDA:</div>
+                                <div>
+                                    {this.PUBG_kda(
+                                        this.state.pubgCard.solo.kda,
+                                        this.state.pubgCard.duo.kda,
+                                        this.state.pubgCard.squad.kda
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <div>Kill Streak:</div>
+                                <div>
+                                    {this.PUBG_killStreak(
+                                        this.state.pubgCard.solo.killStreak,
+                                        this.state.pubgCard.duo.killStreak,
+                                        this.state.pubgCard.squad.killStreak
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <div>Longest Kill Distance:</div>
+                                <div>
+                                    {this.PUBG_longestKill(
+                                        this.state.pubgCard.solo.longestKill,
+                                        this.state.pubgCard.duo.longestKill,
+                                        this.state.pubgCard.squad.longestKill
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <div>Headshot:</div>
+                                <div>
+                                    {this.PUBG_headshot(
+                                        this.state.pubgCard.solo.headshot,
+                                        this.state.pubgCard.duo.headshot,
+                                        this.state.pubgCard.squad.headshot
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <div>Damage/Match:</div>
+                                <div>
+                                    {this.PUBG_damagePerMatch(
+                                        this.state.pubgCard.solo.damagePerMatch,
+                                        this.state.pubgCard.duo.damagePerMatch,
+                                        this.state.pubgCard.squad.damagePerMatch
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    You should add your account for PUBG before having accessed
+                    to the required content. You can click{" "}
+                    <a href={`/Users/Accounts/${this.state.username}`}>here</a>{" "}
+                    to process into adding your account!
+                </div>
+            );
+        }
+    }
+    /**
+     * Processing the data from the server before returning into the interface
+     * @param {number} solo
+     * @param {number} duo
+     * @param {number} squad
+     * @returns {number}
+     */
+    PUBG_kda(solo, duo, squad) {
+        const input = [solo, duo, squad];
+        let sum = 0.0;
+        for (let index = 0; index < input.length; index++) {
+            sum += input[index];
+        }
+        return (sum / input.length).toFixed(2);
+    }
+    /**
+     * Processing the data from the server before returning into the interface
+     * @param {number} solo
+     * @param {number} duo
+     * @param {number} squad
+     * @returns {number}
+     */
+    PUBG_killStreak(solo, duo, squad) {
+        const input = [solo, duo, squad];
+        return Math.max(input);
+    }
+    /**
+     * Processing the data from the server before returning into the interface
+     * @param {number} solo
+     * @param {number} duo
+     * @param {number} squad
+     * @returns {number}
+     */
+    PUBG_longestKill(solo, duo, squad) {
+        const input = [solo, duo, squad];
+        return Math.max(input);
+    }
+    /**
+     * Processing the data from the server before returning into the interface
+     * @param {number} solo
+     * @param {number} duo
+     * @param {number} squad
+     * @returns {number}
+     */
+    PUBG_headshot(solo, duo, squad) {
+        const input = [solo, duo, squad];
+        let sum = 0.0;
+        for (let index = 0; index < input.length; index++) {
+            sum += input[index];
+        }
+        return (sum / input.length).toFixed(2);
+    }
+    /**
+     * Processing the data from the server before returning into the interface
+     * @param {number} solo
+     * @param {number} duo
+     * @param {number} squad
+     * @returns {number}
+     */
+    PUBG_damagePerMatch(solo, duo, squad) {
+        const input = [solo, duo, squad];
+        let sum = 0.0;
+        for (let index = 0; index < input.length; index++) {
+            sum += input[index];
+        }
+        return (sum / input.length).toFixed(2);
+    }
+    /**
      * Renders the components that are being returned
      * @returns {Application} Component
      */
@@ -497,7 +684,12 @@ class Main extends Application {
         this.retrievePUBG_PlayerData();
     }
     render() {
-        return <main>{this.verifyAccount_Riot_ID()}</main>;
+        return (
+            <main>
+                {this.verifyAccount_Riot_ID()}
+                {this.verifyAccount_PUBG_ID()}
+            </main>
+        );
     }
 }
 /**
