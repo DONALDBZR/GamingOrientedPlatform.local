@@ -222,6 +222,8 @@ body[id*="LeagueOfLegends"]
 body[id*="UsersHome"] main {
     width: var(--percentage);
     height: calc(var(--pixelate) * (523.5 / 1080));
+    display: flex;
+    flex-wrap: wrap;
 }
 body[id*="UsersHome"] main #leagueOfLegendsCard {
     width: calc(var(--percentage) * (460 / 1366));
@@ -1105,4 +1107,163 @@ body[id*="UsersAccounts"] main form div:nth-child(9) {
     margin: calc(var(--percentage) / 100) calc(var(--percentage) * 0);
     text-align: center;
     height: calc(var(--percentage) * (20 / 251.38));
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard {
+    width: calc(var(--percentage) * (700 / 1366));
+    height: calc(var(--pixelate) * (200 / 1080));
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) / 200);
+    display: flex;
+    flex-wrap: wrap;
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div {
+    height: calc(var(--percentage) / 4);
+    width: var(--percentage);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(1) {
+    align-items: normal;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(1)
+    a
+    img {
+    height: var(--percentage);
+    width: auto;
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(2) i {
+    font-size: calc(var(--textSize) * (50 / 16));
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) {
+    height: calc(var(--percentage) / 2);
+    justify-content: normal;
+    align-items: normal;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div {
+    width: calc(var(--percentage) / 5);
+    height: calc(var(--percentage) * 0.6);
+    display: block;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div {
+    width: var(--percentage);
+    height: calc(var(--percentage) / 3);
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(1) {
+    text-align: center;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(2),
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(3) {
+    display: flex;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(2)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(3)
+    div {
+    display: block;
+    width: calc(var(--percentage) / 2);
+    height: var(--percentage);
+    text-align: unset;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(2)
+    div:nth-child(2),
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(3)
+    div:nth-child(2) {
+    text-align: center;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4) {
+    height: var(--percentage);
+    width: calc(var(--percentage) * 0.4);
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div {
+    display: flex;
+    height: calc(var(--percentage) / 5);
+    text-align: unset;
+    justify-content: normal;
+    align-items: normal;
+    width: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div
+    div {
+    width: calc(var(--percentage) / 2);
+    display: block;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div
+    div:nth-child(1) {
+    width: calc(var(--percentage) * (2 / 3));
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div
+    div:nth-child(2) {
+    width: calc(var(--percentage) / 3);
+    text-align: center;
 }
