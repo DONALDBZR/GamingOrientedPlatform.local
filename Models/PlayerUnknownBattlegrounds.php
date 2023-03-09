@@ -206,6 +206,10 @@ class PlayerUnknownBattleGrounds
                     "solo" => $solo,
                     "squad" => $squad
                 );
+                $cacheData = json_encode($response);
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Profiles/{$this->getIdentifier()}.json", "w");
+                fwrite($cache, $cacheData);
+                fclose($cache);
             } else {
                 $response = array(
                     "httpResponseCode_account" => $pubgAccountApiResponse->httpResponseCode,
