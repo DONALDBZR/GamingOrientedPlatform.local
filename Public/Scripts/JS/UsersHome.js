@@ -429,18 +429,11 @@ class Application extends React.Component {
             method: "GET",
         })
             .then((response) => response.json())
-            .then((data) => {
-                if (
-                    data.httpResponseCode_account == 200 &&
-                    data.httpResponseCode_lifetime == 200
-                ) {
-                    this.setState({
-                        pubgCard: data,
-                    });
-                } else {
-                    window.location.reload();
-                }
-            });
+            .then((data) =>
+                this.setState({
+                    pubgCard: data,
+                })
+            );
     }
     /**
      * Verifying the state before rendering the link
