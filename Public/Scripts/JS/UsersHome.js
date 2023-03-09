@@ -132,7 +132,86 @@ class Application extends React.Component {
              * PUBG's card's data
              * @type {object}
              */
-            pubgCard: {},
+            pubgCard: {
+                /**
+                 * Response code from PUBG API
+                 * @type {number}
+                 */
+                account: 200,
+                /**
+                 * Response code from PUBG API
+                 * @type {number}
+                 */
+                lifetime: 200,
+                /**
+                 * Duo stats
+                 * @type {object}
+                 */
+                duo: {
+                    /**
+                     * Win Probability
+                     * @type {number}
+                     */
+                    winrate: 0.0,
+                    /**
+                     * Top 10 Probability
+                     * @type {number}
+                     */
+                    top10Probability: 0.0,
+                },
+                /**
+                 * Solo stats
+                 * @type {object}
+                 */
+                solo: {
+                    /**
+                     * Win Probability
+                     * @type {number}
+                     */
+                    winrate: 0.0,
+                    /**
+                     * Top 10 Probability
+                     * @type {number}
+                     */
+                    top10Probability: 0.0,
+                },
+                /**
+                 * Squad stats
+                 * @type {object}
+                 */
+                squad: {
+                    /**
+                     * Win Probability
+                     * @type {number}
+                     */
+                    winrate: 0.0,
+                    /**
+                     * Top 10 Probability
+                     * @type {number}
+                     */
+                    top10Probability: 0.0,
+                },
+                /**
+                 * KDA
+                 * @type {number}
+                 */
+                kda: 0.0,
+                /**
+                 * Killing Streak
+                 * @type {number}
+                 */
+                killStreak: 0,
+                /**
+                 * Headshots percentage
+                 * @type {number}
+                 */
+                headshot: 0.0,
+                /**
+                 * Damage per match
+                 * @type {number}
+                 */
+                damagePerMatch: 0.0,
+            },
         };
     }
     /**
@@ -429,11 +508,38 @@ class Application extends React.Component {
             method: "GET",
         })
             .then((response) => response.json())
-            .then((data) =>
-                this.setState({
-                    pubgCard: data,
-                })
-            );
+            .then((data) => {
+                if (
+                    data.httpResponseCode_account == 200 &&
+                    data.httpResponseCode_lifetime == 200
+                ) {
+                    this.setState({
+                        pubgCard: {
+                            account: data.httpResponseCode_account,
+                            lifetime: data.httpResponseCode_lifetime,
+                            duo: {
+                                winrate: data.duo.winrate,
+                                top10Probability: data.duo.top10Probability,
+                            },
+                            solo: {
+                                winrate: data.solo.winrate,
+                                top10Probability: data.solo.top10Probability,
+                            },
+                            squad: {
+                                winrate: data.squad.winrate,
+                                top10Probability: data.squad.top10Probability,
+                            },
+                            kda: data.kda,
+                            killStreak: data.killStreak,
+                            longestKill: data.longestKill,
+                            headshot: data.headshot,
+                            damagePerMatch: data.damagePerMatch,
+                        },
+                    });
+                } else {
+                    window.location.reload();
+                }
+            });
     }
     /**
      * Verifying the state before rendering the link
