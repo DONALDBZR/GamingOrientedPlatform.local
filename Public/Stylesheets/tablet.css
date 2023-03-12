@@ -1072,3 +1072,192 @@ body[id*="LeagueOfLegends"]
     height: calc(var(--percentage) * 0.729);
     width: auto;
 }
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard {
+    width: calc(var(--percentage) * (420 / 640));
+    height: calc(var(--pixelate) * (221 / 1080));
+    margin: calc(var(--percentage) / 100) calc(var(--percentage) * (110 / 640));
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div {
+    height: calc(var(--percentage) * (50 / 221));
+    width: var(--percentage);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(1) {
+    align-items: normal;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(1)
+    a
+    img {
+    height: var(--percentage);
+    width: auto;
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(2) i {
+    font-size: calc(var(--textSize) * (50 / 10.93));
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) {
+    flex-wrap: wrap;
+    height: calc(var(--percentage) * (121 / 221));
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div {
+    width: calc(var(--percentage) / 3);
+    height: calc(var(--percentage) * (60 / 121));
+    display: block;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div {
+    height: calc(var(--percentage) / 3);
+    display: flex;
+    width: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(1) {
+    display: block;
+    text-align: center;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div
+    div {
+    width: calc(var(--percentage) / 2);
+    height: var(--percentage);
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4) {
+    width: var(--percentage);
+    height: calc(var(--percentage) * (40 / 121));
+    display: flex;
+    margin-top: calc(var(--percentage) / 20);
+    flex-wrap: wrap;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div {
+    width: calc(var(--percentage) / 3);
+    height: calc(var(--percentage) / 2);
+    display: flex;
+    margin: calc(var(--percentage) * 0);
+    text-align: initial;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div
+    div {
+    height: var(--percentage);
+    width: calc(var(--percentage) / 2);
+    display: flex;
+    align-items: center;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(1) {
+    width: calc(var(--percentage) / 5);
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(1)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(2)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(3)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(4)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(5)
+    div {
+    width: calc(var(--percentage) / 2);
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(3) {
+    width: calc(var(--percentage) * (7 / 15));
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(3)
+    div:nth-child(1) {
+    width: calc(var(--percentage) * (2 / 3));
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(3)
+    div:nth-child(2) {
+    width: calc(var(--percentage) / 3);
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(4),
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div:nth-child(5) {
+    width: calc(var(--percentage) / 2);
+}
