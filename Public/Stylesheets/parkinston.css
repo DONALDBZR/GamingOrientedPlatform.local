@@ -115,7 +115,8 @@ body[id*="LeagueOfLegends"]
     div:nth-child(4)
     div:nth-child(2)
     div:nth-child(1),
-body[id*="LeagueOfLegends"] footer div {
+body[id*="LeagueOfLegends"] footer div,
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) div div:nth-child(1) {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
@@ -211,7 +212,10 @@ body[id*="LeagueOfLegends"]
     #matchHistory
     div
     div:nth-child(2)
-    div {
+    div,
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) div div:nth-child(2) div,
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) div div:nth-child(3) div,
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) div:nth-child(4) div {
     font-family: var(--proximaNova);
 }
 #Homepage main,
@@ -314,13 +318,15 @@ body[id*="LoginVerification"] header a {
 body[id*="Users"] header nav div:nth-child(2) a img,
 body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img,
 body[id*="LeagueOfLegends"] main nav div a img,
-body[id*="LeagueOfLegends"] footer nav div a img {
+body[id*="LeagueOfLegends"] footer nav div a img,
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(1) a img {
     opacity: calc(var(--percentage) / 2);
 }
 body[id*="Users"] header nav div:nth-child(2) a img:hover,
 body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover,
 body[id*="LeagueOfLegends"] main nav div a img:hover,
-body[id*="LeagueOfLegends"] footer nav div a img:hover {
+body[id*="LeagueOfLegends"] footer nav div a img:hover,
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(1) a img:hover {
     opacity: var(--percentage);
 }
 body[id*="Users"] header nav div:nth-child(2) a,
@@ -414,4 +420,8 @@ body[id*="LeagueOfLegends"]
 }
 body[id*="UsersAccounts"] main form div:nth-child(1) {
     font-weight: bold;
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard {
+    background-color: var(--color9);
+    color: var(--color4);
 }

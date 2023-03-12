@@ -564,11 +564,24 @@ class Application extends React.Component {
                             <div>Solo</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{`${this.state.pubgCard.solo.winrate} %`}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                            this.state.pubgCard.solo.winrate
+                                        ),
+                                    }}
+                                >{`${this.state.pubgCard.solo.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's:</div>
-                                <div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                            this.state.pubgCard.solo
+                                                .top10Probability
+                                        ),
+                                    }}
+                                >
                                     {`${this.state.pubgCard.solo.top10Probability} %`}
                                 </div>
                             </div>
@@ -577,11 +590,24 @@ class Application extends React.Component {
                             <div>Duo</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{`${this.state.pubgCard.duo.winrate} %`}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                            this.state.pubgCard.duo.winrate
+                                        ),
+                                    }}
+                                >{`${this.state.pubgCard.duo.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's:</div>
-                                <div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                            this.state.pubgCard.duo
+                                                .top10Probability
+                                        ),
+                                    }}
+                                >
                                     {`${this.state.pubgCard.duo.top10Probability} %`}
                                 </div>
                             </div>
@@ -590,11 +616,24 @@ class Application extends React.Component {
                             <div>Squad</div>
                             <div>
                                 <div>Win Rate:</div>
-                                <div>{`${this.state.pubgCard.squad.winrate} %`}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                            this.state.pubgCard.squad.winrate
+                                        ),
+                                    }}
+                                >{`${this.state.pubgCard.squad.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's:</div>
-                                <div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                            this.state.pubgCard.squad
+                                                .top10Probability
+                                        ),
+                                    }}
+                                >
                                     {`${this.state.pubgCard.squad.top10Probability} %`}
                                 </div>
                             </div>
@@ -602,23 +641,59 @@ class Application extends React.Component {
                         <div>
                             <div>
                                 <div>KDA:</div>
-                                <div>{this.state.pubgCard.kda}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_kda(
+                                            this.state.pubgCard.kda
+                                        ),
+                                    }}
+                                >
+                                    {this.state.pubgCard.kda}
+                                </div>
                             </div>
                             <div>
                                 <div>Kill Streak:</div>
-                                <div>{this.state.pubgCard.killStreak}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_killStreak(
+                                            this.state.pubgCard.killStreak
+                                        ),
+                                    }}
+                                >
+                                    {this.state.pubgCard.killStreak}
+                                </div>
                             </div>
                             <div>
                                 <div>Longest Kill Distance:</div>
-                                <div>{`${this.state.pubgCard.longestKill} m`}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_longestKill(
+                                            this.state.pubgCard.longestKill
+                                        ),
+                                    }}
+                                >{`${this.state.pubgCard.longestKill} m`}</div>
                             </div>
                             <div>
                                 <div>Headshot:</div>
-                                <div>{`${this.state.pubgCard.headshot} %`}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_headshot(
+                                            this.state.pubgCard.headshot
+                                        ),
+                                    }}
+                                >{`${this.state.pubgCard.headshot} %`}</div>
                             </div>
                             <div>
                                 <div>Damage/Match:</div>
-                                <div>{this.state.pubgCard.damagePerMatch}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_damagePerMatch(
+                                            this.state.pubgCard.damagePerMatch
+                                        ),
+                                    }}
+                                >
+                                    {this.state.pubgCard.damagePerMatch}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -633,6 +708,104 @@ class Application extends React.Component {
                     to process into adding your account!
                 </div>
             );
+        }
+    }
+    /**
+     * Verifying the winrate before styling it
+     * @param {float} win_rate
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_winRate(win_rate) {
+        if (win_rate >= 50) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (win_rate >= 1 && win_rate < 50) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the top 10 probability before styling it
+     * @param {float} top10Probability
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_top10Probability(top10Probability) {
+        if (top10Probability >= 50) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (top10Probability >= 10 && top10Probability < 50) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the kda ratio before styling it
+     * @param {float} kda
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_kda(kda) {
+        if (kda >= 6) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (kda >= 1 && kda < 6) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the kill streak before styling it
+     * @param {int} killStreak
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_killStreak(killStreak) {
+        if (killStreak >= 5) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (killStreak >= 2 && killStreak < 5) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the longest kill distance before styling it
+     * @param {float} longestKill
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_longestKill(longestKill) {
+        if (longestKill >= 200) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (longestKill >= 100 && longestKill < 200) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the Headshot probability before styling it
+     * @param {float} headshot
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_headshot(headshot) {
+        if (headshot >= 50) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (headshot >= 40 && headshot < 50) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the damage per match before styling it
+     * @param {float} damagePerMatch
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_damagePerMatch(damagePerMatch) {
+        if (damagePerMatch >= 250) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (damagePerMatch >= 100 && damagePerMatch < 250) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
         }
     }
     /**
