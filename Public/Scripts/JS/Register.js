@@ -8,36 +8,20 @@ class Application extends React.Component {
          * States of the application
          */
         this.state = {
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * Mail address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
+            User: {
+                mailAddress: "",
+                username: "",
+            },
+            System: {
+                status: 0,
+                message: "",
+                url: "",
+            },
         };
     }
     /**
      * Redirecting the user to an intended url
-     * @param {int} delay
+     * @param {number} delay
      */
     redirector(delay) {
         setTimeout(() => {
@@ -52,9 +36,12 @@ class Application extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.setState((prev) => ({
+            User: {
+                ...prev.User,
+                [name]: value,
+            },
+        }));
     }
     /**
      * Handling the form submission
@@ -63,11 +50,11 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1975;
         event.preventDefault();
-        fetch("/Controllers/Register.php", {
+        fetch("/Register", {
             method: "POST",
             body: JSON.stringify({
-                username: this.state.username,
-                mailAddress: this.state.mailAddress,
+                username: this.state.User.username,
+                mailAddress: this.state.User.mailAddress,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -76,9 +63,11 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
+                    System: {
+                        status: data.status,
+                        message: data.message,
+                        url: data.url,
+                    },
                 })
             )
             .then(() => this.redirector(delay));
@@ -143,7 +132,7 @@ class Main extends Application {
                         type="text"
                         name="username"
                         placeholder="Username"
-                        value={this.state.username}
+                        value={this.state.User.username}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -151,7 +140,7 @@ class Main extends Application {
                         type="mail"
                         name="mailAddress"
                         placeholder="Mail Address"
-                        value={this.state.mailAddress}
+                        value={this.state.User.mailAddress}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -165,7 +154,7 @@ class Main extends Application {
                                 fontSize: this.handleResponseFontSize(),
                             }}
                         >
-                            {this.state.message}
+                            {this.state.System.message}
                         </h1>
                     </div>
                 </form>
