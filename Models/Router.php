@@ -73,9 +73,9 @@ class Router
             case 'POST':
                 $this->post($this->getRoute(), $this->getPath());
             case 'PATCH':
-                $this->patch();
+                // $this->patch();
             case 'DELETE':
-                $this->delete();
+                // $this->delete();
             default:
                 // $this->route($this->getRoute(), $this->getPath());
                 break;
@@ -112,6 +112,8 @@ class Router
             $table = "";
             if (str_contains($route, "Users")) {
                 $table = "Users";
+                $routing = explode("/", $route);
+                $_COOKIE["parameter"][0] = $routing[1];
                 $cacheData = json_encode($data);
                 $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$table}/{$date}.json", "w");
                 fwrite($cache, $cacheData);

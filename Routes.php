@@ -279,6 +279,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/Users/New':
                 $Router = new Router("POST", "/Users/New", "/Controllers/Register.php");
                 break;
+            case "/User/{$_COOKIE['parameter'][0]}":
+                $Router = new Router("POST", "/User/{$_COOKIE['parameter'][0]}", "/Controllers/Login.php");
+                unset($_COOKIE);
+                break;
         }
         break;
     case 'POST':
@@ -288,7 +292,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $Router = new Router("POST", "/Register", "/Controllers/Register.php");
                 break;
             case '/Login':
+            case "/User/{$_COOKIE['parameter'][0]}":
                 $Router = new Router("POST", "/Login", "/Controllers/Login.php");
+                unset($_COOKIE);
                 break;
                 // case "/Login/Verification/{$_SESSION['User']['username']}":
                 //     $Router = new Router("POST", "/Login/Verification/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
