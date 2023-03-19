@@ -66,7 +66,44 @@ class User extends Password
      */
     public function register()
     {
-        $request = json_decode(file_get_contents('php://input'));
+        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
+        $files = array_values(array_diff(scandir($directory), array(".", "..")));
+        $registrationFiles = array();
+        for ($index = 0; $index < count($files); $index++) {
+            $file = $files[$index];
+            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
+            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users/New") {
+                $registrationFile = array(
+                    "name" => $file,
+                    "data" => $fileData
+                );
+                array_push($registrationFiles, $registrationFile);
+            }
+        }
+        if (count($registrationFiles) != 0) {
+            if (count($registrationFiles) == 1) {
+                $file = $registrationFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            } else {
+                rsort($registrationFiles);
+                $file = $registrationFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            }
+        } else {
+            $response = array(
+                "status" => 3,
+                "url" => "/Register",
+                "message" => "Form data not found"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 404
+            );
+        }
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}.json");
         $this->setUsername($request->username);
         $this->setMailAddress($request->mailAddress);
         if (!is_null($this->getUsername()) && !is_null($this->getMailAddress())) {
