@@ -24,7 +24,7 @@ class Application extends React.Component {
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.System..url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
@@ -60,13 +60,13 @@ class Application extends React.Component {
         })
             .then((response) => response.json())
             .then((data) =>
-            this.setState({
-                System: {
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
-                },
-            })
+                this.setState({
+                    System: {
+                        status: data.status,
+                        message: data.message,
+                        url: data.url,
+                    },
+                })
             )
             .then(() => this.redirector(delay));
     }
