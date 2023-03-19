@@ -36,9 +36,9 @@ class Application extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState((prev) => ({
+        this.setState((previous) => ({
             User: {
-                ...prev.User,
+                ...previous.User,
                 [name]: value,
             },
         }));
