@@ -8,26 +8,14 @@ class Application extends React.Component {
          * States of the application
          */
         this.state = {
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
-            /**
-             * Mail Address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
+            User: {
+                mailAddress: "",
+            },
+            System: {
+                url: "",
+                status: 0,
+                message: "",
+            },
         };
     }
     /**
@@ -36,7 +24,7 @@ class Application extends React.Component {
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System..url;
         }, delay);
     }
     /**
@@ -47,9 +35,12 @@ class Application extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.setState((previous) => ({
+            User: {
+                ...previous.User,
+                [name]: value,
+            },
+        }));
     }
     /**
      * Handling the form submission
@@ -58,10 +49,10 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 2500;
         event.preventDefault();
-        fetch("/Controllers/ForgotPassword.php", {
+        fetch(`/Users/${this.state.User.mailAddress}/Password`, {
             method: "POST",
             body: JSON.stringify({
-                mailAddress: this.state.mailAddress,
+                mailAddress: this.state.User.mailAddress,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -69,20 +60,22 @@ class Application extends React.Component {
         })
             .then((response) => response.json())
             .then((data) =>
-                this.setState({
+            this.setState({
+                System: {
                     status: data.status,
                     message: data.message,
                     url: data.url,
-                })
+                },
+            })
             )
-            .then(() => super.redirector(delay));
+            .then(() => this.redirector(delay));
     }
     /**
      * Handling the response from the server
      * @returns {string}
      */
     handleResponseColor() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -93,7 +86,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseFontSize() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "71%";
         } else {
             return "180%";
@@ -152,7 +145,7 @@ class Main extends Application {
                                 fontSize: this.handleResponseFontSize(),
                             }}
                         >
-                            {this.state.message}
+                            {this.state.System.message}
                         </h1>
                     </div>
                 </form>
