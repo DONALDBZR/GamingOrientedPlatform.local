@@ -69,57 +69,102 @@ class Router
         $this->setPath($path);
         switch ($this->getRequestMethod()) {
             case 'GET':
+                $this->get($route, $path);
             case 'POST':
-            case 'PUT':
+                $this->post();
             case 'PATCH':
+                $this->patch();
             case 'DELETE':
+                $this->delete();
             default:
-                $this->route($this->getRoute(), $this->getPath());
+                // $this->route($this->getRoute(), $this->getPath());
                 break;
         }
     }
     /**
+     * Selecting data from the server
+     */
+    public function get(string $route, string $path)
+    {
+        if ($route != "/404") {
+            require_once "{$this->getRoot()}{$path}";
+            http_response_code(200);
+            exit();
+        } else {
+            require_once "{$this->getRoot()}/Views/HTTP404.php";
+            http_response_code(404);
+            exit();
+        }
+    }
+    /**
+     * Inserting data in the server
+     */
+    public function post(string $route, string $path)
+    {
+        if ($route != "/404") {
+            require_once "{$this->getRoot()}{$path}";
+            http_response_code(200);
+            exit();
+        } else {
+            require_once "{$this->getRoot()}/Views/HTTP404.php";
+            http_response_code(404);
+            exit();
+        }
+    }
+    /**
+     * Updating data in the server
+     */
+    public function patch()
+    {
+    }
+    /**
+     * Deleting data from the server
+     */
+    public function delete()
+    {
+    }
+    /**
      * Setting the route of the request to get an adequate response
      */
-    public function route(string $route, string $path)
-    {
-        if ($route == "/404") {
-            require_once "{$this->getRoot()}/{$path}";
-            exit();
-        }
-        $requestURL = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
-        $requestURL = rtrim($requestURL, '/');
-        $requestURL = strtok($requestURL, '?');
-        $routeParts = explode('/', $route);
-        $requestURLParts = explode('/', $requestURL);
-        array_shift($routeParts);
-        array_shift($requestURLParts);
-        if ($routeParts[0] == '' && count($requestURLParts) == 0) {
-            require_once "{$this->getRoot()}/{$path}";
-            exit();
-        }
-        if (count($routeParts) != count($requestURLParts)) {
-            return;
-        }
-        $parameters = array();
-        for ($index = 0; $index < count($routeParts); $index++) {
-            $routePart = $routeParts[$index];
-            if (preg_match("/^[$]/", $routePart)) {
-                $routePart = ltrim($routePart, '$');
-                array_push($parameters, $requestURLParts[$index]);
-                $$routePart = $requestURLParts[$index];
-            } else if ($routeParts[$index] != $requestURLParts[$index]) {
-                return;
-            }
-        }
-        if (is_callable($path)) {
-            call_user_func($path);
-            exit();
-        }
-        require_once "{$this->getRoot()}/{$path}";
-        http_response_code(200);
-        exit();
-    }
+    // public function route(string $route, string $path)
+    // {
+    //     if ($route == "/404") {
+    //         require_once "{$this->getRoot()}/{$path}";
+    //         exit();
+    //     }
+    //     $requestURL = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+    //     $requestURL = rtrim($requestURL, '/');
+    //     $requestURL = strtok($requestURL, '?');
+    //     $routeParts = explode('/', $route);
+    //     $requestURLParts = explode('/', $requestURL);
+    //     array_shift($routeParts);
+    //     array_shift($requestURLParts);
+    //     if ($routeParts[0] == '' && count($requestURLParts) == 0) {
+    //         require_once "{$this->getRoot()}/{$path}";
+    //         exit();
+    //     }
+    //     if (count($routeParts) != count($requestURLParts)) {
+    //         return;
+    //     }
+    //     $parameters = array();
+    //     for ($index = 0; $index < count($routeParts); $index++) {
+    //         $routePart = $routeParts[$index];
+    //         if (preg_match("/^[$]/", $routePart)) {
+    //             $routePart = ltrim($routePart, '$');
+    //             array_push($parameters, $requestURLParts[$index]);
+    //             $$routePart = $requestURLParts[$index];
+    //         } else if ($routeParts[$index] != $requestURLParts[$index]) {
+    //             return;
+    //         }
+    //     }
+    //     if (is_callable($path)) {
+    //         call_user_func($path);
+    //         exit();
+    //     }
+    //     require_once "{$this->getRoot()}/{$path}";
+    //     http_response_code(200);
+    //     exit();
+    // }
     /**
      * Creating Session
      */
