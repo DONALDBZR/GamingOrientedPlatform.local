@@ -77,7 +77,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseColor() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -88,7 +88,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseFontSize() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "71%";
         } else {
             return "180%";
