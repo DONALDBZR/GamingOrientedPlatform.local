@@ -112,8 +112,6 @@ class Router
             $table = "";
             if (str_contains($route, "Users")) {
                 $table = "Users";
-                $routing = explode("/", $route);
-                $_COOKIE["parameter"][0] = $routing[1];
                 $cacheData = json_encode($data);
                 $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$table}/{$date}.json", "w");
                 fwrite($cache, $cacheData);

@@ -3,7 +3,8 @@ ini_set('max_execution_time', '300');
 set_time_limit(300);
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
 error_reporting(E_ERROR | E_PARSE);
-// echo "{$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']} {$_SERVER['SERVER_PROTOCOL']}";
+echo "{$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']} {$_SERVER['SERVER_PROTOCOL']}";
+var_dump($_SESSION["parameter"]);
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         switch ($_SERVER['REQUEST_URI']) {
@@ -280,9 +281,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/Users/New':
                 $Router = new Router("POST", "/Users/New", "/Controllers/Register.php");
                 break;
-            case "/Users/{$_COOKIE['parameter'][0]}":
-                $Router = new Router("POST", "/Users/{$_COOKIE['parameter'][0]}", "/Controllers/Login.php");
-                unset($_COOKIE);
+            case "/Users":
+                $Router = new Router("POST", "/Users", "/Controllers/Login.php");
+                unset($_SESSION['parameter']);
                 break;
         }
         break;
@@ -293,7 +294,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $Router = new Router("POST", "/Register", "/Controllers/Register.php");
                 break;
             case '/Login':
-            case "/Users/{$_COOKIE['parameter'][0]}":
+            case "/Users":
                 $Router = new Router("POST", "/Login", "/Controllers/Login.php");
                 unset($_COOKIE);
                 break;
