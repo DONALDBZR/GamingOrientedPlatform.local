@@ -283,6 +283,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
     case 'POST':
         switch ($_SERVER['REQUEST_URI']) {
+            case '/Register':
             case '/Users/New':
                 $Router = new Router("POST", "/Register", "/Controllers/Register.php");
                 break;
