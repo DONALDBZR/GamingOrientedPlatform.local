@@ -69,9 +69,9 @@ class Router
         $this->setPath($path);
         switch ($this->getRequestMethod()) {
             case 'GET':
-                $this->get($route, $path);
+                $this->get($this->getRoute(), $this->getPath());
             case 'POST':
-                $this->post();
+                $this->post($this->getRoute(), $this->getPath());
             case 'PATCH':
                 $this->patch();
             case 'DELETE':
@@ -102,9 +102,28 @@ class Router
     public function post(string $route, string $path)
     {
         if ($route != "/404") {
-            require_once "{$this->getRoot()}{$path}";
-            http_response_code(200);
-            exit();
+            $date = date('y-m-d h-i-s');
+            $latestData = json_decode(file_get_contents("php://input"));
+            $data = array(
+                "requestMethod" => "POST",
+                "route" => $route,
+                "Data" => $latestData
+            );
+            $table = "";
+            if (str_contains($route, "Users")) {
+                $table = "Users";
+                $cacheData = json_encode($data);
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$table}/{$date}.json", "w");
+                fwrite($cache, $cacheData);
+                fclose($cache);
+                require_once "{$this->getRoot()}{$path}";
+                http_response_code(200);
+                exit();
+            } else {
+                require_once "{$this->getRoot()}/Views/HTTP503.php";
+                http_response_code(503);
+                exit();
+            }
         } else {
             require_once "{$this->getRoot()}/Views/HTTP404.php";
             http_response_code(404);
