@@ -53,8 +53,8 @@ class Application extends React.Component {
         fetch(`/Users/${this.state.User.username}`, {
             method: "POST",
             body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password,
+                username: this.state.User.username,
+                password: this.state.User.password,
             }),
             headers: {
                 "Content-Type": "application/json",
