@@ -8,31 +8,15 @@ class Application extends React.Component {
          * States of the application
          */
         this.state = {
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * password of the user
-             * @type {string}
-             */
-            password: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
+            User: {
+                username: "",
+                password: "",
+            },
+            System: {
+                url: "",
+                status: 0,
+                message: "",
+            },
         };
     }
     /**
@@ -41,7 +25,7 @@ class Application extends React.Component {
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
@@ -52,9 +36,12 @@ class Application extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.setState((previous) => ({
+            User: {
+                ...previous.User,
+                [name]: value,
+            },
+        }));
     }
     /**
      * Handling the form submission
@@ -63,7 +50,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1550;
         event.preventDefault();
-        fetch("/Controllers/Login.php", {
+        fetch(`/Users?${this.state.User.username}`, {
             method: "POST",
             body: JSON.stringify({
                 username: this.state.username,
@@ -76,9 +63,11 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
+                    System: {
+                        status: data.status,
+                        message: data.message,
+                        url: data.url,
+                    },
                 })
             )
             .then(() => this.redirector(delay));
@@ -162,7 +151,7 @@ class Main extends Application {
                         type="text"
                         name="username"
                         placeholder="Username"
-                        value={this.state.username}
+                        value={this.state.User.username}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -170,7 +159,7 @@ class Main extends Application {
                         type="password"
                         name="password"
                         placeholder="Password"
-                        value={this.state.password}
+                        value={this.state.User.password}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -184,7 +173,7 @@ class Main extends Application {
                                 fontSize: this.handleResponseFontSize(),
                             }}
                         >
-                            {this.state.message}
+                            {this.state.System.message}
                         </h1>
                     </div>
                 </form>
