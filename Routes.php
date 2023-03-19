@@ -3,8 +3,7 @@ ini_set('max_execution_time', '300');
 set_time_limit(300);
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
 error_reporting(E_ERROR | E_PARSE);
-echo "{$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']} {$_SERVER['SERVER_PROTOCOL']}";
-var_dump($_SESSION["parameter"]);
+// echo "{$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']} {$_SERVER['SERVER_PROTOCOL']}";
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         switch ($_SERVER['REQUEST_URI']) {

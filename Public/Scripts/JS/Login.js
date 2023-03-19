@@ -50,7 +50,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1550;
         event.preventDefault();
-        fetch(`/Users/${this.state.User.username}`, {
+        fetch("/Users", {
             method: "POST",
             body: JSON.stringify({
                 username: this.state.User.username,
