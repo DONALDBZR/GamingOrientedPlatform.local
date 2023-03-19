@@ -28,20 +28,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     $Router = new Router("GET", "/Register", "/Views/Register.php");
                 }
                 break;
-            case '/Users/New':
-                $Router = new Router("POST", "/Users/New", "/Controllers/Register.php");
+            case '/Login':
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                    }
+                } else {
+                    $Router = new Router("GET", "/Login", "/Views/Login.php");
+                }
                 break;
-                //     case '/Login':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //             }
-                //         } else {
-                //             $Router = new Router("GET", "/Login", "/Views/Login.php");
-                //         }
-                //         break;
                 //     case "/Login/Verification/{$_SESSION['User']['username']}":
                 //         if (isset($_SESSION['User'])) {
                 //             if (!isset($_SESSION['User']['otp'])) {
@@ -279,6 +276,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //             header("Location: /");
                 //         }
                 //         break;
+            case '/Users/New':
+                $Router = new Router("POST", "/Users/New", "/Controllers/Register.php");
+                break;
         }
         break;
     case 'POST':
@@ -287,9 +287,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/Users/New':
                 $Router = new Router("POST", "/Register", "/Controllers/Register.php");
                 break;
-                // case '/Login':
-                //     $Router = new Router("POST", "/Login", "/Controllers/Login.php");
-                //     break;
+            case '/Login':
+                $Router = new Router("POST", "/Login", "/Controllers/Login.php");
+                break;
                 // case "/Login/Verification/{$_SESSION['User']['username']}":
                 //     $Router = new Router("POST", "/Login/Verification/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
                 //     break;
