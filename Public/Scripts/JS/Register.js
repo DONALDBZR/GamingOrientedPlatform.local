@@ -25,7 +25,7 @@ class Application extends React.Component {
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
@@ -50,7 +50,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1975;
         event.preventDefault();
-        fetch("/Register", {
+        fetch("/Users/New", {
             method: "POST",
             body: JSON.stringify({
                 username: this.state.User.username,
