@@ -176,7 +176,44 @@ class User extends Password
      */
     public function login()
     {
-        $request = json_decode(file_get_contents("php://input"));
+        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
+        $files = array_values(array_diff(scandir($directory), array(".", "..")));
+        $loginFiles = array();
+        for ($index = 0; $index < count($files); $index++) {
+            $file = $files[$index];
+            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
+            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users") {
+                $loginFile = array(
+                    "name" => $file,
+                    "data" => $fileData
+                );
+                array_push($loginFiles, $loginFile);
+            }
+        }
+        if (count($loginFiles) != 0) {
+            if (count($loginFiles) == 1) {
+                $file = $loginFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            } else {
+                rsort($loginFiles);
+                $file = $loginFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            }
+        } else {
+            $response = array(
+                "status" => 3,
+                "url" => "/Login",
+                "message" => "Form data not found"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 404
+            );
+        }
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}.json");
         if (!is_null($request->username) && !is_null($request->password)) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersUsername = :UsersUsername");
             $this->PDO->bind(":UsersUsername", $request->username);
