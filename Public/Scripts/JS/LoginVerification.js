@@ -8,34 +8,30 @@ class Application extends React.Component {
          * States of the application
          */
         this.state = {
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
-            /**
-             * one-time password that is sent to the user
-             * @type {int}
-             */
-            oneTimePassword: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
+            User: {
+                username: "",
+                mailAddress: "",
+                profilePicture: "",
+                oneTimePassword: "",
+            },
+            Account: {
+                LeagueOfLegends: {
+                    gameName: "",
+                    tagLine: "",
+                    playerUniversallyUniqueIdentifier: "",
+                },
+                PlayerUnknownBattleGrounds: {
+                    identifier: "",
+                    platform: "",
+                    playerName: "",
+                },
+            },
+            System: {
+                url: "",
+                status: 0,
+                message: "",
+            },
         };
-    }
-    /**
-     * Renders the components that are being returned
-     * @returns {Application}
-     */
-    render() {
-        return [<Header />, <Main />, <Footer />];
     }
     /**
      * Redirecting the user to an intended url
@@ -43,7 +39,7 @@ class Application extends React.Component {
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
@@ -54,9 +50,12 @@ class Application extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.setState((previous) => ({
+            User: {
+                ...previous.User,
+                [name]: value,
+            },
+        }));
     }
     /**
      * Handling the form submission
@@ -65,10 +64,10 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1500;
         event.preventDefault();
-        fetch("/Controllers/LoginVerification.php", {
+        fetch(`/Login/${this.state.User.username}`, {
             method: "POST",
             body: JSON.stringify({
-                oneTimePassword: this.state.oneTimePassword,
+                oneTimePassword: this.state.User.oneTimePassword,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -77,9 +76,11 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
+                    System: {
+                        status: data.status,
+                        message: data.message,
+                        url: data.url,
+                    },
                 })
             )
             .then(() => this.redirector(delay));
@@ -89,7 +90,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseColor() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -100,11 +101,56 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseFontSize() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "71%";
         } else {
             return "180%";
         }
+    }
+    /**
+     * Retrieving the session data of the current user
+     */
+    getCurrentUser() {
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    User: {
+                        username: data.User.username,
+                        mailAddress: data.User.mailAddress,
+                        profilePicture: data.User.profilePicture,
+                    },
+                    Account: {
+                        LeagueOfLegends: {
+                            gameName: data.Account.LeagueOfLegends.gameName,
+                            tagLine: data.Account.LeagueOfLegends.tagLine,
+                            playerUniversallyUniqueIdentifier:
+                                data.Account.LeagueOfLegends
+                                    .playerUniversallyUniqueIdentifier,
+                        },
+                        PlayerUnknownBattleGrounds: {
+                            identifier:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .identifier,
+                            platform:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .platform,
+                            playerName:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .playerName,
+                        },
+                    },
+                })
+            );
+    }
+    /**
+     * Renders the components that are being returned
+     * @returns {Application}
+     */
+    render() {
+        return [<Header />, <Main />, <Footer />];
     }
 }
 /**
@@ -126,6 +172,9 @@ class Main extends Application {
     constructor(props) {
         super(props);
     }
+    componentDidMount() {
+        this.getCurrentUser();
+    }
     render() {
         return (
             <main>
@@ -138,7 +187,7 @@ class Main extends Application {
                         type="password"
                         name="oneTimePassword"
                         placeholder="One-Time Password"
-                        value={this.state.oneTimePassword}
+                        value={this.state.User.oneTimePassword}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -152,7 +201,7 @@ class Main extends Application {
                                 fontSize: this.handleResponseFontSize(),
                             }}
                         >
-                            {this.state.message}
+                            {this.state.System.message}
                         </h1>
                     </div>
                 </form>
