@@ -28,43 +28,42 @@ class User extends Password
         $this->Mail = new Mail();
         $this->domain = $_SERVER['HTTP_HOST'];
     }
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
-    public function setUsername(string $username)
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
-    public function getMailAddress()
+    public function getMailAddress(): string
     {
         return $this->mailAddress;
     }
-    public function setMailAddress(string $mailAddress)
+    public function setMailAddress(string $mailAddress): void
     {
         $this->mailAddress = $mailAddress;
     }
-    public function getPasswordId()
+    public function getPasswordId(): int
     {
         return $this->getId();
     }
-    public function setPasswordId(int $Password_id)
+    public function setPasswordId(int $Password_id): void
     {
         $this->setId($Password_id);
     }
-    public function getProfilePicture()
+    public function getProfilePicture(): null|string
     {
         return $this->profilePicture;
     }
-    public function setProfilePicture(?string $profile_picture)
+    public function setProfilePicture(?string $profile_picture): void
     {
         $this->profilePicture = $profile_picture;
     }
     /**
      * Registering the user
-     * @return JSON
      */
-    public function register()
+    public function register(): void
     {
         $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
         $files = array_values(array_diff(scandir($directory), array(".", "..")));
@@ -172,9 +171,8 @@ class User extends Password
     }
     /**
      * Allow the user to have access to the application
-     * @return JSON
      */
-    public function login()
+    public function login(): void
     {
         $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
         $files = array_values(array_diff(scandir($directory), array(".", "..")));
@@ -393,11 +391,50 @@ class User extends Password
     }
     /**
      * Resetting the password of the user
-     * @return JSON
      */
-    public function forgotPassword()
+    public function forgotPassword(): void
     {
-        $request = json_decode(file_get_contents('php://input'));
+        $route = $_SERVER['REQUEST_URI'];
+        $routes = explode("/", $route);
+        $parameter = $routes[2];
+        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
+        $files = array_values(array_diff(scandir($directory), array(".", "..")));
+        $forgotPasswordFiles = array();
+        for ($index = 0; $index < count($files); $index++) {
+            $file = $files[$index];
+            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
+            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users/{$parameter}/Password") {
+                $forgotPasswordFile = array(
+                    "name" => $file,
+                    "data" => $fileData
+                );
+                array_push($forgotPasswordFiles, $forgotPasswordFile);
+            }
+        }
+        if (count($forgotPasswordFiles) != 0) {
+            if (count($forgotPasswordFiles) == 1) {
+                $file = $forgotPasswordFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            } else {
+                rsort($forgotPasswordFiles);
+                $file = $forgotPasswordFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            }
+        } else {
+            $response = array(
+                "status" => 3,
+                "url" => "/ForgotPassword",
+                "message" => "Form data not found"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 404
+            );
+        }
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}.json");
         $this->setMailAddress($request->mailAddress);
         if (!is_null($this->getMailAddress())) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersMailAddress = :UsersMailAddress");
@@ -438,7 +475,7 @@ class User extends Password
             } else {
                 $response = array(
                     "status" => 6,
-                    "url" => $this->domain,
+                    "url" => "/",
                     "message" => "There is no account that is linked to this mail address!"
                 );
                 $headers = array(
