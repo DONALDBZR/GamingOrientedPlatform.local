@@ -128,7 +128,7 @@ class Password
         for ($index = 0; $index < count($files); $index++) {
             $file = $files[$index];
             $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
-            if ($fileData->requestMethod == "POST" && $fileData->route == "/Login/{$_SESSION['User']['username']}") {
+            if ($fileData->requestMethod == "POST" && $fileData->route == "/Passwords/{$_SESSION['User']['username']}") {
                 $otpVerifyFile = array(
                     "name" => $file,
                     "data" => $fileData
