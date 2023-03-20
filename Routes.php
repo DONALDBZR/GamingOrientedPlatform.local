@@ -3,7 +3,7 @@ ini_set('max_execution_time', '300');
 set_time_limit(300);
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
 error_reporting(E_ERROR | E_PARSE);
-// echo "{$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']} {$_SERVER['SERVER_PROTOCOL']}";
+echo "{$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']} {$_SERVER['SERVER_PROTOCOL']}";
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         switch ($_SERVER['REQUEST_URI']) {
@@ -38,6 +38,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     }
                 } else {
                     $Router = new Router("GET", "/Login", "/Views/Login.php");
+                }
+                break;
+            case '/ForgotPassword':
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                    }
+                } else {
+                    $Router = new Router("GET", "/ForgotPassword", "/Views/ForgotPassword.php");
                 }
                 break;
                 //     case "/Login/Verification/{$_SESSION['User']['username']}":
@@ -85,17 +96,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //             $Router = new Router("GET", "/LogOut", "/Controllers/SignOut.php");
                 //         } else {
                 //             header("Location: /");
-                //         }
-                //         break;
-                //     case '/ForgotPassword':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //             }
-                //         } else {
-                //             $Router = new Router("GET", "/ForgotPassword", "/Views/ForgotPassword.php");
                 //         }
                 //         break;
                 //     case "/Users/Profile/{$_SESSION['User']['username']}":
@@ -284,6 +284,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $Router = new Router("POST", "/Users", "/Controllers/Login.php");
                 unset($_SESSION['parameter']);
                 break;
+            case "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password":
+                $Router = new Router("POST", "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password", "/Controllers/ForgotPassword.php");
+                break;
         }
         break;
     case 'POST':
@@ -297,11 +300,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $Router = new Router("POST", "/Login", "/Controllers/Login.php");
                 unset($_COOKIE);
                 break;
+            case '/ForgotPassword':
+            case "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password":
+                $Router = new Router("POST", "/ForgotPassword", "/Controllers/ForgotPassword.php");
+                break;
                 // case "/Login/Verification/{$_SESSION['User']['username']}":
                 //     $Router = new Router("POST", "/Login/Verification/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
-                //     break;
-                // case '/ForgotPassword':
-                //     $Router = new Router("POST", "/ForgotPassword", "/Controllers/ForgotPassword.php");
                 //     break;
                 // case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
                 //     $Router = new Router("POST", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Controllers/UsersEditProfile.php");
