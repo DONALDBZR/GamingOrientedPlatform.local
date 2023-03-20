@@ -14,18 +14,6 @@ class Application extends React.Component {
                 profilePicture: "",
                 oneTimePassword: "",
             },
-            Account: {
-                LeagueOfLegends: {
-                    gameName: "",
-                    tagLine: "",
-                    playerUniversallyUniqueIdentifier: "",
-                },
-                PlayerUnknownBattleGrounds: {
-                    identifier: "",
-                    platform: "",
-                    playerName: "",
-                },
-            },
             System: {
                 url: "",
                 status: 0,
@@ -121,26 +109,6 @@ class Application extends React.Component {
                         username: data.User.username,
                         mailAddress: data.User.mailAddress,
                         profilePicture: data.User.profilePicture,
-                    },
-                    Account: {
-                        LeagueOfLegends: {
-                            gameName: data.Account.LeagueOfLegends.gameName,
-                            tagLine: data.Account.LeagueOfLegends.tagLine,
-                            playerUniversallyUniqueIdentifier:
-                                data.Account.LeagueOfLegends
-                                    .playerUniversallyUniqueIdentifier,
-                        },
-                        PlayerUnknownBattleGrounds: {
-                            identifier:
-                                data.Account.PlayerUnknownBattleGrounds
-                                    .identifier,
-                            platform:
-                                data.Account.PlayerUnknownBattleGrounds
-                                    .platform,
-                            playerName:
-                                data.Account.PlayerUnknownBattleGrounds
-                                    .playerName,
-                        },
                     },
                 })
             );
