@@ -280,7 +280,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $Router = new Router("POST", "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password", "/Controllers/ForgotPassword.php");
                 break;
             case "/Passwords/{$_SESSION['User']['username']}":
-                $Router = new Router("POST", "/Login/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
+                $Router = new Router("POST", "/Passwords/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
                 break;
         }
         break;
