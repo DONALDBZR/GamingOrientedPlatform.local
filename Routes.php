@@ -65,17 +65,23 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/Users/CurrentUser':
                 $Router = new Router("GET", "/Users/CurrentUser", "/Controllers/CurrentUser.php");
                 break;
-                //     case "/Users/Home/{$_SESSION['User']['username']}":
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 $Router = new Router("GET", "/Users/Home/{$_SESSION['User']['username']}", "/Views/UsersHome.php");
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
+            case "/Users/Home/{$_SESSION['User']['username']}":
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        $Router = new Router("GET", "/Users/Home/{$_SESSION['User']['username']}", "/Views/UsersHome.php");
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
+            case '/LegendsOfLegends/CurrentSummoner':
+                $Router = new Router("GET", "/LegendsOfLegends/CurrentSummoner", "/Controllers/CurrentSummoner.php");
+                break;
+            case '/PlayerUnknownBattleGrounds/CurrentPlayer':
+                $Router = new Router("GET", "/PlayerUnknownBattleGrounds/CurrentPlayer", "/Controllers/CurrentPlayer.php");
+                break;
                 //     case '/Sign-Out':
                 //         if (isset($_SESSION)) {
                 //             $Router = new Router("GET", "/Sign-Out", "/Views/SignOut.php");
@@ -141,21 +147,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //             } else {
                 //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
                 //                     $Router = new Router("GET", "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']), "/Views/LeagueOfLegendsHome.php");
-                //                 } else {
-                //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //                 }
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
-                //     case '/LegendsOfLegends/CurrentSummoner':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                //                     $Router = new Router("GET", "/LegendsOfLegends/CurrentSummoner", "/Controllers/CurrentSummoner.php");
                 //                 } else {
                 //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
                 //                 }
@@ -246,21 +237,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //             } else {
                 //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
                 //                     $Router = new Router("GET", "/LegendsOfLegends/PatchNotes", "/Controllers/PatchNotes.php");
-                //                 } else {
-                //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //                 }
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
-                //     case '/PlayerUnknownBattleGrounds/CurrentPlayer':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 if (isset($_SESSION['Account']['PlayerUnknownBattleGrounds'])) {
-                //                     $Router = new Router("GET", "/PlayerUnknownBattleGrounds/CurrentPlayer", "/Controllers/CurrentPlayer.php");
                 //                 } else {
                 //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
                 //                 }
