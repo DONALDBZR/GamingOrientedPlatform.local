@@ -119,6 +119,15 @@ class Router
                 require_once "{$this->getRoot()}{$path}";
                 http_response_code(200);
                 exit();
+            } else if (str_contains($route, "Passwords")) {
+                $table = "Passwords";
+                $cacheData = json_encode($data);
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$table}/{$date}.json", "w");
+                fwrite($cache, $cacheData);
+                fclose($cache);
+                require_once "{$this->getRoot()}{$path}";
+                http_response_code(200);
+                exit();
             } else {
                 require_once "{$this->getRoot()}/Views/HTTP503.php";
                 http_response_code(503);
