@@ -102,7 +102,7 @@ class User extends Password
                 "responseCode" => 404
             );
         }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}.json");
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         $this->setUsername($request->username);
         $this->setMailAddress($request->mailAddress);
         if (!is_null($this->getUsername()) && !is_null($this->getMailAddress())) {
@@ -211,7 +211,7 @@ class User extends Password
                 "responseCode" => 404
             );
         }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}.json");
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         if (!is_null($request->username) && !is_null($request->password)) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersUsername = :UsersUsername");
             $this->PDO->bind(":UsersUsername", $request->username);
@@ -434,7 +434,7 @@ class User extends Password
                 "responseCode" => 404
             );
         }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}.json");
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         $this->setMailAddress($request->mailAddress);
         if (!is_null($this->getMailAddress())) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersMailAddress = :UsersMailAddress");
