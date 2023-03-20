@@ -8,253 +8,83 @@ class Application extends React.Component {
          * States of the properties of the component
          */
         this.state = {
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * Mail Address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * Domain of the application
-             * @type {string}
-             */
-            domain: "",
-            /**
-             * User's profile picture
-             * @type {string}
-             */
-            profilePicture: "",
-            /**
-             * User's League of Legends username
-             * @type {string}
-             */
-            lolUsername: "",
-            /**
-             * User's League of Legends Region
-             * @type {string}
-             */
-            lolRegion: "",
-            /**
-             * User's Riot's ID
-             * @type {string}
-             */
-            riotId: "",
-            /**
-             * Summoner's level
-             * @type {int}
-             */
-            level: 0,
-            /**
-             * Summoner Icon
-             * @type {int}
-             */
-            summonerIcon: 0,
-            /**
-             * Ranked Solo/Duo rank tier
-             * @type {string}
-             */
-            soloDuoTier: "",
-            /**
-             * Ranked Solo/Duo rank division
-             * @type {string}
-             */
-            soloDuoDivision: "",
-            /**
-             * Ranked Solo/Duo rank league points
-             * @type {int}
-             */
-            soloDuoLeaguePoints: 0,
-            /**
-             * Ranked Solo/Duo rank win rate
-             * @type {float}
-             */
-            soloDuoWinRate: 0.0,
-            /**
-             * Ranked Flex rank tier
-             * @type {string}
-             */
-            flexTier: "",
-            /**
-             * Ranked Flex rank division
-             * @type {string}
-             */
-            flexDivision: "",
-            /**
-             * Ranked Flex rank league points
-             * @type {int}
-             */
-            flexLeaguePoints: 0,
-            /**
-             * Ranked Flex rank win rate
-             * @type {float}
-             */
-            flexWinRate: 0.0,
-            /**
-             * KDA Ratio of the player
-             * @type {float}
-             */
-            kdaRatio: 0.0,
-            /**
-             * Creep Score per minute of the player
-             * @type {float}
-             */
-            csMin: 0.0,
-            /**
-             * Vision Score per minute of the player
-             * @type {float}
-             */
-            vsMin: 0.0,
-            /**
-             * Game Name of the player
-             * @type {string}
-             */
-            gameName: "",
-            /**
-             * PUBG's ID of the user
-             * @type {string}
-             */
-            pubgId: "",
-            /**
-             * PUBG's platform of the user
-             * @type {string}
-             */
-            pubgPlatform: "",
-            /**
-             * PUBG's username of the user
-             * @type {string}
-             */
-            pubgPlayerName: "",
-            /**
-             * PUBG's card's data
-             * @type {object}
-             */
-            pubgCard: {
-                /**
-                 * Response code from PUBG API
-                 * @type {number}
-                 */
-                account: 200,
-                /**
-                 * Response code from PUBG API
-                 * @type {number}
-                 */
-                lifetime: 200,
-                /**
-                 * Duo stats
-                 * @type {object}
-                 */
-                duo: {
-                    /**
-                     * Win Probability
-                     * @type {number}
-                     */
-                    winrate: 0.0,
-                    /**
-                     * Top 10 Probability
-                     * @type {number}
-                     */
-                    top10Probability: 0.0,
+            User: {
+                username: "",
+                mailAddress: "",
+                profilePicture: "",
+            },
+            Accounts: {
+                LeagueOfLegends: {
+                    playerUniversallyUniqueIdentifier: "",
+                    gameName: "",
+                    tagLine: "",
+                    Summoner: {
+                        level: 0,
+                        summonerIcon: 0,
+                        soloDuoTier: "",
+                        soloDuoDivision: "",
+                        soloDuoLeaguePoints: 0,
+                        soloDuoWinRate: 0.0,
+                        flexTier: "",
+                        flexDivision: "",
+                        flexLeaguePoints: 0,
+                        flexWinRate: 0.0,
+                        kdaRatio: 0.0,
+                        csMin: 0.0,
+                        vsMin: 0.0,
+                    },
                 },
-                /**
-                 * Solo stats
-                 * @type {object}
-                 */
-                solo: {
-                    /**
-                     * Win Probability
-                     * @type {number}
-                     */
-                    winrate: 0.0,
-                    /**
-                     * Top 10 Probability
-                     * @type {number}
-                     */
-                    top10Probability: 0.0,
+                PlayerUnknownBattleGrounds: {
+                    identifier: "",
+                    playerName: "",
+                    platform: "",
+                    Player: {
+                        account: 200,
+                        lifetime: 200,
+                        Duo: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        Solo: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        Squad: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        kda: 0.0,
+                        killStreak: 0,
+                        longestKill: 0.0,
+                        headshot: 0.0,
+                        damagePerMatch: 0.0,
+                    },
                 },
-                /**
-                 * Squad stats
-                 * @type {object}
-                 */
-                squad: {
-                    /**
-                     * Win Probability
-                     * @type {number}
-                     */
-                    winrate: 0.0,
-                    /**
-                     * Top 10 Probability
-                     * @type {number}
-                     */
-                    top10Probability: 0.0,
-                },
-                /**
-                 * KDA
-                 * @type {number}
-                 */
-                kda: 0.0,
-                /**
-                 * Killing Streak
-                 * @type {number}
-                 */
-                killStreak: 0,
-                /**
-                 * Headshots percentage
-                 * @type {number}
-                 */
-                headshot: 0.0,
-                /**
-                 * Damage per match
-                 * @type {number}
-                 */
-                damagePerMatch: 0.0,
             },
         };
     }
     /**
-     * Retrieving the session's data that is stored as a JSON to be used in the rendering
+     * Retrieving every data needed for processing
      */
     retrieveData() {
-        fetch("/Users/CurrentUser", {
-            method: "GET",
-        })
-            .then((response) => response.json())
-            .then((data) =>
-                this.setState({
-                    username: data.User.username,
-                    mailAddress: data.User.mailAddress,
-                    domain: data.User.domain,
-                    profilePicture: data.User.profilePicture,
-                    lolUsername: data.Account.LeagueOfLegends.gameName,
-                    lolRegion: data.Account.LeagueOfLegends.tagLine,
-                    riotId: data.Account.LeagueOfLegends
-                        .playerUniversallyUniqueIdentifier,
-                    pubgId: data.Account.PlayerUnknownBattleGrounds.identifier,
-                    pubgPlatform:
-                        data.Account.PlayerUnknownBattleGrounds.platform,
-                    pubgPlayerName:
-                        data.Account.PlayerUnknownBattleGrounds.playerName,
-                })
-            );
+        this.getCurrentUser();
+        this.getSummonerData();
+        this.getPlayerData();
     }
     /**
      * Verifying the state before rendering the link
-     * @returns {Application} Component
      */
     verifyUser_username() {
-        if (this.state.profilePicture != null) {
+        if (this.state.User.profilePicture != null) {
             return (
-                <a href={`/Users/Profile/${this.state.username}`}>
-                    <img src={this.state.profilePicture} />
+                <a href={`/Users/Profile/${this.state.User.username}`}>
+                    <img src={this.state.User.profilePicture} />
                 </a>
             );
         } else {
             return (
                 <a
-                    href={`/Users/Profile/${this.state.username}`}
+                    href={`/Users/Profile/${this.state.User.username}`}
                     class="fa fa-user"
                 ></a>
             );
@@ -262,15 +92,17 @@ class Application extends React.Component {
     }
     /**
      * Verifying the state before rendering the link
-     * @returns {Application} Component
      */
     verifyAccount_Riot_ID() {
-        if (this.state.riotId != null) {
+        if (
+            this.state.Accounts.LeagueOfLegends
+                .playerUniversallyUniqueIdentifier != null
+        ) {
             return (
                 <div id="leagueOfLegendsCard">
                     <div>
                         <a
-                            href={`/LeagueOfLegends/Home/${this.state.gameName}`}
+                            href={`/LeagueOfLegends/Home/${this.state.Accounts.LeagueOfLegends.gameName}`}
                         >
                             <img src="/Public/Images/League Of Legends Logo.png" />
                         </a>
@@ -278,10 +110,18 @@ class Application extends React.Component {
                     <div>
                         <div>
                             <img
-                                src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.summonerIcon}.png`}
+                                src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.Accounts.LeagueOfLegends.Summoner.summonerIcon}.png`}
                             />
-                            <div>Level {this.state.level}</div>
-                            <div>{this.state.gameName}</div>
+                            <div>
+                                Level{" "}
+                                {
+                                    this.state.Accounts.LeagueOfLegends.Summoner
+                                        .level
+                                }
+                            </div>
+                            <div>
+                                {this.state.Accounts.LeagueOfLegends.gameName}
+                            </div>
                         </div>
                         <div>
                             <div>
@@ -289,26 +129,32 @@ class Application extends React.Component {
                                 <div>
                                     <img
                                         src={this.verifyLeagueOfLegends_rank_emblem(
-                                            this.state.soloDuoTier
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.soloDuoTier
                                         )}
                                     />
                                 </div>
                                 <div>
                                     <div>
                                         {this.verifyLeagueOfLegends_rank(
-                                            this.state.soloDuoTier,
-                                            this.state.soloDuoDivision,
-                                            this.state.soloDuoLeaguePoints
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.soloDuoTier,
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.soloDuoDivision,
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.soloDuoLeaguePoints
                                         )}
                                     </div>
                                     <div>Win Rate:</div>
                                     <div
                                         style={{
                                             color: this.verifyLeagueOfLegends_winRate(
-                                                this.state.soloDuoWinRate
+                                                this.state.Accounts
+                                                    .LeagueOfLegends.Summoner
+                                                    .soloDuoWinRate
                                             ),
                                         }}
-                                    >{`${this.state.soloDuoWinRate} %`}</div>
+                                    >{`${this.state.Accounts.LeagueOfLegends.Summoner.soloDuoWinRate} %`}</div>
                                 </div>
                             </div>
                             <div>
@@ -316,26 +162,32 @@ class Application extends React.Component {
                                 <div>
                                     <img
                                         src={this.verifyLeagueOfLegends_rank_emblem(
-                                            this.state.flexTier
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.flexTier
                                         )}
                                     />
                                 </div>
                                 <div>
                                     <div>
                                         {this.verifyLeagueOfLegends_rank(
-                                            this.state.flexTier,
-                                            this.state.flexDivision,
-                                            this.state.flexLeaguePoints
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.flexTier,
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.flexDivision,
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.flexLeaguePoints
                                         )}
                                     </div>
                                     <div>Win Rate:</div>
                                     <div
                                         style={{
                                             color: this.verifyLeagueOfLegends_winRate(
-                                                this.state.flexWinRate
+                                                this.state.Accounts
+                                                    .LeagueOfLegends.Summoner
+                                                    .flexWinRate
                                             ),
                                         }}
-                                    >{`${this.state.flexWinRate} %`}</div>
+                                    >{`${this.state.Accounts.LeagueOfLegends.Summoner.flexWinRate} %`}</div>
                                 </div>
                             </div>
                         </div>
@@ -345,11 +197,15 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyLeagueOfLegends_kda(
-                                            this.state.kdaRatio
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.kdaRatio
                                         ),
                                     }}
                                 >
-                                    {this.state.kdaRatio}
+                                    {
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.kdaRatio
+                                    }
                                 </div>
                             </div>
                             <div>
@@ -357,11 +213,15 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyLeagueOfLegends_csMin(
-                                            this.state.csMin
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.csMin
                                         ),
                                     }}
                                 >
-                                    {this.state.csMin}
+                                    {
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.csMin
+                                    }
                                 </div>
                             </div>
                             <div>
@@ -369,11 +229,15 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyLeagueOfLegends_vsMin(
-                                            this.state.vsMin
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.vsMin
                                         ),
                                     }}
                                 >
-                                    {this.state.vsMin}
+                                    {
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.vsMin
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -385,7 +249,9 @@ class Application extends React.Component {
                 <div>
                     You should add your account for League of Legends before
                     having accessed to the required content. You can click{" "}
-                    <a href={`/Users/Accounts/${this.state.username}`}>here</a>{" "}
+                    <a href={`/Users/Accounts/${this.state.User.username}`}>
+                        here
+                    </a>{" "}
                     to process into adding your account!
                 </div>
             );
@@ -394,36 +260,37 @@ class Application extends React.Component {
     /**
      * Retrieving data from Riot Games data center for the user
      */
-    retrieveLoL_SummonerData() {
+    getSummonerData() {
         fetch("/LegendsOfLegends/CurrentSummoner", {
             method: "GET",
         })
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    level: data.summonerLevel,
-                    summonerIcon: data.profileIconId,
-                    soloDuoTier: data.soloDuoTier,
-                    soloDuoDivision: data.soloDuoRank,
-                    soloDuoLeaguePoints: data.soloDuoLeaguePoints,
-                    soloDuoWinRate: data.soloDuoWinRate,
-                    flexTier: data.flexTier,
-                    flexDivision: data.flexRank,
-                    flexLeaguePoints: data.flexLeaguePoints,
-                    flexWinRate: data.flexWinRate,
-                    kdaRatio: data.kdaRatio,
-                    csMin: data.csMin,
-                    vsMin: data.vsMin,
-                    gameName: data.gameName,
+                    Accounts: {
+                        LeagueOfLegends: {
+                            Summoner: {
+                                level: data.summonerLevel,
+                                summonerIcon: data.profileIconId,
+                                soloDuoTier: data.soloDuoTier,
+                                soloDuoDivision: data.soloDuoRank,
+                                soloDuoLeaguePoints: data.soloDuoLeaguePoints,
+                                soloDuoWinRate: data.soloDuoWinRate,
+                                flexTier: data.flexTier,
+                                flexDivision: data.flexRank,
+                                flexLeaguePoints: data.flexLeaguePoints,
+                                flexWinRate: data.flexWinRate,
+                                kdaRatio: data.kdaRatio,
+                                csMin: data.csMin,
+                                vsMin: data.vsMin,
+                            },
+                        },
+                    },
                 })
             );
     }
     /**
      * Verifying the ranks of the player
-     * @param {string | null} tier
-     * @param {string | null} rank
-     * @param {number | null} point
-     * @returns {string}
      */
     verifyLeagueOfLegends_rank(tier, rank, point) {
         if (tier == "" || tier == null) {
@@ -434,8 +301,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the ranks of the player for the logo
-     * @param {string | null} tier
-     * @returns {string}
      */
     verifyLeagueOfLegends_rank_emblem(tier) {
         if (tier == "" || tier == null) {
@@ -446,8 +311,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the winrate before styling it
-     * @param {float} win_rate
-     * @returns {string}
      */
     verifyLeagueOfLegends_winRate(win_rate) {
         if (win_rate >= 50) {
@@ -460,8 +323,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the KDA before styling it
-     * @param {float} kda
-     * @returns {string}
      */
     verifyLeagueOfLegends_kda(kda) {
         if (kda >= 4) {
@@ -474,8 +335,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the CS/Min before styling it
-     * @param {float} cs_min
-     * @returns {string}
      */
     verifyLeagueOfLegends_csMin(cs_min) {
         if (cs_min >= 6) {
@@ -488,8 +347,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the VS/Min before styling it
-     * @param {float} vs_min
-     * @returns {string}
      */
     verifyLeagueOfLegends_vsMin(vs_min) {
         if (vs_min >= 2) {
@@ -503,55 +360,47 @@ class Application extends React.Component {
     /**
      * Retrieving data from PUBG Corporations data center for the user
      */
-    retrievePUBG_PlayerData() {
+    getPlayerData() {
         fetch("/PlayerUnknownBattleGrounds/CurrentPlayer", {
             method: "GET",
         })
             .then((response) => response.json())
             .then((data) => {
-                if (
-                    data.httpResponseCode_account == 200 &&
-                    data.httpResponseCode_lifetime == 200
-                ) {
-                    this.setState({
-                        pubgCard: {
-                            account: data.httpResponseCode_account,
-                            lifetime: data.httpResponseCode_lifetime,
-                            duo: {
-                                winrate: data.duo.winrate,
-                                top10Probability: data.duo.top10Probability,
-                            },
-                            solo: {
-                                winrate: data.solo.winrate,
-                                top10Probability: data.solo.top10Probability,
-                            },
-                            squad: {
-                                winrate: data.squad.winrate,
-                                top10Probability: data.squad.top10Probability,
-                            },
-                            kda: data.kda,
-                            killStreak: data.killStreak,
-                            longestKill: data.longestKill,
-                            headshot: data.headshot,
-                            damagePerMatch: data.damagePerMatch,
+                this.setState({
+                    Player: {
+                        account: data.httpResponseCode_account,
+                        lifetime: data.httpResponseCode_lifetime,
+                        Duo: {
+                            winrate: data.duo.winrate,
+                            top10Probability: data.duo.top10Probability,
                         },
-                    });
-                } else {
-                    window.location.reload();
-                }
+                        Solo: {
+                            winrate: data.solo.winrate,
+                            top10Probability: data.solo.top10Probability,
+                        },
+                        Squad: {
+                            winrate: data.squad.winrate,
+                            top10Probability: data.squad.top10Probability,
+                        },
+                        kda: data.kda,
+                        killStreak: data.killStreak,
+                        longestKill: data.longestKill,
+                        headshot: data.headshot,
+                        damagePerMatch: data.damagePerMatch,
+                    },
+                });
             });
     }
     /**
      * Verifying the state before rendering the link
-     * @returns {Application} Component
      */
     verifyAccount_PUBG_ID() {
-        if (this.state.pubgId != null) {
+        if (this.state.Accounts.PlayerUnknownBattleGrounds.identifier != null) {
             return (
                 <div id="playerUnknownBattleGroundsCard">
                     <div>
                         <a
-                            href={`/PlayerUnknownBattleGrounds/Home/${this.state.pubgPlayerName}`}
+                            href={`/PlayerUnknownBattleGrounds/Home/${this.state.Accounts.PlayerUnknownBattleGrounds.playerName}`}
                         >
                             <img src="/Public/Images/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
                         </a>
@@ -567,22 +416,25 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_winRate(
-                                            this.state.pubgCard.solo.winrate
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Solo.winrate
                                         ),
                                     }}
-                                >{`${this.state.pubgCard.solo.winrate} %`}</div>
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Solo.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's:</div>
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
-                                            this.state.pubgCard.solo
-                                                .top10Probability
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Solo.top10Probability
                                         ),
                                     }}
                                 >
-                                    {`${this.state.pubgCard.solo.top10Probability} %`}
+                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Solo.top10Probability} %`}
                                 </div>
                             </div>
                         </div>
@@ -593,22 +445,25 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_winRate(
-                                            this.state.pubgCard.duo.winrate
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Duo.winrate
                                         ),
                                     }}
-                                >{`${this.state.pubgCard.duo.winrate} %`}</div>
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Duo.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's:</div>
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
-                                            this.state.pubgCard.duo
-                                                .top10Probability
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Duo.top10Probability
                                         ),
                                     }}
                                 >
-                                    {`${this.state.pubgCard.duo.top10Probability} %`}
+                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Duo.top10Probability} %`}
                                 </div>
                             </div>
                         </div>
@@ -629,12 +484,13 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
-                                            this.state.pubgCard.squad
-                                                .top10Probability
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Squad.top10Probability
                                         ),
                                     }}
                                 >
-                                    {`${this.state.pubgCard.squad.top10Probability} %`}
+                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Squad.top10Probability} %`}
                                 </div>
                             </div>
                         </div>
@@ -644,11 +500,17 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_kda(
-                                            this.state.pubgCard.kda
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.kda
                                         ),
                                     }}
                                 >
-                                    {this.state.pubgCard.kda}
+                                    {
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .kda
+                                    }
                                 </div>
                             </div>
                             <div>
@@ -656,11 +518,17 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_killStreak(
-                                            this.state.pubgCard.killStreak
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.killStreak
                                         ),
                                     }}
                                 >
-                                    {this.state.pubgCard.killStreak}
+                                    {
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .killStreak
+                                    }
                                 </div>
                             </div>
                             <div>
@@ -668,31 +536,41 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_longestKill(
-                                            this.state.pubgCard.longestKill
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.longestKill
                                         ),
                                     }}
-                                >{`${this.state.pubgCard.longestKill} m`}</div>
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.longestKill} m`}</div>
                             </div>
                             <div>
                                 <div>Headshot:</div>
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_headshot(
-                                            this.state.pubgCard.headshot
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.headshot
                                         ),
                                     }}
-                                >{`${this.state.pubgCard.headshot} %`}</div>
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.headshot} %`}</div>
                             </div>
                             <div>
                                 <div>Damage/Match:</div>
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_damagePerMatch(
-                                            this.state.pubgCard.damagePerMatch
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.damagePerMatch
                                         ),
                                     }}
                                 >
-                                    {this.state.pubgCard.damagePerMatch}
+                                    {
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .damagePerMatch
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -704,7 +582,9 @@ class Application extends React.Component {
                 <div>
                     You should add your account for PUBG before having accessed
                     to the required content. You can click{" "}
-                    <a href={`/Users/Accounts/${this.state.username}`}>here</a>{" "}
+                    <a href={`/Users/Accounts/${this.state.User.username}`}>
+                        here
+                    </a>{" "}
                     to process into adding your account!
                 </div>
             );
@@ -712,8 +592,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the winrate before styling it
-     * @param {float} win_rate
-     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_winRate(win_rate) {
         if (win_rate >= 50) {
@@ -726,8 +604,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the top 10 probability before styling it
-     * @param {float} top10Probability
-     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_top10Probability(top10Probability) {
         if (top10Probability >= 50) {
@@ -740,8 +616,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the kda ratio before styling it
-     * @param {float} kda
-     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_kda(kda) {
         if (kda >= 6) {
@@ -754,8 +628,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the kill streak before styling it
-     * @param {int} killStreak
-     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_killStreak(killStreak) {
         if (killStreak >= 5) {
@@ -768,8 +640,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the longest kill distance before styling it
-     * @param {float} longestKill
-     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_longestKill(longestKill) {
         if (longestKill >= 200) {
@@ -782,8 +652,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the Headshot probability before styling it
-     * @param {float} headshot
-     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_headshot(headshot) {
         if (headshot >= 50) {
@@ -796,8 +664,6 @@ class Application extends React.Component {
     }
     /**
      * Verifying the damage per match before styling it
-     * @param {float} damagePerMatch
-     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_damagePerMatch(damagePerMatch) {
         if (damagePerMatch >= 250) {
@@ -807,6 +673,44 @@ class Application extends React.Component {
         } else {
             return "rgb(100%, 0%, 0%)";
         }
+    }
+    /**
+     * Retrieving the user data
+     */
+    getCurrentUser() {
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    User: {
+                        username: data.User.username,
+                        mailAddress: data.User.mailAddress,
+                        profilePicture: data.User.profilePicture,
+                    },
+                    Accounts: {
+                        LeagueOfLegends: {
+                            gameName: data.Account.LeagueOfLegends.gameName,
+                            tagLine: data.Account.LeagueOfLegends.tagLine,
+                            playerUniversallyUniqueIdentifier:
+                                data.Account.LeagueOfLegends
+                                    .playerUniversallyUniqueIdentifier,
+                        },
+                        PlayerUnknownBattleGrounds: {
+                            identifier:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .identifier,
+                            platform:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .platform,
+                            playerName:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .playerName,
+                        },
+                    },
+                })
+            );
     }
     /**
      * Renders the components that are being returned
@@ -827,14 +731,14 @@ class Header extends Application {
      * Methods to be run as soon as the component is mounted
      */
     componentDidMount() {
-        this.retrieveData();
+        this.getCurrentUser();
     }
     render() {
         return (
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>
+                        <a href={`/Users/Home/${this.state.User.username}`}>
                             Parkinston
                         </a>
                     </div>
@@ -859,8 +763,6 @@ class Main extends Application {
      */
     componentDidMount() {
         this.retrieveData();
-        this.retrieveLoL_SummonerData();
-        this.retrievePUBG_PlayerData();
     }
     render() {
         return (
