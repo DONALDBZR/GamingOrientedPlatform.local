@@ -3,7 +3,7 @@ ini_set('max_execution_time', '300');
 set_time_limit(300);
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
 error_reporting(E_ERROR | E_PARSE);
-echo "{$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']} {$_SERVER['SERVER_PROTOCOL']}";
+// echo "{$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']} {$_SERVER['SERVER_PROTOCOL']} <br />";
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         switch ($_SERVER['REQUEST_URI']) {
@@ -51,17 +51,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     $Router = new Router("GET", "/ForgotPassword", "/Views/ForgotPassword.php");
                 }
                 break;
-                //     case "/Login/Verification/{$_SESSION['User']['username']}":
-                //         if (isset($_SESSION['User'])) {
-                //             if (!isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 $Router = new Router("GET", "/Login/Verification/{$_SESSION['User']['username']}", "/Views/LoginVerification.php");
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
+            case "/Login/Verification/{$_SESSION['User']['username']}":
+                if (isset($_SESSION['User'])) {
+                    if (!isset($_SESSION['User']['otp'])) {
+                        header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                    } else {
+                        $Router = new Router("GET", "/Login/Verification/{$_SESSION['User']['username']}", "/Views/LoginVerification.php");
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
+            case '/Users/CurrentUser':
+                $Router = new Router("GET", "/Users/CurrentUser", "/Controllers/CurrentUser.php");
+                break;
                 //     case "/Users/Home/{$_SESSION['User']['username']}":
                 //         if (isset($_SESSION['User'])) {
                 //             if (isset($_SESSION['User']['otp'])) {
@@ -71,17 +74,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //             }
                 //         } else {
                 //             header("Location: /");
-                //         }
-                //         break;
-                //     case '/Users/CurrentUser':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 $Router = new Router("GET", "/Users/CurrentUser", "/Controllers/CurrentUser.php");
-                //             }
-                //         } else {
-                //             header("Location: /Sign-Out");
                 //         }
                 //         break;
                 //     case '/Sign-Out':
@@ -287,6 +279,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password":
                 $Router = new Router("POST", "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password", "/Controllers/ForgotPassword.php");
                 break;
+            case "/Login/{$_SESSION['User']['username']}":
+                $Router = new Router("POST", "/Login/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
+                break;
         }
         break;
     case 'POST':
@@ -304,9 +299,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password":
                 $Router = new Router("POST", "/ForgotPassword", "/Controllers/ForgotPassword.php");
                 break;
-                // case "/Login/Verification/{$_SESSION['User']['username']}":
-                //     $Router = new Router("POST", "/Login/Verification/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
-                //     break;
+            case "/Login/Verification/{$_SESSION['User']['username']}":
+            case "/Login/{$_SESSION['User']['username']}":
+                $Router = new Router("POST", "/Login/Verification/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
+                break;
                 // case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
                 //     $Router = new Router("POST", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Controllers/UsersEditProfile.php");
                 //     break;
