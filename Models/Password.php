@@ -41,52 +41,50 @@ class Password
         $this->domain = "http://{$_SERVER['HTTP_HOST']}";
         $this->PDO = new PHPDataObject();
     }
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    public function getSalt()
+    public function getSalt(): string
     {
         return $this->salt;
     }
-    public function setSalt(string $salt)
+    public function setSalt(string $salt): void
     {
         $this->salt = $salt;
     }
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
-    public function setPassword(string $password)
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
-    public function setHash(string $hash)
+    public function setHash(string $hash): void
     {
         $this->hash = $hash;
     }
-    public function getOtp()
+    public function getOtp(): string
     {
         return $this->otp;
     }
-    public function setOtp(string $otp)
+    public function setOtp(string $otp): void
     {
         $this->otp = $otp;
     }
     /**
      * Generating either a string or an integer
-     * @param string $parameter
-     * @return string
      */
-    public function generator(string $parameter)
+    public function generator(string $parameter): string
     {
         $length = 0;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/.';
@@ -121,11 +119,48 @@ class Password
     }
     /**
      * Verifying the one-time password that was sent to the user
-     * @return JSON
      */
-    public function otpVerify()
+    public function otpVerify(): void
     {
-        $request = json_decode(file_get_contents('php://input'));
+        $route = $_SERVER['REQUEST_URI'];
+        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
+        $files = array_values(array_diff(scandir($directory), array(".", "..")));
+        $otpVerifyFiles = array();
+        for ($index = 0; $index < count($files); $index++) {
+            $file = $files[$index];
+            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
+            if ($fileData->requestMethod == "POST" && $fileData->route == "/Login/{$_SESSION['User']['username']}") {
+                $otpVerifyFile = array(
+                    "name" => $file,
+                    "data" => $fileData
+                );
+                array_push($otpVerifyFiles, $otpVerifyFile);
+            }
+        }
+        if (count($otpVerifyFiles) != 0) {
+            if (count($otpVerifyFiles) == 1) {
+                $file = $otpVerifyFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            } else {
+                rsort($otpVerifyFiles);
+                $file = $otpVerifyFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            }
+        } else {
+            $response = array(
+                "status" => 3,
+                "url" => "/Login/Verification/{$_SESSION['User']['username']}",
+                "message" => "Form data not found"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 404
+            );
+        }
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         if (!is_null($request->oneTimePassword)) {
             if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
                 $cache = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json"));
@@ -162,7 +197,7 @@ class Password
                 unset($_SESSION['User']);
                 $response = array(
                     "status" => 5,
-                    "url" => $this->domain,
+                    "url" => "/",
                     "message" => "The Password does not correspond to the one that was sent to you!"
                 );
                 $headers = array(
