@@ -52,7 +52,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 1500;
         event.preventDefault();
-        fetch(`/Login/${this.state.User.username}`, {
+        fetch(`/Passwords/${this.state.User.username}`, {
             method: "POST",
             body: JSON.stringify({
                 oneTimePassword: this.state.User.oneTimePassword,

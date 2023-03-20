@@ -122,8 +122,7 @@ class Password
      */
     public function otpVerify(): void
     {
-        $route = $_SERVER['REQUEST_URI'];
-        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
+        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Passwords/";
         $files = array_values(array_diff(scandir($directory), array(".", "..")));
         $otpVerifyFiles = array();
         for ($index = 0; $index < count($files); $index++) {
@@ -160,7 +159,7 @@ class Password
                 "responseCode" => 404
             );
         }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Passwords/{$name}");
         if (!is_null($request->oneTimePassword)) {
             if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
                 $cache = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json"));
