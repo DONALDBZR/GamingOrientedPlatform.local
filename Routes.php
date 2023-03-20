@@ -279,7 +279,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password":
                 $Router = new Router("POST", "/Users/" . json_decode(file_get_contents("php://input"))->mailAddress . "/Password", "/Controllers/ForgotPassword.php");
                 break;
-            case "/Login/{$_SESSION['User']['username']}":
+            case "/Passwords/{$_SESSION['User']['username']}":
                 $Router = new Router("POST", "/Login/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
                 break;
         }
@@ -300,7 +300,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $Router = new Router("POST", "/ForgotPassword", "/Controllers/ForgotPassword.php");
                 break;
             case "/Login/Verification/{$_SESSION['User']['username']}":
-            case "/Login/{$_SESSION['User']['username']}":
+            case "/Passwords/{$_SESSION['User']['username']}":
                 $Router = new Router("POST", "/Login/Verification/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
                 break;
                 // case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
