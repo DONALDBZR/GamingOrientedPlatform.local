@@ -22,6 +22,7 @@ class Application extends React.Component {
                 LeagueOfLegends: {
                     gameName: "",
                     tagLine: "",
+                    Regions: [],
                 },
                 PlayerUnknownBattleGrounds: {
                     username: "",
@@ -35,6 +36,7 @@ class Application extends React.Component {
      */
     retrieveData() {
         this.getCurrentUser();
+        this.getRegions();
     }
     /**
      * Acessing the data of the current user
@@ -63,6 +65,24 @@ class Application extends React.Component {
                             playerName:
                                 data.Account.PlayerUnknownBattleGrounds
                                     .playerName,
+                        },
+                    },
+                })
+            );
+    }
+    /**
+     * Retrieving all the regions for League of Legends
+     */
+    getRegions() {
+        fetch("/LeagueOfLegends/Regions", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    Accounts: {
+                        LeagueOfLegends: {
+                            Regions: data,
                         },
                     },
                 })
