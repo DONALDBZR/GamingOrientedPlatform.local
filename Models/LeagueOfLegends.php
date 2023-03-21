@@ -316,7 +316,7 @@ class LeagueOfLegends
                     $kdaRatio = 0;
                     $totalVisionScore = 0;
                     for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
-                        $request = "{$this->bases[$this->getTagLine()]}/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}";
+                        $request = "{$this->regions[$this->getRegion($this->getTagLine())]}/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}";
                         $this->Curl = curl_init();
                         curl_setopt_array(
                             $this->Curl,
