@@ -25,21 +25,57 @@ class Account extends User
         $this->LeagueOfLegends = new LeagueOfLegends();
         $this->PlayerUnknownBattleGrounds = new PlayerUnknownBattleGrounds();
     }
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
     /**
      * Managing accounts
-     * @return object
      */
-    public function manage()
+    public function manage(): void
     {
-        $request = json_decode(file_get_contents("php://input"));
+        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
+        $files = array_values(array_diff(scandir($directory), array(".", "..")));
+        $accountFiles = array();
+        for ($index = 0; $index < count($files); $index++) {
+            $file = $files[$index];
+            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
+            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users/{$_SESSION['User']['username']}/Accounts") {
+                $accountFile = array(
+                    "name" => $file,
+                    "data" => $fileData
+                );
+                array_push($accountFiles, $accountFile);
+            }
+        }
+        if (count($accountFiles) != 0) {
+            if (count($accountFiles) == 1) {
+                $file = $accountFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            } else {
+                rsort($accountFiles);
+                $file = $accountFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            }
+        } else {
+            $response = array(
+                "status" => 3,
+                "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
+                "message" => "Form data not found"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 404
+            );
+        }
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         $this->setUsername($_SESSION['User']['username']);
         $this->PDO->query("SELECT * FROM Accounts WHERE AccountsUser = :AccountsUser");
         $this->PDO->bind(":AccountsUser", $this->getUsername());
@@ -81,7 +117,7 @@ class Account extends User
         $data = array(
             "Client" => $_SESSION['Client'],
             "User" => $_SESSION['User'],
-            "Account" => $_SESSION['Account']
+            "Accounts" => $_SESSION['Account']
         );
         $cacheData = json_encode($data);
         $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
@@ -96,27 +132,22 @@ class Account extends User
     }
     /**
      * Managing League of Legends accounts
-     * @param object $form
-     * @return int
      */
-    public function manageLeagueOfLegends(object $form)
+    public function manageLeagueOfLegends(object $form): int
     {
         return $this->createLeagueOfLegendsAccount($form->lolUsername, $form->lolRegion);
     }
     /**
      * Managing Player Unknown Battle Grounds accounts
-     * @param object $form
      */
-    public function managePlayerUnknownBattleGrounds(object $form)
+    public function managePlayerUnknownBattleGrounds(object $form): int
     {
         return $this->createPlayerUnknownBattleGroundsAccount($form->pubgUsername, $form->pubgPlatform);
     }
     /**
      * Adding accounts
-     * @param object $request
-     * @return object
      */
-    public function add(object $request)
+    public function add(object $request): object
     {
         $processes = array(
             "LeagueOfLegends" => $this->manageLeagueOfLegends($request->LeagueOfLegends),
@@ -166,10 +197,8 @@ class Account extends User
     }
     /**
      * Editing the accounts of the user
-     * @param object $request
-     * @return object
      */
-    public function edit(object $request)
+    public function edit(object $request): object
     {
         $processes = array(
             "LeagueOfLegends" => $this->manageLeagueOfLegends($request->LeagueOfLegends),
@@ -219,11 +248,8 @@ class Account extends User
     }
     /**
      * Creating League Of Legends Accounts
-     * @param ?string $username
-     * @param ?string $region
-     * @return int
      */
-    public function createLeagueOfLegendsAccount(?string $username, ?string $region)
+    public function createLeagueOfLegendsAccount(?string $username, ?string $region): int
     {
         if (!is_null($username) && !is_null($region)) {
             if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
@@ -237,11 +263,8 @@ class Account extends User
     }
     /**
      * Creating Player Unknown Battle Grounds Accounts
-     * @param ?string $player_name
-     * @param ?string $platform
-     * @return int
      */
-    public function createPlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform)
+    public function createPlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform): int
     {
         if (!is_null($player_name) && !is_null($platform)) {
             if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
