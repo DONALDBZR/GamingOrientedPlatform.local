@@ -1,6 +1,7 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Environment.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PDO.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Regions.php";
 /**
  * The API which interacts with Riot Games API to take the data needed from Riot Games Data Center as well as the data model which will be used for data analysis.
  */
@@ -26,78 +27,168 @@ class LeagueOfLegends
      * PDO which will interact with the database server
      */
     protected PHPDataObject $PDO;
+    /**
+     * Base API routing
+     */
+    private array $bases;
+    /**
+     * Regional API routing
+     */
+    private array $regions;
+    /**
+     * Client for Uniform Resource Locators
+     */
+    private CurlHandle $Curl;
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
         $this->setApiKey(Environment::RiotAPIKey);
+        $this->bases = Regions::baseUniformResourceLocators;
+        $this->regions = Regions::regionalUniformResourceLocators;
     }
-    public function getPlayerUniversallyUniqueIdentifier()
+    public function getPlayerUniversallyUniqueIdentifier(): ?string
     {
         return $this->playerUniversallyUniqueIdentifier;
     }
-    public function setPlayerUniversallyUniqueIdentifier(?string $player_universally_unique_identifier)
+    public function setPlayerUniversallyUniqueIdentifier(?string $player_universally_unique_identifier): void
     {
         $this->playerUniversallyUniqueIdentifier = $player_universally_unique_identifier;
     }
-    public function getGameName()
+    public function getGameName(): string
     {
         return $this->gameName;
     }
-    public function setGameName(string $game_name)
+    public function setGameName(string $game_name): void
     {
         $this->gameName = $game_name;
     }
-    public function getTagLine()
+    public function getTagLine(): string
     {
         return $this->tagLine;
     }
-    public function setTagLine(string $tag_line)
+    public function setTagLine(string $tag_line): void
     {
         $this->tagLine = $tag_line;
     }
-    public function getApiKey()
+    public function getApiKey(): string
     {
         return $this->apiKey;
     }
-    public function setApiKey(string $api_key)
+    public function setApiKey(string $api_key): void
     {
         $this->apiKey = $api_key;
     }
     /**
-     * Retrieving account's data
-     * @param string $game_name
-     * @param string $tag_line
+     * Re-routing the API to the correct route
      */
-    public function retrieveData(string $game_name, string $tag_line)
+    public function getRegion(string $tag_line): string
+    {
+        $region = "";
+        switch ($tag_line) {
+            case 'na':
+            case 'pbe':
+            case 'br':
+            case 'lan':
+            case 'las':
+                $region = "america";
+                break;
+            case 'oce':
+            case 'ph':
+            case 'sg':
+            case 'th':
+            case 'tw':
+            case 'vn':
+                $region = "south_east_asia";
+                break;
+            case 'kr':
+            case 'jp':
+                $region = "asia";
+                break;
+            case 'eune':
+            case 'euw':
+            case 'tr':
+            case 'ru':
+                $region = "europe";
+                break;
+        }
+        return $region;
+    }
+    /**
+     * Entry Point
+     */
+    public function getEntryPoint(string $tag_line): string
+    {
+        $entryPoint = "";
+        switch ($tag_line) {
+            case 'br':
+            case 'eune':
+            case 'euw':
+            case 'jp':
+            case 'lan':
+            case 'na':
+            case 'oce':
+            case 'tr':
+                $entryPoint = "{$tag_line}1";
+                break;
+            case 'kr':
+            case 'ru':
+                $entryPoint = $tag_line;
+                break;
+            case 'las':
+            case 'ph':
+            case 'sg':
+            case 'th':
+            case 'tw':
+            case 'vn':
+                $entryPoint = "{$tag_line}2";
+                break;
+            case 'pbe':
+                $entryPoint = "na1";
+        }
+        return $entryPoint;
+    }
+    /**
+     * Retrieving account's data
+     */
+    public function getAccount(string $game_name, string $tag_line): object
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        $riotAccountApiRequest = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{$this->getGameName()}/{$this->getTagLine()}1?api_key={$this->getApiKey()}";
-        if ($this->getHttpResponseCode($riotAccountApiRequest) == 200) {
-            $riotAccountApiResponse = json_decode(file_get_contents($riotAccountApiRequest));
+        $request = "{$this->regions[$this->getRegion($this->getTagLine())]}/riot/account/v1/accounts/by-riot-id/{$this->getGameName()}/{$this->getEntryPoint($this->getTagLine())}";
+        $this->Curl = curl_init();
+        curl_setopt_array(
+            $this->Curl,
+            array(
+                CURLOPT_URL => $request,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    "X-Riot-Token: {$this->getApiKey()}"
+                ),
+            )
+        );
+        $riotAccountApiResponse = json_decode(curl_exec($this->Curl));
+        $riotAccountApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+        curl_close($this->Curl);
+        if ($riotAccountApiResponseCode == 200) {
             $this->setPlayerUniversallyUniqueIdentifier($riotAccountApiResponse->puuid);
-            $response = array(
-                "httpResponseCode" => intval($this->getHttpResponseCode($riotAccountApiRequest)),
+            $response = (object) array(
+                "httpResponseCode" => $riotAccountApiResponseCode,
                 "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
                 "gameName" => $this->getGameName(),
                 "tagLine" => $this->getTagLine()
             );
         } else {
-            $response = array(
-                "httpResponseCode" => intval($this->getHttpResponseCode($riotAccountApiRequest))
+            $response = (object) array(
+                "httpResponseCode" => $riotAccountApiResponseCode
             );
         }
-        return json_encode($response);
-    }
-    /**
-     * Accessing the HTTP response code
-     * @param string $request_uniform_resource_locator
-     * @return string
-     */
-    public function getHttpResponseCode(string $request_uniform_resource_locator)
-    {
-        $headers = get_headers($request_uniform_resource_locator);
-        return substr($headers[0], 9, 3);
+        return $response;
     }
     /**
      * Acessing the summoner data
@@ -522,14 +613,11 @@ class LeagueOfLegends
     }
     /**
      * Adding League of Legends account in the database
-     * @param string $game_name
-     * @param string $tag_line
-     * @return int
      */
     public function addAccount(string $game_name, string $tagLine)
     {
-        $riotAccountApiResponse = json_decode($this->retrieveData(rawurlencode($game_name), $tagLine));
-        if ($riotAccountApiResponse->httpResponseCode == 200) {
+        $Account = $this->getAccount(rawurlencode($game_name), $tagLine);
+        if ($Account->httpResponseCode == 200) {
             $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = :LeagueOfLegendsPlayerUniversallyUniqueIdentifier");
             $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->getPlayerUniversallyUniqueIdentifier());
             $this->PDO->execute();
