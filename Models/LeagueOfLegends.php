@@ -289,7 +289,7 @@ class LeagueOfLegends
                     $flexRank = $riotLeagueApiResponse[0]->rank;
                     $flexLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
                 }
-                $request = "{$this->bases[$this->getTagLine()]}/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20";
+                $request = "{$this->regions[$this->getTagLine()]}/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20";
                 $this->Curl = curl_init();
                 curl_setopt_array(
                     $this->Curl,
