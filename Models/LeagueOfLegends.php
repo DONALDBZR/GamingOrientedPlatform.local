@@ -250,7 +250,7 @@ class LeagueOfLegends
             $riotLeagueApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
             curl_close($this->Curl);
             if ($riotLeagueApiResponseCode == 200) {
-                if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO") && str_contains($riotLeagueApiResponse[1]->queueType, "FLEX")) {
+                if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO")) {
                     $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
                     $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
                     if ($soloDuoMatches == 0) {
