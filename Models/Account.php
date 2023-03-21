@@ -89,7 +89,7 @@ class Account extends User
             $this->LeagueOfLegends->setPlayerUniversallyUniqueIdentifier(null);
             $this->PlayerUnknownBattleGrounds->setIdentifier(null);
         }
-        if ($this->getId() < 1) {
+        if ($this->getId() == 0) {
             $Response = $this->add($request);
         } else {
             $Response = $this->edit($request);
@@ -135,14 +135,14 @@ class Account extends User
      */
     public function manageLeagueOfLegends(object $form): int
     {
-        return $this->createLeagueOfLegendsAccount($form->lolUsername, $form->lolRegion);
+        return $this->createLeagueOfLegendsAccount($form->gameName, $form->tagLine);
     }
     /**
      * Managing Player Unknown Battle Grounds accounts
      */
     public function managePlayerUnknownBattleGrounds(object $form): int
     {
-        return $this->createPlayerUnknownBattleGroundsAccount($form->pubgUsername, $form->pubgPlatform);
+        return $this->createPlayerUnknownBattleGroundsAccount($form->playerName, $form->platform);
     }
     /**
      * Adding accounts
@@ -249,10 +249,10 @@ class Account extends User
     /**
      * Creating League Of Legends Accounts
      */
-    public function createLeagueOfLegendsAccount(?string $username, ?string $region): int
+    public function createLeagueOfLegendsAccount(?string $game_name, ?string $tag_line): int
     {
-        if (!is_null($username) && !is_null($region)) {
-            if ($this->LeagueOfLegends->addAccount($username, $region) == 0) {
+        if (!is_null($game_name) && !is_null($tag_line)) {
+            if ($this->LeagueOfLegends->addAccount($game_name, strtolower($tag_line)) == 0) {
                 return 0;
             } else {
                 return 11;
