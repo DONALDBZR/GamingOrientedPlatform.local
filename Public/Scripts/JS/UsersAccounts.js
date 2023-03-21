@@ -25,7 +25,7 @@ class Application extends React.Component {
                     Regions: [],
                 },
                 PlayerUnknownBattleGrounds: {
-                    username: "",
+                    playerName: "",
                     platform: "",
                 },
             },
@@ -147,8 +147,9 @@ class Application extends React.Component {
                     tagline: this.state.Accounts.LeagueOfLegends.tagLine,
                 },
                 PlayerUnknownBattleGrounds: {
-                    username:
-                        this.state.Accounts.PlayerUnknownBattleGrounds.username,
+                    playerName:
+                        this.state.Accounts.PlayerUnknownBattleGrounds
+                            .playerName,
                     platform:
                         this.state.Accounts.PlayerUnknownBattleGrounds.platform,
                 },
@@ -292,11 +293,11 @@ class Main extends Application {
                     <div>PUBG</div>
                     <input
                         type="text"
-                        name="username"
+                        name="playerName"
                         placeholder="PUBG Username"
                         value={
                             this.state.Accounts.PlayerUnknownBattleGrounds
-                                .username
+                                .playerName
                         }
                         onChange={this.handleChange.bind(this)}
                     />
