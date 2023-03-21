@@ -288,7 +288,7 @@ class Main extends Application {
                         <option value="TW">TW</option>
                         <option value="VN">VN</option>
                     </select>
-                    <div>PUBG</div>
+                    {/* <div>PUBG</div>
                     <input
                         type="text"
                         name="playerName"
@@ -314,7 +314,7 @@ class Main extends Application {
                         <option value="tournament">Tournaments</option>
                         <option value="psn">PSN</option>
                         <option value="xbox">Xbox</option>
-                    </select>
+                    </select> */}
                     <div id="button">
                         <button>Change</button>
                     </div>
