@@ -10,17 +10,15 @@ class Application extends React.Component {
         this.state = {
             User: {
                 username: "",
-                mailAddress: "",
                 profilePicture: "",
             },
             Accounts: {
                 LeagueOfLegends: {
                     playerUniversallyUniqueIdentifier: "",
                     gameName: "",
-                    tagLine: "",
                     Summoner: {
                         level: 0,
-                        summonerIcon: 0,
+                        profileIconId: 0,
                         soloDuoTier: "",
                         soloDuoDivision: "",
                         soloDuoLeaguePoints: 0,
@@ -37,10 +35,7 @@ class Application extends React.Component {
                 PlayerUnknownBattleGrounds: {
                     identifier: "",
                     playerName: "",
-                    platform: "",
                     Player: {
-                        account: 200,
-                        lifetime: 200,
                         Duo: {
                             winrate: 0.0,
                             top10Probability: 0.0,
@@ -110,7 +105,7 @@ class Application extends React.Component {
                     <div>
                         <div>
                             <img
-                                src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.Accounts.LeagueOfLegends.Summoner.summonerIcon}.png`}
+                                src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.Accounts.LeagueOfLegends.Summoner.profileIconId}.png`}
                             />
                             <div>
                                 Level{" "}
@@ -266,12 +261,14 @@ class Application extends React.Component {
         })
             .then((response) => response.json())
             .then((data) =>
-                this.setState({
+                this.setState((previous) => ({
                     Accounts: {
+                        ...previous.Accounts,
                         LeagueOfLegends: {
+                            ...previous.Accounts.LeagueOfLegends,
                             Summoner: {
                                 level: data.summonerLevel,
-                                summonerIcon: data.profileIconId,
+                                profileIconId: data.profileIconId,
                                 soloDuoTier: data.soloDuoTier,
                                 soloDuoDivision: data.soloDuoRank,
                                 soloDuoLeaguePoints: data.soloDuoLeaguePoints,
@@ -286,7 +283,7 @@ class Application extends React.Component {
                             },
                         },
                     },
-                })
+                }))
             );
     }
     /**
@@ -365,31 +362,37 @@ class Application extends React.Component {
             method: "GET",
         })
             .then((response) => response.json())
-            .then((data) => {
-                this.setState({
-                    Player: {
-                        account: data.httpResponseCode_account,
-                        lifetime: data.httpResponseCode_lifetime,
-                        Duo: {
-                            winrate: data.duo.winrate,
-                            top10Probability: data.duo.top10Probability,
+            .then((data) =>
+                this.setState((previous) => ({
+                    Accounts: {
+                        ...previous.Accounts,
+                        PlayerUnknownBattleGrounds: {
+                            ...previous.Accounts.PlayerUnknownBattleGrounds,
+                            Player: {
+                                Duo: {
+                                    winrate: data.duo.winrate,
+                                    top10Probability: data.duo.top10Probability,
+                                },
+                                Solo: {
+                                    winrate: data.solo.winrate,
+                                    top10Probability:
+                                        data.solo.top10Probability,
+                                },
+                                Squad: {
+                                    winrate: data.squad.winrate,
+                                    top10Probability:
+                                        data.squad.top10Probability,
+                                },
+                                kda: data.kda,
+                                killStreak: data.killStreak,
+                                longestKill: data.longestKill,
+                                headshot: data.headshot,
+                                damagePerMatch: data.damagePerMatch,
+                            },
                         },
-                        Solo: {
-                            winrate: data.solo.winrate,
-                            top10Probability: data.solo.top10Probability,
-                        },
-                        Squad: {
-                            winrate: data.squad.winrate,
-                            top10Probability: data.squad.top10Probability,
-                        },
-                        kda: data.kda,
-                        killStreak: data.killStreak,
-                        longestKill: data.longestKill,
-                        headshot: data.headshot,
-                        damagePerMatch: data.damagePerMatch,
                     },
-                });
-            });
+                }))
+            );
     }
     /**
      * Verifying the state before rendering the link
@@ -688,13 +691,11 @@ class Application extends React.Component {
                 this.setState({
                     User: {
                         username: data.User.username,
-                        mailAddress: data.User.mailAddress,
                         profilePicture: data.User.profilePicture,
                     },
                     Accounts: {
                         LeagueOfLegends: {
                             gameName: data.Account.LeagueOfLegends.gameName,
-                            tagLine: data.Account.LeagueOfLegends.tagLine,
                             playerUniversallyUniqueIdentifier:
                                 data.Account.LeagueOfLegends
                                     .playerUniversallyUniqueIdentifier,
@@ -703,9 +704,6 @@ class Application extends React.Component {
                             identifier:
                                 data.Account.PlayerUnknownBattleGrounds
                                     .identifier,
-                            platform:
-                                data.Account.PlayerUnknownBattleGrounds
-                                    .platform,
                             playerName:
                                 data.Account.PlayerUnknownBattleGrounds
                                     .playerName,
