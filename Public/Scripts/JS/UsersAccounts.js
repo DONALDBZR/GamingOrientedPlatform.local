@@ -117,12 +117,12 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 2150;
         event.preventDefault();
-        fetch(`/User/${this.state.User.username}/Accounts`, {
+        fetch(`/Users/${this.state.User.username}/Accounts`, {
             method: "POST",
             body: JSON.stringify({
                 LeagueOfLegends: {
                     gameName: this.state.Accounts.LeagueOfLegends.gameName,
-                    tagline: this.state.Accounts.LeagueOfLegends.tagLine,
+                    tagLine: this.state.Accounts.LeagueOfLegends.tagLine,
                 },
                 PlayerUnknownBattleGrounds: {
                     playerName:
