@@ -474,10 +474,12 @@ class Application extends React.Component {
                                 <div
                                     style={{
                                         color: this.verifyPlayerUnknownBattleGrounds_winRate(
-                                            this.state.pubgCard.Squad.winrate
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Squad.winrate
                                         ),
                                     }}
-                                >{`${this.state.pubgCard.Squad.winrate} %`}</div>
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Squad.winrate} %`}</div>
                             </div>
                             <div>
                                 <div>Top 10's:</div>
