@@ -425,3 +425,6 @@ body[id*="UsersHome"] main #playerUnknownBattleGroundsCard {
     background-color: var(--color9);
     color: var(--color4);
 }
+body[id*="UsersAccounts"] main form select option {
+    text-transform: uppercase;
+}
