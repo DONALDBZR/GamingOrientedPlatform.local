@@ -16,12 +16,12 @@ class Application extends React.Component {
                 status: 0,
                 message: "",
                 url: "",
+                regions: [],
             },
             Accounts: {
                 LeagueOfLegends: {
                     gameName: "",
                     tagLine: "",
-                    Regions: [],
                 },
                 PlayerUnknownBattleGrounds: {
                     playerName: "",
@@ -78,10 +78,8 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    Accounts: {
-                        LeagueOfLegends: {
-                            Regions: data,
-                        },
+                    System: {
+                        regions: data,
                     },
                 })
             );
@@ -272,21 +270,9 @@ class Main extends Application {
                         value={this.state.Accounts.LeagueOfLegends.tagLine}
                     >
                         <option value=""></option>
-                        <option value="BR">BR</option>
-                        <option value="EUN">EUNE</option>
-                        <option value="EUW">EUW</option>
-                        <option value="JP">JP</option>
-                        <option value="KR">KR</option>
-                        <option value="LA">LA</option>
-                        <option value="NA">NA</option>
-                        <option value="OC">OC</option>
-                        <option value="TR">TR</option>
-                        <option value="RU">RU</option>
-                        <option value="PH">PH</option>
-                        <option value="SG">SG</option>
-                        <option value="TH">TH</option>
-                        <option value="TW">TW</option>
-                        <option value="VN">VN</option>
+                        {this.state.System.regions.map((region) => {
+                            return <option value={region}>{region}</option>;
+                        })}
                     </select>
                     {/* <div>PUBG</div>
                     <input
