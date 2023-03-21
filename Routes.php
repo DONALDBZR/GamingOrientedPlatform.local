@@ -96,20 +96,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/LeagueOfLegends/Regions':
                 $Router = new Router("GET", "/LeagueOfLegends/Regions", "/Controllers/RiotBaseRegions.php");
                 break;
-                //     case '/Sign-Out':
-                //         if (isset($_SESSION)) {
-                //             $Router = new Router("GET", "/Sign-Out", "/Views/SignOut.php");
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
-                //     case '/LogOut':
-                //         if (isset($_SESSION)) {
-                //             $Router = new Router("GET", "/LogOut", "/Controllers/SignOut.php");
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
+            case '/Sign-Out':
+                if (isset($_SESSION)) {
+                    $Router = new Router("GET", "/Sign-Out", "/Views/SignOut.php");
+                } else {
+                    header("Location: /");
+                }
+                break;
+            case '/LogOut':
+                if (isset($_SESSION)) {
+                    $Router = new Router("GET", "/LogOut", "/Controllers/SignOut.php");
+                } else {
+                    header("Location: /");
+                }
+                break;
                 //     case "/Users/Profile/{$_SESSION['User']['username']}":
                 //         if (isset($_SESSION['User'])) {
                 //             if (isset($_SESSION['User']['otp'])) {
