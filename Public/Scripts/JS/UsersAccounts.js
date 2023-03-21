@@ -103,12 +103,29 @@ class Application extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState((previous) => ({
-            Accounts: {
-                ...previous.Accounts,
-                [name]: value,
-            },
-        }));
+        if (name == "gameName" || name == "tagLine") {
+            this.setState((previous) => ({
+                ...previous,
+                Accounts: {
+                    ...previous.Accounts,
+                    LeagueOfLegends: {
+                        ...previous.Accounts.LeagueOfLegends,
+                        [name]: value,
+                    },
+                },
+            }));
+        } else {
+            this.setState((previous) => ({
+                ...previous,
+                Accounts: {
+                    ...previous.Accounts,
+                    PlayerUnknownBattleGrounds: {
+                        ...previous.Accounts.PlayerUnknownBattleGrounds,
+                        [name]: value,
+                    },
+                },
+            }));
+        }
     }
     /**
      * Handling the form submission
