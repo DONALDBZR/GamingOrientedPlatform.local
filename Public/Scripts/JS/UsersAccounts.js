@@ -10,7 +10,6 @@ class Application extends React.Component {
         this.state = {
             User: {
                 username: "",
-                mailAddress: "",
                 profilePicture: "",
             },
             System: {
@@ -50,7 +49,6 @@ class Application extends React.Component {
                 this.setState({
                     User: {
                         username: data.User.username,
-                        mailAddress: data.User.mailAddress,
                         profilePicture: data.User.profilePicture,
                     },
                     Accounts: {
@@ -59,12 +57,12 @@ class Application extends React.Component {
                             tagLine: data.Account.LeagueOfLegends.tagLine,
                         },
                         PlayerUnknownBattleGrounds: {
-                            platform:
-                                data.Account.PlayerUnknownBattleGrounds
-                                    .platform,
                             playerName:
                                 data.Account.PlayerUnknownBattleGrounds
                                     .playerName,
+                            platform:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .platform,
                         },
                     },
                 })
