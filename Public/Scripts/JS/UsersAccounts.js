@@ -8,86 +8,63 @@ class Application extends React.Component {
          * States of the properties of the component
          */
         this.state = {
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * Mail Address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * Domain of the application
-             * @type {string}
-             */
-            domain: "",
-            /**
-             * User's profile picture
-             * @type {string}
-             */
-            profilePicture: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
-            /**
-             * User's League of Legends username
-             * @type {string}
-             */
-            lolUsername: "",
-            /**
-             * User's League of Legends Region
-             * @type {string}
-             */
-            lolRegion: "",
-            /**
-             * User's Riot's ID
-             * @type {string}
-             */
-            riotId: "",
-            /**
-             * User's Player Unknown Battle Grounds username
-             * @type {string}
-             */
-            pubgUsername: "",
-            /**
-             * User's Player Unknown Battle Grounds platform
-             * @type {string}
-             */
-            pubgPlatform: "",
+            User: {
+                username: "",
+                mailAddress: "",
+                profilePicture: "",
+            },
+            System: {
+                status: 0,
+                message: "",
+                url: "",
+            },
+            Accounts: {
+                LeagueOfLegends: {
+                    gameName: "",
+                    tagLine: "",
+                },
+                PlayerUnknownBattleGrounds: {
+                    username: "",
+                    platform: "",
+                },
+            },
         };
     }
     /**
-     * Retrieving the session's data that is stored as a JSON to be used in the rendering
+     * Retrieving the data from the server
      */
     retrieveData() {
+        this.getCurrentUser();
+    }
+    /**
+     * Acessing the data of the current user
+     */
+    getCurrentUser() {
         fetch("/Users/CurrentUser", {
             method: "GET",
         })
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    username: data.User.username,
-                    mailAddress: data.User.mailAddress,
-                    domain: data.User.domain,
-                    profilePicture: data.User.profilePicture,
-                    lolUsername: data.Account.LeagueOfLegends.gameName,
-                    lolRegion: data.Account.LeagueOfLegends.tagLine,
-                    riotId: data.Account.LeagueOfLegends
-                        .playerUniversallyUniqueIdentifier,
+                    User: {
+                        username: data.User.username,
+                        mailAddress: data.User.mailAddress,
+                        profilePicture: data.User.profilePicture,
+                    },
+                    Accounts: {
+                        LeagueOfLegends: {
+                            gameName: data.Account.LeagueOfLegends.gameName,
+                            tagLine: data.Account.LeagueOfLegends.tagLine,
+                        },
+                        PlayerUnknownBattleGrounds: {
+                            platform:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .platform,
+                            playerName:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .playerName,
+                        },
+                    },
                 })
             );
     }
@@ -96,16 +73,16 @@ class Application extends React.Component {
      * @returns {Application} Component
      */
     verifyState() {
-        if (this.state.profilePicture != null) {
+        if (this.state.User.profilePicture != null) {
             return (
-                <a href={`/Users/Profile/${this.state.username}`}>
-                    <img src={this.state.profilePicture} />
+                <a href={`/Users/Profile/${this.state.User.username}`}>
+                    <img src={this.state.User.profilePicture} />
                 </a>
             );
         } else {
             return (
                 <a
-                    href={`/Users/Profile/${this.state.username}`}
+                    href={`/Users/Profile/${this.state.User.username}`}
                     class="fa fa-user"
                 ></a>
             );
@@ -117,7 +94,7 @@ class Application extends React.Component {
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
@@ -128,9 +105,12 @@ class Application extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.setState((previous) => ({
+            Accounts: {
+                ...previous.Accounts,
+                [name]: value,
+            },
+        }));
     }
     /**
      * Handling the form submission
@@ -139,16 +119,18 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 2150;
         event.preventDefault();
-        fetch("/Controllers/UsersAccounts.php", {
+        fetch(`/User/Accounts/${this.state.User.username}`, {
             method: "POST",
             body: JSON.stringify({
                 LeagueOfLegends: {
-                    lolUsername: this.state.lolUsername,
-                    lolRegion: this.state.lolRegion,
+                    gameName: this.state.Accounts.LeagueOfLegends.gameName,
+                    tagline: this.state.Accounts.LeagueOfLegends.tagLine,
                 },
                 PlayerUnknownBattleGrounds: {
-                    pubgUsername: this.state.pubgUsername,
-                    pubgPlatform: this.state.pubgPlatform,
+                    username:
+                        this.state.Accounts.PlayerUnknownBattleGrounds.username,
+                    platform:
+                        this.state.Accounts.PlayerUnknownBattleGrounds.platform,
                 },
             }),
             headers: {
@@ -158,9 +140,11 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
+                    System: {
+                        status: data.status,
+                        message: data.message,
+                        url: data.url,
+                    },
                 })
             )
             .then(() => this.redirector(delay));
@@ -170,7 +154,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseColor() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -181,7 +165,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseFontSize() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "71%";
         } else {
             return "180%";
@@ -192,8 +176,8 @@ class Application extends React.Component {
      * @returns {Application} Component
      */
     verifyProfilePicture() {
-        if (this.state.profilePicture != null) {
-            return <img src={this.state.profilePicture} />;
+        if (this.state.User.profilePicture != null) {
+            return <img src={this.state.User.profilePicture} />;
         } else {
             return <i class="fa fa-user"></i>;
         }
@@ -217,14 +201,14 @@ class Header extends Application {
      * Methods to be run as soon as the component is mounted
      */
     componentDidMount() {
-        this.retrieveData();
+        this.getCurrentUser();
     }
     render() {
         return (
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>
+                        <a href={`/Users/Home/${this.state.User.username}`}>
                             Parkinston
                         </a>
                     </div>
@@ -258,19 +242,19 @@ class Main extends Application {
                     <div>League of Legends</div>
                     <input
                         type="text"
-                        name="lolUsername"
+                        name="gameName"
                         placeholder="League Of Legends Username"
-                        value={this.state.lolUsername}
+                        value={this.state.Accounts.LeagueOfLegends.gameName}
                         onChange={this.handleChange.bind(this)}
                     />
                     <select
-                        name="lolRegion"
+                        name="tagLine"
                         onChange={this.handleChange.bind(this)}
-                        value={this.state.lolRegion}
+                        value={this.state.Accounts.LeagueOfLegends.tagLine}
                     >
                         <option value=""></option>
                         <option value="BR">BR</option>
-                        <option value="EUN">EUN</option>
+                        <option value="EUN">EUNE</option>
                         <option value="EUW">EUW</option>
                         <option value="JP">JP</option>
                         <option value="KR">KR</option>
@@ -288,15 +272,21 @@ class Main extends Application {
                     <div>PUBG</div>
                     <input
                         type="text"
-                        name="pubgUsername"
+                        name="username"
                         placeholder="PUBG Username"
-                        value={this.state.pubgUsername}
+                        value={
+                            this.state.Accounts.PlayerUnknownBattleGrounds
+                                .username
+                        }
                         onChange={this.handleChange.bind(this)}
                     />
                     <select
-                        name="pubgPlatform"
+                        name="platform"
                         onChange={this.handleChange.bind(this)}
-                        value={this.state.pubgPlatform}
+                        value={
+                            this.state.Accounts.PlayerUnknownBattleGrounds
+                                .platform
+                        }
                     >
                         <option value=""></option>
                         <option value="kakao">Kakao</option>
@@ -316,7 +306,7 @@ class Main extends Application {
                                 fontSize: this.handleResponseFontSize(),
                             }}
                         >
-                            {this.state.message}
+                            {this.state.System.message}
                         </h1>
                     </div>
                 </form>
