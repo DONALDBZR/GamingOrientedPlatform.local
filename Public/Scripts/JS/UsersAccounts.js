@@ -16,7 +16,6 @@ class Application extends React.Component {
                 status: 0,
                 message: "",
                 url: "",
-                regions: [],
             },
             Accounts: {
                 LeagueOfLegends: {
@@ -35,7 +34,6 @@ class Application extends React.Component {
      */
     retrieveData() {
         this.getCurrentUser();
-        this.getRegions();
     }
     /**
      * Acessing the data of the current user
@@ -64,22 +62,6 @@ class Application extends React.Component {
                                 data.Account.PlayerUnknownBattleGrounds
                                     .platform,
                         },
-                    },
-                })
-            );
-    }
-    /**
-     * Retrieving all the regions for League of Legends
-     */
-    getRegions() {
-        fetch("/LeagueOfLegends/Regions", {
-            method: "GET",
-        })
-            .then((response) => response.json())
-            .then((data) =>
-                this.setState({
-                    System: {
-                        regions: data,
                     },
                 })
             );
@@ -218,7 +200,7 @@ class Header extends Application {
      * Methods to be run as soon as the component is mounted
      */
     componentDidMount() {
-        this.getCurrentUser();
+        this.retrieveData();
     }
     render() {
         return (
@@ -270,11 +252,25 @@ class Main extends Application {
                         value={this.state.Accounts.LeagueOfLegends.tagLine}
                     >
                         <option value=""></option>
-                        {this.state.System.regions.map((region) => {
-                            return <option value={region}>{region}</option>;
-                        })}
+                        <option value="BR">BR</option>
+                        <option value="EUNE">EUNE</option>
+                        <option value="EUW">EUW</option>
+                        <option value="JP">JP</option>
+                        <option value="KR">KR</option>
+                        <option value="LAN">LAN</option>
+                        <option value="LAS">LAS</option>
+                        <option value="NA">NA</option>
+                        <option value="OCE">OCE</option>
+                        <option value="TR">TR</option>
+                        <option value="RU">RU</option>
+                        <option value="PH">PH</option>
+                        <option value="SG">SG</option>
+                        <option value="TH">TH</option>
+                        <option value="TW">TW</option>
+                        <option value="VN">VN</option>
+                        <option value="PBE">PBE</option>
                     </select>
-                    {/* <div>PUBG</div>
+                    <div>PUBG</div>
                     <input
                         type="text"
                         name="playerName"
@@ -300,7 +296,7 @@ class Main extends Application {
                         <option value="tournament">Tournaments</option>
                         <option value="psn">PSN</option>
                         <option value="xbox">Xbox</option>
-                    </select> */}
+                    </select>
                     <div id="button">
                         <button>Change</button>
                     </div>

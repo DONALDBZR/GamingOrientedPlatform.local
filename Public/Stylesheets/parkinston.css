@@ -116,7 +116,12 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2)
     div:nth-child(1),
 body[id*="LeagueOfLegends"] footer div,
-body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) div div:nth-child(1) {
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(1) {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
@@ -205,17 +210,27 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2)
     div,
 body[id*="LeagueOfLegends"] main div div #championMastery,
-body[id*="LeagueOfLegends"]
+body[id*="LeagueOfLegends"] main div div #matchHistory div div:nth-child(2) div,
+body[id*="UsersHome"]
     main
-    div
-    div
-    #matchHistory
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
     div
     div:nth-child(2)
     div,
-body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) div div:nth-child(2) div,
-body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) div div:nth-child(3) div,
-body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(3) div:nth-child(4) div {
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(3)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div {
     font-family: var(--proximaNova);
 }
 #Homepage main,
@@ -319,14 +334,24 @@ body[id*="Users"] header nav div:nth-child(2) a img,
 body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img,
 body[id*="LeagueOfLegends"] main nav div a img,
 body[id*="LeagueOfLegends"] footer nav div a img,
-body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(1) a img {
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(1)
+    a
+    img {
     opacity: calc(var(--percentage) / 2);
 }
 body[id*="Users"] header nav div:nth-child(2) a img:hover,
 body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover,
 body[id*="LeagueOfLegends"] main nav div a img:hover,
 body[id*="LeagueOfLegends"] footer nav div a img:hover,
-body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(1) a img:hover {
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(1)
+    a
+    img:hover {
     opacity: var(--percentage);
 }
 body[id*="Users"] header nav div:nth-child(2) a,
@@ -424,7 +449,4 @@ body[id*="UsersAccounts"] main form div:nth-child(1) {
 body[id*="UsersHome"] main #playerUnknownBattleGroundsCard {
     background-color: var(--color9);
     color: var(--color4);
-}
-body[id*="UsersAccounts"] main form select option {
-    text-transform: uppercase;
 }
