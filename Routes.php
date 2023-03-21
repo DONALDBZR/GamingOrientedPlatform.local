@@ -82,6 +82,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/PlayerUnknownBattleGrounds/CurrentPlayer':
                 $Router = new Router("GET", "/PlayerUnknownBattleGrounds/CurrentPlayer", "/Controllers/CurrentPlayer.php");
                 break;
+            case "/Users/Accounts/{$_SESSION['User']['username']}":
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        $Router = new Router("GET", "/Users/Accounts/{$_SESSION['User']['username']}", "/Views/UsersAccounts.php");
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
+            case '/LeagueOfLegends/Regions':
+                $Router = new Router("GET", "/LeagueOfLegends/Regions", "/Controllers/RiotBaseRegions.php");
+                break;
                 //     case '/Sign-Out':
                 //         if (isset($_SESSION)) {
                 //             $Router = new Router("GET", "/Sign-Out", "/Views/SignOut.php");
@@ -124,17 +138,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
                 //             } else {
                 //                 $Router = new Router("GET", "/Users/Security/{$_SESSION['User']['username']}", "/Views/UsersSecurity.php");
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
-                //     case "/Users/Accounts/{$_SESSION['User']['username']}":
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 $Router = new Router("GET", "/Users/Accounts/{$_SESSION['User']['username']}", "/Views/UsersAccounts.php");
                 //             }
                 //         } else {
                 //             header("Location: /");
@@ -258,6 +261,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Passwords/{$_SESSION['User']['username']}":
                 $Router = new Router("POST", "/Passwords/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
                 break;
+            case "/Users/{$_SESSION['User']['username']}/Accounts":
+                $Router = new Router("POST", "/Users/{$_SESSION['User']['username']}/Accounts", "/Controllers/UsersAccounts.php");
+                break;
         }
         break;
     case 'POST':
@@ -279,14 +285,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Passwords/{$_SESSION['User']['username']}":
                 $Router = new Router("POST", "/Login/Verification/{$_SESSION['User']['username']}", "/Controllers/LoginVerification.php");
                 break;
+            case "/Users/Accounts/{$_SESSION['User']['username']}":
+            case "/Users/{$_SESSION['User']['username']}/Accounts":
+                $Router = new Router("POST", "/Users/Accounts/{$_SESSION['User']['username']}", "/Controllers/UsersAccounts.php");
+                break;
                 // case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
                 //     $Router = new Router("POST", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Controllers/UsersEditProfile.php");
                 //     break;
                 // case "/Users/Security/{$_SESSION['User']['username']}":
                 //     $Router = new Router("POST", "/Users/Security/{$_SESSION['User']['username']}", "/Controllers/UsersSecurity.php");
-                //     break;
-                // case "/Users/Accounts/{$_SESSION['User']['username']}":
-                //     $Router = new Router("POST", "/Users/Accounts/{$_SESSION['User']['username']}", "/Controllers/UsersAccounts.php");
                 //     break;
                 // case "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}":
                 //     $Router = new Router("POST", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Controllers/LeagueOfLegendsHome.php");
