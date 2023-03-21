@@ -15,7 +15,7 @@ CREATE TABLE Parkinston.Users (
 );
 -- Creating the League Of Legends table
 CREATE TABLE Parkinston.LeagueOfLegends (
-    LeagueOfLegendsPlayerUniversallyUniqueIdentifier VARCHAR(128) PRIMARY KEY,
+    LeagueOfLegendsIdentifier VARCHAR(128) PRIMARY KEY,
     LeagueOfLegendsGameName VARCHAR(64),
     LeagueOfLegendsTagLine VARCHAR(8)
 );
