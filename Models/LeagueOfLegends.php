@@ -192,86 +192,164 @@ class LeagueOfLegends
     }
     /**
      * Acessing the summoner data
-     * @param string $game_name
-     * @param string $tag_line
-     * @return JSON
      */
-    public function getSummoner(string $game_name, string $tag_line)
+    public function getSummoner(string $game_name, string $tag_line): void
     {
-        if (json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode == 200) {
-            $this->setGameName(json_decode($this->retrieveData($game_name, $tag_line))->gameName);
-            $this->setTagLine(json_decode($this->retrieveData($game_name, $tag_line))->tagLine);
-            $this->setPlayerUniversallyUniqueIdentifier(json_decode($this->retrieveData($game_name, $tag_line))->playerUniversallyUniqueIdentifier);
-            $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key={$this->getApiKey()}";
-            if ($this->getHttpResponseCode($riotSummonerApiRequest) == 200) {
-                $riotSummonerApiResponse = json_decode(file_get_contents($riotSummonerApiRequest));
-                $riotLeagueApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/league/v4/entries/by-summoner/{$riotSummonerApiResponse->id}?api_key={$this->getApiKey()}";
-                if ($this->getHttpResponseCode($riotLeagueApiRequest) == 200) {
-                    $riotLeagueApiResponse = json_decode(file_get_contents($riotLeagueApiRequest));
-                    if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO") && str_contains($riotLeagueApiResponse[1]->queueType, "FLEX")) {
-                        $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
-                        $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
-                        if ($soloDuoMatches == 0) {
-                            $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / 1) * 100;
-                        } else {
-                            $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
-                        }
-                        $soloDuoRank = $riotLeagueApiResponse[0]->rank;
-                        $soloDuoLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
-                        $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
-                        $flexTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
-                        if ($flexMatches == 0) {
-                            $flexWinRate = ($riotLeagueApiResponse[1]->wins / 1) * 100;
-                        } else {
-                            $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
-                        }
-                        $flexRank = $riotLeagueApiResponse[1]->rank;
-                        $flexLeaguePoints = $riotLeagueApiResponse[1]->leaguePoints;
+        $this->setGameName($game_name);
+        $this->setTagLine($tag_line);
+        if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+            $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        } else {
+            $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+            $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+            $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+            $this->PDO->execute();
+            $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+        }
+        $request = "{$this->bases[$this->getTagLine()]}/lol/summoner/v4/summoners/by-name/{$this->getGameName()}";
+        $this->Curl = curl_init();
+        curl_setopt_array(
+            $this->Curl,
+            array(
+                CURLOPT_URL => $request,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    "X-Riot-Token: {$this->getApiKey()}"
+                ),
+            )
+        );
+        $riotSummonerApiResponse = json_decode(curl_exec($this->Curl));
+        $riotSummonerApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+        curl_close($this->Curl);
+        if ($riotSummonerApiResponseCode == 200) {
+            $request = "{$this->bases[$this->getTagLine()]}/lol/league/v4/entries/by-summoner/{$riotSummonerApiResponse->id}";
+            $this->Curl = curl_init();
+            curl_setopt_array(
+                $this->Curl,
+                array(
+                    CURLOPT_URL => $request,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => array(
+                        "X-Riot-Token: {$this->getApiKey()}"
+                    ),
+                )
+            );
+            $riotLeagueApiResponse = json_decode(curl_exec($this->Curl));
+            $riotLeagueApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+            curl_close($this->Curl);
+            if ($riotLeagueApiResponseCode == 200) {
+                if (str_contains($riotLeagueApiResponse[0]->queueType, "SOLO") && str_contains($riotLeagueApiResponse[1]->queueType, "FLEX")) {
+                    $soloDuoMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
+                    $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
+                    if ($soloDuoMatches == 0) {
+                        $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / 1) * 100;
                     } else {
-                        $soloDuoMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
-                        $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
-                        if ($soloDuoMatches == 0) {
-                            $soloDuoWinRate = ($riotLeagueApiResponse[1]->wins / 1) * 100;
-                        } else {
-                            $soloDuoWinRate = ($riotLeagueApiResponse[1]->wins / $soloDuoMatches) * 100;
-                        }
-                        $soloDuoRank = $riotLeagueApiResponse[1]->rank;
-                        $soloDuoLeaguePoints = $riotLeagueApiResponse[1]->leaguePoints;
-                        $flexMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
-                        $flexTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
-                        if ($flexMatches == 0) {
-                            $flexWinRate = ($riotLeagueApiResponse[0]->wins / 1) * 100;
-                        } else {
-                            $flexWinRate = ($riotLeagueApiResponse[0]->wins / $flexMatches) * 100;
-                        }
-                        $flexRank = $riotLeagueApiResponse[0]->rank;
-                        $flexLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
+                        $soloDuoWinRate = ($riotLeagueApiResponse[0]->wins / $soloDuoMatches) * 100;
                     }
-                    $riotMatchApiRequest1 = "https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20&api_key={$this->getApiKey()}";
-                    if ($this->getHttpResponseCode($riotMatchApiRequest1) == 200) {
-                        $riotMatchApiResponse1 = json_decode(file_get_contents($riotMatchApiRequest1));
-                        $totalTimePlayed = 0;
-                        $totalCreepScore = 0;
-                        $kdaRatio = 0;
-                        $totalVisionScore = 0;
-                        for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
-                            $riotMatchApiRequest2 = "https://europe.api.riotgames.com/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}?api_key={$this->getApiKey()}";
-                            $riotMatchApiResponse2 = json_decode(file_get_contents($riotMatchApiRequest2));
-                            $puuidKey = 0;
-                            for ($secondIndex = 0; $secondIndex < 10; $secondIndex++) {
-                                if ($this->getPlayerUniversallyUniqueIdentifier() == $riotMatchApiResponse2->metadata->participants[$secondIndex]) {
-                                    $puuidKey = $secondIndex;
-                                }
+                    $soloDuoRank = $riotLeagueApiResponse[0]->rank;
+                    $soloDuoLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
+                    $flexMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
+                    $flexTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
+                    if ($flexMatches == 0) {
+                        $flexWinRate = ($riotLeagueApiResponse[1]->wins / 1) * 100;
+                    } else {
+                        $flexWinRate = ($riotLeagueApiResponse[1]->wins / $flexMatches) * 100;
+                    }
+                    $flexRank = $riotLeagueApiResponse[1]->rank;
+                    $flexLeaguePoints = $riotLeagueApiResponse[1]->leaguePoints;
+                } else {
+                    $soloDuoMatches = $riotLeagueApiResponse[1]->wins + $riotLeagueApiResponse[1]->losses;
+                    $soloDuoTier = ucfirst(strtolower($riotLeagueApiResponse[1]->tier));
+                    if ($soloDuoMatches == 0) {
+                        $soloDuoWinRate = ($riotLeagueApiResponse[1]->wins / 1) * 100;
+                    } else {
+                        $soloDuoWinRate = ($riotLeagueApiResponse[1]->wins / $soloDuoMatches) * 100;
+                    }
+                    $soloDuoRank = $riotLeagueApiResponse[1]->rank;
+                    $soloDuoLeaguePoints = $riotLeagueApiResponse[1]->leaguePoints;
+                    $flexMatches = $riotLeagueApiResponse[0]->wins + $riotLeagueApiResponse[0]->losses;
+                    $flexTier = ucfirst(strtolower($riotLeagueApiResponse[0]->tier));
+                    if ($flexMatches == 0) {
+                        $flexWinRate = ($riotLeagueApiResponse[0]->wins / 1) * 100;
+                    } else {
+                        $flexWinRate = ($riotLeagueApiResponse[0]->wins / $flexMatches) * 100;
+                    }
+                    $flexRank = $riotLeagueApiResponse[0]->rank;
+                    $flexLeaguePoints = $riotLeagueApiResponse[0]->leaguePoints;
+                }
+                $request = "{$this->bases[$this->getTagLine()]}/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20";
+                $this->Curl = curl_init();
+                curl_setopt_array(
+                    $this->Curl,
+                    array(
+                        CURLOPT_URL => $request,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'GET',
+                        CURLOPT_HTTPHEADER => array(
+                            "X-Riot-Token: {$this->getApiKey()}"
+                        ),
+                    )
+                );
+                $riotMatchApiResponse1 = json_decode(curl_exec($this->Curl));
+                $riotMatchApiResponse1Code = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+                curl_close($this->Curl);
+                if ($riotMatchApiResponse1Code == 200) {
+                    $totalTimePlayed = 0;
+                    $totalCreepScore = 0;
+                    $kdaRatio = 0;
+                    $totalVisionScore = 0;
+                    for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
+                        $request = "{$this->bases[$this->getTagLine()]}/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}";
+                        $this->Curl = curl_init();
+                        curl_setopt_array(
+                            $this->Curl,
+                            array(
+                                CURLOPT_URL => $request,
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => '',
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => 'GET',
+                                CURLOPT_HTTPHEADER => array(
+                                    "X-Riot-Token: {$this->getApiKey()}"
+                                ),
+                            )
+                        );
+                        $riotMatchApiResponse2 = json_decode(curl_exec($this->Curl));
+                        curl_close($this->Curl);
+                        $puuidKey = 0;
+                        for ($secondIndex = 0; $secondIndex < 10; $secondIndex++) {
+                            if ($this->getPlayerUniversallyUniqueIdentifier() == $riotMatchApiResponse2->metadata->participants[$secondIndex]) {
+                                $puuidKey = $secondIndex;
                             }
-                            if ($riotMatchApiResponse2->info->participants[$puuidKey]->deaths != 0) {
-                                $kdaRatio += ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / $riotMatchApiResponse2->info->participants[$puuidKey]->deaths;
-                            } else {
-                                $kdaRatio += ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / 1;
-                            }
-                            $totalTimePlayed += $riotMatchApiResponse2->info->gameDuration;
-                            $totalCreepScore += $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled;
-                            $totalVisionScore += $riotMatchApiResponse2->info->participants[$puuidKey]->visionScore;
                         }
+                        if ($riotMatchApiResponse2->info->participants[$puuidKey]->deaths != 0) {
+                            $kdaRatio += ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / $riotMatchApiResponse2->info->participants[$puuidKey]->deaths;
+                        } else {
+                            $kdaRatio += ($riotMatchApiResponse2->info->participants[$puuidKey]->kills + $riotMatchApiResponse2->info->participants[$puuidKey]->assists) / 1;
+                        }
+                        $totalTimePlayed += $riotMatchApiResponse2->info->gameDuration;
+                        $totalCreepScore += $riotMatchApiResponse2->info->participants[$puuidKey]->neutralMinionsKilled + $riotMatchApiResponse2->info->participants[$puuidKey]->totalMinionsKilled;
+                        $totalVisionScore += $riotMatchApiResponse2->info->participants[$puuidKey]->visionScore;
                         if (count($riotMatchApiResponse1) != 0) {
                             $amountOfMatches = count($riotMatchApiResponse1);
                         } else {
@@ -282,12 +360,10 @@ class LeagueOfLegends
                         } else {
                             $totalTime = 1;
                         }
-
                         $response = array(
-                            "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                            "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
-                            "httpResponseCode_league" => intval($this->getHttpResponseCode($riotLeagueApiRequest)),
-                            "httpResponseCode_match" => intval($this->getHttpResponseCode($riotMatchApiRequest1)),
+                            "summoner" => $riotSummonerApiResponseCode,
+                            "league" => $riotLeagueApiResponseCode,
+                            "match_1" => $riotMatchApiResponse1Code,
                             "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
                             "profileIconId" => $riotSummonerApiResponse->profileIconId,
                             "soloDuoTier" => $soloDuoTier,
@@ -303,37 +379,29 @@ class LeagueOfLegends
                             "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed),
                             "kdaRatio" => round($kdaRatio /= $amountOfMatches, 2),
                             "csMin" => round($totalCreepScore / ($totalTime /  60), 2),
-                            "vsMin" => round($totalVisionScore / ($totalTime / 60), 2),
-                            "gameName" => rawurldecode($this->getGameName())
+                            "vsMin" => round($totalVisionScore / ($totalTime / 60), 2)
                         );
                         $cacheData = json_encode($response);
                         $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
                         fwrite($cache, $cacheData);
                         fclose($cache);
-                    } else {
-                        $response = array(
-                            "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                            "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
-                            "httpResponseCode_league" => intval($this->getHttpResponseCode($riotLeagueApiRequest)),
-                            "httpResponseCode_match" => intval($this->getHttpResponseCode($riotMatchApiRequest1))
-                        );
                     }
                 } else {
-                    $response = array(
-                        "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                        "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
-                        "httpResponseCode_league" => intval($this->getHttpResponseCode($riotLeagueApiRequest))
+                    $response = (object) array(
+                        "summoner" => $riotSummonerApiResponseCode,
+                        "league" => $riotLeagueApiResponseCode,
+                        "match_1" => $riotMatchApiResponse1Code
                     );
                 }
             } else {
-                $response = array(
-                    "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                    "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest))
+                $response = (object) array(
+                    "summoner" => $riotSummonerApiResponseCode,
+                    "league" => $riotLeagueApiResponseCode
                 );
             }
         } else {
-            $response = array(
-                "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode
+            $response = (object) array(
+                "summoner" => $riotSummonerApiResponseCode
             );
         }
         header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
