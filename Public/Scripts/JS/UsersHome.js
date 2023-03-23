@@ -238,207 +238,6 @@ class Application extends React.Component {
             );
     }
     /**
-     * Verifying the state before rendering the link
-     */
-    verifyAccount_PUBG_ID() {
-        if (this.state.Accounts.PlayerUnknownBattleGrounds.identifier != null) {
-            return (
-                <div id="playerUnknownBattleGroundsCard">
-                    <div>
-                        <a
-                            href={`/PlayerUnknownBattleGrounds/Home/${this.state.Accounts.PlayerUnknownBattleGrounds.playerName}`}
-                        >
-                            <img src="/Public/Images/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
-                        </a>
-                    </div>
-                    <div>
-                        <i class="fa fa-steam"></i>
-                    </div>
-                    <div>
-                        <div>
-                            <div>Solo</div>
-                            <div>
-                                <div>Win Rate:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.Solo.winrate
-                                        ),
-                                    }}
-                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Solo.winrate} %`}</div>
-                            </div>
-                            <div>
-                                <div>Top 10's:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.Solo.top10Probability
-                                        ),
-                                    }}
-                                >
-                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Solo.top10Probability} %`}
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div>Duo</div>
-                            <div>
-                                <div>Win Rate:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.Duo.winrate
-                                        ),
-                                    }}
-                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Duo.winrate} %`}</div>
-                            </div>
-                            <div>
-                                <div>Top 10's:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.Duo.top10Probability
-                                        ),
-                                    }}
-                                >
-                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Duo.top10Probability} %`}
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div>Squad</div>
-                            <div>
-                                <div>Win Rate:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.Squad.winrate
-                                        ),
-                                    }}
-                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Squad.winrate} %`}</div>
-                            </div>
-                            <div>
-                                <div>Top 10's:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.Squad.top10Probability
-                                        ),
-                                    }}
-                                >
-                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Squad.top10Probability} %`}
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <div>KDA:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_kda(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.kda
-                                        ),
-                                    }}
-                                >
-                                    {
-                                        this.state.Accounts
-                                            .PlayerUnknownBattleGrounds.Player
-                                            .kda
-                                    }
-                                </div>
-                            </div>
-                            <div>
-                                <div>Kill Streak:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_killStreak(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.killStreak
-                                        ),
-                                    }}
-                                >
-                                    {
-                                        this.state.Accounts
-                                            .PlayerUnknownBattleGrounds.Player
-                                            .killStreak
-                                    }
-                                </div>
-                            </div>
-                            <div>
-                                <div>Longest Kill Distance:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_longestKill(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.longestKill
-                                        ),
-                                    }}
-                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.longestKill} m`}</div>
-                            </div>
-                            <div>
-                                <div>Headshot:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_headshot(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.headshot
-                                        ),
-                                    }}
-                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.headshot} %`}</div>
-                            </div>
-                            <div>
-                                <div>Damage/Match:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyPlayerUnknownBattleGrounds_damagePerMatch(
-                                            this.state.Accounts
-                                                .PlayerUnknownBattleGrounds
-                                                .Player.damagePerMatch
-                                        ),
-                                    }}
-                                >
-                                    {
-                                        this.state.Accounts
-                                            .PlayerUnknownBattleGrounds.Player
-                                            .damagePerMatch
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    You should add your account for PUBG before having accessed
-                    to the required content. You can click{" "}
-                    <a href={`/Users/Accounts/${this.state.User.username}`}>
-                        here
-                    </a>{" "}
-                    to process into adding your account!
-                </div>
-            );
-        }
-    }
-    /**
      * Verifying the winrate before styling it
      */
     verifyPlayerUnknownBattleGrounds_winRate(win_rate) {
@@ -617,7 +416,16 @@ class Main extends Application {
                             .playerUniversallyUniqueIdentifier
                     }
                 />
-                {this.verifyAccount_PUBG_ID()}
+                <PlayerUnknownBattleGrounds
+                    playerName={
+                        this.state.Accounts.PlayerUnknownBattleGrounds
+                            .playerName
+                    }
+                    identifier={
+                        this.state.Accounts.PlayerUnknownBattleGrounds
+                            .identifier
+                    }
+                />
             </main>
         );
     }
@@ -813,6 +621,214 @@ class LeagueOfLegends extends Main {
                 <div>
                     You should add your account for League of Legends before
                     having accessed to the required content. You can click{" "}
+                    <a href={`/Users/Accounts/${this.state.User.username}`}>
+                        here
+                    </a>{" "}
+                    to process into adding your account!
+                </div>
+            );
+        }
+    }
+}
+class PlayerUnknownBattleGrounds extends Main {
+    constructor(props) {
+        super(props);
+    }
+    componentDidMount() {
+        if (this.props.identifier != null) {
+            this.getPlayerData();
+        }
+    }
+    render() {
+        if (this.props.identifier != null) {
+            return (
+                <div id="playerUnknownBattleGroundsCard">
+                    <div>
+                        <a
+                            href={`/PlayerUnknownBattleGrounds/Home/${this.state.Accounts.PlayerUnknownBattleGrounds.playerName}`}
+                        >
+                            <img src="/Public/Images/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
+                        </a>
+                    </div>
+                    <div>
+                        <i class="fa fa-steam"></i>
+                    </div>
+                    <div>
+                        <div>
+                            <div>Solo</div>
+                            <div>
+                                <div>Win Rate:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Solo.winrate
+                                        ),
+                                    }}
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Solo.winrate} %`}</div>
+                            </div>
+                            <div>
+                                <div>Top 10's:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Solo.top10Probability
+                                        ),
+                                    }}
+                                >
+                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Solo.top10Probability} %`}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>Duo</div>
+                            <div>
+                                <div>Win Rate:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Duo.winrate
+                                        ),
+                                    }}
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Duo.winrate} %`}</div>
+                            </div>
+                            <div>
+                                <div>Top 10's:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Duo.top10Probability
+                                        ),
+                                    }}
+                                >
+                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Duo.top10Probability} %`}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>Squad</div>
+                            <div>
+                                <div>Win Rate:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Squad.winrate
+                                        ),
+                                    }}
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Squad.winrate} %`}</div>
+                            </div>
+                            <div>
+                                <div>Top 10's:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.Squad.top10Probability
+                                        ),
+                                    }}
+                                >
+                                    {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Squad.top10Probability} %`}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div>KDA:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_kda(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.kda
+                                        ),
+                                    }}
+                                >
+                                    {
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .kda
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <div>Kill Streak:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_killStreak(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.killStreak
+                                        ),
+                                    }}
+                                >
+                                    {
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .killStreak
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <div>Longest Kill Distance:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_longestKill(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.longestKill
+                                        ),
+                                    }}
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.longestKill} m`}</div>
+                            </div>
+                            <div>
+                                <div>Headshot:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_headshot(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.headshot
+                                        ),
+                                    }}
+                                >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.headshot} %`}</div>
+                            </div>
+                            <div>
+                                <div>Damage/Match:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_damagePerMatch(
+                                            this.state.Accounts
+                                                .PlayerUnknownBattleGrounds
+                                                .Player.damagePerMatch
+                                        ),
+                                    }}
+                                >
+                                    {
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .damagePerMatch
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    You should add your account for PUBG before having accessed
+                    to the required content. You can click{" "}
                     <a href={`/Users/Accounts/${this.state.User.username}`}>
                         here
                     </a>{" "}
