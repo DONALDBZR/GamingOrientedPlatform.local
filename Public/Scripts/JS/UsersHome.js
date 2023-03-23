@@ -64,6 +64,7 @@ class Application extends React.Component {
     }
     /**
      * Verifying the state before rendering the link
+     * @returns {object}
      */
     verifyUser_username() {
         if (this.state.User.profilePicture != null) {
@@ -83,6 +84,7 @@ class Application extends React.Component {
     }
     /**
      * Verifying the state before rendering the link
+     * @returns {object}
      */
     verifyAccount_Riot_ID() {
         if (
@@ -109,6 +111,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving data from Riot Games data center for the user
+     * @returns {void}
      */
     getSummonerData() {
         fetch("/LegendsOfLegends/CurrentSummoner", {
@@ -145,16 +148,20 @@ class Application extends React.Component {
     }
     /**
      * Verifying the ranks of the player
+     * @param {object} mode
+     * @returns {string}
      */
-    verifyLeagueOfLegends_rank(tier, rank, point) {
-        if (tier == "" || tier == null) {
+    verifyLeagueOfLegends_rank(mode) {
+        if (mode.tier == "" || mode.tier == null) {
             return "Unranked";
         } else {
-            return `${tier} ${rank} - ${point} LP`;
+            return `${mode.tier} ${mode.rank} - ${mode.point} LP`;
         }
     }
     /**
      * Verifying the ranks of the player for the logo
+     * @param {string} tier
+     * @returns {string}
      */
     verifyLeagueOfLegends_rank_emblem(tier) {
         if (tier == "" || tier == null) {
@@ -165,6 +172,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the winrate before styling it
+     * @param {number} win_rate
+     * @returns {string}
      */
     verifyLeagueOfLegends_winRate(win_rate) {
         if (win_rate >= 50) {
@@ -177,6 +186,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the KDA before styling it
+     * @param {number} kda
+     * @returns {string}
      */
     verifyLeagueOfLegends_kda(kda) {
         if (kda >= 4) {
@@ -189,6 +200,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the CS/Min before styling it
+     * @param {number} cs_min
+     * @returns {string}
      */
     verifyLeagueOfLegends_csMin(cs_min) {
         if (cs_min >= 6) {
@@ -201,6 +214,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the VS/Min before styling it
+     * @param {number} vs_min
+     * @returns {string}
      */
     verifyLeagueOfLegends_vsMin(vs_min) {
         if (vs_min >= 2) {
