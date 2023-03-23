@@ -59,14 +59,6 @@ class Application extends React.Component {
         };
     }
     /**
-     * Retrieving every data needed for processing
-     */
-    retrieveData() {
-        this.getCurrentUser();
-        this.getSummonerData();
-        this.getPlayerData();
-    }
-    /**
      * Verifying the state before rendering the link
      */
     verifyUser_username() {
@@ -93,152 +85,7 @@ class Application extends React.Component {
             this.state.Accounts.LeagueOfLegends
                 .playerUniversallyUniqueIdentifier != null
         ) {
-            return (
-                <div id="leagueOfLegendsCard">
-                    <div>
-                        <a
-                            href={`/LeagueOfLegends/Home/${this.state.Accounts.LeagueOfLegends.gameName}`}
-                        >
-                            <img src="/Public/Images/League Of Legends Logo.png" />
-                        </a>
-                    </div>
-                    <div>
-                        <div>
-                            <img
-                                src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.Accounts.LeagueOfLegends.Summoner.profileIconId}.png`}
-                            />
-                            <div>
-                                Level{" "}
-                                {
-                                    this.state.Accounts.LeagueOfLegends.Summoner
-                                        .level
-                                }
-                            </div>
-                            <div>
-                                {this.state.Accounts.LeagueOfLegends.gameName}
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <div>Solo/Duo</div>
-                                <div>
-                                    <img
-                                        src={this.verifyLeagueOfLegends_rank_emblem(
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.soloDuoTier
-                                        )}
-                                    />
-                                </div>
-                                <div>
-                                    <div>
-                                        {this.verifyLeagueOfLegends_rank(
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.soloDuoTier,
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.soloDuoDivision,
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.soloDuoLeaguePoints
-                                        )}
-                                    </div>
-                                    <div>Win Rate:</div>
-                                    <div
-                                        style={{
-                                            color: this.verifyLeagueOfLegends_winRate(
-                                                this.state.Accounts
-                                                    .LeagueOfLegends.Summoner
-                                                    .soloDuoWinRate
-                                            ),
-                                        }}
-                                    >{`${this.state.Accounts.LeagueOfLegends.Summoner.soloDuoWinRate} %`}</div>
-                                </div>
-                            </div>
-                            <div>
-                                <div>Flex 5v5</div>
-                                <div>
-                                    <img
-                                        src={this.verifyLeagueOfLegends_rank_emblem(
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.flexTier
-                                        )}
-                                    />
-                                </div>
-                                <div>
-                                    <div>
-                                        {this.verifyLeagueOfLegends_rank(
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.flexTier,
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.flexDivision,
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.flexLeaguePoints
-                                        )}
-                                    </div>
-                                    <div>Win Rate:</div>
-                                    <div
-                                        style={{
-                                            color: this.verifyLeagueOfLegends_winRate(
-                                                this.state.Accounts
-                                                    .LeagueOfLegends.Summoner
-                                                    .flexWinRate
-                                            ),
-                                        }}
-                                    >{`${this.state.Accounts.LeagueOfLegends.Summoner.flexWinRate} %`}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <div>KDA:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyLeagueOfLegends_kda(
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.kdaRatio
-                                        ),
-                                    }}
-                                >
-                                    {
-                                        this.state.Accounts.LeagueOfLegends
-                                            .Summoner.kdaRatio
-                                    }
-                                </div>
-                            </div>
-                            <div>
-                                <div>CS/Min:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyLeagueOfLegends_csMin(
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.csMin
-                                        ),
-                                    }}
-                                >
-                                    {
-                                        this.state.Accounts.LeagueOfLegends
-                                            .Summoner.csMin
-                                    }
-                                </div>
-                            </div>
-                            <div>
-                                <div>VS/Min:</div>
-                                <div
-                                    style={{
-                                        color: this.verifyLeagueOfLegends_vsMin(
-                                            this.state.Accounts.LeagueOfLegends
-                                                .Summoner.vsMin
-                                        ),
-                                    }}
-                                >
-                                    {
-                                        this.state.Accounts.LeagueOfLegends
-                                            .Summoner.vsMin
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
+            return <LeagueOfLegends />;
         } else {
             return (
                 <div>
@@ -261,11 +108,9 @@ class Application extends React.Component {
         })
             .then((response) => response.json())
             .then((data) =>
-                this.setState((previous) => ({
+                this.setState({
                     Accounts: {
-                        ...previous.Accounts,
                         LeagueOfLegends: {
-                            ...previous.Accounts.LeagueOfLegends,
                             Summoner: {
                                 level: data.summonerLevel,
                                 profileIconId: data.profileIconId,
@@ -283,7 +128,7 @@ class Application extends React.Component {
                             },
                         },
                     },
-                }))
+                })
             );
     }
     /**
@@ -363,11 +208,9 @@ class Application extends React.Component {
         })
             .then((response) => response.json())
             .then((data) =>
-                this.setState((previous) => ({
+                this.setState({
                     Accounts: {
-                        ...previous.Accounts,
                         PlayerUnknownBattleGrounds: {
-                            ...previous.Accounts.PlayerUnknownBattleGrounds,
                             Player: {
                                 Duo: {
                                     winrate: data.duo.winrate,
@@ -391,7 +234,7 @@ class Application extends React.Component {
                             },
                         },
                     },
-                }))
+                })
             );
     }
     /**
@@ -762,7 +605,7 @@ class Main extends Application {
      * Methods to be run as soon as the component is mounted
      */
     componentDidMount() {
-        this.retrieveData();
+        this.getCurrentUser();
     }
     render() {
         return (
@@ -779,6 +622,178 @@ class Main extends Application {
 class Footer extends Application {
     render() {
         return <footer>Parkinston</footer>;
+    }
+}
+/**
+ * The component that will have all the properties and states for the card
+ */
+class LeagueOfLegends extends Main {
+    constructor(props) {
+        super(props);
+        this.state = {
+            Accounts: {
+                LeagueOfLegends: {
+                    gameName: "",
+                    Summoner: {
+                        profileIconId: 0,
+                        level: 0,
+                        SoloDuo: {
+                            tier: "",
+                            division: "",
+                            leaguePoints: 0,
+                            winRate: 0.0,
+                        },
+                        Flex5v5: {
+                            tier: "",
+                            division: "",
+                            leaguePoints: 0,
+                            winRate: 0.0,
+                        },
+                        kda: 0.0,
+                        csMin: 0.0,
+                        vsMin: 0.0,
+                    },
+                },
+            },
+        };
+    }
+    componentDidMount() {
+        this.getSummonerData();
+    }
+    render() {
+        return (
+            <div id="leagueOfLegendsCard">
+                <div>
+                    <a
+                        href={`/LeagueOfLegends/Home/${this.state.Accounts.LeagueOfLegends.gameName}`}
+                    >
+                        <img src="/Public/Images/League Of Legends Logo.png" />
+                    </a>
+                </div>
+                <div>
+                    <div>
+                        <img
+                            src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.Accounts.LeagueOfLegends.Summoner.profileIconId}.png`}
+                        />
+                        <div>
+                            Level{" "}
+                            {this.state.Accounts.LeagueOfLegends.Summoner.level}
+                        </div>
+                        <div>
+                            {this.state.Accounts.LeagueOfLegends.gameName}
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>Solo/Duo</div>
+                            <div>
+                                <img
+                                    src={this.verifyLeagueOfLegends_rank_emblem(
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.SoloDuo.tier
+                                    )}
+                                />
+                            </div>
+                            <div>
+                                <div>
+                                    {this.verifyLeagueOfLegends_rank(
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.SoloDuo
+                                    )}
+                                </div>
+                                <div>Win Rate:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyLeagueOfLegends_winRate(
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.SoloDuo.winRate
+                                        ),
+                                    }}
+                                >{`${this.state.Accounts.LeagueOfLegends.Summoner.SoloDuo.winRate} %`}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>Flex 5v5</div>
+                            <div>
+                                <img
+                                    src={this.verifyLeagueOfLegends_rank_emblem(
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.Flex5v5.tier
+                                    )}
+                                />
+                            </div>
+                            <div>
+                                <div>
+                                    {this.verifyLeagueOfLegends_rank(
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.Flex5v5
+                                    )}
+                                </div>
+                                <div>Win Rate:</div>
+                                <div
+                                    style={{
+                                        color: this.verifyLeagueOfLegends_winRate(
+                                            this.state.Accounts.LeagueOfLegends
+                                                .Summoner.Flex5v5.winRate
+                                        ),
+                                    }}
+                                >{`${this.state.Accounts.LeagueOfLegends.Summoner.Flex5v5.winRate} %`}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>KDA:</div>
+                            <div
+                                style={{
+                                    color: this.verifyLeagueOfLegends_kda(
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.kda
+                                    ),
+                                }}
+                            >
+                                {
+                                    this.state.Accounts.LeagueOfLegends.Summoner
+                                        .kda
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <div>CS/Min:</div>
+                            <div
+                                style={{
+                                    color: this.verifyLeagueOfLegends_csMin(
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.csMin
+                                    ),
+                                }}
+                            >
+                                {
+                                    this.state.Accounts.LeagueOfLegends.Summoner
+                                        .csMin
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <div>VS/Min:</div>
+                            <div
+                                style={{
+                                    color: this.verifyLeagueOfLegends_vsMin(
+                                        this.state.Accounts.LeagueOfLegends
+                                            .Summoner.vsMin
+                                    ),
+                                }}
+                            >
+                                {
+                                    this.state.Accounts.LeagueOfLegends.Summoner
+                                        .vsMin
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 // Rendering the page
