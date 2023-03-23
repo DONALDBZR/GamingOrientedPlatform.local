@@ -128,7 +128,7 @@ class Application extends React.Component {
         if (mode.tier == "" || mode.tier == null) {
             return "Unranked";
         } else {
-            return `${mode.tier} ${mode.rank} - ${mode.point} LP`;
+            return `${mode.tier} ${mode.division} - ${mode.leaguePoints} LP`;
         }
     }
     /**
