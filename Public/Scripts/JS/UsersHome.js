@@ -201,6 +201,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving data from PUBG Corporations data center for the user
+     * @returns {void}
      */
     getPlayerData() {
         fetch("/PlayerUnknownBattleGrounds/CurrentPlayer", {
@@ -239,6 +240,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the winrate before styling it
+     * @param {number} win_rate
+     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_winRate(win_rate) {
         if (win_rate >= 50) {
@@ -251,6 +254,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the top 10 probability before styling it
+     * @param {number} top10Probability
+     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_top10Probability(top10Probability) {
         if (top10Probability >= 50) {
@@ -263,6 +268,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the kda ratio before styling it
+     * @param {number} kda
+     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_kda(kda) {
         if (kda >= 6) {
@@ -275,6 +282,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the kill streak before styling it
+     * @param {number} killStreak
+     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_killStreak(killStreak) {
         if (killStreak >= 5) {
@@ -287,6 +296,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the longest kill distance before styling it
+     * @param {number} longestKill
+     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_longestKill(longestKill) {
         if (longestKill >= 200) {
@@ -299,6 +310,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the Headshot probability before styling it
+     * @param {number} headshot
+     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_headshot(headshot) {
         if (headshot >= 50) {
@@ -311,6 +324,8 @@ class Application extends React.Component {
     }
     /**
      * Verifying the damage per match before styling it
+     * @param {number} damagePerMatch
+     * @returns {string}
      */
     verifyPlayerUnknownBattleGrounds_damagePerMatch(damagePerMatch) {
         if (damagePerMatch >= 250) {
@@ -323,6 +338,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving the user data
+     * @returns {void}
      */
     getCurrentUser() {
         fetch("/Users/CurrentUser", {
@@ -356,7 +372,7 @@ class Application extends React.Component {
     }
     /**
      * Renders the components that are being returned
-     * @returns {Application} Component
+     * @returns {object}
      */
     render() {
         return [<Header />, <Main />, <Footer />];
@@ -415,6 +431,7 @@ class Main extends Application {
                         this.state.Accounts.LeagueOfLegends
                             .playerUniversallyUniqueIdentifier
                     }
+                    username={this.state.User.username}
                 />
                 <PlayerUnknownBattleGrounds
                     playerName={
@@ -425,6 +442,7 @@ class Main extends Application {
                         this.state.Accounts.PlayerUnknownBattleGrounds
                             .identifier
                     }
+                    username={this.state.User.username}
                 />
             </main>
         );
@@ -621,9 +639,7 @@ class LeagueOfLegends extends Main {
                 <div>
                     You should add your account for League of Legends before
                     having accessed to the required content. You can click{" "}
-                    <a href={`/Users/Accounts/${this.state.User.username}`}>
-                        here
-                    </a>{" "}
+                    <a href={`/Users/Accounts/${this.props.username}`}>here</a>{" "}
                     to process into adding your account!
                 </div>
             );
@@ -633,6 +649,31 @@ class LeagueOfLegends extends Main {
 class PlayerUnknownBattleGrounds extends Main {
     constructor(props) {
         super(props);
+        this.state = {
+            Accounts: {
+                PlayerUnknownBattleGrounds: {
+                    Player: {
+                        Duo: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        Solo: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        Squad: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        kda: 0.0,
+                        killStreak: 0,
+                        longestKill: 0.0,
+                        headshot: 0.0,
+                        damagePerMatch: 0.0,
+                    },
+                },
+            },
+        };
     }
     componentDidMount() {
         if (this.props.identifier != null) {
@@ -645,7 +686,7 @@ class PlayerUnknownBattleGrounds extends Main {
                 <div id="playerUnknownBattleGroundsCard">
                     <div>
                         <a
-                            href={`/PlayerUnknownBattleGrounds/Home/${this.state.Accounts.PlayerUnknownBattleGrounds.playerName}`}
+                            href={`/PlayerUnknownBattleGrounds/Home/${this.props.playerName}`}
                         >
                             <img src="/Public/Images/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
                         </a>
@@ -829,9 +870,7 @@ class PlayerUnknownBattleGrounds extends Main {
                 <div>
                     You should add your account for PUBG before having accessed
                     to the required content. You can click{" "}
-                    <a href={`/Users/Accounts/${this.state.User.username}`}>
-                        here
-                    </a>{" "}
+                    <a href={`/Users/Accounts/${this.props.username}`}>here</a>{" "}
                     to process into adding your account!
                 </div>
             );
