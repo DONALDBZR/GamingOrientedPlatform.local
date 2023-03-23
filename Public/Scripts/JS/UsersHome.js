@@ -85,7 +85,11 @@ class Application extends React.Component {
             this.state.Accounts.LeagueOfLegends
                 .playerUniversallyUniqueIdentifier != null
         ) {
-            return <LeagueOfLegends />;
+            return (
+                <LeagueOfLegends
+                    gameName={this.state.Accounts.LeagueOfLegends.gameName}
+                />
+            );
         } else {
             return (
                 <div>
@@ -664,9 +668,7 @@ class LeagueOfLegends extends Main {
         return (
             <div id="leagueOfLegendsCard">
                 <div>
-                    <a
-                        href={`/LeagueOfLegends/Home/${this.state.Accounts.LeagueOfLegends.gameName}`}
-                    >
+                    <a href={`/LeagueOfLegends/Home/${this.props.gameName}`}>
                         <img src="/Public/Images/League Of Legends Logo.png" />
                     </a>
                 </div>
