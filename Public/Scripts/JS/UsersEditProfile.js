@@ -4,64 +4,37 @@
 class Application extends React.Component {
     constructor(props) {
         super(props);
-        /**
-         * States of the properties of the component
-         */
         this.state = {
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * Mail Address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * Domain of the application
-             * @type {string}
-             */
-            domain: "",
-            /**
-             * Response's status
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * Response's body
-             * @type {string}
-             */
-            message: "",
-            /**
-             * Url to be redirected
-             * @type {string}
-             */
-            url: "",
-            /**
-             * User's profile picture
-             * @type {string}
-             */
-            profilePicture: "",
-            array: [],
+            User: {
+                username: "",
+                mailAddress: "",
+                profilePicture: "",
+            },
+            System: {
+                status: 0,
+                message: "",
+                url: "",
+                array: [],
+            },
         };
         this.handleFileChange = this.handleFileChange.bind(this);
     }
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
-    retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+    getUser() {
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-            }));
+            .then((data) =>
+                this.setState({
+                    username: data.User.username,
+                    mailAddress: data.User.mailAddress,
+                    domain: data.User.domain,
+                    profilePicture: data.User.profilePicture,
+                })
+            );
     }
     /**
      * Handling any change that is made in the interface
@@ -69,8 +42,12 @@ class Application extends React.Component {
      */
     handleFileChange(event) {
         this.setState({
-            profilePicture: event.target.files,
-            array: [],
+            User: {
+                profilePicture: event.target.files,
+            },
+            System: {
+                array: [],
+            },
         });
     }
     /**
@@ -78,16 +55,14 @@ class Application extends React.Component {
      * @param {Event} event
      */
     handleSubmit(event) {
-        /**
-        * The amount of milliseconds that the registration process takes
-        */
         const delay = 2600;
-        /**
-         * Using Form-Data to upload the file
-         */
         const formData = new FormData();
-        for (let index = 0; index < this.state.profilePicture.length; index++) {
-            formData.append("image", this.state.profilePicture[index]);
+        for (
+            let index = 0;
+            index < this.state.User.profilePicture.length;
+            index++
+        ) {
+            formData.append("image", this.state.User.profilePicture[index]);
         }
         event.preventDefault();
         fetch("/Controllers/UsersEditProfile.php", {
@@ -95,35 +70,42 @@ class Application extends React.Component {
             body: formData,
         })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                success: data.success,
-                message: data.message,
-                url: data.url,
-            }))
+            .then((data) =>
+                this.setState({
+                    success: data.success,
+                    message: data.message,
+                    url: data.url,
+                })
+            )
             .then(() => this.redirector(delay));
     }
     /**
      * Redirecting the user to an intended url
-     * @param {int} delay 
+     * @param {number} delay
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
      * Verifying the state before rendering the link
-     * @returns {Application} Component
+     * @returns {object}
      */
     verifyState() {
-        if (this.state.profilePicture != null) {
+        if (this.state.User.profilePicture != null) {
             return (
-                <a href={`/Users/Profile/${this.state.username}`}>
-                    <img src={this.state.profilePicture} />
+                <a href={`/Users/Profile/${this.state.User.username}`}>
+                    <img src={this.state.User.profilePicture} />
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.User.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
@@ -131,7 +113,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseColor() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -142,17 +124,11 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseFontSize() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "71%";
         } else {
             return "180%";
         }
-    }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
     }
     /**
      * Renders the components that are being returned
@@ -169,18 +145,17 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
     componentDidMount() {
-        this.retrieveData();
+        this.getUser();
     }
     render() {
         return (
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.User.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyState()}</div>
                     <div>
@@ -198,18 +173,26 @@ class Main extends Application {
     constructor(props) {
         super(props);
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
     componentDidMount() {
-        this.retrieveData();
+        this.getUser();
     }
     render() {
         return (
             <main>
-                <form method="POST" enctype="multipart/form-data" onSubmit={this.handleSubmit.bind(this)}>
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                    onSubmit={this.handleSubmit.bind(this)}
+                >
                     <div id="label">You can customize your profile picture</div>
-                    <input type="file" name="image" accept="image/*" files={this.state.profilePicture} onChange={this.handleFileChange.bind(this)} required />
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        files={this.state.User.profilePicture}
+                        onChange={this.handleFileChange.bind(this)}
+                        required
+                    />
                     <div>
                         <button>Change Profile Picture</button>
                     </div>
@@ -220,7 +203,7 @@ class Main extends Application {
                                 fontSize: this.handleResponseFontSize(),
                             }}
                         >
-                            {this.state.message}
+                            {this.state.System.message}
                         </h1>
                     </div>
                 </form>
@@ -233,11 +216,7 @@ class Main extends Application {
  */
 class Footer extends Application {
     render() {
-        return (
-            <footer>
-                Parkinston
-            </footer>
-        );
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page
