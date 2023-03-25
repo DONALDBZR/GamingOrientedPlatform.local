@@ -110,6 +110,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
+            case '/LegendsOfLegends/PatchNotes':
+                $Router = new Router("GET", "/LegendsOfLegends/PatchNotes", "/Controllers/PatchNotes.php");
+                break;
                 //     case "/Users/Profile/{$_SESSION['User']['username']}":
                 //         if (isset($_SESSION['User'])) {
                 //             if (isset($_SESSION['User']['otp'])) {
@@ -225,21 +228,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //             } else {
                 //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
                 //                     $Router = new Router("GET", "/LegendsOfLegends/PlatformStatus", "/Controllers/PlatformStatus.php");
-                //                 } else {
-                //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //                 }
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
-                //     case '/LegendsOfLegends/PatchNotes':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                //                     $Router = new Router("GET", "/LegendsOfLegends/PatchNotes", "/Controllers/PatchNotes.php");
                 //                 } else {
                 //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
                 //                 }
