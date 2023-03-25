@@ -9,11 +9,11 @@ class Application extends React.Component {
                 username: "",
                 mailAddress: "",
                 profilePicture: "",
-                Password: {
-                    current: "",
-                    new: "",
-                    confirmNew: "",
-                },
+            },
+            Password: {
+                current: "",
+                new: "",
+                confirmNew: "",
             },
             System: {
                 status: 0,
@@ -88,12 +88,9 @@ class Application extends React.Component {
         } else {
             this.setState((previous) => ({
                 ...previous,
-                User: {
-                    ...previous.User,
-                    Password: {
-                        ...previous.User.Password,
-                        [name]: value,
-                    },
+                Password: {
+                    ...previous.Password,
+                    [name]: value,
                 },
             }));
         }
@@ -110,9 +107,9 @@ class Application extends React.Component {
             body: JSON.stringify({
                 mailAddress: this.state.User.mailAddress,
                 Password: {
-                    old: this.state.User.Password.current,
-                    new: this.state.User.Password.new,
-                    confirmNew: this.state.User.Password.confirmNew,
+                    old: this.state.Password.current,
+                    new: this.state.Password.new,
+                    confirmNew: this.state.Password.confirmNew,
                 },
             }),
             headers: {
@@ -226,21 +223,21 @@ class Main extends Application {
                         type="password"
                         name="current"
                         placeholder="Old Password"
-                        value={this.state.User.Password.current}
+                        value={this.state.Password.current}
                         onChange={this.handleChange.bind(this)}
                     />
                     <input
                         type="password"
                         name="new"
                         placeholder="New Password"
-                        value={this.state.User.Password.new}
+                        value={this.state.Password.new}
                         onChange={this.handleChange.bind(this)}
                     />
                     <input
                         type="password"
                         name="confirmNew"
                         placeholder="Confirm New Password"
-                        value={this.state.User.Password.confirmNew}
+                        value={this.state.Password.confirmNew}
                         onChange={this.handleChange.bind(this)}
                     />
                     <div id="button">
