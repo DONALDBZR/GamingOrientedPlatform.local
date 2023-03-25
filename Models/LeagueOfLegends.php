@@ -657,25 +657,46 @@ class LeagueOfLegends
     }
     /**
      * Retrieving the patch notes of the game
-     * @return JSON
      */
-    public function getPatchNotes()
+    public function getPatchNotes(): object
     {
         $request = "https://ddragon.leagueoflegends.com/api/versions.json";
-        if (intval($this->getHttpResponseCode($request))) {
-            $versionResponse = json_decode(file_get_contents($request));
-            $latestVersion = $versionResponse[0];
+        $this->Curl = curl_init();
+        curl_setopt_array(
+            $this->Curl,
+            array(
+                CURLOPT_URL => $request,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            )
+        );
+        $dataDragonApiResponse = json_decode(curl_exec($this->Curl));
+        $dataDragonApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+        if ($dataDragonApiResponseCode == 200) {
+            $latestVersion = $dataDragonApiResponse[0];
             $latestVersionArray = explode(".", $latestVersion);
-            $response = array(
-                "major" => intval($latestVersionArray[0]),
-                "minor" => intval($latestVersionArray[1]),
-                "patchNotes" => intval($latestVersionArray[2]),
+            $response = (object) array(
+                "httpResponseCode" => $dataDragonApiResponseCode,
+                "requestedDate" => date("Y/m/d"),
+                "renewOn" => date("Y/m/d", strtotime("+2 weeks")),
+                "major" => (int)$latestVersionArray[0],
+                "minor" => (int)$latestVersionArray[1],
+                "patchNotes" => (int)$latestVersionArray[2]
             );
         } else {
-            $response = array(
-                "httpResponse" => intval($this->getHttpResponseCode($request))
+            $response = (object) array(
+                "httpResponseCode" => $dataDragonApiResponseCode
             );
         }
+        $cacheData = json_encode($response);
+        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Version.json", "w");
+        fwrite($cache, $cacheData);
+        fclose($cache);
         header('Content-Type: application/json', true, intval($this->getHttpResponseCode($request)));
         echo json_encode($response);
     }
