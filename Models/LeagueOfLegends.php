@@ -697,7 +697,7 @@ class LeagueOfLegends
         $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Version.json", "w");
         fwrite($cache, $cacheData);
         fclose($cache);
-        header('Content-Type: application/json', true, intval($this->getHttpResponseCode($request)));
+        header('Content-Type: application/json', true, $dataDragonApiResponseCode);
         echo json_encode($response);
     }
     /**
