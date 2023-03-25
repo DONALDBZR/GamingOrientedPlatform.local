@@ -723,7 +723,10 @@ class PlayerUnknownBattleGrounds extends Main {
                         </a>
                     </div>
                     <div>
-                        <i class="fa fa-steam"></i>
+                        <div>{this.props.playerName}</div>
+                        <div>
+                            <i class="fa fa-steam"></i>
+                        </div>
                     </div>
                     <div>
                         <div>
