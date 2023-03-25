@@ -29,10 +29,11 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    username: data.User.username,
-                    mailAddress: data.User.mailAddress,
-                    domain: data.User.domain,
-                    profilePicture: data.User.profilePicture,
+                    User: {
+                        username: data.User.username,
+                        mailAddress: data.User.mailAddress,
+                        profilePicture: data.User.profilePicture,
+                    },
                 })
             );
     }
