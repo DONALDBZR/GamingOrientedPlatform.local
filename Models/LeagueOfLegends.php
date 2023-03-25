@@ -658,7 +658,7 @@ class LeagueOfLegends
     /**
      * Retrieving the patch notes of the game
      */
-    public function getPatchNotes(): object
+    public function getPatchNotes(): void
     {
         $request = "https://ddragon.leagueoflegends.com/api/versions.json";
         $this->Curl = curl_init();
