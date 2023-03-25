@@ -455,3 +455,6 @@ body[id*="UsersHome"] main #playerUnknownBattleGroundsCard {
     background-color: var(--color9);
     color: var(--color4);
 }
+body[id*="UsersEditProfile"] main form div:nth-child(3) {
+    text-align: center;
+}
