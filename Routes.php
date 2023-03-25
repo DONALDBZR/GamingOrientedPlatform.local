@@ -124,17 +124,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
-                //     case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 $Router = new Router("GET", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Views/UsersEditProfile.php");
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
+            case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        $Router = new Router("GET", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Views/UsersEditProfile.php");
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
                 //     case "/Users/Security/{$_SESSION['User']['username']}":
                 //         if (isset($_SESSION['User'])) {
                 //             if (isset($_SESSION['User']['otp'])) {
@@ -252,6 +252,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Users/{$_SESSION['User']['username']}/Accounts":
                 $Router = new Router("POST", "/Users/{$_SESSION['User']['username']}/Accounts", "/Controllers/UsersAccounts.php");
                 break;
+            case "/Users/{$_SESSION['User']['username']}/ProfilePicture":
+                $Router = new Router("POST", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Controllers/UsersEditProfile.php");
+                break;
         }
         break;
     case 'POST':
@@ -277,9 +280,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Users/{$_SESSION['User']['username']}/Accounts":
                 $Router = new Router("POST", "/Users/Accounts/{$_SESSION['User']['username']}", "/Controllers/UsersAccounts.php");
                 break;
-                // case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
-                //     $Router = new Router("POST", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Controllers/UsersEditProfile.php");
-                //     break;
+            case "/Users/Edit/Profile/{$_SESSION['User']['username']}":
+            case "/Users/{$_SESSION['User']['username']}/ProfilePicture":
+                $Router = new Router("POST", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Controllers/UsersEditProfile.php");
+                break;
                 // case "/Users/Security/{$_SESSION['User']['username']}":
                 //     $Router = new Router("POST", "/Users/Security/{$_SESSION['User']['username']}", "/Controllers/UsersSecurity.php");
                 //     break;
