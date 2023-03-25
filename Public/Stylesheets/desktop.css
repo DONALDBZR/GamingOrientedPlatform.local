@@ -1125,6 +1125,19 @@ body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div {
 body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(1) {
     align-items: normal;
 }
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(2) {
+    justify-content: initial;
+    align-items: initial;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(2)
+    div {
+    height: var(--percentage);
+    justify-content: center;
+    align-items: center;
+}
 body[id*="UsersHome"]
     main
     #playerUnknownBattleGroundsCard

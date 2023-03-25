@@ -1209,3 +1209,18 @@ body[id*="UsersHome"]
     div:nth-child(2) {
     width: calc(var(--percentage) / 3);
 }
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard div:nth-child(2) {
+    text-align: initial;
+    display: flex;
+}
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(2)
+    div {
+    height: var(--percentage);
+    width: calc(var(--percentage) / 2);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
