@@ -35,6 +35,11 @@ class Application extends React.Component {
                         csMin: 0.0,
                         vsMin: 0.0,
                     },
+                    Version: {
+                        major: 0,
+                        minor: 0,
+                        patchNotes: 0,
+                    },
                 },
                 PlayerUnknownBattleGrounds: {
                     identifier: "",
@@ -365,6 +370,29 @@ class Application extends React.Component {
                             playerName:
                                 data.Account.PlayerUnknownBattleGrounds
                                     .playerName,
+                        },
+                    },
+                })
+            );
+    }
+    /**
+     * Retrieving the version of the product
+     * @returns {void}
+     */
+    getVersion() {
+        fetch("/LeagueOfLegends/PatchNotes", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    Accounts: {
+                        LeagueOfLegends: {
+                            Version: {
+                                major: data.major,
+                                minor: data.minor,
+                                patchNotes: data.patchNotes,
+                            },
                         },
                     },
                 })
@@ -897,6 +925,9 @@ class DataDragon extends LeagueOfLegends {
                 },
             },
         };
+    }
+    componentDidMount() {
+        this.getVersion();
     }
     render() {
         return (
