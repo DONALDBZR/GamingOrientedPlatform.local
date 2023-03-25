@@ -135,17 +135,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
-                //     case "/Users/Security/{$_SESSION['User']['username']}":
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 $Router = new Router("GET", "/Users/Security/{$_SESSION['User']['username']}", "/Views/UsersSecurity.php");
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
+            case "/Users/Security/{$_SESSION['User']['username']}":
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        $Router = new Router("GET", "/Users/Security/{$_SESSION['User']['username']}", "/Views/UsersSecurity.php");
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
                 //     case "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']):
                 //         if (isset($_SESSION['User'])) {
                 //             if (isset($_SESSION['User']['otp'])) {
@@ -253,7 +253,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $Router = new Router("POST", "/Users/{$_SESSION['User']['username']}/Accounts", "/Controllers/UsersAccounts.php");
                 break;
             case "/Users/{$_SESSION['User']['username']}/ProfilePicture":
-                $Router = new Router("POST", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Controllers/UsersEditProfile.php");
+                $Router = new Router("POST", "/Users/{$_SESSION['User']['username']}/ProfilePicture", "/Controllers/UsersEditProfile.php");
+                break;
+            case "/Users/{$_SESSION['User']['username']}/Security":
+                $Router = new Router("POST", "/Users/{$_SESSION['User']['username']}/Security", "/Controllers/UsersSecurity.php");
                 break;
         }
         break;
@@ -284,9 +287,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Users/{$_SESSION['User']['username']}/ProfilePicture":
                 $Router = new Router("POST", "/Users/Edit/Profile/{$_SESSION['User']['username']}", "/Controllers/UsersEditProfile.php");
                 break;
-                // case "/Users/Security/{$_SESSION['User']['username']}":
-                //     $Router = new Router("POST", "/Users/Security/{$_SESSION['User']['username']}", "/Controllers/UsersSecurity.php");
-                //     break;
+            case "/Users/Security/{$_SESSION['User']['username']}":
+            case "/Users/{$_SESSION['User']['username']}/Security":
+                $Router = new Router("POST", "/Users/Security/{$_SESSION['User']['username']}", "/Controllers/UsersSecurity.php");
+                break;
                 // case "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}":
                 //     $Router = new Router("POST", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Controllers/LeagueOfLegendsHome.php");
                 //     break;
