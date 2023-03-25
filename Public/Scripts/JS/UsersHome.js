@@ -507,8 +507,11 @@ class LeagueOfLegends extends Main {
                     </div>
                     <div>
                         <div>
-                            <img
-                                src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${this.state.Accounts.LeagueOfLegends.Summoner.profileIconId}.png`}
+                            <DataDragon
+                                profileIconIdentifier={
+                                    this.state.Accounts.LeagueOfLegends.Summoner
+                                        .profileIconId
+                                }
                             />
                             <div>
                                 Level{" "}
@@ -875,6 +878,32 @@ class PlayerUnknownBattleGrounds extends Main {
                 </div>
             );
         }
+    }
+}
+/**
+ * Data Dragon Component
+ */
+class DataDragon extends LeagueOfLegends {
+    constructor(props) {
+        super(props);
+        this.state = {
+            Accounts: {
+                LeagueOfLegends: {
+                    Version: {
+                        major: 0,
+                        minor: 0,
+                        patchNotes: 0,
+                    },
+                },
+            },
+        };
+    }
+    render() {
+        return (
+            <img
+                src={`http://ddragon.leagueoflegends.com/cdn/${this.state.Accounts.LeagueOfLegends.Version.major}.${this.state.Accounts.LeagueOfLegends.Version.minor}.${this.state.Accounts.LeagueOfLegends.Version.patchNotes}/img/profileicon/${this.props.profileIconId}.png`}
+            />
+        );
     }
 }
 // Rendering the page
