@@ -66,7 +66,7 @@ class Application extends React.Component {
             formData.append("image", this.state.User.profilePicture[index]);
         }
         event.preventDefault();
-        fetch(`/User/ProfilePicture/${this.state.User.username}`, {
+        fetch(`/Users/${this.state.User.username}/ProfilePicture`, {
             method: "POST",
             body: formData,
         })
