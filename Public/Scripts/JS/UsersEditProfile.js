@@ -65,16 +65,18 @@ class Application extends React.Component {
             formData.append("image", this.state.User.profilePicture[index]);
         }
         event.preventDefault();
-        fetch("/Controllers/UsersEditProfile.php", {
+        fetch(`/User/ProfilePicture/${this.state.User.username}`, {
             method: "POST",
             body: formData,
         })
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    success: data.success,
-                    message: data.message,
-                    url: data.url,
+                    System: {
+                        success: data.success,
+                        message: data.message,
+                        url: data.url,
+                    },
                 })
             )
             .then(() => this.redirector(delay));
