@@ -110,8 +110,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
-            case '/LegendsOfLegends/PatchNotes':
-                $Router = new Router("GET", "/LegendsOfLegends/PatchNotes", "/Controllers/PatchNotes.php");
+            case '/LeagueOfLegends/PatchNotes':
+                $Router = new Router("GET", "/LeagueOfLegends/PatchNotes", "/Controllers/PatchNotes.php");
                 break;
                 //     case "/Users/Profile/{$_SESSION['User']['username']}":
                 //         if (isset($_SESSION['User'])) {
