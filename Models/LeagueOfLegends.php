@@ -154,7 +154,7 @@ class LeagueOfLegends
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        $request = "{$this->regions[$this->getRegion($this->getTagLine())]}/riot/account/v1/accounts/by-riot-id/{$this->getGameName()}/{$this->getEntryPoint($this->getTagLine())}";
+        $request = "{$this->bases[$this->getTagLine()]}/lol/summoner/v4/summoners/by-name/{$this->getGameName()}";
         $this->Curl = curl_init();
         curl_setopt_array(
             $this->Curl,
@@ -172,20 +172,20 @@ class LeagueOfLegends
                 ),
             )
         );
-        $riotAccountApiResponse = json_decode(curl_exec($this->Curl));
-        $riotAccountApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+        $riotSummonerApiResponse = json_decode(curl_exec($this->Curl));
+        $riotSummonerApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
         curl_close($this->Curl);
-        if ($riotAccountApiResponseCode == 200) {
-            $this->setPlayerUniversallyUniqueIdentifier($riotAccountApiResponse->puuid);
+        if ($riotSummonerApiResponseCode == 200) {
+            $this->setPlayerUniversallyUniqueIdentifier($riotSummonerApiResponse->puuid);
             $response = (object) array(
-                "httpResponseCode" => $riotAccountApiResponseCode,
+                "httpResponseCode" => $riotSummonerApiResponseCode,
                 "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
                 "gameName" => $this->getGameName(),
                 "tagLine" => $this->getTagLine()
             );
         } else {
             $response = (object) array(
-                "httpResponseCode" => $riotAccountApiResponseCode
+                "httpResponseCode" => $riotSummonerApiResponseCode
             );
         }
         return $response;
@@ -370,13 +370,10 @@ class LeagueOfLegends
                             "soloDuoRank" => $soloDuoRank,
                             "soloDuoLeaguePoints" => $soloDuoLeaguePoints,
                             "soloDuoWinRate" => round($soloDuoWinRate, 2),
-                            "soloDuoMatches" => $soloDuoMatches,
                             "flexTier" => $flexTier,
                             "flexRank" => $flexRank,
                             "flexLeaguePoints" => $flexLeaguePoints,
                             "flexWinRate" => round($flexWinRate, 2),
-                            "flexMatches" => $flexMatches,
-                            "totalTimePlayed" => gmdate('H:i:s', $totalTimePlayed),
                             "kdaRatio" => round($kdaRatio /= $amountOfMatches, 2),
                             "csMin" => round($totalCreepScore / ($totalTime /  60), 2),
                             "vsMin" => round($totalVisionScore / ($totalTime / 60), 2)
