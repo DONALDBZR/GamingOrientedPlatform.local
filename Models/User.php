@@ -501,9 +501,8 @@ class User extends Password
     }
     /**
      * Changing the profile picture
-     * @return JSON
      */
-    public function changeProfilePicture()
+    public function changeProfilePicture(): void
     {
         $this->setUsername($_SESSION['User']['username']);
         $imageDirectory = "/Public/Images/ProfilePictures/";
@@ -543,16 +542,55 @@ class User extends Password
     }
     /**
      * Changing both the mail address and the password
-     * @return JSON
      */
-    public function changePasswordAndMailAddress()
+    public function changePasswordAndMailAddress(): void
     {
-        $request = json_decode(file_get_contents("php://input"));
+        $route = $_SERVER['REQUEST_URI'];
+        $routes = explode("/", $route);
+        $parameter = $routes[2];
+        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
+        $files = array_values(array_diff(scandir($directory), array(".", "..")));
+        $securityFiles = array();
+        for ($index = 0; $index < count($files); $index++) {
+            $file = $files[$index];
+            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
+            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users/{$parameter}/Password") {
+                $securityFile = array(
+                    "name" => $file,
+                    "data" => $fileData
+                );
+                array_push($securityFiles, $securityFile);
+            }
+        }
+        if (count($securityFiles) != 0) {
+            if (count($securityFiles) == 1) {
+                $file = $securityFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            } else {
+                rsort($securityFiles);
+                $file = $securityFiles[0];
+                $name = $file["name"];
+                $request = $file["data"]->Data;
+            }
+        } else {
+            $response = array(
+                "status" => 3,
+                "url" => "/Users/Security/{$_SESSION['User']['username']}",
+                "message" => "Form data not found"
+            );
+            $headers = array(
+                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                "replace" => true,
+                "responseCode" => 404
+            );
+        }
+        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         $this->setUsername($_SESSION['User']['username']);
         $this->setMailAddress($_SESSION['User']['mailAddress']);
-        $this->setPassword($request->oldPassword);
+        $this->setPassword($request->Password->old);
         if (!empty($request)) {
-            if (!is_null($request->mailAddress) && !is_null($request->oldPassword)) {
+            if (!is_null($request->mailAddress) && !is_null($request->Password->old)) {
                 if ($this->getMailAddress() != $request->mailAddress) {
                     $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
                     $this->setMailAddress($request->mailAddress);
@@ -568,8 +606,8 @@ class User extends Password
                     $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
                     $this->setPassword($this->getPassword() . $this->getSalt());
                     if (password_verify($this->getPassword(), $this->getHash())) {
-                        if ($request->newPassword == $request->confirmNewPassword) {
-                            $this->setPassword($request->newPassword);
+                        if ($request->Password->new == $request->Password->confirmNew) {
+                            $this->setPassword($request->Password->new);
                             $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http:///ForgotPassword");
                             $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                             $this->PDO->execute();
@@ -635,7 +673,7 @@ class User extends Password
                         "responseCode" => 300
                     );
                 }
-            } else if (!is_null($request->mailAddress) && is_null($request->oldPassword)) {
+            } else if (!is_null($request->mailAddress) && is_null($request->Password->old)) {
                 if ($this->getMailAddress() != $request->mailAddress) {
                     $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
                     $this->setMailAddress($request->mailAddress);
@@ -666,7 +704,7 @@ class User extends Password
                         "responseCode" => 300
                     );
                 }
-            } else if (is_null($request->mailAddress) && !is_null($request->oldPassword)) {
+            } else if (is_null($request->mailAddress) && !is_null($request->Password->old)) {
                 $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = SELECT UsersPassword FROM Users WHERE UsersUsername = :UsersUsername");
                 $this->PDO->bind(":UsersUsername", $this->getUsername());
                 $this->PDO->execute();
@@ -674,8 +712,8 @@ class User extends Password
                 $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
                 $this->setPassword($this->getPassword() . $this->getSalt());
                 if (password_verify($this->getPassword(), $this->getHash())) {
-                    if ($request->newPassword == $request->confirmNewPassword) {
-                        $this->setPassword($request->newPassword);
+                    if ($request->Password->new == $request->Password->confirmNew) {
+                        $this->setPassword($request->Password->new);
                         $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http:///ForgotPassword");
                         $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                         $this->PDO->execute();
