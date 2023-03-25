@@ -932,7 +932,7 @@ class DataDragon extends LeagueOfLegends {
     render() {
         return (
             <img
-                src={`http://ddragon.leagueoflegends.com/cdn/${this.state.Accounts.LeagueOfLegends.Version.major}.${this.state.Accounts.LeagueOfLegends.Version.minor}.${this.state.Accounts.LeagueOfLegends.Version.patchNotes}/img/profileicon/${this.props.profileIconId}.png`}
+                src={`http://ddragon.leagueoflegends.com/cdn/${this.state.Accounts.LeagueOfLegends.Version.major}.${this.state.Accounts.LeagueOfLegends.Version.minor}.${this.state.Accounts.LeagueOfLegends.Version.patchNotes}/img/profileicon/${this.props.profileIconIdentifier}.png`}
             />
         );
     }
