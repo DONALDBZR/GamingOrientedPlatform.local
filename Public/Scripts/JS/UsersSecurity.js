@@ -4,100 +4,69 @@
 class Application extends React.Component {
     constructor(props) {
         super(props);
-        /**
-         * States of the properties of the component
-         */
         this.state = {
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * Mail Address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * Domain of the application
-             * @type {string}
-             */
-            domain: "",
-            /**
-             * User's profile picture
-             * @type {string}
-             */
-            profilePicture: "",
-            /**
-             * Old password of the user
-             * @type {string}
-             */
-            oldPassword: "",
-            /**
-             * New password of the user
-             * @type {string}
-             */
-            newPassword: "",
-            /**
-             * Confirm New password of the user
-             * @type {string}
-             */
-            confirmNewPassword: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
+            User: {
+                username: "",
+                mailAddress: "",
+                profilePicture: "",
+                Password: {
+                    current: "",
+                    new: "",
+                    confirmNew: "",
+                },
+            },
+            System: {
+                status: 0,
+                message: "",
+                url: "",
+            },
         };
     }
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
      */
-    retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+    getUser() {
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-            }));
+            .then((data) =>
+                this.setState({
+                    User: {
+                        username: data.User.username,
+                        mailAddress: data.User.mailAddress,
+                        profilePicture: data.User.profilePicture,
+                    },
+                })
+            );
     }
     /**
      * Verifying the state before rendering the link
-     * @returns {Application} Component
+     * @returns {object}
      */
     verifyState() {
-        if (this.state.profilePicture != null) {
+        if (this.state.User.profilePicture != null) {
             return (
-                <a href={`/Users/Profile/${this.state.username}`}>
-                    <img src={this.state.profilePicture} />
+                <a href={`/Users/Profile/${this.state.User.username}`}>
+                    <img src={this.state.User.profilePicture} />
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.User.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
      * Redirecting the user to an intended url
-     * @param {int} delay
+     * @param {number} delay
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
@@ -108,9 +77,26 @@ class Application extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        if (name == "mailAddress") {
+            this.setState((previous) => ({
+                ...previous,
+                User: {
+                    ...previous.User,
+                    [name]: value,
+                },
+            }));
+        } else {
+            this.setState((previous) => ({
+                ...previous,
+                User: {
+                    ...previous.User,
+                    Password: {
+                        ...previous.User.Password,
+                        [name]: value,
+                    },
+                },
+            }));
+        }
     }
     /**
      * Handling the form submission
@@ -119,13 +105,15 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 4075;
         event.preventDefault();
-        fetch("/Controllers/UsersSecurity.php", {
+        fetch(`/Users/${this.state.User.username}/Security`, {
             method: "POST",
             body: JSON.stringify({
-                mailAddress: this.state.mailAddress,
-                oldPassword: this.state.oldPassword,
-                newPassword: this.state.newPassword,
-                confirmNewPassword: this.state.confirmNewPassword,
+                mailAddress: this.state.User.mailAddress,
+                Password: {
+                    old: this.state.User.Password.current,
+                    new: this.state.User.Password.new,
+                    confirmNew: this.state.User.Password.confirmNew,
+                },
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -134,9 +122,11 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
+                    System: {
+                        status: data.status,
+                        message: data.message,
+                        url: data.url,
+                    },
                 })
             )
             .then(() => this.redirector(delay));
@@ -146,7 +136,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseColor() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -157,7 +147,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseFontSize() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "71%";
         } else {
             return "180%";
@@ -165,19 +155,15 @@ class Application extends React.Component {
     }
     /**
      * Verifying whether there is a profile picture
-     * @returns {Application} Component
+     * @returns {object}
      */
     verifyProfilePicture() {
-        if (this.state.profilePicture != null) {
-            return <img src={this.state.profilePicture} />;
+        if (this.state.User.profilePicture != null) {
+            return <img src={this.state.User.profilePicture} />;
         } else {
-            return <i class="fa fa-user"></i>
+            return <i class="fa fa-user"></i>;
         }
     }
-    /**
-     * Renders the components that are being returned
-     * @returns {Application} Component
-     */
     render() {
         return [<Header />, <Main />, <Footer />];
     }
@@ -189,18 +175,17 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
     componentDidMount() {
-        this.retrieveData();
+        this.getUser();
     }
     render() {
         return (
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.User.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyState()}</div>
                     <div>
@@ -218,18 +203,15 @@ class Main extends Application {
     constructor(props) {
         super(props);
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
     componentDidMount() {
-        this.retrieveData();
+        this.getUser();
     }
     render() {
         return (
             <main>
                 <header>
                     <div id="profilePicture">{this.verifyProfilePicture()}</div>
-                    <div id="username">{this.state.username}</div>
+                    <div id="username">{this.state.User.username}</div>
                 </header>
                 <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                     <div id="label">Account Security Form</div>
@@ -237,35 +219,42 @@ class Main extends Application {
                         type="mail"
                         name="mailAddress"
                         placeholder="Mail Address"
-                        value={this.state.mailAddress}
+                        value={this.state.User.mailAddress}
                         onChange={this.handleChange.bind(this)}
                     />
                     <input
                         type="password"
-                        name="oldPassword"
+                        name="current"
                         placeholder="Old Password"
-                        value={this.state.oldPassword}
+                        value={this.state.User.Password.current}
                         onChange={this.handleChange.bind(this)}
                     />
                     <input
                         type="password"
-                        name="newPassword"
+                        name="new"
                         placeholder="New Password"
-                        value={this.state.newPassword}
+                        value={this.state.User.Password.new}
                         onChange={this.handleChange.bind(this)}
                     />
                     <input
                         type="password"
-                        name="confirmNewPassword"
+                        name="confirmNew"
                         placeholder="Confirm New Password"
-                        value={this.state.confirmNewPassword}
+                        value={this.state.User.Password.confirmNew}
                         onChange={this.handleChange.bind(this)}
                     />
                     <div id="button">
                         <button>Change</button>
                     </div>
                     <div id="response">
-                        <h1 style={{ color: this.handleResponseColor(), fontSize: this.handleResponseFontSize() }}>{this.state.message}</h1>
+                        <h1
+                            style={{
+                                color: this.handleResponseColor(),
+                                fontSize: this.handleResponseFontSize(),
+                            }}
+                        >
+                            {this.state.System.message}
+                        </h1>
                     </div>
                 </form>
             </main>
@@ -277,9 +266,7 @@ class Main extends Application {
  */
 class Footer extends Application {
     render() {
-        return (
-            <footer>Parkinston</footer>
-        );
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page
