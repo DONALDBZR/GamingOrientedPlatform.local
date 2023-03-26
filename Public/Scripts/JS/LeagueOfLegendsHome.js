@@ -311,7 +311,15 @@ class Application extends React.Component {
      */
     verifyLeagueOfLegends_item(item) {
         if (item != 0) {
-            return <DataDragon dataSet="item" id={item} />;
+            return (
+                <DataDragon
+                    dataSet="item"
+                    id={item}
+                    major={this.props.major}
+                    minor={this.props.minor}
+                    patchNotes={this.props.patchNotes}
+                />
+            );
         } else {
             return null;
         }
@@ -618,6 +626,7 @@ class Main extends Application {
      * Methods to be run as soon as the component is mounted
      */
     componentDidMount() {
+        this.getVersion();
         if (document.body.clientWidth >= 640) {
             this.getUser();
         }
@@ -631,10 +640,48 @@ class Main extends Application {
                             gameName={
                                 this.state.Accounts.LeagueOfLegends.gameName
                             }
+                            major={
+                                this.state.Accounts.LeagueOfLegends.Version
+                                    .major
+                            }
+                            minor={
+                                this.state.Accounts.LeagueOfLegends.Version
+                                    .minor
+                            }
+                            patchNotes={
+                                this.state.Accounts.LeagueOfLegends.Version
+                                    .patchNotes
+                            }
                         />
                         <div>
-                            <ChampionMastery />
-                            <MatchHistory />
+                            <ChampionMastery
+                                major={
+                                    this.state.Accounts.LeagueOfLegends.Version
+                                        .major
+                                }
+                                minor={
+                                    this.state.Accounts.LeagueOfLegends.Version
+                                        .minor
+                                }
+                                patchNotes={
+                                    this.state.Accounts.LeagueOfLegends.Version
+                                        .patchNotes
+                                }
+                            />
+                            <MatchHistory
+                                major={
+                                    this.state.Accounts.LeagueOfLegends.Version
+                                        .major
+                                }
+                                minor={
+                                    this.state.Accounts.LeagueOfLegends.Version
+                                        .minor
+                                }
+                                patchNotes={
+                                    this.state.Accounts.LeagueOfLegends.Version
+                                        .patchNotes
+                                }
+                            />
                         </div>
                     </div>
                 </main>
@@ -792,6 +839,9 @@ class Summoner extends Main {
                             this.state.Accounts.LeagueOfLegends.Summoner
                                 .profileIconId
                         }
+                        major={this.props.major}
+                        minor={this.props.minor}
+                        patchNotes={this.props.patchNotes}
                     />
                     <div>
                         Level{" "}
@@ -909,25 +959,11 @@ class Summoner extends Main {
 class DataDragon extends Main {
     constructor(props) {
         super(props);
-        this.state = {
-            Accounts: {
-                LeagueOfLegends: {
-                    Version: {
-                        major: 0,
-                        minor: 0,
-                        patchNotes: 0,
-                    },
-                },
-            },
-        };
-    }
-    componentDidMount() {
-        this.getVersion();
     }
     render() {
         return (
             <img
-                src={`http://ddragon.leagueoflegends.com/cdn/${this.state.Accounts.LeagueOfLegends.Version.major}.${this.state.Accounts.LeagueOfLegends.Version.minor}.${this.state.Accounts.LeagueOfLegends.Version.patchNotes}/img/${this.props.dataSet}/${this.props.id}.png`}
+                src={`http://ddragon.leagueoflegends.com/cdn/${this.props.major}.${this.props.minor}.${this.props.patchNotes}/img/${this.props.dataSet}/${this.props.id}.png`}
             />
         );
     }
@@ -1006,6 +1042,9 @@ class ChampionMastery extends Main {
                                     <DataDragon
                                         dataSet="champion"
                                         id={championMastery.id}
+                                        major={this.props.major}
+                                        minor={this.props.minor}
+                                        patchNotes={this.props.patchNotes}
                                     />
                                 </div>
                                 <div>
@@ -1062,6 +1101,9 @@ class MatchHistory extends Main {
                                     <DataDragon
                                         dataSet="champion"
                                         id={match.champion}
+                                        major={this.props.major}
+                                        minor={this.props.minor}
+                                        patchNotes={this.props.patchNotes}
                                     />
                                 </div>
                                 <div>
