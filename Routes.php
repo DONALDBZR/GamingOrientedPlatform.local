@@ -146,21 +146,24 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
-                //     case "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']):
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                //                     $Router = new Router("GET", "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']), "/Views/LeagueOfLegendsHome.php");
-                //                 } else {
-                //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //                 }
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
+            case "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']):
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                            $Router = new Router("GET", "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['gameName']), "/Views/LeagueOfLegendsHome.php");
+                        } else {
+                            header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                        }
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
+            case '/LegendsOfLegends/PlatformStatus':
+                $Router = new Router("GET", "/LegendsOfLegends/PlatformStatus", "/Controllers/PlatformStatus.php");
+                break;
                 //     case '/LegendsOfLegends/MatchHistories':
                 //         if (isset($_SESSION['User'])) {
                 //             if (isset($_SESSION['User']['otp'])) {
@@ -221,21 +224,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //             header("Location: /");
                 //         }
                 //         break;
-                //     case '/LegendsOfLegends/PlatformStatus':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                //                     $Router = new Router("GET", "/LegendsOfLegends/PlatformStatus", "/Controllers/PlatformStatus.php");
-                //                 } else {
-                //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //                 }
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
             case '/Users/New':
                 $Router = new Router("POST", "/Users/New", "/Controllers/Register.php");
                 break;
@@ -257,6 +245,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 break;
             case "/Users/{$_SESSION['User']['username']}/Security":
                 $Router = new Router("POST", "/Users/{$_SESSION['User']['username']}/Security", "/Controllers/UsersSecurity.php");
+                break;
+            case "/LeagueOfLegends/Summoners":
+                $Router = new Router("POST", "/LeagueOfLegends/Summoners", "/Controllers/LeagueOfLegendsHome.php");
+                break;
+            case "/LeagueOfLegends/Refresh":
+                $Router = new Router("POST", "/LeagueOfLegends/Refresh", "/Controllers/LeagueOfLegendsDelete.php");
                 break;
         }
         break;
@@ -291,11 +285,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case "/Users/{$_SESSION['User']['username']}/Security":
                 $Router = new Router("POST", "/Users/Security/{$_SESSION['User']['username']}", "/Controllers/UsersSecurity.php");
                 break;
-                // case "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}":
-                //     $Router = new Router("POST", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Controllers/LeagueOfLegendsHome.php");
-                //     break;
-                // case "/LeagueOfLegends/Delete":
-                //     $Router = new Router("POST", "/LeagueOfLegends/Delete", "/Controllers/LeagueOfLegendsDelete.php");
-                //     break;
+            case "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}":
+            case "/LeagueOfLegends/Summoners":
+                $Router = new Router("POST", "/LeagueOfLegends/Home/{$_SESSION['Account']['LeagueOfLegends']['gameName']}", "/Controllers/LeagueOfLegendsHome.php");
+                break;
+            case "/LeagueOfLegends/Refresh":
+                $Router = new Router("POST", "/LeagueOfLegends/Refresh", "/Controllers/LeagueOfLegendsDelete.php");
+                break;
         }
 }
