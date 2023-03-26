@@ -92,7 +92,7 @@ class Application extends React.Component {
      * @returns {void}
      */
     getSummonerData() {
-        fetch("/LegendsOfLegends/CurrentSummoner", {
+        fetch("/LeagueOfLegends/CurrentSummoner", {
             method: "GET",
         })
             .then((response) => response.json())
