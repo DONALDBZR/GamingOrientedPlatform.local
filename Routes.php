@@ -76,8 +76,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
-            case '/LegendsOfLegends/CurrentSummoner':
-                $Router = new Router("GET", "/LegendsOfLegends/CurrentSummoner", "/Controllers/CurrentSummoner.php");
+            case '/LeagueOfLegends/CurrentSummoner':
+                $Router = new Router("GET", "/LeagueOfLegends/CurrentSummoner", "/Controllers/CurrentSummoner.php");
                 break;
             case '/PlayerUnknownBattleGrounds/CurrentPlayer':
                 $Router = new Router("GET", "/PlayerUnknownBattleGrounds/CurrentPlayer", "/Controllers/CurrentPlayer.php");
@@ -161,14 +161,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
-            case '/LegendsOfLegends/PlatformStatus':
-                $Router = new Router("GET", "/LegendsOfLegends/PlatformStatus", "/Controllers/PlatformStatus.php");
+            case '/LeagueOfLegends/PlatformStatus':
+                $Router = new Router("GET", "/LeagueOfLegends/PlatformStatus", "/Controllers/PlatformStatus.php");
                 break;
-            case '/LegendsOfLegends/ChampionMastery':
-                $Router = new Router("GET", "/LegendsOfLegends/ChampionMastery", "/Controllers/ChampionMastery.php");
+            case '/LeagueOfLegends/ChampionMastery':
+                $Router = new Router("GET", "/LeagueOfLegends/ChampionMastery", "/Controllers/ChampionMastery.php");
                 break;
-            case '/LegendsOfLegends/MatchHistories':
-                $Router = new Router("GET", "/LegendsOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
+            case '/LeagueOfLegends/MatchHistories':
+                $Router = new Router("GET", "/LeagueOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
                 break;
                 //     case "/LeagueOfLegends/Profile/" . rawurlencode($_SESSION['Search']['LeagueOfLegends']["gameName"]):
                 //         if (isset($_SESSION['User'])) {
@@ -185,7 +185,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 //             header("Location: /");
                 //         }
                 //         break;
-                //     case '/LegendsOfLegends/Search/Summoner':
+                //     case '/LeagueOfLegends/Search/Summoner':
                 //         if (isset($_SESSION['User'])) {
                 //             if (isset($_SESSION['User']['otp'])) {
                 //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
