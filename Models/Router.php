@@ -72,13 +72,6 @@ class Router
                 $this->get($this->getRoute(), $this->getPath());
             case 'POST':
                 $this->post($this->getRoute(), $this->getPath());
-            case 'PATCH':
-                // $this->patch();
-            case 'DELETE':
-                // $this->delete();
-            default:
-                // $this->route($this->getRoute(), $this->getPath());
-                break;
         }
     }
     /**
@@ -128,6 +121,15 @@ class Router
                 require_once "{$this->getRoot()}{$path}";
                 http_response_code(200);
                 exit();
+            } else if (str_contains($route, "LeagueOfLegends")) {
+                $table = "LeagueOfLegends";
+                $cacheData = json_encode($data);
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$table}/{$date}.json", "w");
+                fwrite($cache, $cacheData);
+                fclose($cache);
+                require_once "{$this->getRoot()}{$path}";
+                http_response_code(200);
+                exit();
             } else {
                 require_once "{$this->getRoot()}/Views/HTTP503.php";
                 http_response_code(503);
@@ -138,18 +140,6 @@ class Router
             http_response_code(404);
             exit();
         }
-    }
-    /**
-     * Updating data in the server
-     */
-    public function patch()
-    {
-    }
-    /**
-     * Deleting data from the server
-     */
-    public function delete()
-    {
     }
     /**
      * Creating Session
