@@ -360,35 +360,35 @@ class LeagueOfLegends
                         } else {
                             $totalTime = 1;
                         }
-                        $response = array(
-                            "summoner" => $riotSummonerApiResponseCode,
-                            "league" => $riotLeagueApiResponseCode,
-                            "match_1" => $riotMatchApiResponse1Code,
-                            "requestedDate" => date("Y/m/d H:i:s"),
-                            "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours")),
-                            "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
-                            "profileIconId" => $riotSummonerApiResponse->profileIconId,
-                            "kda" => round($kdaRatio /= $amountOfMatches, 2),
-                            "csMin" => round($totalCreepScore / ($totalTime /  60), 2),
-                            "vsMin" => round($totalVisionScore / ($totalTime / 60), 2),
-                            "SoloDuo" => (object) array(
-                                "tier" => $soloDuoTier,
-                                "division" => $soloDuoRank,
-                                "leaguePoints" => $soloDuoLeaguePoints,
-                                "winRate" => round($soloDuoWinRate, 2),
-                            ),
-                            "Flex5v5" => (object) array(
-                                "tier" => $flexTier,
-                                "division" => $flexRank,
-                                "leaguePoints" => $flexLeaguePoints,
-                                "winRate" => round($flexWinRate, 2),
-                            ),
-                        );
-                        $cacheData = json_encode($response);
-                        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
-                        fwrite($cache, $cacheData);
-                        fclose($cache);
                     }
+                    $response = array(
+                        "summoner" => $riotSummonerApiResponseCode,
+                        "league" => $riotLeagueApiResponseCode,
+                        "match_1" => $riotMatchApiResponse1Code,
+                        "requestedDate" => date("Y/m/d H:i:s"),
+                        "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours")),
+                        "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
+                        "profileIconId" => $riotSummonerApiResponse->profileIconId,
+                        "kda" => round($kdaRatio /= $amountOfMatches, 2),
+                        "csMin" => round($totalCreepScore / ($totalTime /  60), 2),
+                        "vsMin" => round($totalVisionScore / ($totalTime / 60), 2),
+                        "SoloDuo" => (object) array(
+                            "tier" => $soloDuoTier,
+                            "division" => $soloDuoRank,
+                            "leaguePoints" => $soloDuoLeaguePoints,
+                            "winRate" => round($soloDuoWinRate, 2),
+                        ),
+                        "Flex5v5" => (object) array(
+                            "tier" => $flexTier,
+                            "division" => $flexRank,
+                            "leaguePoints" => $flexLeaguePoints,
+                            "winRate" => round($flexWinRate, 2),
+                        ),
+                    );
+                    $cacheData = json_encode($response);
+                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
+                    fwrite($cache, $cacheData);
+                    fclose($cache);
                 } else {
                     $response = (object) array(
                         "summoner" => $riotSummonerApiResponseCode,
