@@ -596,22 +596,19 @@ class LeagueOfLegends
     }
     /**
      * Searching for a player
-     * @param string $game_name
-     * @param string $tag_line
-     * @return JSON
      */
-    public function search(string $game_name, string $tag_line)
+    public function search(string $game_name, string $tag_line): void
     {
-        $playerData = json_decode($this->retrieveData($game_name, $tag_line));
-        $response = array(
-            "httpResponseCode_account" => $playerData->httpResponseCode,
-            "playerUniversallyUniqueIdentifier" => $playerData->playerUniversallyUniqueIdentifier,
-            "gameName" => $playerData->gameName,
-            "tagLine" => $playerData->tagLine,
-            "url" => "/LeagueOfLegends/Profile/$playerData->gameName"
+        $PlayerData = $this->getAccount($game_name, $tag_line);
+        $response = (object) array(
+            "account" => $PlayerData->httpResponseCode,
+            "playerUniversallyUniqueIdentifier" => $PlayerData->playerUniversallyUniqueIdentifier,
+            "gameName" => $PlayerData->gameName,
+            "tagLine" => $PlayerData->tagLine,
+            "url" => "/LeagueOfLegends/Profile/$PlayerData->gameName"
         );
         $searchLoL = $response;
-        $search = array(
+        $search = (object) array(
             "LeagueOfLegends" => $searchLoL
         );
         $session = array(
