@@ -103,21 +103,21 @@ class Application extends React.Component {
                             Summoner: {
                                 level: data.summonerLevel,
                                 profileIconId: data.profileIconId,
-                                SoloDuo: {
-                                    tier: data.soloDuoTier,
-                                    division: data.soloDuoRank,
-                                    leaguePoints: data.soloDuoLeaguePoints,
-                                    winRate: data.soloDuoWinRate,
-                                },
-                                Flex5v5: {
-                                    tier: data.flexTier,
-                                    division: data.flexRank,
-                                    leaguePoints: data.flexLeaguePoints,
-                                    winRate: data.flexWinRate,
-                                },
                                 kda: data.kdaRatio,
                                 csMin: data.csMin,
                                 vsMin: data.vsMin,
+                                SoloDuo: {
+                                    tier: data.SoloDuo.tier,
+                                    division: data.SoloDuo.rank,
+                                    leaguePoints: data.SoloDuo.leaguePoints,
+                                    winRate: data.SoloDuo.winRate,
+                                },
+                                Flex5v5: {
+                                    tier: data.Flex5v5.tier,
+                                    division: data.Flex5v5.rank,
+                                    leaguePoints: data.Flex5v5.leaguePoints,
+                                    winRate: data.Flex5v5.winRate,
+                                },
                             },
                         },
                     },
