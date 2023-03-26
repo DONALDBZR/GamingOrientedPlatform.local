@@ -170,36 +170,36 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/LeagueOfLegends/MatchHistories':
                 $Router = new Router("GET", "/LeagueOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
                 break;
-                //     case "/LeagueOfLegends/Profile/" . rawurlencode($_SESSION['Search']['LeagueOfLegends']["gameName"]):
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 if (isset($_SESSION['Search']['LeagueOfLegends'])) {
-                //                     $Router = new Router("GET", "/LeagueOfLegends/Profile/" . rawurlencode($_SESSION['Search']['LeagueOfLegends']["gameName"]), "/Views/LeagueOfLegendsProfile.php");
-                //                 } else {
-                //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //                 }
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
-                //     case '/LeagueOfLegends/Search/Summoner':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                //                     $Router = new Router("GET", "/LegendsOfLegends/Search/Summoner", "/Controllers/SearchSummoner.php");
-                //                 } else {
-                //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //                 }
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
+            case "/LeagueOfLegends/Profile/" . rawurlencode($_SESSION['Search']['LeagueOfLegends']["gameName"]):
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        if (isset($_SESSION['Search']['LeagueOfLegends'])) {
+                            $Router = new Router("GET", "/LeagueOfLegends/Profile/" . rawurlencode($_SESSION['Search']['LeagueOfLegends']["gameName"]), "/Views/LeagueOfLegendsProfile.php");
+                        } else {
+                            header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                        }
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
+            case '/LeagueOfLegends/Search/Summoner':
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+                            $Router = new Router("GET", "/LegendsOfLegends/Search/Summoner", "/Controllers/SearchSummoner.php");
+                        } else {
+                            header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                        }
+                    }
+                } else {
+                    header("Location: /");
+                }
+                break;
             case '/Users/New':
                 $Router = new Router("POST", "/Users/New", "/Controllers/Register.php");
                 break;
