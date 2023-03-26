@@ -313,7 +313,7 @@ class LeagueOfLegends
                 if ($riotMatchApiResponse1Code == 200) {
                     $totalTimePlayed = 0;
                     $totalCreepScore = 0;
-                    $kdaRatio = 0;
+                    $kdaRatio = 0.0;
                     $totalVisionScore = 0;
                     for ($firstIndex = 0; $firstIndex < count($riotMatchApiResponse1); $firstIndex++) {
                         $request = "{$this->regions[$this->getRegion($this->getTagLine())]}/lol/match/v5/matches/{$riotMatchApiResponse1[$firstIndex]}";
