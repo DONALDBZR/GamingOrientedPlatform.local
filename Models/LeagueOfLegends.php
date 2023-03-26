@@ -404,6 +404,85 @@ class LeagueOfLegends
         header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
         echo json_encode($response);
     }
+
+    /**
+     * Accessing the status of the game
+     */
+    public function getStatus(string $tag_line): void
+    {
+        $this->setTagLine($tag_line);
+        $server = strtoupper($this->getTagLine());
+        $request = "{$this->bases[$this->getTagLine()]}/lol/status/v4/platform-data";
+        $this->Curl = curl_init();
+        curl_setopt_array(
+            $this->Curl,
+            array(
+                CURLOPT_URL => $request,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    "X-Riot-Token: {$this->getApiKey()}"
+                ),
+            )
+        );
+        $riotStatusApiResponse = json_decode(curl_exec($this->Curl));
+        $riotStatusApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+        curl_close($this->Curl);
+        if ($riotStatusApiResponseCode == 200) {
+            $maintenances = array();
+            $incidents = array();
+            if (!empty($riotStatusApiResponse->maintenance)) {
+                for ($index = 0; $index < count($riotStatusApiResponse->maintenance); $index++) {
+                    array_push($maintenances, $riotStatusApiResponse->maintenance[$index]);
+                }
+            }
+            if (!empty($riotStatusApiResponse->incidents)) {
+                for ($firstIndex = 0; $firstIndex < count($riotStatusApiResponse->incidents); $firstIndex++) {
+                    $title = "";
+                    $content = "";
+                    for ($secondIndex = 0; $secondIndex < count($riotStatusApiResponse->incidents[$firstIndex]->titles); $secondIndex++) {
+                        if (str_contains($riotStatusApiResponse->incidents[$firstIndex]->titles[$secondIndex]->locale, "en_US")) {
+                            $title = $riotStatusApiResponse->incidents[$firstIndex]->titles[$secondIndex]->content;
+                        }
+                    }
+                    for ($secondIndex = 0; $secondIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates); $secondIndex++) {
+                        for ($thirdIndex = 0; $thirdIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations); $thirdIndex++) {
+                            if (str_contains($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->locale, "en_US")) {
+                                $content = $riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->content;
+                            }
+                        }
+                    }
+                    $incident = array(
+                        "title" => $title,
+                        "content" => $content
+                    );
+                    array_push($incidents, $incident);
+                }
+            }
+            $response = array(
+                "status" => $riotStatusApiResponseCode,
+                "requestedDate" => date("Y/m/d"),
+                "renewOn" => date("Y/m/d", strtotime("+1 days")),
+                "maintenances" => $maintenances,
+                "incidents" => $incidents
+            );
+            $cacheData = json_encode($response);
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Status/{$server}.json", "w");
+            fwrite($cache, $cacheData);
+            fclose($cache);
+        } else {
+            $response = array(
+                "status" => $riotStatusApiResponseCode
+            );
+        }
+        header('Content-Type: application/json', true, $riotStatusApiResponseCode);
+        echo json_encode($response);
+    }
     /**
      * Accessing the match history of the player
      * @param string $game_name
@@ -600,59 +679,6 @@ class LeagueOfLegends
         echo json_encode($response);
     }
     /**
-     * Accessing the status of the game
-     * @param string $tag_line
-     * @return JSON
-     */
-    public function getStatus(string $tag_line)
-    {
-        $riotStatusApiRequest = "https://{$tag_line}1.api.riotgames.com/lol/status/v4/platform-data?api_key={$this->getApiKey()}";
-        if (intval($this->getHttpResponseCode($riotStatusApiRequest)) == 200) {
-            $riotStatusApiResponse = json_decode(file_get_contents($riotStatusApiRequest));
-            $maintenances = array();
-            $incidents = array();
-            if (!empty($riotStatusApiResponse->maintenance)) {
-                for ($index = 0; $index < count($riotStatusApiResponse->maintenance); $index++) {
-                    array_push($maintenances, $riotStatusApiResponse->maintenance[$index]);
-                }
-            }
-            if (!empty($riotStatusApiResponse->incidents)) {
-                for ($firstIndex = 0; $firstIndex < count($riotStatusApiResponse->incidents); $firstIndex++) {
-                    $title = "";
-                    $content = "";
-                    for ($secondIndex = 0; $secondIndex < count($riotStatusApiResponse->incidents[$firstIndex]->titles); $secondIndex++) {
-                        if (str_contains($riotStatusApiResponse->incidents[$firstIndex]->titles[$secondIndex]->locale, "en_US")) {
-                            $title = $riotStatusApiResponse->incidents[$firstIndex]->titles[$secondIndex]->content;
-                        }
-                    }
-                    for ($secondIndex = 0; $secondIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates); $secondIndex++) {
-                        for ($thirdIndex = 0; $thirdIndex < count($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations); $thirdIndex++) {
-                            if (str_contains($riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->locale, "en_US")) {
-                                $content = $riotStatusApiResponse->incidents[$firstIndex]->updates[$secondIndex]->translations[$thirdIndex]->content;
-                            }
-                        }
-                    }
-                    $incident = array(
-                        "title" => $title,
-                        "content" => $content
-                    );
-                    array_push($incidents, $incident);
-                }
-            }
-            $response = array(
-                "httpResponse" => intval($this->getHttpResponseCode($riotStatusApiRequest)),
-                "maintenances" => $maintenances,
-                "incidents" => $incidents
-            );
-        } else {
-            $response = array(
-                "httpResponse" => intval($this->getHttpResponseCode($riotStatusApiRequest))
-            );
-        }
-        header('Content-Type: application/json', true, intval($this->getHttpResponseCode($riotStatusApiRequest)));
-        echo json_encode($response);
-    }
-    /**
      * Retrieving the patch notes of the game
      */
     public function getPatchNotes(): void
@@ -685,15 +711,15 @@ class LeagueOfLegends
                 "minor" => (int)$latestVersionArray[1],
                 "patchNotes" => (int)$latestVersionArray[2]
             );
+            $cacheData = json_encode($response);
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Version.json", "w");
+            fwrite($cache, $cacheData);
+            fclose($cache);
         } else {
             $response = (object) array(
                 "httpResponseCode" => $dataDragonApiResponseCode
             );
         }
-        $cacheData = json_encode($response);
-        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Version.json", "w");
-        fwrite($cache, $cacheData);
-        fclose($cache);
         header('Content-Type: application/json', true, $dataDragonApiResponseCode);
         echo json_encode($response);
     }
