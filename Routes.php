@@ -167,21 +167,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/LegendsOfLegends/ChampionMastery':
                 $Router = new Router("GET", "/LegendsOfLegends/ChampionMastery", "/Controllers/ChampionMastery.php");
                 break;
-                //     case '/LegendsOfLegends/MatchHistories':
-                //         if (isset($_SESSION['User'])) {
-                //             if (isset($_SESSION['User']['otp'])) {
-                //                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                //             } else {
-                //                 if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                //                     $Router = new Router("GET", "/LegendsOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
-                //                 } else {
-                //                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                //                 }
-                //             }
-                //         } else {
-                //             header("Location: /");
-                //         }
-                //         break;
+            case '/LegendsOfLegends/MatchHistories':
+                $Router = new Router("GET", "/LegendsOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
+                break;
                 //     case "/LeagueOfLegends/Profile/" . rawurlencode($_SESSION['Search']['LeagueOfLegends']["gameName"]):
                 //         if (isset($_SESSION['User'])) {
                 //             if (isset($_SESSION['User']['otp'])) {
