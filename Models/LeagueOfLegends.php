@@ -410,7 +410,6 @@ class LeagueOfLegends
         header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
         echo json_encode($response);
     }
-
     /**
      * Accessing the status of the game
      */
@@ -496,7 +495,15 @@ class LeagueOfLegends
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Accounts']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+            $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        } else {
+            $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+            $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+            $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+            $this->PDO->execute();
+            $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+        }
         $request = "{$this->regions[$this->getRegion($this->getTagLine())]}/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20";
         $this->Curl = curl_init();
         curl_setopt_array(
