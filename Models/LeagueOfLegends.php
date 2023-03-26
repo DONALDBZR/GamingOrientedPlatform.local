@@ -364,19 +364,25 @@ class LeagueOfLegends
                             "summoner" => $riotSummonerApiResponseCode,
                             "league" => $riotLeagueApiResponseCode,
                             "match_1" => $riotMatchApiResponse1Code,
+                            "requestedDate" => date("Y/m/d H:i:s"),
+                            "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours")),
                             "summonerLevel" => $riotSummonerApiResponse->summonerLevel,
                             "profileIconId" => $riotSummonerApiResponse->profileIconId,
-                            "soloDuoTier" => $soloDuoTier,
-                            "soloDuoRank" => $soloDuoRank,
-                            "soloDuoLeaguePoints" => $soloDuoLeaguePoints,
-                            "soloDuoWinRate" => round($soloDuoWinRate, 2),
-                            "flexTier" => $flexTier,
-                            "flexRank" => $flexRank,
-                            "flexLeaguePoints" => $flexLeaguePoints,
-                            "flexWinRate" => round($flexWinRate, 2),
-                            "kdaRatio" => round($kdaRatio /= $amountOfMatches, 2),
+                            "kda" => round($kdaRatio /= $amountOfMatches, 2),
                             "csMin" => round($totalCreepScore / ($totalTime /  60), 2),
-                            "vsMin" => round($totalVisionScore / ($totalTime / 60), 2)
+                            "vsMin" => round($totalVisionScore / ($totalTime / 60), 2),
+                            "SoloDuo" => (object) array(
+                                "tier" => $soloDuoTier,
+                                "division" => $soloDuoRank,
+                                "leaguePoints" => $soloDuoLeaguePoints,
+                                "winRate" => round($soloDuoWinRate, 2),
+                            ),
+                            "Flex5v5" => (object) array(
+                                "tier" => $flexTier,
+                                "division" => $flexRank,
+                                "leaguePoints" => $flexLeaguePoints,
+                                "winRate" => round($flexWinRate, 2),
+                            ),
                         );
                         $cacheData = json_encode($response);
                         $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
@@ -593,9 +599,8 @@ class LeagueOfLegends
     }
     /**
      * Deleting the data that is in the cache so that new data can be stored
-     * @return JSON
      */
-    public function delete()
+    public function delete(): void
     {
         if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
             unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
@@ -615,11 +620,8 @@ class LeagueOfLegends
     }
     /**
      * Accessing the champion mastery of the player
-     * @param string $game_name
-     * @param string $tag_line
-     * @return JSON
      */
-    public function getChampionMastery(string $game_name, string $tag_line)
+    public function getChampionMastery(string $game_name, string $tag_line): void
     {
         if (json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode == 200) {
             $this->setGameName(json_decode($this->retrieveData($game_name, $tag_line))->gameName);
