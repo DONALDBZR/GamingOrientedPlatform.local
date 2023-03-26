@@ -19,6 +19,9 @@ class Application extends React.Component {
                     Summoner: {
                         profileIconId: 0,
                         level: 0,
+                        kda: 0.0,
+                        csMin: 0.0,
+                        vsMin: 0.0,
                         SoloDuo: {
                             tier: "",
                             division: "",
@@ -31,9 +34,6 @@ class Application extends React.Component {
                             leaguePoints: 0,
                             winRate: 0.0,
                         },
-                        kda: 0.0,
-                        csMin: 0.0,
-                        vsMin: 0.0,
                     },
                     Version: {
                         major: 0,
