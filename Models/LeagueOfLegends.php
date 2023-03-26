@@ -623,58 +623,97 @@ class LeagueOfLegends
      */
     public function getChampionMastery(string $game_name, string $tag_line): void
     {
-        if (json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode == 200) {
-            $this->setGameName(json_decode($this->retrieveData($game_name, $tag_line))->gameName);
-            $this->setTagLine(json_decode($this->retrieveData($game_name, $tag_line))->tagLine);
-            $this->setPlayerUniversallyUniqueIdentifier(json_decode($this->retrieveData($game_name, $tag_line))->playerUniversallyUniqueIdentifier);
-            $ddragonLeagueOfLegendsChampionsCDN = (array)json_decode(file_get_contents("http://ddragon.leagueoflegends.com/cdn/12.23.1/data/en_US/champion.json"))->data;
-            $championIds = array_keys($ddragonLeagueOfLegendsChampionsCDN);
-            $riotSummonerApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{$this->getGameName()}?api_key={$this->getApiKey()}";
-            if ($this->getHttpResponseCode($riotSummonerApiRequest) == 200) {
-                $riotSummonerApiResponse = json_decode(file_get_contents($riotSummonerApiRequest));
-                $riotChampionMasteryApiRequest = "https://{$this->getTagLine()}1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{$riotSummonerApiResponse->id}/top?count=3&api_key={$this->getApiKey()}";
-                if ($this->getHttpResponseCode($riotChampionMasteryApiRequest) == 200) {
-                    $riotChampionMasteryApiResponse = json_decode(file_get_contents($riotChampionMasteryApiRequest));
-                    $championMastery = array();
-                    for ($firstIndex = 0; $firstIndex < count($riotChampionMasteryApiResponse); $firstIndex++) {
-                        for ($secondIndex = 0; $secondIndex < count($championIds); $secondIndex++) {
-                            if ($riotChampionMasteryApiResponse[$firstIndex]->championId == $ddragonLeagueOfLegendsChampionsCDN[$championIds[$secondIndex]]->key) {
-                                $championName = $ddragonLeagueOfLegendsChampionsCDN[$championIds[$secondIndex]]->id;
-                            }
+        $this->setGameName($game_name);
+        $this->setTagLine($tag_line);
+        if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+            $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        } else {
+            $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+            $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+            $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+            $this->PDO->execute();
+            $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+        }
+        $LeagueOfLegendsVersion = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Version.json"));
+        $ddragonLeagueOfLegendsChampionsCDN = (array)json_decode(file_get_contents("http://ddragon.leagueoflegends.com/cdn/{$LeagueOfLegendsVersion->major}.{$LeagueOfLegendsVersion->minor}.{$LeagueOfLegendsVersion->patchNotes}/data/en_US/champion.json"))->data;
+        $championIds = array_keys($ddragonLeagueOfLegendsChampionsCDN);
+        $request = "{$this->bases[$this->getTagLine()]}/lol/summoner/v4/summoners/by-name/{$this->getGameName()}";
+        $this->Curl = curl_init();
+        curl_setopt_array(
+            $this->Curl,
+            array(
+                CURLOPT_URL => $request,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    "X-Riot-Token: {$this->getApiKey()}"
+                ),
+            )
+        );
+        $riotSummonerApiResponse = json_decode(curl_exec($this->Curl));
+        $riotSummonerApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+        curl_close($this->Curl);
+        if ($riotSummonerApiResponseCode == 200) {
+            $request = "{$this->bases[$this->getTagLine()]}/lol/champion-mastery/v4/champion-masteries/by-summoner/{$riotSummonerApiResponse->id}/top?count=3";
+            $this->Curl = curl_init();
+            curl_setopt_array(
+                $this->Curl,
+                array(
+                    CURLOPT_URL => $request,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => array(
+                        "X-Riot-Token: {$this->getApiKey()}"
+                    ),
+                )
+            );
+            $riotChampionMasteryApiResponse = json_decode(curl_exec($this->Curl));
+            $riotChampionMasteryApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+            if ($riotChampionMasteryApiResponseCode == 200) {
+                $championMastery = array();
+                for ($firstIndex = 0; $firstIndex < count($riotChampionMasteryApiResponse); $firstIndex++) {
+                    for ($secondIndex = 0; $secondIndex < count($championIds); $secondIndex++) {
+                        if ($riotChampionMasteryApiResponse[$firstIndex]->championId == $ddragonLeagueOfLegendsChampionsCDN[$championIds[$secondIndex]]->key) {
+                            $championName = $ddragonLeagueOfLegendsChampionsCDN[$championIds[$secondIndex]]->id;
                         }
-                        $champion = array(
-                            "championId" => $championName,
-                            "championLevel" => $riotChampionMasteryApiResponse[$firstIndex]->championLevel,
-                            "championPoints" => $riotChampionMasteryApiResponse[$firstIndex]->championPoints,
-                        );
-                        array_push($championMastery, $champion);
                     }
-                    $response = array(
-                        "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                        "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
-                        "httpResponseCode_championMastery" => intval($this->getHttpResponseCode($riotChampionMasteryApiRequest)),
-                        "championMastery" => $championMastery
+                    $champion = (object) array(
+                        "id" => $championName,
+                        "level" => $riotChampionMasteryApiResponse[$firstIndex]->championLevel,
+                        "points" => $riotChampionMasteryApiResponse[$firstIndex]->championPoints,
                     );
-                    $cacheData = json_encode($response);
-                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
-                    fwrite($cache, $cacheData);
-                    fclose($cache);
-                } else {
-                    $response = array(
-                        "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                        "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest)),
-                        "httpResponseCode_championMastery" => intval($this->getHttpResponseCode($riotChampionMasteryApiRequest))
-                    );
+                    array_push($championMastery, $champion);
                 }
+                $response = (object) array(
+                    "summoner" => $riotSummonerApiResponseCode,
+                    "championMastery" => $riotChampionMasteryApiResponseCode,
+                    "requestedDate" => date("Y/m/d H:i:s"),
+                    "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours")),
+                    "championMasteries" => $championMastery
+                );
+                $cacheData = json_encode($response);
+                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$this->getPlayerUniversallyUniqueIdentifier()}.json", "w");
+                fwrite($cache, $cacheData);
+                fclose($cache);
             } else {
-                $response = array(
-                    "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode,
-                    "httpResponseCode_summoner" => intval($this->getHttpResponseCode($riotSummonerApiRequest))
+                $response = (object) array(
+                    "summoner" => $riotSummonerApiResponseCode,
+                    "championMastery" => $riotChampionMasteryApiResponseCode,
                 );
             }
         } else {
-            $response = array(
-                "httpResponseCode_account" => json_decode($this->retrieveData($game_name, $tag_line))->httpResponseCode
+            $response = (object) array(
+                "summoner" => $riotSummonerApiResponseCode,
             );
         }
         header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
