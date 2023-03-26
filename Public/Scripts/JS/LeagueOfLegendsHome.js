@@ -78,7 +78,7 @@ class Application extends React.Component {
      */
     getSummoner() {
         if (window.location.pathname.includes("Home")) {
-            fetch("/LegendsOfLegends/CurrentSummoner", {
+            fetch("/LeagueOfLegends/CurrentSummoner", {
                 method: "GET",
             })
                 .then((response) => response.json())
@@ -110,7 +110,7 @@ class Application extends React.Component {
                     })
                 );
         } else {
-            fetch("/LegendsOfLegends/Search/Summoner", {
+            fetch("/LeagueOfLegends/Search/Summoner", {
                 method: "GET",
             })
                 .then((response) => response.json())
@@ -169,7 +169,7 @@ class Application extends React.Component {
      * Retrieving data from Riot Games data center for the user's match history
      */
     getMatchHistories() {
-        fetch("/LegendsOfLegends/MatchHistories", {
+        fetch("/LeagueOfLegends/MatchHistories", {
             method: "GET",
         })
             .then((response) => response.json())
@@ -394,7 +394,7 @@ class Application extends React.Component {
      * Retrieving data from Riot Games data center for the user's champion's mastery
      */
     getChampionMastery() {
-        fetch("/LegendsOfLegends/ChampionMastery", {
+        fetch("/LeagueOfLegends/ChampionMastery", {
             method: "GET",
         })
             .then((response) => response.json())
@@ -454,28 +454,6 @@ class Application extends React.Component {
         } else {
             return "None";
         }
-    }
-    /**
-     * Retrieving the software version of the game
-     */
-    getVersion() {
-        fetch("/LeagueOfLegends/PatchNotes", {
-            method: "GET",
-        })
-            .then((response) => response.json())
-            .then((data) =>
-                this.setState({
-                    Accounts: {
-                        LeagueOfLegends: {
-                            Version: {
-                                majorVersion: data.major,
-                                minorVersion: data.minor,
-                                patchNotes: data.patchNotes,
-                            },
-                        },
-                    },
-                })
-            );
     }
     /**
      * Verifying the ranks of the player
