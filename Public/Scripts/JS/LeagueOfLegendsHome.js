@@ -424,7 +424,7 @@ class Application extends React.Component {
      * Retrieving data from Riot Games data center for the status of the platform
      */
     getPlatformStatus() {
-        fetch("/LegendsOfLegends/PlatformStatus", {
+        fetch("/LeagueOfLegends/PlatformStatus", {
             method: "GET",
         })
             .then((response) => response.json())
@@ -459,7 +459,7 @@ class Application extends React.Component {
      * Retrieving the software version of the game
      */
     getVersion() {
-        fetch("/LegendsOfLegends/PatchNotes", {
+        fetch("/LeagueOfLegends/PatchNotes", {
             method: "GET",
         })
             .then((response) => response.json())
