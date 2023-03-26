@@ -8,8 +8,7 @@ if (json_decode(file_get_contents("php://input")) != null) {
     } else {
         $response = array(
             "status" => 1,
-            "url" => "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['username']),
-            "message" => "The form must be completely filled!"
+            "url" => "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['username'])
         );
         header('Content-Type: application/json', true, 300);
         echo json_encode($response);
@@ -17,8 +16,7 @@ if (json_decode(file_get_contents("php://input")) != null) {
 } else {
     $response = array(
         "status" => 1,
-        "url" => "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['username']),
-        "message" => "The form must be completely filled!"
+        "url" => "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['username'])
     );
     header('Content-Type: application/json', true, 300);
     echo json_encode($response);
