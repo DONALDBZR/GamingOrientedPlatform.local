@@ -31,53 +31,51 @@ class PlayerUnknownBattleGrounds
         $this->setApiKey(Environment::PubgAPIKey);
         $this->PDO = new PHPDataObject();
     }
-    public function getPlayerName()
+    public function getPlayerName(): string
     {
         return $this->playerName;
     }
-    public function setPlayerName(string $player_name)
+    public function setPlayerName(string $player_name): void
     {
         $this->playerName = $player_name;
     }
-    public function getPlatform()
+    public function getPlatform(): string
     {
         return $this->platform;
     }
-    public function setPlatform(string $platform)
+    public function setPlatform(string $platform): void
     {
         $this->platform = $platform;
     }
-    public function getIdentifier()
+    public function getIdentifier(): ?string
     {
         return $this->identifier;
     }
-    public function setIdentifier(?string $identifier)
+    public function setIdentifier(?string $identifier): void
     {
         $this->identifier = $identifier;
     }
-    public function getApiKey()
+    public function getApiKey(): string
     {
         return $this->apiKey;
     }
-    public function setApiKey(string $api_key)
+    public function setApiKey(string $api_key): void
     {
         $this->apiKey = $api_key;
     }
     /**
      * Retrieving accounts's data
-     * @param string $player_name
-     * @param string $platform
      */
-    public function retrieveData(string $player_name, $platform)
+    public function getAccount(string $player_name, string $platform): object
     {
         $this->setPlayerName($player_name);
         $this->setPlatform($platform);
-        $pubgAccountApiRequest = "https://api.pubg.com/shards/{$this->getPlatform()}/players?filter[playerNames]={$this->getPlayerName()}";
+        $request = "https://api.pubg.com/shards/{$this->getPlatform()}/players?filter[playerNames]={$this->getPlayerName()}";
         $curl = curl_init();
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => $pubgAccountApiRequest,
+                CURLOPT_URL => $request,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -96,18 +94,18 @@ class PlayerUnknownBattleGrounds
         curl_close($curl);
         if ($pubgAccountApiResponseCode == 200) {
             $this->setIdentifier($pubgAccountApiResponse->data[0]->id);
-            $response = array(
-                "httpResponseCode" => $pubgAccountApiResponseCode,
+            $response = (object) array(
+                "account" => $pubgAccountApiResponseCode,
                 "identifier" => $this->getIdentifier(),
                 "playerName" => $this->getPlayerName(),
                 "platform" => $this->getPlatform()
             );
         } else {
-            $response = array(
-                "httpResponseCode" => $pubgAccountApiResponseCode
+            $response = (object) array(
+                "account" => $pubgAccountApiResponseCode
             );
         }
-        return json_encode($response);
+        return $response;
     }
     /**
      * Adding Player Unknown Battle Grounds account in the database
