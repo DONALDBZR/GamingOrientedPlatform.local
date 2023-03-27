@@ -186,19 +186,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 }
                 break;
             case '/LeagueOfLegends/Search/Summoner':
-                if (isset($_SESSION['User'])) {
-                    if (isset($_SESSION['User']['otp'])) {
-                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
-                    } else {
-                        if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-                            $Router = new Router("GET", "/LegendsOfLegends/Search/Summoner", "/Controllers/SearchSummoner.php");
-                        } else {
-                            header("Location: /Users/Home/{$_SESSION['User']['username']}");
-                        }
-                    }
-                } else {
-                    header("Location: /");
-                }
+                $Router = new Router("GET", "/LegendsOfLegends/Search/Summoner", "/Controllers/SearchSummoner.php");
                 break;
             case '/Users/New':
                 $Router = new Router("POST", "/Users/New", "/Controllers/Register.php");
@@ -227,6 +215,21 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 break;
             case "/LeagueOfLegends/Refresh":
                 $Router = new Router("POST", "/LeagueOfLegends/Refresh", "/Controllers/LeagueOfLegendsDelete.php");
+                break;
+            case "/PlayerUnknownBattleGrounds/Home/" . rawurlencode($_SESSION['Account']['PlayerUnknownBattleGrounds']['playerName']):
+                if (isset($_SESSION['User'])) {
+                    if (isset($_SESSION['User']['otp'])) {
+                        header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+                    } else {
+                        if (isset($_SESSION['Account']['PlayerUnknownBattleGrounds'])) {
+                            $Router = new Router("GET", "/PlayerUnknownBattleGrounds/Home/" . rawurlencode($_SESSION['Account']['PlayerUnknownBattleGrounds']['playerName']), "/Views/PlayerUnknownBattleGroundsHome.php");
+                        } else {
+                            header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                        }
+                    }
+                } else {
+                    header("Location: /");
+                }
                 break;
         }
         break;
