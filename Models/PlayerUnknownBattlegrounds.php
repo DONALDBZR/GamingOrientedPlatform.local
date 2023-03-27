@@ -136,20 +136,18 @@ class PlayerUnknownBattleGrounds
         }
     }
     /**
-     * Accessing account data
-     * @param string $player_name
-     * @param string $platform
+     * Accessing player data
      */
-    public function getAccount(string $player_name, string $platform)
+    public function getPlayer(string $player_name, string $platform): void
     {
-        $pubgAccountApiResponse = json_decode($this->retrieveData($player_name, $platform));
-        if (json_decode($pubgAccountApiResponse->httpResponseCode == 200)) {
-            $pubgLifetimeStatsApiRequest = "https://api.pubg.com/shards/{$this->getPlatform()}/players/{$this->getIdentifier()}/seasons/lifetime";
+        $Account = $this->getAccount($player_name, $platform);
+        if ($Account->account == 200) {
+            $request = "https://api.pubg.com/shards/{$this->getPlatform()}/players/{$this->getIdentifier()}/seasons/lifetime";
             $curl = curl_init();
             curl_setopt_array(
                 $curl,
                 array(
-                    CURLOPT_URL => $pubgLifetimeStatsApiRequest,
+                    CURLOPT_URL => $request,
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -205,29 +203,31 @@ class PlayerUnknownBattleGrounds
                     $headshot += $headshots[$index];
                     $damagePerMatch += $damagePerMatchs[$index];
                 }
-                $duo = array(
-                    "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses)) * 100), 2),
-                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses)) * 100), 2)
+                $duo = (object) array(
+                    "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->top10s)) * 100), 2),
+                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->losses + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->duo->top10s)) * 100), 2)
                 );
-                $solo = array(
-                    "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses)) * 100), 2),
-                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses)) * 100), 2)
+                $solo = (object) array(
+                    "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->top10s)) * 100), 2),
+                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->losses + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->solo->top10s)) * 100), 2)
                 );
-                $squad = array(
-                    "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses)) * 100), 2),
-                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses)) * 100), 2)
+                $squad = (object) array(
+                    "winrate" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->top10s)) * 100), 2),
+                    "top10Probability" => round((($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->top10s / ($pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->wins + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->losses + $pubgLifetimeStatsApiResponse->data->attributes->gameModeStats->squad->top10s)) * 100), 2)
                 );
                 $response = array(
-                    "httpResponseCode_account" => $pubgAccountApiResponse->httpResponseCode,
-                    "httpResponseCode_lifetime" => $pubgLifetimeStatsApiResponseCode,
-                    "duo" => $duo,
-                    "solo" => $solo,
-                    "squad" => $squad,
+                    "account" => $Account->account,
+                    "lifetime" => $pubgLifetimeStatsApiResponseCode,
+                    "requestedDate" => date("Y/m/d H:i:s"),
+                    "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours")),
                     "kda" => round(($kda / max($lengths)), 2),
                     "killStreak" => max($killStreaks),
                     "longestKill" => round(max($longestKills), 2),
                     "headshot" => round(($headshot / max($lengths)), 2),
-                    "damagePerMatch" => round(($damagePerMatch / max($lengths)), 2)
+                    "damagePerMatch" => round(($damagePerMatch / max($lengths)), 2),
+                    "duo" => $duo,
+                    "solo" => $solo,
+                    "squad" => $squad
                 );
                 $cacheData = json_encode($response);
                 $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Profiles/{$this->getIdentifier()}.json", "w");
@@ -235,13 +235,13 @@ class PlayerUnknownBattleGrounds
                 fclose($cache);
             } else {
                 $response = array(
-                    "httpResponseCode_account" => $pubgAccountApiResponse->httpResponseCode,
-                    "httpResponseCode_lifetime" => $pubgLifetimeStatsApiResponseCode
+                    "account" => $Account->account,
+                    "lifetime" => $pubgLifetimeStatsApiResponseCode
                 );
             }
         } else {
             $response = array(
-                "httpResponseCode_account" => $pubgAccountApiResponse->httpResponseCode
+                "account" => $Account->account
             );
         }
         header('Content-Type: application/json', true, 200);
