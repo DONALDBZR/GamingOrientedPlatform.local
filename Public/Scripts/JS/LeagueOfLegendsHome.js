@@ -318,7 +318,7 @@ class Application extends React.Component {
     }
     /**
      * Redirecting the user to an intended url
-     * @param {int} delay
+     * @param {number} delay
      */
     redirector(delay) {
         setTimeout(() => {
@@ -568,7 +568,7 @@ class Header extends Application {
                             >
                                 <input
                                     type="search"
-                                    name="lolSearch"
+                                    name="search"
                                     placeholder="Search..."
                                     value={
                                         this.state.Accounts.LeagueOfLegends
@@ -740,7 +740,7 @@ class PatchNotes extends Header {
         } else {
             return (
                 <a
-                    href={`https://www.leagueoflegends.com/en-us/news/game-updates/patch-${this.state.majorVersion}-${this.state.minorVersion}-notes/`}
+                    href={`https://www.leagueoflegends.com/en-us/news/game-updates/patch-${this.state.Accounts.LeagueOfLegends.Version.major}-${this.state.Accounts.LeagueOfLegends.Version.minor}-notes/`}
                     target="__blank"
                 >
                     Patch Notes
