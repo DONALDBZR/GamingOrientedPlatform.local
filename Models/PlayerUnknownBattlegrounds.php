@@ -26,10 +26,23 @@ class PlayerUnknownBattleGrounds
      * PDO which will interact with the database server
      */
     protected PHPDataObject $PDO;
+    /**
+     * Client for Uniform Resource Locators
+     */
+    private CurlHandle $Curl;
+    /**
+     * Hypertext Markup Language document parser
+     */
+    private DOMDocument $DOM;
+    /**
+     * PHP DOM selector
+     */
+    private DOMXPath $DOMXPath;
     public function __construct()
     {
         $this->setApiKey(Environment::PubgAPIKey);
         $this->PDO = new PHPDataObject();
+        $this->DOM = new DOMDocument();
     }
     public function getPlayerName(): string
     {
@@ -71,9 +84,9 @@ class PlayerUnknownBattleGrounds
         $this->setPlayerName($player_name);
         $this->setPlatform($platform);
         $request = "https://api.pubg.com/shards/{$this->getPlatform()}/players?filter[playerNames]={$this->getPlayerName()}";
-        $curl = curl_init();
+        $this->Curl = curl_init();
         curl_setopt_array(
-            $curl,
+            $this->Curl,
             array(
                 CURLOPT_URL => $request,
                 CURLOPT_RETURNTRANSFER => true,
@@ -89,9 +102,9 @@ class PlayerUnknownBattleGrounds
                 )
             )
         );
-        $pubgAccountApiResponse = json_decode(curl_exec($curl));
-        $pubgAccountApiResponseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
+        $pubgAccountApiResponse = json_decode(curl_exec($this->Curl));
+        $pubgAccountApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+        curl_close($this->Curl);
         if ($pubgAccountApiResponseCode == 200) {
             $this->setIdentifier($pubgAccountApiResponse->data[0]->id);
             $response = (object) array(
@@ -143,9 +156,9 @@ class PlayerUnknownBattleGrounds
         $Account = $this->getAccount($player_name, $platform);
         if ($Account->account == 200) {
             $request = "https://api.pubg.com/shards/{$this->getPlatform()}/players/{$this->getIdentifier()}/seasons/lifetime";
-            $curl = curl_init();
+            $this->Curl = curl_init();
             curl_setopt_array(
-                $curl,
+                $this->Curl,
                 array(
                     CURLOPT_URL => $request,
                     CURLOPT_RETURNTRANSFER => true,
@@ -161,9 +174,9 @@ class PlayerUnknownBattleGrounds
                     )
                 )
             );
-            $pubgLifetimeStatsApiResponse = json_decode(curl_exec($curl));
-            $pubgLifetimeStatsApiResponseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            curl_close($curl);
+            $pubgLifetimeStatsApiResponse = json_decode(curl_exec($this->Curl));
+            $pubgLifetimeStatsApiResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+            curl_close($this->Curl);
             if ($pubgLifetimeStatsApiResponseCode == 200) {
                 $kda = 0.0;
                 $headshot = 0.0;
@@ -242,6 +255,69 @@ class PlayerUnknownBattleGrounds
         } else {
             $response = array(
                 "account" => $Account->account
+            );
+        }
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
+    public function getPatchNotes()
+    {
+        $request = "https://na.battlegrounds.pubg.com/patch-notes/";
+        $patches = array();
+        $this->Curl = curl_init();
+        curl_setopt_array(
+            $this->Curl,
+            array(
+                CURLOPT_URL => $request,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET'
+            )
+        );
+        $page = curl_exec($this->Curl);
+        $pageResponseCode = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+        curl_close($this->Curl);
+        if ($pageResponseCode == 200) {
+            $this->DOM->loadHTML($page);
+            $this->DOMXPath = new DOMXPath($this->DOM);
+            $patchDetails1 = $this->DOMXPath->query("//section[@id='news-list']//div[@class='top-section']//div[@class='news-list-first-column']//div[@class='content']//a[@class='title']//h2");
+            $patchDetails2 = $this->DOMXPath->query("//section[@id='news-list']//div[@class='top-section']//div[@class='news-list-second-column']//div[@class='content']//a[@class='title']//h2");
+            foreach ($patchDetails1 as $node) {
+                array_push($patches, $node->nodeValue);
+            }
+            foreach ($patchDetails2 as $node) {
+                array_push($patches, $node->nodeValue);
+            }
+            for ($index = 0; $index < count($patches); $index++) {
+                $version = "";
+                if (str_contains($patches[$index], "Patch Notes - Update ")) {
+                    $version = str_replace("Patch Notes - Update ", "", $patches[$index]);
+                } else if (str_contains($patches[$index], "Patch Notes â Update ")) {
+                    $version = str_replace("Patch Notes â Update ", "", $patches[$index]);
+                }
+                $patches[$index] = $version;
+            }
+            rsort($patches);
+            $latestVersion = $patches[0];
+            $latestVersionArray = explode(".", $latestVersion);
+            $response = (object) array(
+                "patchNotes" => $pageResponseCode,
+                "requestedDate" => date("Y/m/d"),
+                "renewOn" => date("Y/m/d", strtotime("+2 weeks")),
+                "major" => (int)$latestVersionArray[0],
+                "minor" => (int)$latestVersionArray[1]
+            );
+            $cacheData = json_encode($response);
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Platform/Version.json", "w");
+            fwrite($cache, $cacheData);
+            fclose($cache);
+        } else {
+            $response = (object) array(
+                "patchNotes" => $pageResponseCode
             );
         }
         header('Content-Type: application/json', true, 200);
