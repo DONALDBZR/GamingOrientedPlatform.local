@@ -231,6 +231,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     header("Location: /");
                 }
                 break;
+            case '/PlayerUnknownBattleGrounds/PatchNotes':
+                $Router = new Router("GET", "/PlayerUnknownBattleGrounds/PatchNotes", "/Controllers/PatchNotes.php");
+                break;
         }
         break;
     case 'POST':
