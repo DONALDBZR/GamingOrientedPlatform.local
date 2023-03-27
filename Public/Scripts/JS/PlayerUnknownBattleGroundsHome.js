@@ -160,6 +160,9 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
+    componentDidMount() {
+        this.getUser();
+    }
     render() {
         return (
             <header>
