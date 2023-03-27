@@ -109,14 +109,11 @@ class PlayerUnknownBattleGrounds
     }
     /**
      * Adding Player Unknown Battle Grounds account in the database
-     * @param string $player_name
-     * @param string $platform
-     * @return int
      */
-    public function addAccount(string $player_name, string $platform)
+    public function addAccount(string $player_name, string $platform): int
     {
-        $pubgAccountApiResponse = json_decode($this->retrieveData($player_name, $platform));
-        if ($pubgAccountApiResponse->httpResponseCode == 200) {
+        $Account = $this->getAccount($player_name, $platform);
+        if ($Account->httpResponseCode == 200) {
             $this->PDO->query("SELECT * FROM PlayerUnknownBattleGrounds WHERE PlayerUnknownBattleGroundsIdentifier = :PlayerUnknownBattleGroundsIdentifier");
             $this->PDO->bind(":PlayerUnknownBattleGroundsIdentifier", $this->getIdentifier());
             $this->PDO->execute();
