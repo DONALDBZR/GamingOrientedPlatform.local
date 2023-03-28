@@ -17,6 +17,25 @@ class Application extends React.Component {
                         major: 0,
                         minor: 0,
                     },
+                    Player: {
+                        Duo: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        Solo: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        Squad: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        kda: 0.0,
+                        killStreak: 0,
+                        longestKill: 0.0,
+                        headshot: 0.0,
+                        damagePerMatch: 0.0,
+                    },
                 },
             },
             System: {
@@ -146,6 +165,163 @@ class Application extends React.Component {
             );
     }
     /**
+     * Verifying the state before rendering the link
+     * @returns {object}
+     */
+    verifyUser_username() {
+        if (this.state.User.profilePicture != null) {
+            return (
+                <a href={`/Users/Profile/${this.state.User.username}`}>
+                    <img src={this.state.User.profilePicture} />
+                </a>
+            );
+        } else {
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.User.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
+        }
+    }
+    /**
+     * Retrieving data from PUBG Corporations data center for the user
+     * @returns {void}
+     */
+    getPlayerData() {
+        fetch("/PlayerUnknownBattleGrounds/CurrentPlayer", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    Accounts: {
+                        PlayerUnknownBattleGrounds: {
+                            Player: {
+                                Duo: {
+                                    winrate: data.duo.winrate,
+                                    top10Probability: data.duo.top10Probability,
+                                },
+                                Solo: {
+                                    winrate: data.solo.winrate,
+                                    top10Probability:
+                                        data.solo.top10Probability,
+                                },
+                                Squad: {
+                                    winrate: data.squad.winrate,
+                                    top10Probability:
+                                        data.squad.top10Probability,
+                                },
+                                kda: data.kda,
+                                killStreak: data.killStreak,
+                                longestKill: data.longestKill,
+                                headshot: data.headshot,
+                                damagePerMatch: data.damagePerMatch,
+                            },
+                        },
+                    },
+                })
+            );
+    }
+    /**
+     * Verifying the winrate before styling it
+     * @param {number} win_rate
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_winRate(win_rate) {
+        if (win_rate >= 50) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (win_rate >= 1 && win_rate < 50) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the top 10 probability before styling it
+     * @param {number} top10Probability
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_top10Probability(top10Probability) {
+        if (top10Probability >= 50) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (top10Probability >= 10 && top10Probability < 50) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the kda ratio before styling it
+     * @param {number} kda
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_kda(kda) {
+        if (kda >= 6) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (kda >= 1 && kda < 6) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the kill streak before styling it
+     * @param {number} killStreak
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_killStreak(killStreak) {
+        if (killStreak >= 5) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (killStreak >= 2 && killStreak < 5) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the longest kill distance before styling it
+     * @param {number} longestKill
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_longestKill(longestKill) {
+        if (longestKill >= 200) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (longestKill >= 100 && longestKill < 200) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the Headshot probability before styling it
+     * @param {number} headshot
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_headshot(headshot) {
+        if (headshot >= 50) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (headshot >= 40 && headshot < 50) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
+     * Verifying the damage per match before styling it
+     * @param {number} damagePerMatch
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_damagePerMatch(damagePerMatch) {
+        if (damagePerMatch >= 250) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (damagePerMatch >= 100 && damagePerMatch < 250) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {object[]}
      */
@@ -221,8 +397,26 @@ class Main extends Application {
     constructor(props) {
         super(props);
     }
+    componentDidMount() {
+        this.getUser();
+    }
     render() {
-        return <main>Main</main>;
+        return (
+            <main>
+                <nav>
+                    <div>{this.verifyUser_username()}</div>
+                    <div>
+                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                    </div>
+                </nav>
+                <div>
+                    <Player
+                        gameName={this.state.Accounts.LeagueOfLegends.gameName}
+                    />
+                    {/* <MatchHistory /> */}
+                </div>
+            </main>
+        );
     }
 }
 /**
@@ -264,6 +458,220 @@ class PatchNotes extends Header {
             >
                 Patch Notes
             </a>
+        );
+    }
+}
+/** Player component */
+class Player extends Main {
+    constructor(props) {
+        super(props);
+        this.state = {
+            Accounts: {
+                PlayerUnknownBattleGrounds: {
+                    Player: {
+                        Duo: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        Solo: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        Squad: {
+                            winrate: 0.0,
+                            top10Probability: 0.0,
+                        },
+                        kda: 0.0,
+                        killStreak: 0,
+                        longestKill: 0.0,
+                        headshot: 0.0,
+                        damagePerMatch: 0.0,
+                    },
+                },
+            },
+        };
+    }
+    componentDidMount() {
+        this.getPlayerData();
+    }
+    render() {
+        return (
+            <div id="player">
+                <div>
+                    <div>{this.props.playerName}</div>
+                    <div>
+                        <i class="fa fa-steam"></i>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div>Solo</div>
+                        <div>
+                            <div>Win Rate:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .Solo.winrate
+                                    ),
+                                }}
+                            >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Solo.winrate} %`}</div>
+                        </div>
+                        <div>
+                            <div>Top 10's:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .Solo.top10Probability
+                                    ),
+                                }}
+                            >
+                                {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Solo.top10Probability} %`}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>Duo</div>
+                        <div>
+                            <div>Win Rate:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .Duo.winrate
+                                    ),
+                                }}
+                            >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Duo.winrate} %`}</div>
+                        </div>
+                        <div>
+                            <div>Top 10's:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .Duo.top10Probability
+                                    ),
+                                }}
+                            >
+                                {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Duo.top10Probability} %`}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>Squad</div>
+                        <div>
+                            <div>Win Rate:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .Squad.winrate
+                                    ),
+                                }}
+                            >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Squad.winrate} %`}</div>
+                        </div>
+                        <div>
+                            <div>Top 10's:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .Squad.top10Probability
+                                    ),
+                                }}
+                            >
+                                {`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.Squad.top10Probability} %`}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>KDA:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_kda(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .kda
+                                    ),
+                                }}
+                            >
+                                {
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Player.kda
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <div>Kill Streak:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_killStreak(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .killStreak
+                                    ),
+                                }}
+                            >
+                                {
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Player
+                                        .killStreak
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <div>Longest Kill Distance:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_longestKill(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .longestKill
+                                    ),
+                                }}
+                            >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.longestKill} m`}</div>
+                        </div>
+                        <div>
+                            <div>Headshot:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_headshot(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .headshot
+                                    ),
+                                }}
+                            >{`${this.state.Accounts.PlayerUnknownBattleGrounds.Player.headshot} %`}</div>
+                        </div>
+                        <div>
+                            <div>Damage/Match:</div>
+                            <div
+                                style={{
+                                    color: this.verifyPlayerUnknownBattleGrounds_damagePerMatch(
+                                        this.state.Accounts
+                                            .PlayerUnknownBattleGrounds.Player
+                                            .damagePerMatch
+                                    ),
+                                }}
+                            >
+                                {
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Player
+                                        .damagePerMatch
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
