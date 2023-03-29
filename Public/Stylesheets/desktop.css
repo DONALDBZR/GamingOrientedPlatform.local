@@ -1326,3 +1326,90 @@ body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a,
 body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a {
     padding: calc(var(--percentage) / 25) calc(var(--percentage) / 12.5);
 }
+body[id*="PlayerUnknownBattleGrounds"] main div #player {
+    width: var(--percentage);
+    height: calc(var(--percentage) * (150 / 562));
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div {
+    width: var(--percentage);
+    display: flex;
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(1) {
+    height: calc(var(--percentage) * (50 / 150));
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) {
+    height: calc(var(--percentage) * (100 / 150));
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(1) div {
+    justify-content: center;
+    align-items: center;
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(1) div {
+    font-size: calc(var(--textSize) * 2);
+    height: var(--color1);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(1) div:nth-child(1) {
+    width: calc(var(--percentage) * (29 / 30));
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(1) div:nth-child(2) {
+    width: calc(var(--percentage) / 30);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div {
+    display: block;
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div {
+    display: flex;
+    flex-wrap: wrap;
+    height: var(--percentage);
+    width: calc(var(--percentage) / 4);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div div {
+    font-size: var(--textSize);
+    width: var(--percentage);
+    justify-content: center;
+    align-items: center;
+    height: calc(var(--percentage) / 3);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div div:nth-child(2),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div div:nth-child(3) {
+    width: var(--percentage);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div div:nth-child(2) div,
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div div:nth-child(3) div {
+    width: calc(var(--percentage) / 2);
+    height: var(--percentage);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div div:nth-child(2) div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div div:nth-child(3) div:nth-child(1) {
+    justify-content: start;
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(2),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(3) {
+    width: calc(var(--percentage) / 8);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) {
+    width: calc(var(--percentage) * (5 / 8));
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div,
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(2),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(3),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(4),
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(5) {
+    height: calc(var(--percentage) / 5);
+    width: var(--percentage);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div div,
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(1) div,
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(2) div,
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(3) div,
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(4) div,
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div:nth-child(5) div {
+    height: var(--percentage);
+    width: calc(var(--percentage) / 2);
+}
+body[id*="PlayerUnknownBattleGrounds"] main div #player div:nth-child(2) div:nth-child(4) div div:nth-child(1) {
+    justify-content: start;
+}
