@@ -430,7 +430,14 @@ class Footer extends Application {
         super(props);
     }
     render() {
-        return <footer>Footer</footer>;
+        return (
+            <footer>
+                <div>Parkinston</div>
+                <div>
+                    <img src="/Public/Images/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
+                </div>
+            </footer>
+        );
     }
 }
 /**
