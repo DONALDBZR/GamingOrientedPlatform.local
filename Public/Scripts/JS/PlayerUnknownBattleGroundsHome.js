@@ -406,7 +406,9 @@ class Main extends Application {
                 <nav>
                     <div>{this.verifyUser_username()}</div>
                     <div>
-                        <a href="/Sign-Out" class="fa fa-sign-out"></a>
+                        <a href="/Sign-Out">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
                     </div>
                 </nav>
                 <div>
