@@ -411,7 +411,10 @@ class Main extends Application {
                 </nav>
                 <div>
                     <Player
-                        gameName={this.state.Accounts.LeagueOfLegends.gameName}
+                        playerName={
+                            this.state.Accounts.PlayerUnknownBattleGrounds
+                                .playerName
+                        }
                     />
                     {/* <MatchHistory /> */}
                 </div>
@@ -465,6 +468,9 @@ class PatchNotes extends Header {
 class Player extends Main {
     constructor(props) {
         super(props);
+        this.props = {
+            playerName: "",
+        };
         this.state = {
             Accounts: {
                 PlayerUnknownBattleGrounds: {
