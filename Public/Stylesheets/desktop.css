@@ -654,32 +654,39 @@ body[id*="LeagueOfLegends"] header nav div:nth-child(6) a {
     padding: calc(var(--percentage) * (5 / 107.5))
         calc(var(--percentage) * (10 / 107.5));
 }
-body[id*="LeagueOfLegends"] main {
+body[id*="LeagueOfLegends"] main,
+body[id*="PlayerUnknownBattleGrounds"] main {
     height: calc(var(--pixelate) * (562 / 1080));
     width: var(--percentage);
     display: flex;
     margin: calc(var(--percentage) * (6 / 1340)) calc(var(--percentage) * 0);
 }
 body[id*="LeagueOfLegends"] main nav,
-body[id*="LeagueOfLegends"] main div {
+body[id*="LeagueOfLegends"] main div,
+body[id*="PlayerUnknownBattleGrounds"] main nav,
+body[id*="PlayerUnknownBattleGrounds"] main div {
     height: var(--percentage);
     width: calc(var(--percentage) * (50 / 1349));
 }
-body[id*="LeagueOfLegends"] main div {
+body[id*="LeagueOfLegends"] main div,
+body[id*="PlayerUnknownBattleGrounds"] main div {
     width: calc(var(--percentage) * (1299 / 1349));
 }
-body[id*="LeagueOfLegends"] main nav div {
+body[id*="LeagueOfLegends"] main nav div,
+body[id*="PlayerUnknownBattleGrounds"] main nav div {
     width: var(--percentage);
     height: calc(var(--percentage) / 2);
     display: flex;
     align-items: center;
 }
 body[id*="LeagueOfLegends"] main nav div a,
-body[id*="LeagueOfLegends"] main nav div svg {
+body[id*="LeagueOfLegends"] main nav div svg,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a {
     font-size: calc(var(--textSize) * 3.125);
     height: calc(var(--percentage) / 5.8);
 }
-body[id*="LeagueOfLegends"] main nav div a img {
+body[id*="LeagueOfLegends"] main nav div a img,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a img {
     width: var(--percentage);
     height: auto;
 }
@@ -1086,7 +1093,8 @@ body[id*="LeagueOfLegends"]
     justify-content: center;
     align-items: center;
 }
-body[id*="LeagueOfLegends"] footer {
+body[id*="LeagueOfLegends"] footer,
+body[id*="PlayerUnknownBattleGrounds"] footer {
     height: calc(var(--pixelate) * (30.782 / 1080));
     display: flex;
     align-items: center;

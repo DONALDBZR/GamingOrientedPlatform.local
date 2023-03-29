@@ -346,7 +346,8 @@ body[id*="UsersHome"]
     #playerUnknownBattleGroundsCard
     div:nth-child(1)
     a
-    img {
+    img,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a img {
     opacity: calc(var(--percentage) / 2);
 }
 body[id*="Users"] header nav div:nth-child(2) a img:hover,
@@ -358,7 +359,8 @@ body[id*="UsersHome"]
     #playerUnknownBattleGroundsCard
     div:nth-child(1)
     a
-    img:hover {
+    img:hover,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a img:hover {
     opacity: var(--percentage);
 }
 body[id*="Users"] header nav div:nth-child(2) a,
@@ -374,7 +376,8 @@ body[id*="UsersProfile"] main nav {
     background-color: var(--color3);
 }
 body[id*="UsersProfile"] main nav div a,
-body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a {
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a:hover {
     color: var(--color1);
     text-decoration: none;
 }
@@ -469,7 +472,8 @@ body[id*="PlayerUnknownBattleGrounds"] {
     color: var(--color1);
     font-family: sans-serif;
 }
-body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a:hover {
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a:hover,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a {
     color: var(--color10);
 }
 body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(2) form button,
