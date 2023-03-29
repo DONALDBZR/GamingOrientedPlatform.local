@@ -121,7 +121,8 @@ body[id*="UsersHome"]
     #playerUnknownBattleGroundsCard
     div:nth-child(3)
     div
-    div:nth-child(1) {
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
@@ -275,7 +276,8 @@ body[id*="LoginVerification"] main form input,
 body[id*="UsersAccounts"] main form input,
 body[id*="UsersAccounts"] main form select,
 body[id*="UsersSecurity"] main form input,
-body[id*="LeagueOfLegends"] header nav div:nth-child(2) form input {
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form input,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(2) form input {
     background-color: var(--color1);
     color: var(--color2);
     font-family: var(--sourceCodePro);
@@ -371,7 +373,8 @@ body[id*="UsersHome"] main #leagueOfLegendsCard {
 body[id*="UsersProfile"] main nav {
     background-color: var(--color3);
 }
-body[id*="UsersProfile"] main nav div a {
+body[id*="UsersProfile"] main nav div a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a {
     color: var(--color1);
     text-decoration: none;
 }
@@ -427,7 +430,10 @@ body[id*="LeagueOfLegends"] footer nav div svg:hover {
 body[id*="LeagueOfLegends"] header nav div:nth-child(3) button,
 body[id*="LeagueOfLegends"] header nav div:nth-child(4) a,
 body[id*="LeagueOfLegends"] header nav div:nth-child(5) a,
-body[id*="LeagueOfLegends"] header nav div:nth-child(6) a {
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a {
     font-family: var(--sourceCodePro);
     font-weight: bold;
     text-transform: uppercase;
@@ -457,4 +463,41 @@ body[id*="UsersHome"] main #playerUnknownBattleGroundsCard {
 }
 body[id*="UsersEditProfile"] main form div:nth-child(3) {
     text-align: center;
+}
+body[id*="PlayerUnknownBattleGrounds"] {
+    background-color: var(--color9);
+    color: var(--color1);
+    font-family: sans-serif;
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a:hover {
+    color: var(--color10);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(2) form button,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a {
+    background-color: var(--color9);
+    color: var(--color10);
+    cursor: pointer;
+}
+body[id*="PlayerUnknownBattleGrounds"]
+    header
+    nav
+    div:nth-child(2)
+    form
+    button:hover {
+    color: var(--color1);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a {
+    color: var(--color9);
+    background-color: var(--color10);
+    cursor: pointer;
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button:hover,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a:hover,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a:hover {
+    color: var(--color1);
+    background-color: var(--color9);
 }

@@ -596,17 +596,20 @@ body[id*="LeagueOfLegends"] header nav div {
     justify-content: center;
     align-items: center;
 }
-body[id*="LeagueOfLegends"] header nav div:nth-child(1) a {
+body[id*="LeagueOfLegends"] header nav div:nth-child(1) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a {
     font-size: calc(var(--textSize) * (30 / 16));
 }
 body[id*="LeagueOfLegends"] header nav div:nth-child(1) {
     width: calc(var(--percentage) * 0.44);
 }
-body[id*="LeagueOfLegends"] header nav div:nth-child(2) form {
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(2) form {
     width: calc(var(--percentage) * 0.9);
     height: calc(var(--percentage) * (2 / 3));
 }
-body[id*="LeagueOfLegends"] header nav div:nth-child(2) form input {
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form input,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(2) form input {
     width: calc(var(--percentage) * (6 / 7));
     height: var(--percentage);
     border: none;
@@ -615,7 +618,8 @@ body[id*="LeagueOfLegends"] header nav div:nth-child(2) form button,
 body[id*="LeagueOfLegends"] header nav div:nth-child(3) button,
 body[id*="LeagueOfLegends"] header nav div:nth-child(4) a,
 body[id*="LeagueOfLegends"] header nav div:nth-child(5) a,
-body[id*="LeagueOfLegends"] header nav div:nth-child(6) a {
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(2) form button {
     width: calc(var(--percentage) / 7);
     height: var(--percentage);
     border: none;
@@ -624,6 +628,7 @@ body[id*="LeagueOfLegends"] header nav div:nth-child(3) button {
     width: calc(var(--percentage) / 1.5);
     padding: calc(var(--percentage) * (5 / 107.5))
         calc(var(--percentage) * (10 / 107.5));
+    border: none;
 }
 body[id*="LeagueOfLegends"] header nav div:nth-child(3),
 body[id*="LeagueOfLegends"] header nav div:nth-child(4),
@@ -1279,4 +1284,35 @@ body[id*="UsersHome"]
     div:nth-child(2) {
     width: calc(var(--percentage) / 3);
     text-align: center;
+}
+body[id*="PlayerUnknownBattleGrounds"] header {
+    height: calc(var(--pixelate) / 36);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav {
+    display: flex;
+    height: var(--percentage);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div {
+    width: calc(var(--percentage) / 5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) {
+    width: calc(var(--percentage) * (17 / 30));
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3),
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) {
+    width: calc(var(--percentage) / 15);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button {
+    border: none;
+    padding: calc(var(--percentage) / 12.5) calc(var(--percentage) / 6.25);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) {
+    width: calc(var(--percentage) / 10);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a {
+    padding: calc(var(--percentage) / 25) calc(var(--percentage) / 12.5);
 }
