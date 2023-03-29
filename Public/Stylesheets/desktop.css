@@ -215,7 +215,8 @@ body[id*="LeagueOfLegends"]
     div:nth-child(2)
     div:nth-child(2)
     div
-    img {
+    img,
+body[id*="PlayerUnknownBattleGrounds"] footer div img {
     height: var(--percentage);
     width: auto;
 }
@@ -1099,7 +1100,8 @@ body[id*="PlayerUnknownBattleGrounds"] footer {
     display: flex;
     align-items: center;
 }
-body[id*="LeagueOfLegends"] footer div {
+body[id*="LeagueOfLegends"] footer div,
+body[id*="PlayerUnknownBattleGrounds"] footer div {
     height: calc(var(--percentage) * (25 / 30.782));
     width: calc(var(--percentage) / 2);
     display: flex;

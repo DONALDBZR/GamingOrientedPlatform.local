@@ -122,7 +122,8 @@ body[id*="UsersHome"]
     div:nth-child(3)
     div
     div:nth-child(1),
-body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a {
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a,
+body[id*="PlayerUnknownBattleGrounds"] footer div {
     font-family: var(--ethnocentric);
 }
 #Login header div:nth-child(1) a,
