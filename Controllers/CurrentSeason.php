@@ -9,8 +9,8 @@ if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Seasons/{$_SESSION
         echo json_encode($response);
     } else {
         unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Seasons/{$_SESSION['Account']['PlayerUnknownBattleGrounds']['identifier']}.json");
-        $PlayerUnknownBattleGrounds->getPlayer($_SESSION['Account']['PlayerUnknownBattleGrounds']['playerName'], $_SESSION['Account']['PlayerUnknownBattleGrounds']['platform']);
+        $PlayerUnknownBattleGrounds->getSeason($_SESSION['Account']['PlayerUnknownBattleGrounds']['playerName'], $_SESSION['Account']['PlayerUnknownBattleGrounds']['platform']);
     }
 } else {
-    $PlayerUnknownBattleGrounds->getPlayer($_SESSION['Account']['PlayerUnknownBattleGrounds']['playerName'], $_SESSION['Account']['PlayerUnknownBattleGrounds']['platform']);
+    $PlayerUnknownBattleGrounds->getSeason($_SESSION['Account']['PlayerUnknownBattleGrounds']['playerName'], $_SESSION['Account']['PlayerUnknownBattleGrounds']['platform']);
 }
