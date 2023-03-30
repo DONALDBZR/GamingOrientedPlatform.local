@@ -234,6 +234,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case '/PlayerUnknownBattleGrounds/PatchNotes':
                 $Router = new Router("GET", "/PlayerUnknownBattleGrounds/PatchNotes", "/Controllers/PatchNotes.php");
                 break;
+            case '/PlayerUnknownBattleGrounds/CurrentSeason':
+                $Router = new Router("GET", "/PlayerUnknownBattleGrounds/CurrentSeason", "/Controllers/CurrentSeason.php");
+                break;
         }
         break;
     case 'POST':
