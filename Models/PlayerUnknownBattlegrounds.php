@@ -126,7 +126,7 @@ class PlayerUnknownBattleGrounds
     public function addAccount(string $player_name, string $platform): int
     {
         $Account = $this->getAccount($player_name, $platform);
-        if ($Account->httpResponseCode == 200) {
+        if ($Account->account == 200) {
             $this->PDO->query("SELECT * FROM PlayerUnknownBattleGrounds WHERE PlayerUnknownBattleGroundsIdentifier = :PlayerUnknownBattleGroundsIdentifier");
             $this->PDO->bind(":PlayerUnknownBattleGroundsIdentifier", $this->getIdentifier());
             $this->PDO->execute();
@@ -318,6 +318,132 @@ class PlayerUnknownBattleGrounds
         } else {
             $response = (object) array(
                 "patchNotes" => $pageResponseCode
+            );
+        }
+        header('Content-Type: application/json', true, 200);
+        echo json_encode($response);
+    }
+    /**
+     * Retrieving player's current season stats
+     */
+    public function getSeason(string $player_name, string $platform): void {
+        $Account = $this->getAccount($player_name, $platform);
+        if ($Account->account == 200) {
+            $request = "https://api.pubg.com/shards/{$this->getPlatform()}/seasons";
+            $this->Curl = curl_init();
+            curl_setopt_array(
+                $this->Curl,
+                array(
+                    CURLOPT_URL => $request,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => array(
+                        'Accept: application/vnd.api+json',
+                        "Authorization: Bearer {$this->getApiKey()}"
+                    )
+                )
+            );
+            $pubgSeasonsApiResponse1 = json_decode(curl_exec($this->Curl));
+            $pubgSeasonsApiResponseCode1 = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+            if ($pubgSeasonsApiResponseCode1 == 200) {
+                $currentSeason = "";
+                for ($index = 0; $index < count($pubgSeasonsApiResponse1->data); $index++) { 
+                    if ($pubgSeasonsApiResponse1->data[$index]->attributes->isCurrentSeason == true) {
+                        $currentSeason = $pubgSeasonsApiResponse1->data[$index]->id;
+                    }
+                }
+                $request = "https://api.pubg.com/shards/steam/players/{$this->getIdentifier()}/seasons/{$currentSeason}/ranked";
+                $this->Curl = curl_init();
+                curl_setopt_array(
+                    $this->Curl,
+                    array(
+                        CURLOPT_URL => $request,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'GET',
+                        CURLOPT_HTTPHEADER => array(
+                            'Accept: application/vnd.api+json',
+                            "Authorization: Bearer {$this->getApiKey()}"
+                        )
+                    )
+                );
+                $pubgSeasonsApiResponse2 = json_decode(curl_exec($this->Curl));
+                $pubgSeasonsApiResponseCode2 = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
+                if ($pubgSeasonsApiResponseCode2 == 200) {
+                    if (!empty($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats)) {
+                        $rankedModes = array_keys((array) $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats);
+                        for ($index = 0; $index < count($rankedModes); $index++) { 
+                            switch ($rankedModes[$index]) {
+                                case 'solo':
+                                    $Solo = (object) array(
+                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->tier,
+                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->subTier,
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentRankPoint
+                                    );
+                                    break;
+                                case 'duo':
+                                    $Duo = (object) array(
+                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->tier,
+                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->subTier,
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentRankPoint
+                                    );
+                                    break;
+                                case 'squad':
+                                    $Squad = (object) array(
+                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->tier,
+                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->subTier,
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentRankPoint
+                                    );
+                                    break;
+                            }
+                        }
+                        $Season = (object) array(
+                            "Solo" => $Solo,
+                            "Duo" => $Duo,
+                            "Squad" => $Squad
+                        );
+                        $response = (object) array(
+                            "account" => $Account->account,
+                            "season1" => $pubgSeasonsApiResponseCode1,
+                            "currentSeason" => $currentSeason,
+                            "season2" => $pubgSeasonsApiResponseCode2,
+                            "Season" => $Season
+                        );
+                    } else {
+                        $response = (object) array(
+                            "account" => $Account->account,
+                            "season1" => $pubgSeasonsApiResponseCode1,
+                            "currentSeason" => $currentSeason,
+                            "season2" => $pubgSeasonsApiResponseCode2,
+                            "Season" => (object) array()
+                        );
+                    }
+                } else {
+                    $response = (object) array(
+                        "account" => $Account->account,
+                        "season1" => $pubgSeasonsApiResponseCode1,
+                        "currentSeason" => $currentSeason,
+                        "season2" => $pubgSeasonsApiResponseCode2,
+                    );
+                }
+            } else {
+                $response = (object) array(
+                    "account" => $Account->account,
+                    "season" => $pubgSeasonsApiResponseCode1
+                );
+            }
+        } else {
+            $response = (object) array(
+                "account" => $Account->account
             );
         }
         header('Content-Type: application/json', true, 200);
