@@ -37,9 +37,21 @@ class Application extends React.Component {
                         damagePerMatch: 0.0,
                     },
                     Season: {
-                        Solo: {},
-                        Duo: {},
-                        Squad: {},
+                        Solo: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                        },
+                        Duo: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                        },
+                        Squad: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                        },
                     },
                 },
             },
@@ -340,9 +352,21 @@ class Application extends React.Component {
                     Accounts: {
                         PlayerUnknownBattleGrounds: {
                             Season: {
-                                Solo: data.Season.Solo,
-                                Duo: data.Season.Duo,
-                                Squad: data.Season.Squad,
+                                Solo: {
+                                    tier: data.Season.Solo.tier,
+                                    division: data.Season.Solo.division,
+                                    point: data.Season.Solo.rankPoint,
+                                },
+                                Duo: {
+                                    tier: data.Season.Duo.tier,
+                                    division: data.Season.Duo.division,
+                                    point: data.Season.Duo.rankPoint,
+                                },
+                                Squad: {
+                                    tier: data.Season.Squad.tier,
+                                    division: data.Season.Squad.division,
+                                    point: data.Season.Squad.rankPoint,
+                                },
                             },
                         },
                     },
@@ -359,9 +383,9 @@ class Application extends React.Component {
         if (mode.tier == null) {
             return "Unranked";
         } else if (mode.tier != "Master") {
-            return `${mode.tier} ${mode.division} - ${mode.points} pts`;
+            return `${mode.tier} ${mode.division} - ${mode.point} pts`;
         } else {
-            return `${mode.tier} - ${mode.points} pts`;
+            return `${mode.tier} - ${mode.point} pts`;
         }
     }
     /**
@@ -806,9 +830,21 @@ class HighestRanked extends Player {
             Accounts: {
                 PlayerUnknownBattleGrounds: {
                     Season: {
-                        Solo: {},
-                        Duo: {},
-                        Squad: {},
+                        Solo: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                        },
+                        Duo: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                        },
+                        Squad: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                        },
                     },
                 },
             },
