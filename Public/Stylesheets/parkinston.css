@@ -309,7 +309,14 @@ body[id*="PlayerUnknownBattleGrounds"]
     #player
     div:nth-child(2)
     div:nth-child(4)
-    div:nth-child(1) {
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    #highestRanked
+    div:nth-child(2) {
     font-family: var(--proximaNova);
 }
 #Homepage main,
