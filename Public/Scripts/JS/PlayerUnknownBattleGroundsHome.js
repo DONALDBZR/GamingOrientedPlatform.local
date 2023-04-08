@@ -444,7 +444,7 @@ class Application extends React.Component {
         } else {
             return (
                 <img
-                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}-${mode.division}`}
+                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}-${mode.division}.png`}
                 />
             );
         }
@@ -565,7 +565,7 @@ class Footer extends Application {
             <footer>
                 <div>Parkinston</div>
                 <div>
-                    <img src="/Public/Images/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
+                    <img src="/Public/Images/Player Unknown Battle Grounds/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
                 </div>
             </footer>
         );
