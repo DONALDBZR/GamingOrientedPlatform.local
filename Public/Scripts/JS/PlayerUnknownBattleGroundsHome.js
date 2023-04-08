@@ -824,7 +824,6 @@ class HighestRanked extends Player {
                     {this.renderRankImage(
                         this.state.Accounts.PlayerUnknownBattleGrounds.Season
                     )}
-                    <img src="url" />
                 </div>
                 <div>
                     {this.renderRank(
