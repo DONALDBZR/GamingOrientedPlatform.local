@@ -36,6 +36,11 @@ class Application extends React.Component {
                         headshot: 0.0,
                         damagePerMatch: 0.0,
                     },
+                    Season: {
+                        Solo: {},
+                        Duo: {},
+                        Squad: {},
+                    },
                 },
             },
             System: {
@@ -322,6 +327,105 @@ class Application extends React.Component {
         }
     }
     /**
+     * Retrieving data from PUBG Corporations data center for the user's current season
+     * @returns {void}
+     */
+    getSeason() {
+        fetch("/PlayerUnknownBattleGrounds/CurrentSeason", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    Accounts: {
+                        PlayerUnknownBattleGrounds: {
+                            Season: {
+                                Solo: data.Season.Solo,
+                                Duo: data.Season.Duo,
+                                Squad: data.Season.Squad,
+                            },
+                        },
+                    },
+                })
+            );
+    }
+    /**
+     * Rendering the rank of the player
+     * @param {object} season
+     * @returns {string}
+     */
+    renderRank(season) {
+        const mode = this.filterRanks(season);
+        if (mode.tier == null) {
+            return "Unranked";
+        } else if (mode.tier != "Master") {
+            return `${mode.tier} ${mode.division} - ${mode.points} pts`;
+        } else {
+            return `${mode.tier} - ${mode.points} pts`;
+        }
+    }
+    /**
+     * filtering ranks from highest to lowest to return the highest one
+     * @param {object} season
+     * @returns {object}
+     */
+    filterRanks(season) {
+        let modes = [season.Solo, season.Duo, season.Squad];
+        let tiers = [];
+        let highestRankPriority = 0;
+        for (let index = 0; index < modes.length; index++) {
+            let rankPriority = 0;
+            switch (modes[index].tier) {
+                case "Unranked":
+                    rankPriority = 0;
+                    break;
+                case "Bronze":
+                    rankPriority = 1;
+                    break;
+                case "Silver":
+                    rankPriority = 2;
+                    break;
+                case "Gold":
+                    rankPriority = 3;
+                    break;
+                case "Platinum":
+                    rankPriority = 4;
+                    break;
+                case "Diamond":
+                    rankPriority = 5;
+                    break;
+                case "Master":
+                    rankPriority = 6;
+                    break;
+            }
+            tiers.push(rankPriority);
+        }
+        highestRankPriority = Math.max(...tiers);
+        const index = tiers.indexOf(highestRankPriority);
+        return modes[index];
+    }
+    /**
+     * Rendering the rank of the player
+     * @param {object} season
+     * @returns {object}
+     */
+    renderRankImage(season) {
+        const mode = this.filterRanks(season);
+        if (mode.tier == null || mode.tier == "Master") {
+            return (
+                <img
+                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}.png`}
+                />
+            );
+        } else {
+            return (
+                <img
+                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}-${mode.division}`}
+                />
+            );
+        }
+    }
+    /**
      * Renders the components that are being returned
      * @returns {object[]}
      */
@@ -418,7 +522,8 @@ class Main extends Application {
                                 .playerName
                         }
                     />
-                    {/* <MatchHistory /> */}
+                    {/* <Season />
+                    <MatchHistory /> */}
                 </div>
             </main>
         );
@@ -685,6 +790,46 @@ class Player extends Main {
                             </div>
                         </div>
                     </div>
+                    <HighestRanked />
+                </div>
+            </div>
+        );
+    }
+}
+/**
+ * Highest Ranked component
+ */
+class HighestRanked extends Player {
+    constructor(props) {
+        super(props);
+        this.state = {
+            Accounts: {
+                PlayerUnknownBattleGrounds: {
+                    Season: {
+                        Solo: {},
+                        Duo: {},
+                        Squad: {},
+                    },
+                },
+            },
+        };
+    }
+    componentDidMount() {
+        this.getSeason();
+    }
+    render() {
+        return (
+            <div id="highestRanked">
+                <div>
+                    {this.renderRankImage(
+                        this.state.Accounts.PlayerUnknownBattleGrounds.Season
+                    )}
+                    <img src="url" />
+                </div>
+                <div>
+                    {this.renderRank(
+                        this.state.Accounts.PlayerUnknownBattleGrounds.Season
+                    )}
                 </div>
             </div>
         );
