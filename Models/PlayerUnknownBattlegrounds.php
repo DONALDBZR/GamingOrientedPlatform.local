@@ -413,21 +413,21 @@ class PlayerUnknownBattleGrounds
                                         $Solo = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->subTier,
-                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint
+                                            "point" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint
                                         );
                                         break;
                                     case 'duo':
                                         $Duo = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->subTier,
-                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint
+                                            "point" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint
                                         );
                                         break;
                                     case 'squad':
                                         $Squad = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->subTier,
-                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint
+                                            "point" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint
                                         );
                                         break;
                                 }
