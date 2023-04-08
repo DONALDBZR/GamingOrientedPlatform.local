@@ -326,7 +326,8 @@ class PlayerUnknownBattleGrounds
     /**
      * Retrieving player's current season stats
      */
-    public function getSeason(string $player_name, string $platform): void {
+    public function getSeason(string $player_name, string $platform): void
+    {
         $Account = $this->getAccount($player_name, $platform);
         if ($Account->account == 200) {
             $request = "https://api.pubg.com/shards/{$this->getPlatform()}/seasons";
@@ -352,7 +353,7 @@ class PlayerUnknownBattleGrounds
             $pubgSeasonsApiResponseCode1 = curl_getinfo($this->Curl, CURLINFO_HTTP_CODE);
             if ($pubgSeasonsApiResponseCode1 == 200) {
                 $currentSeason = "";
-                for ($index = 0; $index < count($pubgSeasonsApiResponse1->data); $index++) { 
+                for ($index = 0; $index < count($pubgSeasonsApiResponse1->data); $index++) {
                     if ($pubgSeasonsApiResponse1->data[$index]->attributes->isCurrentSeason == true) {
                         $currentSeason = $pubgSeasonsApiResponse1->data[$index]->id;
                     }
@@ -381,30 +382,71 @@ class PlayerUnknownBattleGrounds
                 if ($pubgSeasonsApiResponseCode2 == 200) {
                     if (!empty($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats)) {
                         $rankedModes = array_keys((array) $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats);
-                        for ($index = 0; $index < count($rankedModes); $index++) { 
-                            switch ($rankedModes[$index]) {
+                        if (count($rankedModes) == 1) {
+                            switch ($rankedModes[0]) {
                                 case 'solo':
                                     $Solo = (object) array(
-                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->tier,
-                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->subTier,
-                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentRankPoint
+                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->tier,
+                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->subTier,
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint
                                     );
                                     break;
                                 case 'duo':
                                     $Duo = (object) array(
-                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->tier,
-                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->subTier,
-                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentRankPoint
+                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->tier,
+                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->subTier,
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint
                                     );
                                     break;
                                 case 'squad':
                                     $Squad = (object) array(
-                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->tier,
-                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentTier->subTier,
-                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->{$rankedModes[$index]}->currentRankPoint
+                                        "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->tier,
+                                        "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->subTier,
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint
                                     );
                                     break;
                             }
+                        } else {
+                            for ($index = 0; $index < count($rankedModes); $index++) {
+                                switch ($rankedModes[$index]) {
+                                    case 'solo':
+                                        $Solo = (object) array(
+                                            "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->tier,
+                                            "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->subTier,
+                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint
+                                        );
+                                        break;
+                                    case 'duo':
+                                        $Duo = (object) array(
+                                            "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->tier,
+                                            "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->subTier,
+                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint
+                                        );
+                                        break;
+                                    case 'squad':
+                                        $Squad = (object) array(
+                                            "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->tier,
+                                            "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->subTier,
+                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint
+                                        );
+                                        break;
+                                }
+                            }
+                        }
+                        if (is_null($Solo)) {
+                            $Solo = (object) array(
+                                "tier" => "Unranked"
+                            );
+                        }
+                        if (is_null($Duo)) {
+                            $Duo = (object) array(
+                                "tier" => "Unranked"
+                            );
+                        }
+                        if (is_null($Squad)) {
+                            $Squad = (object) array(
+                                "tier" => "Unranked"
+                            );
                         }
                         $Season = (object) array(
                             "Solo" => $Solo,
