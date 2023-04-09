@@ -884,6 +884,7 @@ class Season extends Main {
         return (
             <div id="currentSeason">
                 <div id="solo">
+                    <div>Solo</div>
                     <div>
                         <image
                             src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
@@ -895,6 +896,7 @@ class Season extends Main {
                     <div>Top 10 Probability</div>
                 </div>
                 <div id="duo">
+                    <div>Duo</div>
                     <div>
                         <image
                             src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
@@ -906,6 +908,7 @@ class Season extends Main {
                     <div>Top 10 Probability</div>
                 </div>
                 <div id="squad">
+                    <div>Squad</div>
                     <div>
                         <image
                             src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
