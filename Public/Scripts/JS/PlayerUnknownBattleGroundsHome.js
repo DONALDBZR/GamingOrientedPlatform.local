@@ -873,7 +873,7 @@ class HighestRanked extends Player {
 /**
  * The current season component of a player
  */
-class Season extends Player {
+class Season extends Main {
     constructor(props) {
         super(props);
     }
