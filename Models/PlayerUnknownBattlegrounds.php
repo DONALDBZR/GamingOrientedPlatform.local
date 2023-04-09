@@ -482,8 +482,14 @@ class PlayerUnknownBattleGrounds
                             "season1" => $pubgSeasonsApiResponseCode1,
                             "currentSeason" => $currentSeason,
                             "season2" => $pubgSeasonsApiResponseCode2,
-                            "Season" => $Season
+                            "Season" => $Season,
+                            "requestedDate" => date("Y/m/d H:i:s"),
+                            "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours"))
                         );
+                        $cacheData = json_encode($response);
+                        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Seasons/{$this->getIdentifier()}", "w");
+                        fwrite($cache, $cacheData);
+                        fclose($cache);
                     } else {
                         $response = (object) array(
                             "account" => $Account->account,
