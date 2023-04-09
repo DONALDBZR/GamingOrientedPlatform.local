@@ -1330,6 +1330,9 @@ body[id*="PlayerUnknownBattleGrounds"] main div #player {
     width: var(--percentage);
     height: calc(var(--percentage) * (150 / 562));
 }
+body[id*="PlayerUnknownBattleGrounds"] main div div:nth-child(2) {
+    height: calc(var(--percentage) * (412 / 562));
+}
 body[id*="PlayerUnknownBattleGrounds"] main div #player div {
     width: var(--percentage);
     display: flex;
@@ -1719,7 +1722,7 @@ body[id*="PlayerUnknownBattleGrounds"]
 }
 body[id*="PlayerUnknownBattleGrounds"] main #currentSeason {
     width: calc(var(--percentage) / 3);
-    height: calc(var(--percentage) * (412 / 562));
+    height: var(--percentage);
 }
 body[id*="PlayerUnknownBattleGrounds"] main #currentSeason div {
     width: var(--percentage);

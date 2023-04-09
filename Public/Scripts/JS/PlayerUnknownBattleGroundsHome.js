@@ -546,8 +546,10 @@ class Main extends Application {
                                 .playerName
                         }
                     />
-                    <Season />
-                    {/* <MatchHistory /> */}
+                    <div>
+                        <Season />
+                        {/* <MatchHistory /> */}
+                    </div>
                 </div>
             </main>
         );
