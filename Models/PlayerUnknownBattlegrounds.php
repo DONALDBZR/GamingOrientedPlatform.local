@@ -487,7 +487,7 @@ class PlayerUnknownBattleGrounds
                             "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours"))
                         );
                         $cacheData = json_encode($response);
-                        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Seasons/{$this->getIdentifier()}", "w");
+                        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Seasons/{$this->getIdentifier()}.json", "w");
                         fwrite($cache, $cacheData);
                         fclose($cache);
                     } else {
