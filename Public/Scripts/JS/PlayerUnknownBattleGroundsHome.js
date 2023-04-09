@@ -546,8 +546,8 @@ class Main extends Application {
                                 .playerName
                         }
                     />
-                    {/* <Season />
-                    <MatchHistory /> */}
+                    <Season />
+                    {/* <MatchHistory /> */}
                 </div>
             </main>
         );
@@ -865,6 +865,56 @@ class HighestRanked extends Player {
                     {this.renderRank(
                         this.state.Accounts.PlayerUnknownBattleGrounds.Season
                     )}
+                </div>
+            </div>
+        );
+    }
+}
+/**
+ * The current season component of a player
+ */
+class Season extends Player {
+    constructor(props) {
+        super(props);
+    }
+    componentDidMount() {
+        this.getSeason();
+    }
+    render() {
+        return (
+            <div id="currentSeason">
+                <div id="solo">
+                    <div>
+                        <image
+                            src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
+                            title="Rank"
+                        />
+                    </div>
+                    <div>Current Rank</div>
+                    <div>Win Rate</div>
+                    <div>Top 10 Probability</div>
+                </div>
+                <div id="duo">
+                    <div>
+                        <image
+                            src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
+                            title="Rank"
+                        />
+                    </div>
+                    <div>Current Rank</div>
+                    <div>Win Rate</div>
+                    <div>Top 10 Probability</div>
+                </div>
+                <div id="squad">
+                    <div>
+                        <image
+                            src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
+                            title="Rank"
+                        />
+                    </div>
+                    <div>Current Rank</div>
+                    <div>Win Rate</div>
+                    <div>Top 10 Probability</div>
                 </div>
             </div>
         );
