@@ -448,8 +448,8 @@ class PlayerUnknownBattleGrounds
                         if (is_null($Solo)) {
                             $Solo = (object) array(
                                 "tier" => "Unranked",
-                                "division" => null,
-                                "rankPoint" => null,
+                                "division" => 0,
+                                "rankPoint" => 0,
                                 "winRate" => 0.0,
                                 "top10Rate" => 0.0
                             );
@@ -457,8 +457,8 @@ class PlayerUnknownBattleGrounds
                         if (is_null($Duo)) {
                             $Duo = (object) array(
                                 "tier" => "Unranked",
-                                "division" => null,
-                                "rankPoint" => null,
+                                "division" => 0,
+                                "rankPoint" => 0,
                                 "winRate" => 0.0,
                                 "top10Rate" => 0.0
                             );
@@ -466,8 +466,8 @@ class PlayerUnknownBattleGrounds
                         if (is_null($Squad)) {
                             $Squad = (object) array(
                                 "tier" => "Unranked",
-                                "division" => null,
-                                "rankPoint" => null,
+                                "division" => 0,
+                                "rankPoint" => 0,
                                 "winRate" => 0.0,
                                 "top10Rate" => 0.0
                             );
