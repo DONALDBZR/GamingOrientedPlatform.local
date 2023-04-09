@@ -1707,7 +1707,34 @@ body[id*="PlayerUnknownBattleGrounds"]
     div:nth-child(2)
     #highestRanked
     div:nth-child(1)
+    img,
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    #currentSeason
+    div
+    div:nth-child(2)
     img {
     height: var(--percentage);
     width: auto;
+}
+body[id*="PlayerUnknownBattleGrounds"] main #currentSeason {
+    width: calc(var(--percentage) / 3);
+    height: calc(var(--percentage) * (412 / 562));
+}
+body[id*="PlayerUnknownBattleGrounds"] main #currentSeason div {
+    width: var(--percentage);
+    height: calc(var(--percentage) / 3);
+}
+body[id*="PlayerUnknownBattleGrounds"] main #currentSeason div div {
+    height: calc(var(--percentage) / 6.866);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    #currentSeason
+    div
+    div:nth-child(2) {
+    height: calc(var(--percentage) * (2.5 / 6.866));
 }
