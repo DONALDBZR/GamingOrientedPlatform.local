@@ -388,21 +388,27 @@ class PlayerUnknownBattleGrounds
                                     $Solo = (object) array(
                                         "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->tier,
                                         "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->subTier,
-                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint,
+                                        "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->winRatio * 100), 2),
+                                        "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->top10Ratio * 100), 2)
                                     );
                                     break;
                                 case 'duo':
                                     $Duo = (object) array(
                                         "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->tier,
                                         "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->subTier,
-                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint,
+                                        "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->winRatio * 100), 2),
+                                        "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->top10Ratio * 100), 2)
                                     );
                                     break;
                                 case 'squad':
                                     $Squad = (object) array(
                                         "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->tier,
                                         "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->subTier,
-                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint
+                                        "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint,
+                                        "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->winRatio * 100), 2),
+                                        "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->top10Ratio * 100), 2)
                                     );
                                     break;
                             }
@@ -413,21 +419,27 @@ class PlayerUnknownBattleGrounds
                                         $Solo = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->subTier,
-                                            "point" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint
+                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint,
+                                            "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->winRatio * 100), 2),
+                                            "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->top10Ratio * 100), 2)
                                         );
                                         break;
                                     case 'duo':
                                         $Duo = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->subTier,
-                                            "point" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint
+                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint,
+                                            "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->winRatio * 100), 2),
+                                            "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->top10Ratio * 100), 2)
                                         );
                                         break;
                                     case 'squad':
                                         $Squad = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->subTier,
-                                            "point" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint
+                                            "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint,
+                                            "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->winRatio * 100), 2),
+                                            "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->top10Ratio * 100), 2)
                                         );
                                         break;
                                 }
@@ -435,17 +447,29 @@ class PlayerUnknownBattleGrounds
                         }
                         if (is_null($Solo)) {
                             $Solo = (object) array(
-                                "tier" => "Unranked"
+                                "tier" => "Unranked",
+                                "division" => null,
+                                "rankPoint" => null,
+                                "winRate" => 0.0,
+                                "top10Rate" => 0.0
                             );
                         }
                         if (is_null($Duo)) {
                             $Duo = (object) array(
-                                "tier" => "Unranked"
+                                "tier" => "Unranked",
+                                "division" => null,
+                                "rankPoint" => null,
+                                "winRate" => 0.0,
+                                "top10Rate" => 0.0
                             );
                         }
                         if (is_null($Squad)) {
                             $Squad = (object) array(
-                                "tier" => "Unranked"
+                                "tier" => "Unranked",
+                                "division" => null,
+                                "rankPoint" => null,
+                                "winRate" => 0.0,
+                                "top10Rate" => 0.0
                             );
                         }
                         $Season = (object) array(
