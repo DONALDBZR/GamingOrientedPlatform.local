@@ -416,60 +416,72 @@ class PlayerUnknownBattleGrounds
                             for ($index = 0; $index < count($rankedModes); $index++) {
                                 switch ($rankedModes[$index]) {
                                     case 'solo':
+                                        $winRate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->winRatio * 100), 2);
+                                        $top10Rate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->top10Ratio * 100), 2);
                                         $Solo = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->subTier,
                                             "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint,
-                                            "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->winRatio * 100), 2),
-                                            "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->top10Ratio * 100), 2)
+                                            "winRate" => "{$winRate} %",
+                                            "top10Rate" => "{$top10Rate} %"
                                         );
                                         break;
                                     case 'duo':
+                                        $winRate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->winRatio * 100), 2);
+                                        $top10Rate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->top10Ratio * 100), 2);
                                         $Duo = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->subTier,
                                             "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint,
-                                            "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->winRatio * 100), 2),
-                                            "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->top10Ratio * 100), 2)
+                                            "winRate" => "{$winRate} %",
+                                            "top10Rate" => "{$top10Rate} %"
                                         );
                                         break;
                                     case 'squad':
+                                        $winRate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->winRatio * 100), 2);
+                                        $top10Rate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->top10Ratio * 100), 2);
                                         $Squad = (object) array(
                                             "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->tier,
                                             "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->subTier,
                                             "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint,
-                                            "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->winRatio * 100), 2),
-                                            "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->top10Ratio * 100), 2)
+                                            "winRate" => "{$winRate} %",
+                                            "top10Rate" => "{$top10Rate} %"
                                         );
                                         break;
                                 }
                             }
                         }
                         if (is_null($Solo)) {
+                            $winRate = round(0.0, 2);
+                            $top10Rate = round(0.0, 2);
                             $Solo = (object) array(
                                 "tier" => "Unranked",
                                 "division" => 0,
                                 "rankPoint" => 0,
-                                "winRate" => 0.0,
-                                "top10Rate" => 0.0
+                                "winRate" => "{$winRate} %",
+                                "top10Rate" => "{$top10Rate} %"
                             );
                         }
                         if (is_null($Duo)) {
+                            $winRate = round(0.0, 2);
+                            $top10Rate = round(0.0, 2);
                             $Duo = (object) array(
                                 "tier" => "Unranked",
                                 "division" => 0,
                                 "rankPoint" => 0,
-                                "winRate" => 0.0,
-                                "top10Rate" => 0.0
+                                "winRate" => "{$winRate} %",
+                                "top10Rate" => "{$top10Rate} %"
                             );
                         }
                         if (is_null($Squad)) {
+                            $winRate = round(0.0, 2);
+                            $top10Rate = round(0.0, 2);
                             $Squad = (object) array(
                                 "tier" => "Unranked",
                                 "division" => 0,
                                 "rankPoint" => 0,
-                                "winRate" => 0.0,
-                                "top10Rate" => 0.0
+                                "winRate" => "{$winRate} %",
+                                "top10Rate" => "{$top10Rate} %"
                             );
                         }
                         $Season = (object) array(
