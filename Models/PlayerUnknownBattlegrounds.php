@@ -383,37 +383,47 @@ class PlayerUnknownBattleGrounds
                     if (!empty($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats)) {
                         $rankedModes = array_keys((array) $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats);
                         if (count($rankedModes) == 1) {
+                            $winRate = "";
+                            $top10Rate = "";
                             switch ($rankedModes[0]) {
                                 case 'solo':
+                                    $winRate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->winRatio * 100), 2);
+                                    $top10Rate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->top10Ratio * 100), 2);
                                     $Solo = (object) array(
                                         "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->tier,
                                         "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentTier->subTier,
                                         "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->currentRankPoint,
-                                        "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->winRatio * 100), 2),
-                                        "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->top10Ratio * 100), 2)
+                                        "winRate" => "{$winRate} %",
+                                        "top10Rate" => "{$top10Rate} %"
                                     );
                                     break;
                                 case 'duo':
+                                    $winRate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->winRatio * 100), 2);
+                                    $top10Rate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->top10Ratio * 100), 2);
                                     $Duo = (object) array(
                                         "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->tier,
                                         "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentTier->subTier,
                                         "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->currentRankPoint,
-                                        "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->winRatio * 100), 2),
-                                        "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->duo->top10Ratio * 100), 2)
+                                        "winRate" => "{$winRate} %",
+                                        "top10Rate" => "{$top10Rate} %"
                                     );
                                     break;
                                 case 'squad':
+                                    $winRate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->winRatio * 100), 2);
+                                    $top10Rate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->top10Ratio * 100), 2);
                                     $Squad = (object) array(
                                         "tier" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->tier,
                                         "division" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentTier->subTier,
                                         "rankPoint" => $pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->currentRankPoint,
-                                        "winRate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->winRatio * 100), 2),
-                                        "top10Rate" => round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->squad->top10Ratio * 100), 2)
+                                        "winRate" => "{$winRate} %",
+                                        "top10Rate" => "{$top10Rate} %"
                                     );
                                     break;
                             }
                         } else {
                             for ($index = 0; $index < count($rankedModes); $index++) {
+                                $winRate = "";
+                                $top10Rate = "";
                                 switch ($rankedModes[$index]) {
                                     case 'solo':
                                         $winRate = round(($pubgSeasonsApiResponse2->data->attributes->rankedGameModeStats->solo->winRatio * 100), 2);
