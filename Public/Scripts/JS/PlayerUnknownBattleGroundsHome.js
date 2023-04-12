@@ -41,16 +41,22 @@ class Application extends React.Component {
                             tier: "",
                             division: 0,
                             point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
                         },
                         Duo: {
                             tier: "",
                             division: 0,
                             point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
                         },
                         Squad: {
                             tier: "",
                             division: 0,
                             point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
                         },
                     },
                 },
@@ -356,16 +362,22 @@ class Application extends React.Component {
                                     tier: data.Season.Solo.tier,
                                     division: data.Season.Solo.division,
                                     point: data.Season.Solo.rankPoint,
+                                    winRate: data.Season.Solo.winRate,
+                                    top10Rate: data.Season.Solo.top10Rate,
                                 },
                                 Duo: {
                                     tier: data.Season.Duo.tier,
                                     division: data.Season.Duo.division,
                                     point: data.Season.Duo.rankPoint,
+                                    winRate: data.Season.Duo.winRate,
+                                    top10Rate: data.Season.Duo.top10Rate,
                                 },
                                 Squad: {
                                     tier: data.Season.Squad.tier,
                                     division: data.Season.Squad.division,
                                     point: data.Season.Squad.rankPoint,
+                                    winRate: data.Season.Squad.winRate,
+                                    top10Rate: data.Season.Squad.top10Rate,
                                 },
                             },
                         },
@@ -380,12 +392,15 @@ class Application extends React.Component {
      */
     renderRank(season) {
         const mode = this.filterRanks(season);
-        if (mode.tier == null) {
-            return "Unranked";
-        } else if (mode.tier != "Master") {
-            return `${mode.tier} ${mode.division} - ${mode.point} pts`;
-        } else {
-            return `${mode.tier} - ${mode.point} pts`;
+        switch (mode.tier) {
+            case null:
+                return "Unranked";
+            case "Unranked":
+                return mode.tier;
+            case "Master":
+                return `${mode.tier} - ${mode.point} pts`;
+            default:
+                return `${mode.tier} ${mode.division} - ${mode.point} pts`;
         }
     }
     /**
@@ -435,7 +450,7 @@ class Application extends React.Component {
      */
     renderRankImage(season) {
         const mode = this.filterRanks(season);
-        if (mode.tier == null || mode.tier == "Master") {
+        if (mode.tier == "Unranked" || mode.tier == "Master") {
             return (
                 <img
                     src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}.png`}
@@ -447,6 +462,48 @@ class Application extends React.Component {
                     src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}-${mode.division}.png`}
                 />
             );
+        }
+    }
+    /**
+     * Rendering the rank of the player
+     * @param {object} mode
+     * @returns {object}
+     */
+    renderRankModeImage(mode) {
+        if (mode.tier == "Unranked" || mode.tier == "Master") {
+            return (
+                <img
+                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}.png`}
+                />
+            );
+        } else {
+            return (
+                <img
+                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}-${mode.division}.png`}
+                />
+            );
+        }
+    }
+    /**
+     * Rendering the rank of the player
+     * @param {object} mode
+     * @returns {string}
+     */
+    renderRankModeTier(mode) {
+        if (mode.tier == "Unranked") {
+            return [mode.tier, "", ""];
+        } else if (mode.tier != "Master") {
+            return [
+                `${mode.tier} ${mode.division} - ${mode.point} pts`,
+                mode.winRate,
+                mode.top10Rate,
+            ];
+        } else {
+            return [
+                `${mode.tier} - ${mode.point} pts`,
+                mode.winRate,
+                mode.top10Rate,
+            ];
         }
     }
     /**
@@ -836,16 +893,22 @@ class HighestRanked extends Player {
                             tier: "",
                             division: 0,
                             point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
                         },
                         Duo: {
                             tier: "",
                             division: 0,
                             point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
                         },
                         Squad: {
                             tier: "",
                             division: 0,
                             point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
                         },
                     },
                 },
@@ -878,6 +941,35 @@ class HighestRanked extends Player {
 class Season extends Main {
     constructor(props) {
         super(props);
+        this.state = {
+            Accounts: {
+                PlayerUnknownBattleGrounds: {
+                    Season: {
+                        Solo: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
+                        },
+                        Duo: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
+                        },
+                        Squad: {
+                            tier: "",
+                            division: 0,
+                            point: 0,
+                            top10Rate: 0.0,
+                            winRate: 0.0,
+                        },
+                    },
+                },
+            },
+        };
     }
     componentDidMount() {
         this.getSeason();
@@ -888,38 +980,101 @@ class Season extends Main {
                 <div id="solo">
                     <div>Solo</div>
                     <div>
-                        <image
-                            src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
-                            title="Rank"
-                        />
+                        {this.renderRankModeImage(
+                            this.state.Accounts.PlayerUnknownBattleGrounds
+                                .Season.Solo
+                        )}
                     </div>
-                    <div>Current Rank</div>
-                    <div>Win Rate</div>
-                    <div>Top 10 Probability</div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Solo
+                            )[0]
+                        }
+                    </div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Solo
+                            )[1]
+                        }
+                    </div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Solo
+                            )[2]
+                        }
+                    </div>
                 </div>
                 <div id="duo">
                     <div>Duo</div>
                     <div>
-                        <image
-                            src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
-                            title="Rank"
-                        />
+                        {this.renderRankModeImage(
+                            this.state.Accounts.PlayerUnknownBattleGrounds
+                                .Season.Duo
+                        )}
                     </div>
-                    <div>Current Rank</div>
-                    <div>Win Rate</div>
-                    <div>Top 10 Probability</div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Duo
+                            )[0]
+                        }
+                    </div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Duo
+                            )[1]
+                        }
+                    </div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Duo
+                            )[2]
+                        }
+                    </div>
                 </div>
                 <div id="squad">
                     <div>Squad</div>
                     <div>
-                        <image
-                            src="/Public/Images/Player Unknown Battle Grounds/Ranks/Unranked.png"
-                            title="Rank"
-                        />
+                        {this.renderRankModeImage(
+                            this.state.Accounts.PlayerUnknownBattleGrounds
+                                .Season.Squad
+                        )}
                     </div>
-                    <div>Current Rank</div>
-                    <div>Win Rate</div>
-                    <div>Top 10 Probability</div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Squad
+                            )[0]
+                        }
+                    </div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Squad
+                            )[1]
+                        }
+                    </div>
+                    <div>
+                        {
+                            this.renderRankModeTier(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Squad
+                            )[2]
+                        }
+                    </div>
                 </div>
             </div>
         );
