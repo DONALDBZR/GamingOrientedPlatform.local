@@ -238,7 +238,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $Router = new Router("GET", "/PlayerUnknownBattleGrounds/CurrentSeason", "/Controllers/CurrentSeason.php");
                 break;
             case '/PlayerUnknownBattleGrounds/MatchHistory':
-                $Router = new Router("GET", "/PlayerUnknownBattleGrounds/MatchHistory", "/Controllers/MatchHistory.php");
+                $Router = new Router("GET", "/PlayerUnknownBattleGrounds/MatchHistory", "/Controllers/MatchHistories.php");
                 break;
         }
         break;
