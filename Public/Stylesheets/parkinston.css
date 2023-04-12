@@ -321,7 +321,8 @@ body[id*="PlayerUnknownBattleGrounds"]
     #player
     div:nth-child(2)
     #highestRanked
-    div:nth-child(2) {
+    div:nth-child(2),
+body[id*="PlayerUnknownBattleGrounds"] main #currentSeason div div {
     font-family: var(--proximaNova);
 }
 #Homepage main,
