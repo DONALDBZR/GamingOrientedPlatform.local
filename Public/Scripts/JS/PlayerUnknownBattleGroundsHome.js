@@ -495,15 +495,36 @@ class Application extends React.Component {
         } else if (mode.tier != "Master") {
             return [
                 `${mode.tier} ${mode.division} - ${mode.point} pts`,
-                mode.winRate,
-                mode.top10Rate,
+                `${mode.winRate} %`,
+                `${mode.top10Rate} %`,
             ];
         } else {
             return [
                 `${mode.tier} - ${mode.point} pts`,
-                mode.winRate,
-                mode.top10Rate,
+                `${mode.winRate} %`,
+                `${mode.top10Rate} %`,
             ];
+        }
+    }
+    /**
+     * Retrieving data from PUBG Corporations data center for the user's match history
+     * @returns {void}
+     */
+    getMatchHistory() {
+        fetch("/PlayerUnknownBattleGrounds/MatchHistory", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+    }
+    /**
+     * Checking whether the player has played in this mode
+     * @param {string} mode The ranked mode
+     * @returns {string}
+     */
+    verify_rank(mode) {
+        if (mode == "Unranked") {
+            return "none";
         }
     }
     /**
@@ -605,7 +626,7 @@ class Main extends Application {
                     />
                     <div>
                         <Season />
-                        {/* <MatchHistory /> */}
+                        <MatchHistory />
                     </div>
                 </div>
             </main>
@@ -995,33 +1016,55 @@ class Season extends Main {
                     </div>
                     <div
                         style={{
-                            color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                            display: this.verify_rank(
                                 this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Solo.winRate
+                                    .Season.Solo.tier
                             ),
                         }}
                     >
-                        {
-                            this.renderRankModeTier(
-                                this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Solo
-                            )[1]
-                        }
+                        <div>Win Rate:</div>
+                        <div
+                            style={{
+                                color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Solo
+                                        .winRate
+                                ),
+                            }}
+                        >
+                            {
+                                this.renderRankModeTier(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Solo
+                                )[1]
+                            }
+                        </div>
                     </div>
                     <div
                         style={{
-                            color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                            display: this.verify_rank(
                                 this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Solo.top10Rate
+                                    .Season.Solo.tier
                             ),
                         }}
                     >
-                        {
-                            this.renderRankModeTier(
-                                this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Solo
-                            )[2]
-                        }
+                        <div>Top 10:</div>
+                        <div
+                            style={{
+                                color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Solo
+                                        .top10Rate
+                                ),
+                            }}
+                        >
+                            {
+                                this.renderRankModeTier(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Solo
+                                )[2]
+                            }
+                        </div>
                     </div>
                 </div>
                 <div id="duo">
@@ -1042,33 +1085,55 @@ class Season extends Main {
                     </div>
                     <div
                         style={{
-                            color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                            display: this.verify_rank(
                                 this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Duo.winRate
+                                    .Season.Duo.tier
                             ),
                         }}
                     >
-                        {
-                            this.renderRankModeTier(
-                                this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Duo
-                            )[1]
-                        }
+                        <div>Win Rate:</div>
+                        <div
+                            style={{
+                                color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Duo
+                                        .winRate
+                                ),
+                            }}
+                        >
+                            {
+                                this.renderRankModeTier(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Duo
+                                )[1]
+                            }
+                        </div>
                     </div>
                     <div
                         style={{
-                            color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                            display: this.verify_rank(
                                 this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Duo.top10Rate
+                                    .Season.Duo.tier
                             ),
                         }}
                     >
-                        {
-                            this.renderRankModeTier(
-                                this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Duo
-                            )[2]
-                        }
+                        <div>Top 10:</div>
+                        <div
+                            style={{
+                                color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Duo
+                                        .top10Rate
+                                ),
+                            }}
+                        >
+                            {
+                                this.renderRankModeTier(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Duo
+                                )[2]
+                            }
+                        </div>
                     </div>
                 </div>
                 <div id="squad">
@@ -1079,45 +1144,92 @@ class Season extends Main {
                                 .Season.Squad
                         )}
                     </div>
-                    <div
-                        style={{
-                            color: this.verifyPlayerUnknownBattleGrounds_winRate(
-                                this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Squad.winRate
-                            ),
-                        }}
-                    >
-                        {
-                            this.renderRankModeTier(
-                                this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Squad
-                            )[1]
-                        }
-                    </div>
-                    <div
-                        style={{
-                            color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
-                                this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Squad.top10Rate
-                            ),
-                        }}
-                    >
-                        {
-                            this.renderRankModeTier(
-                                this.state.Accounts.PlayerUnknownBattleGrounds
-                                    .Season.Squad
-                            )[1]
-                        }
-                    </div>
                     <div>
                         {
                             this.renderRankModeTier(
                                 this.state.Accounts.PlayerUnknownBattleGrounds
                                     .Season.Squad
-                            )[2]
+                            )[0]
                         }
                     </div>
+                    <div
+                        style={{
+                            display: this.verify_rank(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Squad.tier
+                            ),
+                        }}
+                    >
+                        <div>Win Rate:</div>
+                        <div
+                            style={{
+                                color: this.verifyPlayerUnknownBattleGrounds_winRate(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Squad
+                                        .winRate
+                                ),
+                            }}
+                        >
+                            {
+                                this.renderRankModeTier(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Squad
+                                )[1]
+                            }
+                        </div>
+                    </div>
+                    <div
+                        style={{
+                            display: this.verify_rank(
+                                this.state.Accounts.PlayerUnknownBattleGrounds
+                                    .Season.Squad.tier
+                            ),
+                        }}
+                    >
+                        <div>Top 10:</div>
+                        <div
+                            style={{
+                                color: this.verifyPlayerUnknownBattleGrounds_top10Probability(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Squad
+                                        .top10Rate
+                                ),
+                            }}
+                        >
+                            {
+                                this.renderRankModeTier(
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.Season.Squad
+                                )[2]
+                            }
+                        </div>
+                    </div>
                 </div>
+            </div>
+        );
+    }
+}
+/**
+ * Match History Component
+ */
+class MatchHistory extends Main {
+    constructor(props) {
+        super(props);
+        this.state = {
+            Accounts: {
+                PlayerUnknownBattleGrounds: {
+                    MatchHistory: {},
+                },
+            },
+        };
+    }
+    componentDidMount() {
+        this.getMatchHistory();
+    }
+    render() {
+        return (
+            <div id="matchHistory">
+                <h1>Match History</h1>
             </div>
         );
     }
