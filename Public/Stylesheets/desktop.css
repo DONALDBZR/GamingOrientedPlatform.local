@@ -1741,3 +1741,12 @@ body[id*="PlayerUnknownBattleGrounds"]
     div:nth-child(2) {
     height: calc(var(--percentage) * (2.5 / 6.866));
 }
+body[id*="PlayerUnknownBattleGrounds"] main #currentSeason div div:nth-child(4),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    #currentSeason
+    div
+    div:nth-child(5) {
+    width: calc(var(--percentage) / 2);
+    margin: calc(var(--percentage) * 0) calc(var(--percentage) / 4);
+}
