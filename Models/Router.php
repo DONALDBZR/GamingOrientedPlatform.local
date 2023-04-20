@@ -95,48 +95,9 @@ class Router
     public function post(string $route, string $path)
     {
         if ($route != "/404") {
-            $date = date('y-m-d h-i-s');
-            $latestData = json_decode(file_get_contents("php://input"));
-            $data = array(
-                "requestMethod" => "POST",
-                "route" => $route,
-                "Data" => $latestData
-            );
-            $table = "";
-            if (str_contains($route, "Users")) {
-                $table = "Users";
-                $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$table}/{$date}.json", "w");
-                fwrite($cache, $cacheData);
-                fclose($cache);
-                require_once "{$this->getRoot()}{$path}";
-                http_response_code(200);
-                exit();
-            } else if (str_contains($route, "Passwords")) {
-                $table = "Passwords";
-                $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$table}/{$date}.json", "w");
-                fwrite($cache, $cacheData);
-                fclose($cache);
-                require_once "{$this->getRoot()}{$path}";
-                http_response_code(200);
-                exit();
-            } else if (str_contains($route, "LeagueOfLegends")) {
-                $table = "LeagueOfLegends";
-                $cacheData = json_encode($data);
-                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$table}/{$date}.json", "w");
-                fwrite($cache, $cacheData);
-                fclose($cache);
-                require_once "{$this->getRoot()}{$path}";
-                http_response_code(200);
-                exit();
-            } else {
-                require_once "{$this->getRoot()}/Views/HTTP503.php";
-                http_response_code(503);
-                exit();
-            }
+            require_once "{$this->getRoot()}{$path}";
+            http_response_code(200);
         } else {
-            require_once "{$this->getRoot()}/Views/HTTP404.php";
             http_response_code(404);
             exit();
         }
