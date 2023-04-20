@@ -26,7 +26,6 @@ class User extends Password
     {
         $this->PDO = new PHPDataObject();
         $this->Mail = new Mail();
-        $this->domain = $_SERVER['HTTP_HOST'];
     }
     public function getUsername(): string
     {
@@ -46,11 +45,11 @@ class User extends Password
     }
     public function getPasswordId(): int
     {
-        return $this->getId();
+        return Password::getId();
     }
     public function setPasswordId(int $Password_id): void
     {
-        $this->setId($Password_id);
+        Password::setId($Password_id);
     }
     public function getProfilePicture(): null|string
     {
@@ -171,47 +170,10 @@ class User extends Password
     }
     /**
      * Allow the user to have access to the application
+     * @param   object  $request    JSON from the view
      */
-    public function login(): void
+    public function login(object $request): void
     {
-        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
-        $files = array_values(array_diff(scandir($directory), array(".", "..")));
-        $loginFiles = array();
-        for ($index = 0; $index < count($files); $index++) {
-            $file = $files[$index];
-            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
-            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users") {
-                $loginFile = array(
-                    "name" => $file,
-                    "data" => $fileData
-                );
-                array_push($loginFiles, $loginFile);
-            }
-        }
-        if (count($loginFiles) != 0) {
-            if (count($loginFiles) == 1) {
-                $file = $loginFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            } else {
-                rsort($loginFiles);
-                $file = $loginFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            }
-        } else {
-            $response = array(
-                "status" => 3,
-                "url" => "/Login",
-                "message" => "Form data not found"
-            );
-            $headers = array(
-                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                "replace" => true,
-                "responseCode" => 404
-            );
-        }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         if (!is_null($request->username) && !is_null($request->password)) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersUsername = :UsersUsername");
             $this->PDO->bind(":UsersUsername", $request->username);
@@ -276,7 +238,7 @@ class User extends Password
                         "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
                     );
                     $_SESSION['Account'] = $account;
-                    $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on http://{$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
+                    $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
                     $data = array(
                         "Client" => $_SESSION['Client'],
                         "User" => $_SESSION['User'],
