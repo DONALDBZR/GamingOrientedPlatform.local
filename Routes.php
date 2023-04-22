@@ -233,4 +233,7 @@ switch ($Router->getRoute()) {
     case '/PlayerUnknownBattleGrounds/CurrentSeason':
         $Router->post($Router->getRoute(), "/Controllers/CurrentSeason.php");
         break;
+    case "/PlayerUnknownBattleGrounds/Players":
+        $Router->post($Router->getRoute(), "/Controllers/PlayerUnknownBattleGroundsHome.php");
+        break;
 }
