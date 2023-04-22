@@ -4,4 +4,4 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Password.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/User.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Account.php";
 $Account = new Account();
-$Account->manage();
+$Account->manage($_POST[$_SERVER['REQUEST_URI']]);
