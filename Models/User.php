@@ -171,6 +171,7 @@ class User extends Password
     /**
      * Allow the user to have access to the application
      * @param   object  $request    JSON from the view
+     * @return  void
      */
     public function login(object $request): void
     {

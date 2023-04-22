@@ -32,13 +32,8 @@ class Password
      * The one-time password needed for the user to complete the login process
      */
     private string $otp;
-    /**
-     * The domain of the application
-     */
-    public string $domain;
     public function __construct()
     {
-        $this->domain = "http://{$_SERVER['HTTP_HOST']}";
         $this->PDO = new PHPDataObject();
     }
     public function getId(): int
@@ -119,47 +114,11 @@ class Password
     }
     /**
      * Verifying the one-time password that was sent to the user
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function otpVerify(): void
+    public function otpVerify(object $request): void
     {
-        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Passwords/";
-        $files = array_values(array_diff(scandir($directory), array(".", "..")));
-        $otpVerifyFiles = array();
-        for ($index = 0; $index < count($files); $index++) {
-            $file = $files[$index];
-            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
-            if ($fileData->requestMethod == "POST" && $fileData->route == "/Passwords/{$_SESSION['User']['username']}") {
-                $otpVerifyFile = array(
-                    "name" => $file,
-                    "data" => $fileData
-                );
-                array_push($otpVerifyFiles, $otpVerifyFile);
-            }
-        }
-        if (count($otpVerifyFiles) != 0) {
-            if (count($otpVerifyFiles) == 1) {
-                $file = $otpVerifyFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            } else {
-                rsort($otpVerifyFiles);
-                $file = $otpVerifyFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            }
-        } else {
-            $response = array(
-                "status" => 3,
-                "url" => "/Login/Verification/{$_SESSION['User']['username']}",
-                "message" => "Form data not found"
-            );
-            $headers = array(
-                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                "replace" => true,
-                "responseCode" => 404
-            );
-        }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Passwords/{$name}");
         if (!is_null($request->oneTimePassword)) {
             if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
                 $cache = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json"));

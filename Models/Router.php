@@ -21,11 +21,14 @@ class Router
      * The method of the request
      */
     private string $requestMethod;
-    public function __construct(string $request_method, string $route, string $path)
+    /**
+     * Creating the object which takes two parameters to verify the request method and session
+     * @param   string  $route  The url of the view or controller
+     */
+    public function __construct(string $route)
     {
         $this->setRoot($_SERVER['DOCUMENT_ROOT']);
-        $this->verifySession();
-        $this->verifyRequestMethod($request_method, $route, $path);
+        $this->setRoute($route);
     }
     public function getRoute(): string
     {
@@ -62,25 +65,32 @@ class Router
     /**
      * Verifying the request method before setting the route of the request for generating the adequate response
      */
-    public function verifyRequestMethod(string $requestMethod, string $route, string $path)
+    /*
+    public function verifyRequestMethod(string $route, string $path)
     {
-        $this->setRequestMethod($requestMethod);
-        $this->setRoute($route);
-        $this->setPath($path);
+        if (str_contains(getallheaders()["Content-Type"], "application/json") && !is_null(json_decode(file_get_contents("php://input")))) {
+            $this->setRequestMethod("POST");
+        } else {
+            $this->setRequestMethod("GET");
+        }
+        echo "Request Method: {$this->getRequestMethod()}";
         switch ($this->getRequestMethod()) {
             case 'GET':
                 $this->get($this->getRoute(), $this->getPath());
             case 'POST':
                 $this->post($this->getRoute(), $this->getPath());
         }
-    }
+    }*/
     /**
      * Selecting data from the server
+     * @param   string  $route  The url of the view or controller
+     * @param   string  $path   The path of the view or controller
      */
     public function get(string $route, string $path)
     {
+        $this->setPath($path);
         if ($route != "/404") {
-            require_once "{$this->getRoot()}{$path}";
+            require_once "{$this->getRoot()}{$this->getPath()}";
             http_response_code(200);
             exit();
         } else {
@@ -91,12 +101,17 @@ class Router
     }
     /**
      * Inserting data in the server
+     * @param   string  $route  The url of the view or controller
+     * @param   string  $path   The path of the view or controller
      */
     public function post(string $route, string $path)
     {
+        $this->setPath($path);
         if ($route != "/404") {
-            require_once "{$this->getRoot()}{$path}";
+            $_POST[$route] = (object) json_decode(file_get_contents("php://input"));
+            require_once "{$this->getRoot()}{$this->getPath()}";
             http_response_code(200);
+            exit();
         } else {
             http_response_code(404);
             exit();
