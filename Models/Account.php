@@ -19,6 +19,9 @@ class Account extends User
      * The API which interacts with PUBG API to take the data needed from PUBG Data Center as well as the data model which will be used for data analysis.
      */
     protected PlayerUnknownBattleGrounds $PlayerUnknownBattleGrounds;
+    /**
+     * Ipon instantiation, its dependencies are also instantiated
+     */
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
@@ -35,47 +38,11 @@ class Account extends User
     }
     /**
      * Managing accounts
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function manage(): void
+    public function manage(object $request): void
     {
-        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
-        $files = array_values(array_diff(scandir($directory), array(".", "..")));
-        $accountFiles = array();
-        for ($index = 0; $index < count($files); $index++) {
-            $file = $files[$index];
-            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
-            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users/{$_SESSION['User']['username']}/Accounts") {
-                $accountFile = array(
-                    "name" => $file,
-                    "data" => $fileData
-                );
-                array_push($accountFiles, $accountFile);
-            }
-        }
-        if (count($accountFiles) != 0) {
-            if (count($accountFiles) == 1) {
-                $file = $accountFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            } else {
-                rsort($accountFiles);
-                $file = $accountFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            }
-        } else {
-            $response = array(
-                "status" => 3,
-                "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
-                "message" => "Form data not found"
-            );
-            $headers = array(
-                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                "replace" => true,
-                "responseCode" => 404
-            );
-        }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         $this->setUsername($_SESSION['User']['username']);
         $this->PDO->query("SELECT * FROM Accounts WHERE AccountsUser = :AccountsUser");
         $this->PDO->bind(":AccountsUser", $this->getUsername());
@@ -132,6 +99,8 @@ class Account extends User
     }
     /**
      * Managing League of Legends accounts
+     * @param   object  $form   Form data
+     * @return  int
      */
     public function manageLeagueOfLegends(object $form): int
     {
@@ -139,6 +108,8 @@ class Account extends User
     }
     /**
      * Managing Player Unknown Battle Grounds accounts
+     * @param   object  $form   Form data
+     * @return  int
      */
     public function managePlayerUnknownBattleGrounds(object $form): int
     {
@@ -146,6 +117,8 @@ class Account extends User
     }
     /**
      * Adding accounts
+     * @param   object  $request    JSON from the view
+     * @return  object
      */
     public function add(object $request): object
     {
@@ -197,6 +170,8 @@ class Account extends User
     }
     /**
      * Editing the accounts of the user
+     * @param   object  $request    Object containing data that needed to be changed into
+     * @return  object
      */
     public function edit(object $request): object
     {
@@ -248,6 +223,9 @@ class Account extends User
     }
     /**
      * Creating League Of Legends Accounts
+     * @param   null|string $game_name  The username of the player
+     * @param   null|string $tag_line   The regional routing server of the player
+     * @return  int
      */
     public function createLeagueOfLegendsAccount(?string $game_name, ?string $tag_line): int
     {
@@ -263,6 +241,9 @@ class Account extends User
     }
     /**
      * Creating Player Unknown Battle Grounds Accounts
+     * @param   null|string $player_name    Name of the player
+     * @param   null|string $platform       Platform which the player uses tp play the game
+     * @return  int
      */
     public function createPlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform): int
     {
