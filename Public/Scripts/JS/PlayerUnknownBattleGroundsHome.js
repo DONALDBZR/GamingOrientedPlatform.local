@@ -571,6 +571,34 @@ class Application extends React.Component {
         }
     }
     /**
+     * Handling the form submission
+     * @param {Event} event
+     */
+    handleSubmit(event) {
+        const delay = 1800;
+        event.preventDefault();
+        fetch("/PlayersUnknownBattleGrounds/Players", {
+            method: "POST",
+            body: JSON.stringify({
+                lolSearch:
+                    this.state.Accounts.PlayerUnknownBattleGrounds.search,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                this.setState({
+                    System: {
+                        status: data.status,
+                        url: data.url,
+                    },
+                })
+            )
+            .then(() => this.redirector(delay));
+    }
+    /**
      * Renders the components that are being returned
      * @returns {object[]}
      */
