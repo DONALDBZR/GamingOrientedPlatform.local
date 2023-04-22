@@ -78,6 +78,7 @@ switch ($Router->getRoute()) {
         $Router->get($Router->getRoute(), "/Controllers/CurrentSummoner.php");
         break;
     case '/PlayerUnknownBattleGrounds/CurrentPlayer':
+    case "/PlayerUnknownBattleGrounds/Search/Player":
         $Router->get($Router->getRoute(), "/Controllers/CurrentPlayer.php");
         break;
     case "/Users/Accounts/{$_SESSION['User']['username']}":
