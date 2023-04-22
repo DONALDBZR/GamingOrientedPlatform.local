@@ -213,7 +213,7 @@ class Application extends React.Component {
      * @returns {void}
      */
     getPlayerData() {
-        fetch("/PlayerUnknownBattleGrounds/CurrentPlayer", {
+        fetch("/PlayerUnknownBattleGrounds/Search/Player", {
             method: "GET",
         })
             .then((response) => response.json())
