@@ -580,7 +580,7 @@ class Application extends React.Component {
         fetch("/PlayersUnknownBattleGrounds/Players", {
             method: "POST",
             body: JSON.stringify({
-                lolSearch:
+                pubgSearch:
                     this.state.Accounts.PlayerUnknownBattleGrounds.search,
             }),
             headers: {
