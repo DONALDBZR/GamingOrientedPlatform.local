@@ -3,6 +3,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/Router.php";
 $Router = new Router($_SERVER['REQUEST_URI']);
 error_reporting(E_ERROR | E_PARSE);
 ini_set('max_execution_time', '60');
+set_time_limit(60);
 switch ($Router->getRoute()) {
     case '/':
         if (isset($_SESSION['User'])) {
