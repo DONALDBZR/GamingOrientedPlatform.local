@@ -59,6 +59,7 @@ class Application extends React.Component {
                             winRate: 0.0,
                         },
                     },
+                    MatchHistory: [],
                 },
             },
             System: {
@@ -296,7 +297,7 @@ class Application extends React.Component {
     verifyPlayerUnknownBattleGrounds_killStreak(killStreak) {
         if (killStreak >= 5) {
             return "rgb(0%, 100%, 0%)";
-        } else if (killStreak >= 2 && killStreak < 5) {
+        } else if (killStreak >= 1 && killStreak < 5) {
             return "rgb(100%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -515,7 +516,15 @@ class Application extends React.Component {
             method: "GET",
         })
             .then((response) => response.json())
-            .then((data) => console.log(data));
+            .then((data) =>
+                this.setState({
+                    Accounts: {
+                        PlayerUnknownBattleGrounds: {
+                            MatchHistory: data.matches,
+                        },
+                    },
+                })
+            );
     }
     /**
      * Checking whether the player has played in this mode
@@ -525,6 +534,40 @@ class Application extends React.Component {
     verify_rank(mode) {
         if (mode == "Unranked") {
             return "none";
+        }
+    }
+    /**
+     * Checking the placement of the player
+     * @param   {number}   place    The rank of the player in that particular match
+     * @returns {string}
+     */
+    verifyPlace(place) {
+        if (place < 11) {
+            if (place == 1) {
+                return "rgba(100%, 84.3%, 0%, 50%)";
+            } else if (place == 2) {
+                return "rgba(50%, 50%, 50%, 50%)";
+            } else if (place == 3) {
+                return "rgba(69.02%, 55.29%, 34.12%, 50%)";
+            } else {
+                return "rgba(0%, 100%, 0%, 50%)";
+            }
+        } else {
+            return "rgba(100%, 0%, 0%, 50%)";
+        }
+    }
+    /**
+     * Verifying the travelled by the player
+     * @param {number} distance
+     * @returns {string}
+     */
+    verifyPlayerUnknownBattleGrounds_distance(distance) {
+        if (distance >= 2) {
+            return "rgb(0%, 100%, 0%)";
+        } else if (distance >= 1 && distance < 2) {
+            return "rgb(100%, 100%, 0%)";
+        } else {
+            return "rgb(100%, 0%, 0%)";
         }
     }
     /**
@@ -1218,7 +1261,7 @@ class MatchHistory extends Main {
         this.state = {
             Accounts: {
                 PlayerUnknownBattleGrounds: {
-                    MatchHistory: {},
+                    MatchHistory: [],
                 },
             },
         };
@@ -1229,7 +1272,42 @@ class MatchHistory extends Main {
     render() {
         return (
             <div id="matchHistory">
-                <h1>Match History</h1>
+                {this.state.Accounts.PlayerUnknownBattleGrounds.MatchHistory.map(
+                    (match) => {
+                        return (
+                            <div
+                                style={{
+                                    backgroundColor: this.verifyPlace(
+                                        match.rank
+                                    ),
+                                }}
+                            >
+                                <div>{match.rank}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_killStreak(
+                                            match.kill
+                                        ),
+                                    }}
+                                >{`${match.kill} Kills`}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_damagePerMatch(
+                                            match.damage
+                                        ),
+                                    }}
+                                >{`${match.damage} Damage`}</div>
+                                <div
+                                    style={{
+                                        color: this.verifyPlayerUnknownBattleGrounds_distance(
+                                            match.distance
+                                        ),
+                                    }}
+                                >{`${match.distance} Km`}</div>
+                            </div>
+                        );
+                    }
+                )}
             </div>
         );
     }
