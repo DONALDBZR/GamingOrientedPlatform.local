@@ -334,7 +334,8 @@ body[id*="PlayerUnknownBattleGrounds"]
     #currentSeason
     div
     div:nth-child(5)
-    div {
+    div,
+body[id*="PlayerUnknownBattleGrounds"] main #matchHistory div div {
     font-family: var(--proximaNova);
 }
 #Homepage main,

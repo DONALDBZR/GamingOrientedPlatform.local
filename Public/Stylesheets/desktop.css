@@ -1332,6 +1332,8 @@ body[id*="PlayerUnknownBattleGrounds"] main div #player {
 }
 body[id*="PlayerUnknownBattleGrounds"] main div div:nth-child(2) {
     height: calc(var(--percentage) * (412 / 562));
+    width: var(--percentage);
+    display: flex;
 }
 body[id*="PlayerUnknownBattleGrounds"] main div #player div {
     width: var(--percentage);
@@ -1727,6 +1729,7 @@ body[id*="PlayerUnknownBattleGrounds"] main #currentSeason {
 body[id*="PlayerUnknownBattleGrounds"] main #currentSeason div {
     width: var(--percentage);
     height: calc(var(--percentage) / 3);
+    display: block;
 }
 body[id*="PlayerUnknownBattleGrounds"] main #currentSeason div div {
     height: calc(var(--percentage) / 6.866);
@@ -1749,4 +1752,20 @@ body[id*="PlayerUnknownBattleGrounds"]
     div:nth-child(5) {
     width: calc(var(--percentage) / 2);
     margin: calc(var(--percentage) * 0) calc(var(--percentage) / 4);
+}
+body[id*="PlayerUnknownBattleGrounds"] main #matchHistory {
+    height: var(--percentage);
+    width: calc(var(--percentage) * (2 / 3));
+    display: block;
+    overflow: auto;
+}
+body[id*="PlayerUnknownBattleGrounds"] main #matchHistory div {
+    height: calc(var(--percentage) / 10);
+    width: var(--percentage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body[id*="PlayerUnknownBattleGrounds"] main #matchHistory div div {
+    font-size: calc(var(--textSize) * 1.1);
 }
