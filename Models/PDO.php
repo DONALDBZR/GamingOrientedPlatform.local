@@ -29,21 +29,23 @@ class PHPDataObject
      * The SQL query that is used to interact with the database server
      */
     private $statement;
-    // Constructor method
+    /**
+     * Upon instantiation, it will be connected while ensuring that the connection is persistent
+     */
     public function __construct()
     {
-        /**
-         * The options that are going to be passed in the database handler while instantiating PHP Data Objects
-         */
         $options = array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
         try {
             $this->databaseHandler = new PDO($this->dataSourceName, $this->username, $this->password, $options);
         } catch (PDOException $error) {
-            echo "Connection Failed: " . $error->getMessage();
+            echo "Connection Failed: {$error->getMessage()}";
         }
     }
     /**
      * Sanitizing the data that is retrieved in order to prevent SQL injections
+     * @param   string                  $parameter  Parameter to be used to bind the data
+     * @param   int|bool|null|string    $value      The data to be bound
+     * @return  void
      */
     public function bind($parameter, $value, $type = null)
     {
@@ -66,6 +68,8 @@ class PHPDataObject
     }
     /**
      * Preparing the SQL query that is going to be handled by the database handler
+     * @param   string  $query  The SQL query
+     * @return  void
      */
     public function query($query)
     {
@@ -73,6 +77,7 @@ class PHPDataObject
     }
     /**
      * Executing the SQL query which will send a command to the database server
+     * @return  mixed
      */
     public function execute()
     {
@@ -80,6 +85,7 @@ class PHPDataObject
     }
     /**
      * Fetching all the data that is requested from the command that was sent to the database server
+     * @return  mixed
      */
     public function resultSet()
     {
