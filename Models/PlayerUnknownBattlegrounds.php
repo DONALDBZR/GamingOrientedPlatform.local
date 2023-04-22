@@ -662,7 +662,6 @@ class PlayerUnknownBattleGrounds
                             "season1" => $pubgSeasonsApiResponseCode1,
                             "season2" => $pubgSeasonsApiResponseCode2,
                             "matches" => $matches,
-                            "dataset" => $pubgMatchesApiResponse,
                             "requestedDate" => date("Y/m/d H:i:s"),
                             "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours"))
                         );
