@@ -84,6 +84,7 @@ class LeagueOfLegends
     /**
      * Re-routing the API to the correct route
      * @param   string  $tag_line   Regional server of the player
+     * @link    https://github.com/TheDrone7/shieldbow
      * @return  string
      */
     public function getRegion(string $tag_line): string
@@ -121,6 +122,7 @@ class LeagueOfLegends
     /**
      * Entry Point
      * @param   string  $tag_line   Regional server of the player
+     * @link    https://github.com/TheDrone7/shieldbow
      * @return  string
      */
     public function getEntryPoint(string $tag_line): string

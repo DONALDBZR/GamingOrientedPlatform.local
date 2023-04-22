@@ -2,6 +2,7 @@
 
 /**
  * All regions with the API routing for League Of Legends
+ * @link https://github.com/TheDrone7/shieldbow
  */
 abstract class Regions
 {
