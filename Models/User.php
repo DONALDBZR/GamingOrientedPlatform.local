@@ -22,6 +22,9 @@ class User extends Password
      * Simplifying the use of PHPMailer
      */
     protected Mail $Mail;
+    /**
+     * Upon instantiation, its aggregated objects are also instantiated
+     */
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
@@ -61,47 +64,11 @@ class User extends Password
     }
     /**
      * Registering the user
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function register(): void
+    public function register($request): void
     {
-        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
-        $files = array_values(array_diff(scandir($directory), array(".", "..")));
-        $registrationFiles = array();
-        for ($index = 0; $index < count($files); $index++) {
-            $file = $files[$index];
-            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
-            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users/New") {
-                $registrationFile = array(
-                    "name" => $file,
-                    "data" => $fileData
-                );
-                array_push($registrationFiles, $registrationFile);
-            }
-        }
-        if (count($registrationFiles) != 0) {
-            if (count($registrationFiles) == 1) {
-                $file = $registrationFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            } else {
-                rsort($registrationFiles);
-                $file = $registrationFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            }
-        } else {
-            $response = array(
-                "status" => 3,
-                "url" => "/Register",
-                "message" => "Form data not found"
-            );
-            $headers = array(
-                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                "replace" => true,
-                "responseCode" => 404
-            );
-        }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         $this->setUsername($request->username);
         $this->setMailAddress($request->mailAddress);
         if (!is_null($this->getUsername()) && !is_null($this->getMailAddress())) {
@@ -300,9 +267,9 @@ class User extends Password
     }
     /**
      * Signing out the user and clearing server's cache data
-     * @return JSON
+     * @return  void
      */
-    public function logOut()
+    public function logOut(): void
     {
         if (isset($_SESSION)) {
             if (isset($_SESSION['Account']['LeagueOfLegends']) && isset($_SESSION['User']) && file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Profiles/{$_SESSION['Account']['PlayerUnknownBattleGrounds']['identifier']}.json")) {
@@ -340,7 +307,7 @@ class User extends Password
         } else {
             $response = array(
                 "status" => 13,
-                "url" => $this->domain,
+                "url" => "/",
                 "message" => "You have been successfully logged out but the cache has not been cleared on the application server!"
             );
             $headers = array(
@@ -354,50 +321,11 @@ class User extends Password
     }
     /**
      * Resetting the password of the user
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function forgotPassword(): void
+    public function forgotPassword(object $request): void
     {
-        $route = $_SERVER['REQUEST_URI'];
-        $routes = explode("/", $route);
-        $parameter = $routes[2];
-        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
-        $files = array_values(array_diff(scandir($directory), array(".", "..")));
-        $forgotPasswordFiles = array();
-        for ($index = 0; $index < count($files); $index++) {
-            $file = $files[$index];
-            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
-            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users/{$parameter}/Password") {
-                $forgotPasswordFile = array(
-                    "name" => $file,
-                    "data" => $fileData
-                );
-                array_push($forgotPasswordFiles, $forgotPasswordFile);
-            }
-        }
-        if (count($forgotPasswordFiles) != 0) {
-            if (count($forgotPasswordFiles) == 1) {
-                $file = $forgotPasswordFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            } else {
-                rsort($forgotPasswordFiles);
-                $file = $forgotPasswordFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            }
-        } else {
-            $response = array(
-                "status" => 3,
-                "url" => "/ForgotPassword",
-                "message" => "Form data not found"
-            );
-            $headers = array(
-                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                "replace" => true,
-                "responseCode" => 404
-            );
-        }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         $this->setMailAddress($request->mailAddress);
         if (!is_null($this->getMailAddress())) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersMailAddress = :UsersMailAddress");
@@ -464,6 +392,7 @@ class User extends Password
     }
     /**
      * Changing the profile picture
+     * @return  void
      */
     public function changeProfilePicture(): void
     {
@@ -491,7 +420,7 @@ class User extends Password
             fclose($cache);
             $response = array(
                 "status" => 0,
-                "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Profile/{$this->getUsername()}",
+                "url" => "/Users/Profile/{$this->getUsername()}",
                 "message" => "Your profile picture has been changed!"
             );
             $headers = array(
@@ -505,50 +434,11 @@ class User extends Password
     }
     /**
      * Changing both the mail address and the password
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function changePasswordAndMailAddress(): void
+    public function changePasswordAndMailAddress(object $request): void
     {
-        $route = $_SERVER['REQUEST_URI'];
-        $routes = explode("/", $route);
-        $parameter = $routes[2];
-        $directory = "{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/";
-        $files = array_values(array_diff(scandir($directory), array(".", "..")));
-        $securityFiles = array();
-        for ($index = 0; $index < count($files); $index++) {
-            $file = $files[$index];
-            $fileData = json_decode(file_get_contents("{$directory}{$files[$index]}"));
-            if ($fileData->requestMethod == "POST" && $fileData->route == "/Users/{$parameter}/Password") {
-                $securityFile = array(
-                    "name" => $file,
-                    "data" => $fileData
-                );
-                array_push($securityFiles, $securityFile);
-            }
-        }
-        if (count($securityFiles) != 0) {
-            if (count($securityFiles) == 1) {
-                $file = $securityFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            } else {
-                rsort($securityFiles);
-                $file = $securityFiles[0];
-                $name = $file["name"];
-                $request = $file["data"]->Data;
-            }
-        } else {
-            $response = array(
-                "status" => 3,
-                "url" => "/Users/Security/{$_SESSION['User']['username']}",
-                "message" => "Form data not found"
-            );
-            $headers = array(
-                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                "replace" => true,
-                "responseCode" => 404
-            );
-        }
-        unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Users/{$name}");
         $this->setUsername($_SESSION['User']['username']);
         $this->setMailAddress($_SESSION['User']['mailAddress']);
         $this->setPassword($request->Password->old);
