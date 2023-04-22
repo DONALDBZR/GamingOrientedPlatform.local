@@ -236,4 +236,19 @@ switch ($Router->getRoute()) {
     case "/PlayerUnknownBattleGrounds/Players":
         $Router->post($Router->getRoute(), "/Controllers/PlayerUnknownBattleGroundsHome.php");
         break;
+    case "/PlayerUnknownBattleGrounds/Profile/" . rawurlencode($_SESSION['Search']['PlayerUnknownBattleGrounds']["playerName"]):
+        if (isset($_SESSION['User'])) {
+            if (isset($_SESSION['User']['otp'])) {
+                header("Location: /Login/Verification/{$_SESSION['User']['username']}");
+            } else {
+                if (isset($_SESSION['Search']['PlayerUnknownBattleGrounds'])) {
+                    $Router->get($Router->getRoute(), "/Views/PlayerUnknownBattleGroundsProfile.php");
+                } else {
+                    header("Location: /Users/Home/{$_SESSION['User']['username']}");
+                }
+            }
+        } else {
+            header("Location: /");
+        }
+        break;
 }
