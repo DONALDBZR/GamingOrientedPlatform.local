@@ -712,11 +712,11 @@ class PlayerUnknownBattleGrounds
             "identifier" => $PlayerData->identifier,
             "playerName" => $PlayerData->playerName,
             "platform" => $PlayerData->platform,
-            "url" => "/LeagueOfLegends/Profile/$PlayerData->playerName"
+            "url" => "/PlayerUnknownBattleGrounds/Profile/$PlayerData->playerName"
         );
         $searchPUBG = $response;
         $search = (object) array(
-            "LeagueOfLegends" => $searchPUBG
+            "PlayerUnknownBattleGrounds" => $searchPUBG
         );
         $session = array(
             "Client" => $_SESSION['Client'],
