@@ -4,7 +4,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/LeagueOfLegends.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PlayerUnknownBattlegrounds.php";
 $PlayerUnknownBattleGrounds = new PlayerUnknownBattleGrounds();
 $LeagueOfLegends = new LeagueOfLegends();
-if (str_contains($_SERVER['HTTP_REFERER'], "LeagueOfLegends")) {
+if (str_contains($_SERVER['REQUEST_URI'], "LeagueOfLegends")) {
     if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Version.json")) {
         $response = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Version.json"));
         if (date("Y/m/d") < $response->renewOn) {
