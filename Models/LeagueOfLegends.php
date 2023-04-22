@@ -39,6 +39,9 @@ class LeagueOfLegends
      * Client for Uniform Resource Locators
      */
     private CurlHandle $Curl;
+    /**
+     * Upon instantiation, its dependency is also instantiated as well as its API key is also set.
+     */
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
@@ -80,6 +83,8 @@ class LeagueOfLegends
     }
     /**
      * Re-routing the API to the correct route
+     * @param   string  $tag_line   Regional server of the player
+     * @return  string
      */
     public function getRegion(string $tag_line): string
     {
@@ -115,6 +120,8 @@ class LeagueOfLegends
     }
     /**
      * Entry Point
+     * @param   string  $tag_line   Regional server of the player
+     * @return  string
      */
     public function getEntryPoint(string $tag_line): string
     {
@@ -149,6 +156,9 @@ class LeagueOfLegends
     }
     /**
      * Retrieving account's data
+     * @param   string  $game_name  The username of the player
+     * @param   string  $tag_line   The regional routing server of the player
+     * @return  object
      */
     public function getAccount(string $game_name, string $tag_line): object
     {
@@ -191,7 +201,10 @@ class LeagueOfLegends
         return $response;
     }
     /**
-     * Acessing the summoner data
+     * Accessing the summoner data
+     * @param   string  $game_name  The username of the player
+     * @param   string  $tag_line   The regional routing server of the player
+     * @return  void
      */
     public function getSummoner(string $game_name, string $tag_line): void
     {
@@ -412,6 +425,8 @@ class LeagueOfLegends
     }
     /**
      * Accessing the status of the game
+     * @param   string  $tag_line   The regional routing of the server that the player uses to play the game
+     * @return  void
      */
     public function getStatus(string $tag_line): void
     {
@@ -490,6 +505,9 @@ class LeagueOfLegends
     }
     /**
      * Accessing the match history of the player
+     * @param   string  $game_name  The username of the player
+     * @param   string  $tag_line   The regional routing server of the player
+     * @return  void
      */
     public function getMatchHistory(string $game_name, string $tag_line): void
     {
@@ -603,6 +621,9 @@ class LeagueOfLegends
     }
     /**
      * Searching for a player
+     * @param   string  $game_name  The username of the player
+     * @param   string  $tag_line   The regional routing server of the player
+     * @return  void
      */
     public function search(string $game_name, string $tag_line): void
     {
@@ -633,6 +654,7 @@ class LeagueOfLegends
     }
     /**
      * Deleting the data that is in the cache so that new data can be stored
+     * @return  void
      */
     public function delete(): void
     {
@@ -654,6 +676,9 @@ class LeagueOfLegends
     }
     /**
      * Accessing the champion mastery of the player
+     * @param   string  $game_name  The username of the player
+     * @param   string  $tag_line   The regional routing server of the player
+     * @return  void
      */
     public function getChampionMastery(string $game_name, string $tag_line): void
     {
@@ -755,6 +780,7 @@ class LeagueOfLegends
     }
     /**
      * Retrieving the patch notes of the game
+     * @return  void
      */
     public function getPatchNotes(): void
     {
@@ -800,6 +826,9 @@ class LeagueOfLegends
     }
     /**
      * Adding League of Legends account in the database
+     * @param   string  $game_name  The username of the player
+     * @param   string  $tag_line   The regional routing server of the player
+     * @return  int
      */
     public function addAccount(string $game_name, string $tagLine)
     {
