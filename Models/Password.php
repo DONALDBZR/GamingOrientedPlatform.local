@@ -32,6 +32,9 @@ class Password
      * The one-time password needed for the user to complete the login process
      */
     private string $otp;
+    /**
+     * Upon instantiation, its dependencies are instantiated
+     */
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
@@ -78,6 +81,8 @@ class Password
     }
     /**
      * Generating either a string or an integer
+     * @param   string  $parameter  Parameter to be used to trigger the generator
+     * @return  string
      */
     public function generator(string $parameter): string
     {
