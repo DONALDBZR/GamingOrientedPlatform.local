@@ -698,4 +698,37 @@ class PlayerUnknownBattleGrounds
         header('Content-Type: application/json', true, 200);
         echo json_encode($response);
     }
+    /**
+     * Searching for a player
+     * @param   string  $player_name    The username of the player
+     * @param   string  $platform       The platform that the player use to play the game
+     * @return  void
+     */
+    public function search(string $player_name, string $platform): void
+    {
+        $PlayerData = $this->getAccount($player_name, $platform);
+        $response = (object) array(
+            "account" => $PlayerData->account,
+            "identifier" => $PlayerData->identifier,
+            "playerName" => $PlayerData->playerName,
+            "platform" => $PlayerData->platform,
+            "url" => "/LeagueOfLegends/Profile/$PlayerData->playerName"
+        );
+        $searchPUBG = $response;
+        $search = (object) array(
+            "LeagueOfLegends" => $searchPUBG
+        );
+        $session = array(
+            "Client" => $_SESSION['Client'],
+            "User" => $_SESSION['User'],
+            "Account" => $_SESSION['Account'],
+            "Search" => $search
+        );
+        $cacheData = json_encode($session);
+        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+        fwrite($cache, $cacheData);
+        fclose($cache);
+        header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
+        echo json_encode($response);
+    }
 }
