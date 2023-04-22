@@ -649,7 +649,7 @@ class PlayerUnknownBattleGrounds
                                     $data = (object) array(
                                         "rank" => $pubgMatchesApiResponse->included[$secondIndex]->attributes->stats->winPlace,
                                         "kill" => $pubgMatchesApiResponse->included[$secondIndex]->attributes->stats->kills,
-                                        "damage" => $pubgMatchesApiResponse->included[$secondIndex]->attributes->stats->damageDealt,
+                                        "damage" => round($pubgMatchesApiResponse->included[$secondIndex]->attributes->stats->damageDealt, 2),
                                         "distance" => round($distance, 2)
                                     );
                                 }
