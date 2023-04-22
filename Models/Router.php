@@ -29,12 +29,13 @@ class Router
     {
         $this->setRoot($_SERVER['DOCUMENT_ROOT']);
         $this->setRoute($route);
+        $this->verifySession();
     }
     public function getRoute(): string
     {
         return $this->route;
     }
-    public function setRoute(string $route)
+    public function setRoute(string $route): void
     {
         $this->route = $route;
     }
@@ -42,7 +43,7 @@ class Router
     {
         return $this->path;
     }
-    public function setPath(string $path)
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
@@ -50,41 +51,15 @@ class Router
     {
         return $this->root;
     }
-    public function setRoot(string $root)
+    public function setRoot(string $root): void
     {
         $this->root = $root;
     }
-    public function getRequestMethod(): string
-    {
-        return $this->requestMethod;
-    }
-    public function setRequestMethod(string $request_method)
-    {
-        $this->requestMethod = $request_method;
-    }
-    /**
-     * Verifying the request method before setting the route of the request for generating the adequate response
-     */
-    /*
-    public function verifyRequestMethod(string $route, string $path)
-    {
-        if (str_contains(getallheaders()["Content-Type"], "application/json") && !is_null(json_decode(file_get_contents("php://input")))) {
-            $this->setRequestMethod("POST");
-        } else {
-            $this->setRequestMethod("GET");
-        }
-        echo "Request Method: {$this->getRequestMethod()}";
-        switch ($this->getRequestMethod()) {
-            case 'GET':
-                $this->get($this->getRoute(), $this->getPath());
-            case 'POST':
-                $this->post($this->getRoute(), $this->getPath());
-        }
-    }*/
     /**
      * Selecting data from the server
      * @param   string  $route  The url of the view or controller
      * @param   string  $path   The path of the view or controller
+     * @return  void
      */
     public function get(string $route, string $path)
     {
@@ -103,6 +78,7 @@ class Router
      * Inserting data in the server
      * @param   string  $route  The url of the view or controller
      * @param   string  $path   The path of the view or controller
+     * @return  void
      */
     public function post(string $route, string $path)
     {
@@ -119,6 +95,7 @@ class Router
     }
     /**
      * Creating Session
+     * @return  void
      */
     public function createSession()
     {
@@ -138,6 +115,7 @@ class Router
     }
     /**
      * Verifying that the session is not hijacked
+     * @return  void
      */
     public function verifySession()
     {
@@ -163,6 +141,8 @@ class Router
     }
     /**
      * Converting an object to an array
+     * @param   mixed   $data   Data that is in the cache data
+     * @return  array
      */
     public function objectToArray(mixed $data): array
     {
