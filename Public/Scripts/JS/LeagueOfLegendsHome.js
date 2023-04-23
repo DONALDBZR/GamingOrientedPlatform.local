@@ -53,6 +53,7 @@ class Application extends React.Component {
     }
     /**
      * Accessing User data
+     * @returns {void}
      */
     getUser() {
         fetch("/Users/CurrentUser", {
@@ -75,6 +76,7 @@ class Application extends React.Component {
     }
     /**
      * Accessing Summoner Data
+     * @returns {void}
      */
     getSummoner() {
         if (window.location.pathname.includes("Home")) {
@@ -145,6 +147,7 @@ class Application extends React.Component {
     }
     /**
      * Accessing latest version data
+     * @returns {void}
      */
     getVersion() {
         fetch("/LeagueOfLegends/PatchNotes", {
@@ -167,6 +170,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving data from Riot Games data center for the user's match history
+     * @returns {void}
      */
     getMatchHistories() {
         fetch("/LeagueOfLegends/MatchHistories", {
@@ -319,6 +323,7 @@ class Application extends React.Component {
     /**
      * Redirecting the user to an intended url
      * @param {number} delay
+     * @returns {void}
      */
     redirector(delay) {
         setTimeout(() => {
@@ -328,6 +333,7 @@ class Application extends React.Component {
     /**
      * Handling any change that is made in the user interface
      * @param {Event} event
+     * @returns {void}
      */
     handleChange(event) {
         const target = event.target;
@@ -347,6 +353,7 @@ class Application extends React.Component {
     /**
      * Handling the form submission
      * @param {Event} event
+     * @returns {void}
      */
     handleSubmit(event) {
         const delay = 1800;
@@ -373,6 +380,7 @@ class Application extends React.Component {
     }
     /**
      * Sending a request to the server to update the data in its cache database before refreshing the page
+     * @returns {void}
      */
     updateData() {
         const delay = 1000;
@@ -392,6 +400,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving data from Riot Games data center for the user's champion's mastery
+     * @returns {void}
      */
     getChampionMastery() {
         fetch("/LeagueOfLegends/ChampionMastery", {
@@ -422,6 +431,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving data from Riot Games data center for the status of the platform
+     * @returns {void}
      */
     getPlatformStatus() {
         fetch("/LeagueOfLegends/PlatformStatus", {
