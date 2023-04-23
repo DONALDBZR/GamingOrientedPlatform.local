@@ -7,26 +7,32 @@ class PHPDataObject
 {
     /**
      * The ENV that will be used
+     * @var Environment $Environment
      */
     public Environment $Environment;
     /**
      * The data source name which contains the database's name the IP address and the Port of the database server
+     * @var string $dataSourceName
      */
     public string $dataSourceName = Environment::MySQLDataSourceName;
     /**
      * The username that is used to authenticate on MySQL server
+     * @var string $username
      */
     public string $username = Environment::MySQLUsername;
     /**
      * The password of the username that is used to authenticate on MySQL server
+     * @var string $password
      */
     private string $password = Environment::MySQLPassword;
     /**
      * The database handler that is being used for this application which is PHP Data Objects
+     * @var PDO $databaseHandler
      */
     private PDO $databaseHandler;
     /**
      * The SQL query that is used to interact with the database server
+     * @var PDOStatement|false $statement
      */
     private $statement;
     /**
