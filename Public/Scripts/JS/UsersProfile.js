@@ -22,6 +22,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
+     * @returns {void}
      */
     getUser() {
         fetch("/Users/CurrentUser", {
@@ -101,6 +102,10 @@ class Application extends React.Component {
             };
         }
     }
+    /**
+     * Rendering the application
+     * @returns {Application[]}
+     */
     render() {
         return [<Header />, <Main />, <Footer />];
     }
