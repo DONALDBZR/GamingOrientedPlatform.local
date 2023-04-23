@@ -8,34 +8,42 @@ class PlayerUnknownBattleGrounds
 {
     /**
      * The primary key of the player as well as the identifier of the player
+     * @var null|string $identifier
      */
     private ?string $identifier;
     /**
      * The username of the player
+     * @var string $playerName
      */
     private string $playerName;
     /**
      * The platform of the player
+     * @var string $platform
      */
     private string $platform;
     /**
      * PUBG API Key
+     * @var string $apiKey
      */
     private string $apiKey;
     /**
      * PDO which will interact with the database server
+     * @var PHPDataObject $PDO
      */
     protected PHPDataObject $PDO;
     /**
      * Client for Uniform Resource Locators
+     * @var CurlHandle $Curl
      */
     private CurlHandle $Curl;
     /**
      * Hypertext Markup Language document parser
+     * @var DOMDocument $DOM
      */
     private DOMDocument $DOM;
     /**
      * PHP DOM selector
+     * @var DOMXPath $DOMXPath
      */
     private DOMXPath $DOMXPath;
     /**
