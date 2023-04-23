@@ -222,7 +222,7 @@ switch ($Router->getRoute()) {
                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
             } else {
                 if (isset($_SESSION['Account']['PlayerUnknownBattleGrounds'])) {
-                    $Router->post($Router->getRoute(), "/views/PlayerUnknownBattleGroundsHome.php");
+                    $Router->get($Router->getRoute(), "/views/PlayerUnknownBattleGroundsHome.php");
                 } else {
                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
                 }
@@ -232,7 +232,7 @@ switch ($Router->getRoute()) {
         }
         break;
     case '/PlayerUnknownBattleGrounds/CurrentSeason':
-        $Router->post($Router->getRoute(), "/Controllers/CurrentSeason.php");
+        $Router->get($Router->getRoute(), "/Controllers/CurrentSeason.php");
         break;
     case "/PlayerUnknownBattleGrounds/Players":
         $Router->post($Router->getRoute(), "/Controllers/PlayerUnknownBattleGroundsHome.php");
