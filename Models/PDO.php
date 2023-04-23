@@ -84,7 +84,7 @@ class PHPDataObject
     }
     /**
      * Executing the SQL query which will send a command to the database server
-     * @return  mixed
+     * @return  bool
      */
     public function execute()
     {
