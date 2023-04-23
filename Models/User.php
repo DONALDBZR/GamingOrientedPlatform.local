@@ -8,18 +8,22 @@ class User extends Password
 {
     /**
      * Username of the user which is also the primary key
+     * @var string $username
      */
     private string $username;
     /**
      * Mail address of the user which allows the application to communicate with the user
+     * @var string $mailAddress
      */
     private string $mailAddress;
     /**
      * Profile picture of the user
+     * @var null|string $profilePicture
      */
     private ?string $profilePicture;
     /**
      * Simplifying the use of PHPMailer
+     * @var Mail $Mail
      */
     protected Mail $Mail;
     /**
