@@ -9,34 +9,42 @@ class LeagueOfLegends
 {
     /**
      * The primary key of the player as well as identifier of the user
+     * @var null|string  $playerUniversallyUniqueIdentifier
      */
     private ?string $playerUniversallyUniqueIdentifier;
     /**
      * The username of the player
+     * @var string  $gameName
      */
     private string $gameName;
     /**
      * The region of the player
+     * @var string  $tagLine
      */
     private string $tagLine;
     /**
      * Riot Games API Key
+     * @var string  $apiKey
      */
     private string $apiKey;
     /**
      * PDO which will interact with the database server
+     * @var PHPDataObject  $PDO
      */
     protected PHPDataObject $PDO;
     /**
      * Base API routing
+     * @var array  $bases
      */
     private array $bases;
     /**
      * Regional API routing
+     * @var array  $regions
      */
     private array $regions;
     /**
      * Client for Uniform Resource Locators
+     * @var CurlHandle  $Curl
      */
     private CurlHandle $Curl;
     /**
