@@ -7,20 +7,19 @@ class Router
 {
     /**
      * The request address
+     * @var string $route
      */
     private string $route;
     /**
      * The server on which the application is being hosted
+     * @var string $root
      */
     private string $root;
     /**
      * The path of the response
+     * @var string $path
      */
     private string $path;
-    /**
-     * The method of the request
-     */
-    private string $requestMethod;
     /**
      * Creating the object which takes two parameters to verify the request method and session
      * @param   string  $route  The url of the view or controller
