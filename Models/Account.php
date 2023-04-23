@@ -9,14 +9,17 @@ class Account extends User
 {
     /**
      * Primary key of the account
+     * @var int $id
      */
     private int $id;
     /**
      * The API which interacts with Riot Games API to take the data needed from Riot Games Data Center as well as the data model which will be used for data analysis.
+     * @var LeagueOfLegends $LeagueOfLegends
      */
     protected LeagueOfLegends $LeagueOfLegends;
     /**
      * The API which interacts with PUBG API to take the data needed from PUBG Data Center as well as the data model which will be used for data analysis.
+     * @var PlayerUnknownBattleGrounds $PlayerUnknownBattleGrounds
      */
     protected PlayerUnknownBattleGrounds $PlayerUnknownBattleGrounds;
     /**
