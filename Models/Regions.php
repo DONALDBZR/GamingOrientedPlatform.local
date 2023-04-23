@@ -8,6 +8,7 @@ abstract class Regions
 {
     /**
      * Base URL for the API routing of Riot Games
+     * @var array baseUniformResourceLocators
      */
     public const baseUniformResourceLocators = array(
         "br" => "https://br1.api.riotgames.com",
@@ -30,6 +31,7 @@ abstract class Regions
     );
     /**
      * Regional URL or the API routing of Riot Games
+     * @var array regionalUniformResourceLocators
      */
     public const regionalUniformResourceLocators = array(
         "america" => 'https://americas.api.riotgames.com',
