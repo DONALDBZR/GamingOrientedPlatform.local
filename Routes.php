@@ -75,6 +75,7 @@ switch ($Router->getRoute()) {
         }
         break;
     case '/LeagueOfLegends/CurrentSummoner':
+    case '/LeagueOfLegends/Search/Summoner':
         $Router->get($Router->getRoute(), "/Controllers/CurrentSummoner.php");
         break;
     case '/PlayerUnknownBattleGrounds/CurrentPlayer':
@@ -185,9 +186,6 @@ switch ($Router->getRoute()) {
         } else {
             header("Location: /");
         }
-        break;
-    case '/LeagueOfLegends/Search/Summoner':
-        $Router->post($Router->getRoute(), "/Controllers/SearchSummoner.php");
         break;
     case '/Users/New':
         $Router->post($Router->getRoute(), "/Controllers/Register.php");
