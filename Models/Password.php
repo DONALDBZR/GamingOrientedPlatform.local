@@ -10,26 +10,32 @@ class Password
 {
     /**
      * The ID of the record
+     * @var int $id
      */
     private int $id;
     /**
      * The salt of the password
+     * @var string $salt
      */
     private string $salt;
     /**
      * The plain text of the password
+     * @var string $password
      */
     private string $password;
     /**
      * The hash of the password
+     * @var string $hash
      */
     private string $hash;
     /**
      * PDO which will interact with the database server
+     * @var PHPDataObject $PDO
      */
     protected PHPDataObject $PDO;
     /**
      * The one-time password needed for the user to complete the login process
+     * @var string $otp
      */
     private string $otp;
     /**
