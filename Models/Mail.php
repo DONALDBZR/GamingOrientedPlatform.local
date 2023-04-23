@@ -11,18 +11,22 @@ class Mail
 {
     /**
      * The recipient of the mail
+     * @var string  $recipient
      */
     private string $recipient;
     /**
      * Subject of the mail
+     * @var string  $subject
      */
     private string $subject;
     /**
      * body of the mail
+     * @var string  $message
      */
     private string $message;
     /**
      * PHPMailer
+     * @var PHPMailer\PHPMailer\PHPMailer   $PHPMailer
      */
     protected $PHPMailer;
     /**
