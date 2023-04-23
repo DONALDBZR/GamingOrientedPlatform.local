@@ -22,6 +22,7 @@ class Application extends React.Component {
     /**
      * Redirecting the user to an intended url
      * @param {int} delay
+     * @returns {void}
      */
     redirector(delay) {
         setTimeout(() => {
@@ -31,6 +32,7 @@ class Application extends React.Component {
     /**
      * Handling any change that is made in the user interface
      * @param {Event} event
+     * @returns {void}
      */
     handleChange(event) {
         const target = event.target;
@@ -46,6 +48,7 @@ class Application extends React.Component {
     /**
      * Handling the form submission
      * @param {Event} event
+     * @returns {void}
      */
     handleSubmit(event) {
         const delay = 1550;
