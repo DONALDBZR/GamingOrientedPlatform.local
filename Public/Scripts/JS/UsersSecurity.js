@@ -24,6 +24,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
+     * @returns {void}
      */
     getUser() {
         fetch("/Users/CurrentUser", {
@@ -63,6 +64,7 @@ class Application extends React.Component {
     /**
      * Redirecting the user to an intended url
      * @param {number} delay
+     * @returns {void}
      */
     redirector(delay) {
         setTimeout(() => {
@@ -72,6 +74,7 @@ class Application extends React.Component {
     /**
      * Handling any change that is made in the user interface
      * @param {Event} event
+     * @returns {void}
      */
     handleChange(event) {
         const target = event.target;
@@ -98,6 +101,7 @@ class Application extends React.Component {
     /**
      * Handling the form submission
      * @param {Event} event
+     * @returns {void}
      */
     handleSubmit(event) {
         const delay = 4075;
@@ -161,6 +165,10 @@ class Application extends React.Component {
             return <i class="fa fa-user"></i>;
         }
     }
+    /**
+     * Rendering the application
+     * @returns {Application[]}
+     */
     render() {
         return [<Header />, <Main />, <Footer />];
     }
