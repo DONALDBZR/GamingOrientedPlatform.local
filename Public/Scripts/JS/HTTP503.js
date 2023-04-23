@@ -4,6 +4,7 @@
 class Application extends React.Component {
     /**
      * Renders the components that are being returned
+     * @returns {Application}
      */
     render() {
         return [<Header />, <Main />, <Footer />];
@@ -23,6 +24,7 @@ class Header extends Application {
 class Main extends Application {
     /**
      * Returns the user backward
+     * @returns {void}
      */
     return() {
         history.back();
