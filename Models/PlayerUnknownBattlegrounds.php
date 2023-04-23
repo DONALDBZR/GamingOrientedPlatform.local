@@ -152,8 +152,6 @@ class PlayerUnknownBattleGrounds
                 );
                 $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
             }
-            $this->PDO->query("SELECT * FROM PlayerUnknownBattleGrounds");
-            $this->PDO->execute();
             return 0;
         } else {
             return 1;
