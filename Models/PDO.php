@@ -92,7 +92,7 @@ class PHPDataObject
     }
     /**
      * Fetching all the data that is requested from the command that was sent to the database server
-     * @return  mixed
+     * @return  array|false
      */
     public function resultSet()
     {
