@@ -21,6 +21,7 @@ class Application extends React.Component {
     }
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
+     * @returns {void}
      */
     getUser() {
         fetch("/Users/CurrentUser", {
@@ -40,6 +41,7 @@ class Application extends React.Component {
     /**
      * Handling any change that is made in the interface
      * @param {Event} event
+     * @returns {void}
      */
     handleFileChange(event) {
         this.setState({
@@ -54,6 +56,7 @@ class Application extends React.Component {
     /**
      * Handling the form submission
      * @param {Event} event
+     * @returns {void}
      */
     handleSubmit(event) {
         const delay = 2600;
@@ -85,6 +88,7 @@ class Application extends React.Component {
     /**
      * Redirecting the user to an intended url
      * @param {number} delay
+     * @returns {void}
      */
     redirector(delay) {
         setTimeout(() => {
