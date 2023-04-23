@@ -8,66 +8,56 @@ class Application extends React.Component {
          * States of the application
          */
         this.state = {
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * Mail address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
+            User: {
+                mailAddress: "",
+                username: "",
+            },
+            System: {
+                status: 0,
+                message: "",
+                url: "",
+            },
         };
     }
     /**
      * Redirecting the user to an intended url
-     * @param {int} delay
+     * @param {number} delay
+     * @returns {void}
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
      * Handling any change that is made in the user interface
      * @param {Event} event
+     * @returns {void}
      */
     handleChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.setState((previous) => ({
+            User: {
+                ...previous.User,
+                [name]: value,
+            },
+        }));
     }
     /**
      * Handling the form submission
      * @param {Event} event
+     * @returns {void}
      */
     handleSubmit(event) {
         const delay = 1975;
         event.preventDefault();
-        fetch("/Register", {
+        fetch("/Users/New", {
             method: "POST",
             body: JSON.stringify({
-                username: this.state.username,
-                mailAddress: this.state.mailAddress,
+                username: this.state.User.username,
+                mailAddress: this.state.User.mailAddress,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -76,9 +66,11 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
+                    System: {
+                        status: data.status,
+                        message: data.message,
+                        url: data.url,
+                    },
                 })
             )
             .then(() => this.redirector(delay));
@@ -88,7 +80,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseColor() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -99,7 +91,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseFontSize() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "71%";
         } else {
             return "180%";
@@ -107,6 +99,7 @@ class Application extends React.Component {
     }
     /**
      * Renders the components that are being returned
+     * @returns {Application}
      */
     render() {
         return [<Header />, <Main />, <Footer />];
@@ -134,13 +127,16 @@ class Main extends Application {
     render() {
         return (
             <main>
+                <div>
+                    <img src="/Public/Images/istockphoto-1175691444-612x612.jpg" />
+                </div>
                 <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                     <div id="label">Registration Form</div>
                     <input
                         type="text"
                         name="username"
                         placeholder="Username"
-                        value={this.state.username}
+                        value={this.state.User.username}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -148,7 +144,7 @@ class Main extends Application {
                         type="mail"
                         name="mailAddress"
                         placeholder="Mail Address"
-                        value={this.state.mailAddress}
+                        value={this.state.User.mailAddress}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -162,7 +158,7 @@ class Main extends Application {
                                 fontSize: this.handleResponseFontSize(),
                             }}
                         >
-                            {this.state.message}
+                            {this.state.System.message}
                         </h1>
                     </div>
                 </form>

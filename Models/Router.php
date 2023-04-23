@@ -7,31 +7,34 @@ class Router
 {
     /**
      * The request address
+     * @var string $route
      */
     private string $route;
     /**
      * The server on which the application is being hosted
+     * @var string $root
      */
     private string $root;
     /**
      * The path of the response
+     * @var string $path
      */
     private string $path;
     /**
-     * The method of the request
+     * Creating the object which takes two parameters to verify the request method and session
+     * @param   string  $route  The url of the view or controller
      */
-    private string $requestMethod;
-    public function __construct(string $request_method, string $route, string $path)
+    public function __construct(string $route)
     {
         $this->setRoot($_SERVER['DOCUMENT_ROOT']);
+        $this->setRoute($route);
         $this->verifySession();
-        $this->verifyRequestMethod($request_method, $route, $path);
     }
     public function getRoute(): string
     {
         return $this->route;
     }
-    public function setRoute(string $route)
+    public function setRoute(string $route): void
     {
         $this->route = $route;
     }
@@ -39,7 +42,7 @@ class Router
     {
         return $this->path;
     }
-    public function setPath(string $path)
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
@@ -47,81 +50,51 @@ class Router
     {
         return $this->root;
     }
-    public function setRoot(string $root)
+    public function setRoot(string $root): void
     {
         $this->root = $root;
     }
-    public function getRequestMethod(): string
-    {
-        return $this->requestMethod;
-    }
-    public function setRequestMethod(string $request_method)
-    {
-        $this->requestMethod = $request_method;
-    }
     /**
-     * Verifying the request method before setting the route of the request for generating the adequate response
+     * Selecting data from the server
+     * @param   string  $route  The url of the view or controller
+     * @param   string  $path   The path of the view or controller
+     * @return  void
      */
-    public function verifyRequestMethod(string $requestMethod, string $route, string $path)
+    public function get(string $route, string $path)
     {
-        $this->setRequestMethod($requestMethod);
-        $this->setRoute($route);
         $this->setPath($path);
-        switch ($this->getRequestMethod()) {
-            case 'GET':
-            case 'POST':
-            case 'PUT':
-            case 'PATCH':
-            case 'DELETE':
-            default:
-                $this->route($this->getRoute(), $this->getPath());
-                break;
+        if ($route != "/404") {
+            require_once "{$this->getRoot()}{$this->getPath()}";
+            http_response_code(200);
+            exit();
+        } else {
+            require_once "{$this->getRoot()}/Views/HTTP404.php";
+            http_response_code(404);
+            exit();
         }
     }
     /**
-     * Setting the route of the request to get an adequate response
+     * Inserting data in the server
+     * @param   string  $route  The url of the view or controller
+     * @param   string  $path   The path of the view or controller
+     * @return  void
      */
-    public function route(string $route, string $path)
+    public function post(string $route, string $path)
     {
-        if ($route == "/404") {
-            require_once "{$this->getRoot()}/{$path}";
+        $this->setPath($path);
+        if ($route != "/404") {
+            $_POST[$route] = (object) json_decode(file_get_contents("php://input"));
+            require_once "{$this->getRoot()}{$this->getPath()}";
+            http_response_code(200);
+            exit();
+        } else {
+            http_response_code(404);
             exit();
         }
-        $requestURL = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
-        $requestURL = rtrim($requestURL, '/');
-        $requestURL = strtok($requestURL, '?');
-        $routeParts = explode('/', $route);
-        $requestURLParts = explode('/', $requestURL);
-        array_shift($routeParts);
-        array_shift($requestURLParts);
-        if ($routeParts[0] == '' && count($requestURLParts) == 0) {
-            require_once "{$this->getRoot()}/{$path}";
-            exit();
-        }
-        if (count($routeParts) != count($requestURLParts)) {
-            return;
-        }
-        $parameters = array();
-        for ($index = 0; $index < count($routeParts); $index++) {
-            $routePart = $routeParts[$index];
-            if (preg_match("/^[$]/", $routePart)) {
-                $routePart = ltrim($routePart, '$');
-                array_push($parameters, $requestURLParts[$index]);
-                $$routePart = $requestURLParts[$index];
-            } else if ($routeParts[$index] != $requestURLParts[$index]) {
-                return;
-            }
-        }
-        if (is_callable($path)) {
-            call_user_func($path);
-            exit();
-        }
-        require_once "{$this->getRoot()}/{$path}";
-        http_response_code(200);
-        exit();
     }
     /**
      * Creating Session
+     * @return  void
      */
     public function createSession()
     {
@@ -135,13 +108,13 @@ class Router
             "ip_address" => $_SERVER['REMOTE_ADDR'],
             "http_client_ip_address" => $httpClientIP,
             "proxy_ip_address" => $proxyAddress,
-            "user_agent" => $_SERVER['HTTP_USER_AGENT'],
             "access_time" => time()
         );
         $_SESSION['Client'] = $data;
     }
     /**
      * Verifying that the session is not hijacked
+     * @return  void
      */
     public function verifySession()
     {
@@ -150,12 +123,12 @@ class Router
         for ($index = 0; $index < count($sessionFiles); $index++) {
             $session = json_decode(file_get_contents("{$directory}{$sessionFiles[$index]}"));
             $sessionData = $this->objectToArray($session);
-            if ($_SESSION['Client']['user_agent'] == $session->Client->user_agent && $_SESSION['Client']['ip_address'] == $session->Client->ip_address) {
+            if ($_SESSION['Client']['ip_address'] == $session->Client->ip_address) {
                 $_SESSION = $sessionData;
             }
         }
         if (isset($_SESSION['Client'])) {
-            if ($_SERVER['HTTP_USER_AGENT'] == $_SESSION['Client']['user_agent'] && $_SERVER['REMOTE_ADDR'] == $_SESSION['Client']['ip_address']) {
+            if ($_SERVER['REMOTE_ADDR'] == $_SESSION['Client']['ip_address']) {
                 $_SESSION['Client']['access_time'] = time();
             } else {
                 session_unset();
@@ -167,6 +140,8 @@ class Router
     }
     /**
      * Converting an object to an array
+     * @param   mixed   $data   Data that is in the cache data
+     * @return  array
      */
     public function objectToArray(mixed $data): array
     {

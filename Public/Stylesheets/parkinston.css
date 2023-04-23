@@ -1,656 +1,600 @@
 @font-face {
     font-family: "Proxima Nova";
-    src: url("../Fonts/Proxima Nova.otf");
-    src: url("../Fonts/Proxima Nova - Alternate.otf");
+    src: url("https://fonts.cdnfonts.com/css/proxima-nova-2");
 }
 @font-face {
     font-family: "Source Code Pro";
-    src: url("../Fonts/Source Code Pro - Black.otf");
-    src: url("../Fonts/Source Code Pro - Black Italic.otf");
-    src: url("../Fonts/Source Code Pro - Bold Italic.otf");
-    src: url("../Fonts/Source Code Pro - Bold.otf");
-    src: url("../Fonts/Source Code Pro - Extra Light Italic.otf");
-    src: url("../Fonts/Source Code Pro - Extra Light.otf");
-    src: url("../Fonts/Source Code Pro - Italic.otf");
-    src: url("../Fonts/Source Code Pro - Light Italic.otf");
-    src: url("../Fonts/Source Code Pro - Light.otf");
-    src: url("../Fonts/Source Code Pro - Medium Italic.otf");
-    src: url("../Fonts/Source Code Pro - Medium.otf");
-    src: url("../Fonts/Source Code Pro - Regular.otf");
-    src: url("../Fonts/Source Code Pro - Semi Bold.otf");
-    src: url("../Fonts/Source Code Pro - Semi Bold Italic.otf");
+    src: url("https://fonts.cdnfonts.com/css/source-sans-pro");
 }
 @font-face {
     font-family: "Ethnocentric";
-    src: url("../Fonts/Ethnocentric - Regular.otf");
-    src: url("../Fonts/Ethnocentric - Regular Italic.otf");
+    src: url("https://fonts.cdnfonts.com/css/ethnocentric");
 }
-/* Variables */
 :root {
     --percentage: 100%;
     --color1: rgb(
-        var(--percentage),
-        calc(var(--percentage) / 2),
-        calc(var(--percentage) * 0)
+        calc(var(--percentage) * 0.9),
+        calc(var(--percentage) * 0.9),
+        calc(var(--percentage) * 0.9)
     );
     --color2: rgb(
         calc(var(--percentage) * 0),
         calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0)
+        calc(var(--percentage) / 2)
     );
-    --color3: rgba(
+    --color3: rgb(
+        calc(var(--percentage) * 0),
+        calc(var(--percentage) / 2),
+        var(--percentage)
+    );
+    --color4: rgb(var(--percentage), var(--percentage), var(--percentage));
+    --color5: rgba(
         calc(var(--percentage) * 0),
         calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0),
-        calc(var(--percentage) / 4)
+        calc(var(--percentage) / 2),
+        calc(var(--percentage) / 2)
+    );
+    --color6: rgb(
+        calc(var(--percentage) / 10),
+        calc(var(--percentage) / 10),
+        calc(var(--percentage) / 10)
+    );
+    --color7: rgb(
+        var(--percentage),
+        var(--percentage),
+        calc(var(--percentage) / 1.7)
+    );
+    --color8: rgb(
+        calc(var(--percentage) * (107 / 255)),
+        calc(var(--percentage) * (49 / 255)),
+        calc(var(--percentage) * (168 / 255))
+    );
+    --color9: rgb(
+        calc(var(--percentage) * (40 / 255)),
+        calc(var(--percentage) * (52 / 255)),
+        calc(var(--percentage) * (78 / 255))
+    );
+    --color10: rgb(
+        calc(var(--percentage) * (201 / 255)),
+        calc(var(--percentage) * (118 / 255)),
+        calc(var(--percentage) * (14 / 255))
     );
     --proximaNova: "Proxima Nova";
     --sourceCodePro: "Source Code Pro";
-    --color4: rgb(
-        calc(var(--percentage) / 2),
-        calc(var(--percentage) / 4),
-        calc(var(--percentage) * 0)
-    );
-    --color5: rgb(
-        calc(var(--percentage) / 4),
-        calc(var(--percentage) / 8),
-        calc(var(--percentage) * 0)
-    );
-    --angle: 30deg;
-    --color6: rgb(
-        var(--percentage),
-        calc(var(--percentage) * 0.9),
-        calc(var(--percentage) * 0.8)
-    );
-    --color7: rgb(
-        calc(var(--percentage) * 0.68),
-        calc(var(--percentage) * 0.34),
-        calc(var(--percentage) * 0)
-    );
-    --color8: rgba(
-        calc(var(--percentage) / 5),
-        calc(var(--percentage) / 10),
-        calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0)
-    );
-    --color9: rgb(
-        var(--percentage),
-        calc(var(--percentage) / 2),
-        calc(var(--percentage) * 0.15)
-    );
-    --color10: rgb(
-        var(--percentage),
-        calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0)
-    );
     --ethnocentric: "Ethnocentric";
-    --color11: rgb(
-        calc(var(--percentage) * 0),
-        var(--percentage),
-        calc(var(--percentage) * 0)
-    );
-    --color12: rgb(var(--percentage), var(--percentage), var(--percentage));
 }
-/* Default application's styling */
-body {
+#Homepage,
+#Login,
+#Register,
+#ForgotPassword,
+body[id*="LoginVerification"],
+body[id*="Users"] {
     font-family: sans-serif;
     background-color: var(--color1);
     color: var(--color2);
 }
-#Homepage header,
-body[class="404"] header,
-#Register header,
-#Login header,
-body[id*="LoginVerification"] header,
-#Sign-Out header,
-#ForgotPassword header {
-    text-align: center;
-    font-weight: bold;
-    font-family: var(--ethnocentric);
-}
-#Homepage main {
-    background-color: var(--color3);
-}
-#Homepage main #notice {
-    font-family: var(--proximaNova);
-}
+#Homepage header div:nth-child(1),
+#Login header div:nth-child(1) a,
 #Homepage footer,
-body[class="404"] footer,
+#Homepage main div span,
+#Login footer div:nth-child(2),
+#Register header a,
 #Register footer div:nth-child(2),
-#Login footer,
-body[id*="LoginVerification"] footer,
-body[id*="Users"] footer,
-#Sign-Out footer,
+#ForgotPassword header a,
 #ForgotPassword footer,
-body[id*="UsersProfile"] footer div,
-body[id*="LeagueOfLegends"] footer {
-    text-align: center;
+body[id*="LoginVerification"] header a,
+body[id*="LoginVerification"] footer,
+body[id*="Users"] header nav div:nth-child(1) a,
+body[id*="Users"] footer,
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(1),
+body[id*="LeagueOfLegends"] header nav div:nth-child(1) a,
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(2)
+    div
+    div:nth-child(1),
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(4)
+    div:nth-child(1)
+    div:nth-child(1),
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    div:nth-child(1),
+body[id*="LeagueOfLegends"] footer div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a,
+body[id*="PlayerUnknownBattleGrounds"] footer div,
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div:nth-child(1)
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div:nth-child(2)
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div:nth-child(3)
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    #currentSeason
+    div
+    div:nth-child(1) {
     font-family: var(--ethnocentric);
 }
-#Homepage main #buttons div a,
-body[id*="UsersProfile"] footer nav a,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    button,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(3) a,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(4) a,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) div:nth-child(5) a {
-    font-family: var(--sourceCodePro);
+#Login header div:nth-child(1) a,
+#Login footer div:nth-child(1) a,
+#Register header a,
+#Register footer div:nth-child(1) a,
+#ForgotPassword header a,
+body[id*="LoginVerification"] header a,
+body[id*="Users"] header nav div:nth-child(1) a,
+body[id*="Users"] header nav div:nth-child(2) a:hover,
+body[id*="Users"] header nav div:nth-child(3) a:hover,
+body[id*="UsersProfile"] main nav div a:hover {
+    color: var(--color2);
+}
+#Homepage header div a,
+#Login header div a {
     text-decoration: none;
-    background: linear-gradient(
-        calc(var(--angle) * -1),
-        var(--color4) calc(var(--percentage) / 2),
-        var(--color5) calc(var(--percentage) / 2)
-    );
-    color: var(--color6);
-    text-align: center;
-    text-transform: uppercase;
-}
-#Homepage main #buttons div a::before,
-body[id*="UsersProfile"] footer nav a::before,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    button::before,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(3)
-    a::before,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(4)
-    a::before,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(5)
-    a::before {
-    content: "";
-    background-color: var(--color7);
-    opacity: calc(var(--percentage) * 0);
-}
-#Homepage main #buttons div a span:nth-child(1),
-body[id*="UsersProfile"] footer nav a span:nth-child(1),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    button
-    span:nth-child(1),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(3)
-    a
-    span:nth-child(1),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(4)
-    a
-    span:nth-child(1),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(5)
-    a
-    span:nth-child(1) {
-    background: linear-gradient(to left, var(--color8), var(--color9));
-}
-#Homepage main #buttons div a span:nth-child(2),
-body[id*="UsersProfile"] footer nav a span:nth-child(2),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    button
-    span:nth-child(2),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(3)
-    a
-    span:nth-child(2),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(4)
-    a
-    span:nth-child(2),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(5)
-    a
-    span:nth-child(2) {
-    background: linear-gradient(to top, var(--color8), var(--color9));
-}
-#Homepage main #buttons div a span:nth-child(3),
-body[id*="UsersProfile"] footer nav a span:nth-child(3),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    button
-    span:nth-child(3),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(3)
-    a
-    span:nth-child(3),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(4)
-    a
-    span:nth-child(3),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(5)
-    a
-    span:nth-child(3) {
-    background: linear-gradient(to right, var(--color8), var(--color9));
-}
-#Homepage main #buttons div a span:nth-child(4),
-body[id*="UsersProfile"] footer nav a span:nth-child(4),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    button
-    span:nth-child(4),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(3)
-    a
-    span:nth-child(4),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(4)
-    a
-    span:nth-child(4),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(5)
-    a
-    span:nth-child(4) {
-    background: linear-gradient(to bottom, var(--color8), var(--color9));
-}
-#Homepage main #buttons div a:hover,
-body[id*="UsersProfile"] footer nav a:hover,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    button:hover,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(3)
-    a:hover,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(4)
-    a:hover,
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(5)
-    a:hover {
-    --color4: rgb(
-        var(--percentage),
-        calc(var(--percentage) / 2),
-        calc(var(--percentage) * 0)
-    );
-    --color5: rgb(
-        calc(var(--percentage) / 2),
-        calc(var(--percentage) / 4),
-        calc(var(--percentage) * 0)
-    );
-    --color6: rgb(
-        calc(var(--percentage) / 10),
-        calc(var(--percentage) * 0.09),
-        calc(var(--percentage) * 0.08)
-    );
-    --color8: rgba(
-        calc(var(--percentage) / 2.5),
-        calc(var(--percentage) / 5),
-        calc(var(--percentage) * 0),
-        calc(var(--percentage) * 0)
-    );
-    --color9: rgb(
-        var(--percentage),
-        calc(var(--percentage) / 4),
-        calc(var(--percentage) * 0.075)
-    );
-    background: linear-gradient(
-        calc(var(--angle) * -1),
-        var(--color4) calc(var(--percentage) / 2),
-        var(--color5) calc(var(--percentage) / 2)
-    );
-    color: var(--color6);
-}
-body[class="404"] main div {
-    text-align: center;
-}
-body[class="404"] main .Error {
+    font-family: var(--sourceCodePro);
     font-weight: bold;
-    color: var(--color10);
+    color: var(--color3);
+}
+#Homepage header div a:hover,
+#Login header div a:hover {
+    color: var(--color2);
+    text-decoration: underline;
+}
+#Homepage main div,
+#Login footer div:nth-child(1),
+#Register footer div:nth-child(1),
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(1)
+    div,
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(1),
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(3)
+    div
+    div,
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(2),
+body[id*="UsersHome"]
+    main
+    #leagueOfLegendsCard
+    div:nth-child(2)
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(3),
+body[id*="UsersEditProfile"] main form div:nth-child(1),
+body[id*="UsersSecurity"] main form div:nth-child(1),
+body[id*="LeagueOfLegends"] main div header div:nth-child(1),
+body[id*="LeagueOfLegends"] main div header div:nth-child(2),
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(1),
+body[id*="LeagueOfLegends"] main div header div:nth-child(4),
+body[id*="LeagueOfLegends"]
+    main
+    div
+    header
+    div:nth-child(4)
+    div:nth-child(2)
+    div:nth-child(2)
+    div,
+body[id*="LeagueOfLegends"] main div div #championMastery,
+body[id*="LeagueOfLegends"] main div div #matchHistory div div:nth-child(2) div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(2)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div
+    div:nth-child(3)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(3)
+    div:nth-child(4)
+    div,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(2)
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(1)
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div
+    div:nth-child(2)
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div
+    div:nth-child(2)
+    div:nth-child(2),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div
+    div:nth-child(3)
+    div:nth-child(2),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div:nth-child(4),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    div:nth-child(4)
+    div:nth-child(1),
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    div
+    #player
+    div:nth-child(2)
+    #highestRanked
+    div:nth-child(2),
+body[id*="PlayerUnknownBattleGrounds"] main #currentSeason div div,
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    #currentSeason
+    div
+    div:nth-child(4)
+    div,
+body[id*="PlayerUnknownBattleGrounds"]
+    main
+    #currentSeason
+    div
+    div:nth-child(5)
+    div,
+body[id*="PlayerUnknownBattleGrounds"] main #matchHistory div div {
     font-family: var(--proximaNova);
 }
-body[class="404"] main .button button {
-    background-color: unset;
-    border: none;
-    color: var(--color11);
-    cursor: pointer;
+#Homepage main,
+#Login main,
+#Register main,
+#ForgotPassword main,
+body[id*="LoginVerification"] main,
+body[id*="UsersSecurity"] form {
+    background-color: var(--color4);
 }
-body[class="404"] main .button button:hover {
+#Login footer div:nth-child(1) a,
+#Register footer div:nth-child(1) a,
+body[id*="Users"] header nav div:nth-child(1) a {
+    text-decoration: none;
+}
+#Login footer div:nth-child(1) a:hover,
+#Register header a:hover,
+#Register footer div:nth-child(1) a:hover,
+#ForgotPassword header a:hover,
+body[id*="LoginVerification"] header a:hover,
+body[id*="Users"] header nav div:nth-child(1) a:hover {
+    text-decoration: underline;
+}
+#Login main form div:nth-child(1),
+#Register main form div:nth-child(1),
+#ForgotPassword main form div:nth-child(1),
+body[id*="LoginVerification"] main form div:nth-child(1),
+body[id*="UsersProfile"] main div header div:nth-child(2),
+body[id*="UsersSecurity"] main header div:nth-child(2) {
+    font-family: var(--proximaNova);
+    font-weight: bold;
+}
+#Login main form input,
+#Register main form input,
+#ForgotPassword main form input,
+body[id*="LoginVerification"] main form input,
+body[id*="UsersAccounts"] main form input,
+body[id*="UsersAccounts"] main form select,
+body[id*="UsersSecurity"] main form input,
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form input,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(2) form input {
+    background-color: var(--color1);
+    color: var(--color2);
+    font-family: var(--sourceCodePro);
+}
+#Login main form input::placeholder,
+#Login main form input::-webkit-input-placeholder,
+#Register main form input::placeholder,
+#Register main form input::-webkit-input-placeholder,
+#ForgotPassword main form input::placeholder,
+#ForgotPassword main form input::-webkit-input-placeholder,
+body[id*="LoginVerification"] main form input::placeholder,
+body[id*="LoginVerification"] main form input::-webkit-input-placeholder,
+body[id*="UsersAccounts"] main form input::placeholder,
+body[id*="UsersAccounts"] main form input::-webkit-input-placeholder,
+body[id*="UsersSecurity"] main form input::placeholder,
+body[id*="UsersSecurity"] main form input::-webkit-input-placeholder,
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form input::placeholder,
+body[id*="LeagueOfLegends"]
+    header
+    nav
+    div:nth-child(2)
+    form
+    input::-webkit-input-placeholder {
+    color: var(--color5);
+}
+#Login main form div[id="button"] button,
+#Register main form div[id="button"] button,
+#ForgotPassword main form div[id="button"] button,
+body[id*="LoginVerification"] main form div[id="button"] button,
+body[id*="UsersSecurity"] main form div:nth-child(6) button,
+body[id*="UsersEditProfile"] main form input::file-selector-button,
+body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button,
+body[id*="UsersEditProfile"] main form div button,
+body[id*="UsersAccounts"] main form div button {
+    font-family: var(--sourceCodePro);
+    background-color: var(--color3);
+    color: var(--color4);
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: bold;
+}
+#Login main form div[id="button"] button:hover,
+#Register main form div[id="button"] button:hover,
+#ForgotPassword main form div[id="button"] button:hover,
+body[id*="LoginVerification"] main form div[id="button"] button:hover,
+body[id*="UsersSecurity"] main form div:nth-child(6) button:hover,
+body[id*="UsersEditProfile"] main form input::file-selector-button:hover,
+body[id*="UsersEditProfile"] main form input::-webkit-file-upload-button:hover,
+body[id*="UsersEditProfile"] main form div button:hover,
+body[id*="UsersAccounts"] main form div button:hover {
+    background-color: var(--color4);
     color: var(--color2);
 }
 #Register header a,
-#Login header a,
-body[id*="LoginVerification"] header a,
-#ForgotPassword header a {
+#ForgotPassword header a,
+body[id*="LoginVerification"] header a {
     text-decoration: none;
-    color: var(--color2);
-}
-#Register header a:hover,
-#Login header a:hover,
-body[id*="LoginVerification"] header a:hover,
-#ForgotPassword header a:hover {
-    color: var(--color12);
-}
-#Register main form[method="POST"],
-#Login main form[method="POST"],
-body[id*="LoginVerification"] main form[method="POST"],
-#ForgotPassword main form[method="POST"],
-body[id*="Users"] main form[method="POST"] {
-    background-color: var(--color3);
-}
-#Register main form[method="POST"] #label,
-#Login main form[method="POST"] #label,
-body[id*="LoginVerification"] main form[method="POST"] #label,
-#ForgotPassword main form[method="POST"] #label,
-body[id*="Users"] main form[method="POST"] #label {
-    text-align: center;
-    font-family: var(--proximaNova);
-}
-#Register main form[method="POST"] input,
-#Login main form[method="POST"] input,
-body[id*="LoginVerification"] main form[method="POST"] input,
-#ForgotPassword main form[method="POST"] input,
-body[id*="UsersSecurity"] main form[method="POST"] input,
-body[id*="UsersAccounts"] main form[method="POST"] input,
-body[id*="UsersAccounts"] main form[method="POST"] select,
-body[id*="LeagueOfLegends"] main header div form input {
-    font-family: var(--proximaNova);
-    font-weight: bold;
-    background-color: var(--color12);
-    color: var(--color2);
-}
-#Register main form[method="POST"] input::placeholder,
-#Login main form[method="POST"] input::placeholder,
-body[id*="LoginVerification"] main form[method="POST"] input::placeholder,
-#ForgotPassword main form[method="POST"] input::placeholder,
-body[id*="UsersSecurity"] main form[method="POST"] input::placeholder,
-body[id*="UsersAccounts"] main form[method="POST"] input::placeholder,
-body[id*="LeagueOfLegends"] main header div form input::placeholder {
-    color: var(--color4);
-}
-#Register main form[method="POST"] div button,
-#Login main form[method="POST"] div button,
-body[id*="LoginVerification"] main form[method="POST"] div button,
-#ForgotPassword main form[method="POST"] div button,
-body[id*="UsersSecurity"] main form[method="POST"] div button,
-body[id*="UsersAccounts"] main form[method="POST"] div button,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) form button:hover {
-    color: var(--color12);
-    background-color: var(--color1);
-}
-#Register main form[method="POST"] div button:hover,
-#Login main form[method="POST"] div button:hover,
-body[id*="LoginVerification"] main form[method="POST"] div button:hover,
-#ForgotPassword main form[method="POST"] div button:hover,
-body[id*="UsersSecurity"] main form[method="POST"] div button:hover,
-body[id*="UsersAccounts"] main form[method="POST"] div button:hover,
-body[id*="LeagueOfLegends"] main header div:nth-child(4) form button {
-    background-color: var(--color12);
-    color: var(--color1);
-}
-#Register main form[method="POST"] #response h1,
-#Login main form[method="POST"] #response h1,
-body[id*="LoginVerification"] main form[method="POST"] #response h1,
-#ForgotPassword main form[method="POST"] #response h1,
-body[id*="Users"] main form[method="POST"] #response h1,
-body[id*="LeagueOfLegends"] main header div form #response h1 {
-    text-align: center;
-    font-family: var(--proximaNova);
-}
-body[id*="Users"] header nav div,
-body[id*="LeagueOfLegends"] header nav div {
-    text-align: center;
-}
-body[id*="Users"] header nav div:nth-child(1) a,
-body[id*="LeagueOfLegends"] header nav div:nth-child(1) a {
-    color: var(--color2);
-    font-weight: bold;
-    font-family: var(--ethnocentric);
-}
-body[id*="Users"] header nav div a,
-body[id*="LeagueOfLegends"] header nav div a {
-    color: var(--color12);
-    text-decoration: none;
-}
-body[id*="Users"] header nav div:nth-child(1) a:hover,
-body[id*="LeagueOfLegends"] header nav div:nth-child(1) a:hover {
-    color: var(--color12);
-}
-body[id*="Users"] header nav div a:hover,
-body[id*="LeagueOfLegends"] header nav div a:hover {
-    color: var(--color2);
-}
-#Sign-Out main {
-    text-align: center;
-    font-family: var(--sourceCodePro);
-    color: var(--color11);
     font-weight: bold;
 }
-#Register footer div:nth-child(1),
-#Login footer div:nth-child(1) {
-    text-align: center;
-    font-family: var(--sourceCodePro);
-}
-#Register footer div a,
-#Login footer div a {
-    text-decoration: none;
-    color: var(--color2);
-}
-#Register footer div a:hover,
-#Login footer div a:hover {
-    text-decoration: underline;
-    color: var(--color6);
-}
-body[id*="UsersProfile"] main header #profilePicture,
-body[id*="UsersSecurity"] main header #profilePicture {
-    text-align: center;
-}
-body[id*="UsersProfile"] main header #username,
-body[id*="UsersSecurity"] main header #username {
-    font-family: var(--proximaNova);
-    font-weight: bold;
-}
-body[id*="UsersProfile"] main description div label {
-    font-family: var(--sourceCodePro);
-}
-body[id*="UsersProfile"] main description div div {
-    font-family: var(--proximaNova);
-    font-weight: bold;
-}
-body[id*="UsersEditProfile"]
+body[id*="Users"] header nav div:nth-child(2) a img,
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img,
+body[id*="LeagueOfLegends"] main nav div a img,
+body[id*="LeagueOfLegends"] footer nav div a img,
+body[id*="UsersHome"]
     main
-    form[method="POST"]
-    input::file-selector-button,
-body[id*="UsersEditProfile"]
-    main
-    form[method="POST"]
-    input::-webkit-file-upload-button,
-body[id*="UsersEditProfile"] main form[method="POST"] div button {
-    font-family: var(--proximaNova);
-    color: var(--color12);
-    background-color: var(--color1);
-    cursor: pointer;
-}
-body[id*="UsersEditProfile"]
-    main
-    form[method="POST"]
-    input::file-selector-button:hover,
-body[id*="UsersEditProfile"]
-    main
-    form[method="POST"]
-    input::-webkit-file-upload-button:hover,
-body[id*="UsersEditProfile"] main form[method="POST"] div button:hover {
-    background-color: var(--color12);
-    color: var(--color1);
-}
-body[id*="Users"] header nav div a img:hover,
-body[id*="LeagueOfLegends"] header nav div a img:hover {
-    opacity: var(--percentage);
-}
-body[id*="Users"] header nav div a img,
-body[id*="LeagueOfLegends"] header nav div a img {
+    #playerUnknownBattleGroundsCard
+    div:nth-child(1)
+    a
+    img,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a img {
     opacity: calc(var(--percentage) / 2);
 }
-body[id*="UsersHome"] main div div a {
+body[id*="Users"] header nav div:nth-child(2) a img:hover,
+body[id*="UsersHome"] main #leagueOfLegendsCard div:nth-child(1) a img:hover,
+body[id*="LeagueOfLegends"] main nav div a img:hover,
+body[id*="LeagueOfLegends"] footer nav div a img:hover,
+body[id*="UsersHome"]
+    main
+    #playerUnknownBattleGroundsCard
+    div:nth-child(1)
+    a
+    img:hover,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a img:hover {
+    opacity: var(--percentage);
+}
+body[id*="Users"] header nav div:nth-child(2) a,
+body[id*="Users"] header nav div:nth-child(3) a {
+    color: var(--color3);
     text-decoration: none;
+}
+body[id*="UsersHome"] main #leagueOfLegendsCard {
+    background-color: var(--color6);
+    color: var(--color7);
+}
+body[id*="UsersProfile"] main nav {
+    background-color: var(--color3);
+}
+body[id*="UsersProfile"] main nav div a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a:hover {
+    color: var(--color1);
+    text-decoration: none;
+}
+body[id*="LeagueOfLegends"] {
+    background-color: var(--color6);
+    color: var(--color7);
+    font-family: sans-serif;
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(1) a,
+body[id*="LeagueOfLegends"] main nav div a,
+body[id*="LeagueOfLegends"] main nav div a:hover,
+body[id*="LeagueOfLegends"] main nav div svg:hover {
+    color: var(--color7);
+    text-decoration: none;
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(1) a:hover,
+body[id*="LeagueOfLegends"] main nav div a,
+body[id*="LeagueOfLegends"] main nav div svg {
+    color: var(--color8);
+}
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form button,
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) button,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) a,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) a,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) a {
+    background-color: var(--color8);
     color: var(--color6);
+    cursor: pointer;
 }
-body[id*="LeagueOfLegends"] header,
-body[id*="LeagueOfLegends"] footer {
-    background-color: var(--color1);
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form svg,
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) svg,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) svg,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) svg,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) svg,
+body[id*="LeagueOfLegends"] footer nav div svg {
+    color: var(--color8);
+    cursor: pointer;
 }
-body[id*="UsersHome"] main div div a:hover {
-    text-decoration: underline;
-    color: var(--color2);
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form button:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) button:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) a:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) a:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) a:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form svg:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) svg:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) svg:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) svg:hover,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) svg:hover,
+body[id*="LeagueOfLegends"] footer nav div svg:hover {
+    background-color: var(--color6);
+    color: var(--color7);
 }
-body[id*="LeagueOfLegends"] main header div,
-body[id*="LeagueOfLegends"] main div #championMastery div div:nth-child(2) {
-    text-align: center;
-    font-family: var(--proximaNova);
+body[id*="LeagueOfLegends"] header nav div:nth-child(3) button,
+body[id*="LeagueOfLegends"] header nav div:nth-child(4) a,
+body[id*="LeagueOfLegends"] header nav div:nth-child(5) a,
+body[id*="LeagueOfLegends"] header nav div:nth-child(6) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a {
+    font-family: var(--sourceCodePro);
     font-weight: bold;
-}
-body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(1),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(5)
-    div:nth-child(1)
-    div:nth-child(1),
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(5)
-    div:nth-child(2)
-    div:nth-child(1) {
-    font-family: var(--ethnocentric);
-    text-align: center;
-}
-body[id*="LeagueOfLegends"] main header div:nth-child(2) div div:nth-child(3) {
-    text-align: center;
-}
-body[id*="LeagueOfLegends"] main header div:nth-child(3) div div:nth-child(1) {
-    text-align: start;
-}
-body[id*="LeagueOfLegends"]
-    main
-    #matchHistory
-    div
-    div:nth-child(2)
-    div:nth-child(1)
-    div {
-    text-align: center;
-    font-family: var(--proximaNova);
-    font-weight: bold;
-    text-shadow: calc(var(--pixelate) / 540) calc(var(--pixelate) / 540)
-        var(--color2);
-}
-body[id*="LeagueOfLegends"]
-    main
-    #matchHistory
-    div
-    div:nth-child(2)
-    div:nth-child(1)
-    div:nth-child(4),
-body[id*="LeagueOfLegends"]
-    main
-    #matchHistory
-    div
-    div:nth-child(2)
-    div:nth-child(1)
-    div
-    div:nth-child(1),
-body[id*="LeagueOfLegends"]
-    main
-    #matchHistory
-    div
-    div:nth-child(2)
-    div:nth-child(1)
-    div:nth-child(5) {
-    text-shadow: none;
+    text-transform: uppercase;
+    text-decoration: none;
 }
 ::-webkit-scrollbar {
     display: none;
 }
-body[id*="LeagueOfLegends"]
-    main
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    button {
-    border: none;
+body[id*="LeagueOfLegends"] main div div #matchHistory div div:nth-child(2) div,
+body[id*="PlayerUnknownBattleGrounds"] main #matchHistory div div {
+    font-weight: bold;
+    text-shadow: calc(var(--pixelate) / 540) calc(var(--pixelate) / 540)
+        var(--color6);
+}
+body[id*="UsersAccounts"] main form div:nth-child(1) {
+    font-weight: bold;
+}
+body[id*="UsersHome"] main #playerUnknownBattleGroundsCard {
+    background-color: var(--color9);
+    color: var(--color4);
+}
+body[id*="UsersEditProfile"] main form div:nth-child(3) {
+    text-align: center;
+}
+body[id*="PlayerUnknownBattleGrounds"] {
+    background-color: var(--color9);
+    color: var(--color1);
+    font-family: sans-serif;
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(1) a:hover,
+body[id*="PlayerUnknownBattleGrounds"] main nav div a {
+    color: var(--color10);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(2) form button,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a {
+    background-color: var(--color9);
+    color: var(--color10);
     cursor: pointer;
 }
-body[id*="LeagueOfLegends"]
-    main
+body[id*="PlayerUnknownBattleGrounds"]
     header
-    div:nth-child(5)
+    nav
     div:nth-child(2)
-    div:nth-child(2)
-    div:nth-child(1) {
-    font-family: var(--proximaNova);
+    form
+    button:hover {
+    color: var(--color1);
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a {
+    color: var(--color9);
+    background-color: var(--color10);
+    cursor: pointer;
+}
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(3) button:hover,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(4) a:hover,
+body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a:hover {
+    color: var(--color1);
+    background-color: var(--color9);
 }

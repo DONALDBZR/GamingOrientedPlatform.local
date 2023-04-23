@@ -2,14 +2,13 @@
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Routes.php";
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/LeagueOfLegends.php";
 $LeagueOfLegends = new LeagueOfLegends();
-if (json_decode(file_get_contents("php://input")) != null) {
-    if (!empty(json_decode(file_get_contents("php://input"))->lolSearch)) {
-        $LeagueOfLegends->search(rawurlencode(json_decode(file_get_contents("php://input"))->lolSearch), $_SESSION['Account']['LeagueOfLegends']['tagLine']);
+if (!is_null($_POST[$_SERVER['REQUEST_URI']])) {
+    if (!empty($_POST[$_SERVER['REQUEST_URI']]->lolSearch)) {
+        $LeagueOfLegends->search(rawurlencode($_POST[$_SERVER['REQUEST_URI']]->lolSearch), $_SESSION['Account']['LeagueOfLegends']['tagLine']);
     } else {
         $response = array(
             "status" => 1,
-            "url" => "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['username']),
-            "message" => "The form must be completely filled!"
+            "url" => "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['username'])
         );
         header('Content-Type: application/json', true, 300);
         echo json_encode($response);
@@ -17,8 +16,7 @@ if (json_decode(file_get_contents("php://input")) != null) {
 } else {
     $response = array(
         "status" => 1,
-        "url" => "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['username']),
-        "message" => "The form must be completely filled!"
+        "url" => "/LeagueOfLegends/Home/" . rawurlencode($_SESSION['Account']['LeagueOfLegends']['username'])
     );
     header('Content-Type: application/json', true, 300);
     echo json_encode($response);

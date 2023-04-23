@@ -11,52 +11,63 @@ class Mail
 {
     /**
      * The recipient of the mail
+     * @var string  $recipient
      */
     private string $recipient;
     /**
      * Subject of the mail
+     * @var string  $subject
      */
     private string $subject;
     /**
      * body of the mail
+     * @var string  $message
      */
     private string $message;
     /**
      * PHPMailer
+     * @var PHPMailer\PHPMailer\PHPMailer   $PHPMailer
      */
     protected $PHPMailer;
+    /**
+     * Upon, instantiation, its dependecy is also instantiated
+     */
     public function __construct()
     {
         $this->PHPMailer = new PHPMailer\PHPMailer\PHPMailer(true);
     }
-    public function getRecipient()
+    public function getRecipient(): string
     {
         return $this->recipient;
     }
-    public function setRecipient(string $recipient)
+    public function setRecipient(string $recipient): void
     {
         $this->recipient = $recipient;
     }
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->subject;
     }
-    public function setSubject(string $subject)
+    public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
-    public function setMessage(string $message)
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }
     /**
      * Sending the mail after having configured PHPMailer
+     * @param   string  $recipient  Receiver of the mail
+     * @param   string  $subject    Subject of the mail
+     * @param   string  $message    Body of the mail
+     * @return  void
      */
-    public function send(string $recipient, string $subject, string $message)
+    public function send(string $recipient, string $subject, string $message): void
     {
         $this->setRecipient($recipient);
         $this->setSubject($subject);

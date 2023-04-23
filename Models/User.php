@@ -8,65 +8,72 @@ class User extends Password
 {
     /**
      * Username of the user which is also the primary key
+     * @var string $username
      */
     private string $username;
     /**
      * Mail address of the user which allows the application to communicate with the user
+     * @var string $mailAddress
      */
     private string $mailAddress;
     /**
      * Profile picture of the user
+     * @var null|string $profilePicture
      */
     private ?string $profilePicture;
     /**
      * Simplifying the use of PHPMailer
+     * @var Mail $Mail
      */
     protected Mail $Mail;
+    /**
+     * Upon instantiation, its aggregated objects are also instantiated
+     */
     public function __construct()
     {
         $this->PDO = new PHPDataObject();
         $this->Mail = new Mail();
         $this->domain = $_SERVER['HTTP_HOST'];
     }
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
-    public function setUsername(string $username)
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
-    public function getMailAddress()
+    public function getMailAddress(): string
     {
         return $this->mailAddress;
     }
-    public function setMailAddress(string $mailAddress)
+    public function setMailAddress(string $mailAddress): void
     {
         $this->mailAddress = $mailAddress;
     }
-    public function getPasswordId()
+    public function getPasswordId(): int
     {
-        return $this->getId();
+        return Password::getId();
     }
-    public function setPasswordId(int $Password_id)
+    public function setPasswordId(int $Password_id): void
     {
-        $this->setId($Password_id);
+        Password::setId($Password_id);
     }
-    public function getProfilePicture()
+    public function getProfilePicture(): null|string
     {
         return $this->profilePicture;
     }
-    public function setProfilePicture(?string $profile_picture)
+    public function setProfilePicture(?string $profile_picture): void
     {
         $this->profilePicture = $profile_picture;
     }
     /**
      * Registering the user
-     * @return JSON
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function register()
+    public function register($request): void
     {
-        $request = json_decode(file_get_contents('php://input'));
         $this->setUsername($request->username);
         $this->setMailAddress($request->mailAddress);
         if (!is_null($this->getUsername()) && !is_null($this->getMailAddress())) {
@@ -135,11 +142,11 @@ class User extends Password
     }
     /**
      * Allow the user to have access to the application
-     * @return JSON
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function login()
+    public function login(object $request): void
     {
-        $request = json_decode(file_get_contents("php://input"));
         if (!is_null($request->username) && !is_null($request->password)) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersUsername = :UsersUsername");
             $this->PDO->bind(":UsersUsername", $request->username);
@@ -181,12 +188,30 @@ class User extends Password
                             "tagLine" => $this->PDO->resultSet()[0]['LeagueOfLegendsTagLine']
                         );
                     }
+                    $this->PDO->query("SELECT * FROM PlayerUnknownBattleGrounds WHERE PlayerUnknownBattleGroundsIdentifier = (SELECT AccountsPUBG FROM Accounts WHERE AccountsUser = :AccountsUser)");
+                    $this->PDO->bind(":AccountsUser", $this->getUsername());
+                    $this->PDO->execute();
+                    if (empty($this->PDO->resultSet())) {
+                        $playerUnknownBattleGrounds = array(
+                            "identifier" => null,
+                            "playerName" => null,
+                            "platform" => null
+                        );
+                    } else {
+                        $playerUnknownBattleGrounds = array(
+                            "identifier" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsIdentifier'],
+                            "playerName" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsPlayerName'],
+                            "platform" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsPlatform']
+                        );
+                    }
                     $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
+                    $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
                     $account = array(
-                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends']
+                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
                     );
                     $_SESSION['Account'] = $account;
-                    $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on http://{$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
+                    $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
                     $data = array(
                         "Client" => $_SESSION['Client'],
                         "User" => $_SESSION['User'],
@@ -221,8 +246,8 @@ class User extends Password
             } else {
                 $response = array(
                     "status" => 4,
-                    "url" => $this->domain,
-                    "message" => "This account does not exist!"
+                    "url" => "/Register",
+                    "message" => "This account does not exist!  You will be redirected so that you can create one!"
                 );
                 $headers = array(
                     "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
@@ -247,15 +272,16 @@ class User extends Password
     }
     /**
      * Signing out the user and clearing server's cache data
-     * @return JSON
+     * @return  void
      */
-    public function logOut()
+    public function logOut(): void
     {
         if (isset($_SESSION)) {
-            if (isset($_SESSION['Account']['LeagueOfLegends']) && isset($_SESSION['User']) && file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json")) {
+            if (isset($_SESSION['Account']['LeagueOfLegends']) && isset($_SESSION['User']) && file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json") || file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Profiles/{$_SESSION['Account']['PlayerUnknownBattleGrounds']['identifier']}.json")) {
                 unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Profiles/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
                 unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
                 unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Champion Masteries/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
+                unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Profiles/{$_SESSION['Account']['PlayerUnknownBattleGrounds']['identifier']}.json");
                 unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json");
                 session_unset();
                 session_destroy();
@@ -300,11 +326,11 @@ class User extends Password
     }
     /**
      * Resetting the password of the user
-     * @return JSON
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function forgotPassword()
+    public function forgotPassword(object $request): void
     {
-        $request = json_decode(file_get_contents('php://input'));
         $this->setMailAddress($request->mailAddress);
         if (!is_null($this->getMailAddress())) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersMailAddress = :UsersMailAddress");
@@ -345,7 +371,7 @@ class User extends Password
             } else {
                 $response = array(
                     "status" => 6,
-                    "url" => $this->domain,
+                    "url" => "/",
                     "message" => "There is no account that is linked to this mail address!"
                 );
                 $headers = array(
@@ -371,9 +397,9 @@ class User extends Password
     }
     /**
      * Changing the profile picture
-     * @return JSON
+     * @return  void
      */
-    public function changeProfilePicture()
+    public function changeProfilePicture(): void
     {
         $this->setUsername($_SESSION['User']['username']);
         $imageDirectory = "/Public/Images/ProfilePictures/";
@@ -399,7 +425,7 @@ class User extends Password
             fclose($cache);
             $response = array(
                 "status" => 0,
-                "url" => "http://{$_SERVER['HTTP_HOST']}/Users/Profile/{$this->getUsername()}",
+                "url" => "/Users/Profile/{$this->getUsername()}",
                 "message" => "Your profile picture has been changed!"
             );
             $headers = array(
@@ -413,16 +439,16 @@ class User extends Password
     }
     /**
      * Changing both the mail address and the password
-     * @return JSON
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function changePasswordAndMailAddress()
+    public function changePasswordAndMailAddress(object $request): void
     {
-        $request = json_decode(file_get_contents("php://input"));
         $this->setUsername($_SESSION['User']['username']);
         $this->setMailAddress($_SESSION['User']['mailAddress']);
-        $this->setPassword($request->oldPassword);
+        $this->setPassword($request->Password->old);
         if (!empty($request)) {
-            if (!is_null($request->mailAddress) && !is_null($request->oldPassword)) {
+            if (!is_null($request->mailAddress) && !is_null($request->Password->old)) {
                 if ($this->getMailAddress() != $request->mailAddress) {
                     $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
                     $this->setMailAddress($request->mailAddress);
@@ -438,9 +464,9 @@ class User extends Password
                     $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
                     $this->setPassword($this->getPassword() . $this->getSalt());
                     if (password_verify($this->getPassword(), $this->getHash())) {
-                        if ($request->newPassword == $request->confirmNewPassword) {
-                            $this->setPassword($request->newPassword);
-                            $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: {$this->domain}/ForgotPassword");
+                        if ($request->Password->new == $request->Password->confirmNew) {
+                            $this->setPassword($request->Password->new);
+                            $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http:///ForgotPassword");
                             $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                             $this->PDO->execute();
                             if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {
@@ -505,7 +531,7 @@ class User extends Password
                         "responseCode" => 300
                     );
                 }
-            } else if (!is_null($request->mailAddress) && is_null($request->oldPassword)) {
+            } else if (!is_null($request->mailAddress) && is_null($request->Password->old)) {
                 if ($this->getMailAddress() != $request->mailAddress) {
                     $this->Mail->send($this->getMailAddress(), "Mail Address Changed!", "You have just changed your mail address from {$this->getMailAddress()} to {$request->mailAddress}.  You will receive an update on you new mail address as well.  If, you have not made that change, consider into changing your mail address and password as soon as you logged in!");
                     $this->setMailAddress($request->mailAddress);
@@ -536,7 +562,7 @@ class User extends Password
                         "responseCode" => 300
                     );
                 }
-            } else if (is_null($request->mailAddress) && !is_null($request->oldPassword)) {
+            } else if (is_null($request->mailAddress) && !is_null($request->Password->old)) {
                 $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = SELECT UsersPassword FROM Users WHERE UsersUsername = :UsersUsername");
                 $this->PDO->bind(":UsersUsername", $this->getUsername());
                 $this->PDO->execute();
@@ -544,9 +570,9 @@ class User extends Password
                 $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
                 $this->setPassword($this->getPassword() . $this->getSalt());
                 if (password_verify($this->getPassword(), $this->getHash())) {
-                    if ($request->newPassword == $request->confirmNewPassword) {
-                        $this->setPassword($request->newPassword);
-                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: {$this->domain}/ForgotPassword");
+                    if ($request->Password->new == $request->Password->confirmNew) {
+                        $this->setPassword($request->Password->new);
+                        $this->Mail->send($this->getMailAddress(), "Password Changed!", "You have just changed your password and the new one is {$this->getPassword()}.  If, you have not made that change, consider into resetting the password on this link: http:///ForgotPassword");
                         $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
                         $this->PDO->execute();
                         if (empty($this->PDO->resultSet()) || $this->PDO->resultSet()[0]['PasswordsId'] == null) {

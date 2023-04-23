@@ -8,66 +8,56 @@ class Application extends React.Component {
          * States of the application
          */
         this.state = {
-            /**
-             * The url to be redirected after displaying the message
-             * @type {string}
-             */
-            url: "",
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * password of the user
-             * @type {string}
-             */
-            password: "",
-            /**
-             * The status returned from the request
-             * @type {int}
-             */
-            status: 0,
-            /**
-             * The message that will be displayed to the user
-             * @type {string}
-             */
-            message: "",
+            User: {
+                username: "",
+                password: "",
+            },
+            System: {
+                url: "",
+                status: 0,
+                message: "",
+            },
         };
     }
     /**
      * Redirecting the user to an intended url
      * @param {int} delay
+     * @returns {void}
      */
     redirector(delay) {
         setTimeout(() => {
-            window.location.href = this.state.url;
+            window.location.href = this.state.System.url;
         }, delay);
     }
     /**
      * Handling any change that is made in the user interface
      * @param {Event} event
+     * @returns {void}
      */
     handleChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.setState((previous) => ({
+            User: {
+                ...previous.User,
+                [name]: value,
+            },
+        }));
     }
     /**
      * Handling the form submission
      * @param {Event} event
+     * @returns {void}
      */
     handleSubmit(event) {
         const delay = 1550;
         event.preventDefault();
-        fetch("/Login", {
+        fetch("/Users", {
             method: "POST",
             body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password,
+                username: this.state.User.username,
+                password: this.state.User.password,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -76,9 +66,11 @@ class Application extends React.Component {
             .then((response) => response.json())
             .then((data) =>
                 this.setState({
-                    status: data.status,
-                    message: data.message,
-                    url: data.url,
+                    System: {
+                        status: data.status,
+                        message: data.message,
+                        url: data.url,
+                    },
                 })
             )
             .then(() => this.redirector(delay));
@@ -88,7 +80,7 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseColor() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "rgb(0%, 100%, 0%)";
         } else {
             return "rgb(100%, 0%, 0%)";
@@ -99,10 +91,25 @@ class Application extends React.Component {
      * @returns {string}
      */
     handleResponseFontSize() {
-        if (this.state.status == 0) {
+        if (this.state.System.status == 0) {
             return "71%";
         } else {
             return "180%";
+        }
+    }
+    /**
+     * Component that is rendered depending on the media query
+     * @returns {Application} Component
+     */
+    headerDivA_Register() {
+        if (window.innerWidth <= 340) {
+            return (
+                <a href="/Register">
+                    <span class="fa fa-sign-in"></span>
+                </a>
+            );
+        } else {
+            return <a href="/Register">Register</a>;
         }
     }
     /**
@@ -120,7 +127,10 @@ class Header extends Application {
     render() {
         return (
             <header>
-                <a href="/">Parkinston</a>
+                <div>
+                    <a href="/">Parkinston</a>
+                </div>
+                <div>{this.headerDivA_Register()}</div>
             </header>
         );
     }
@@ -135,13 +145,16 @@ class Main extends Application {
     render() {
         return (
             <main>
+                <div>
+                    <img src="/Public/Images/istockphoto-1175691444-612x612.jpg" />
+                </div>
                 <form method="POST" onSubmit={this.handleSubmit.bind(this)}>
                     <div id="label">Login Form</div>
                     <input
                         type="text"
                         name="username"
                         placeholder="Username"
-                        value={this.state.username}
+                        value={this.state.User.username}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -149,7 +162,7 @@ class Main extends Application {
                         type="password"
                         name="password"
                         placeholder="Password"
-                        value={this.state.password}
+                        value={this.state.User.password}
                         onChange={this.handleChange.bind(this)}
                         required
                     />
@@ -163,7 +176,7 @@ class Main extends Application {
                                 fontSize: this.handleResponseFontSize(),
                             }}
                         >
-                            {this.state.message}
+                            {this.state.System.message}
                         </h1>
                     </div>
                 </form>

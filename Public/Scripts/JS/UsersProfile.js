@@ -4,107 +4,107 @@
 class Application extends React.Component {
     constructor(props) {
         super(props);
-        /**
-         * States of the properties of the component
-         */
         this.state = {
-            /**
-             * Username of the user
-             * @type {string}
-             */
-            username: "",
-            /**
-             * Mail Address of the user
-             * @type {string}
-             */
-            mailAddress: "",
-            /**
-             * Domain of the application
-             * @type {string}
-             */
-            domain: "",
-            /**
-             * User's profile picture
-             * @type {string}
-             */
-            profilePicture: "",
-            /**
-             * User's League of Legends username
-             * @type {string}
-             */
-            lolUsername: "",
-            /**
-             * User's League of Legends Region
-             * @type {string}
-             */
-            lolRegion: "",
-            /**
-             * User's Riot's ID
-             * @type {string}
-             */
-            riotId: "",
+            User: {
+                username: "",
+                mailAddress: "",
+                profilePicture: "",
+            },
+            Accounts: {
+                LeagueOfLegends: {
+                    gameName: "",
+                },
+                PlayerUnknownBattleGrounds: {
+                    playerName: "",
+                },
+            },
         };
     }
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
+     * @returns {void}
      */
-    retrieveData() {
-        fetch("/Users/CurrentUser",
-            {
-                method: "GET"
-            })
+    getUser() {
+        fetch("/Users/CurrentUser", {
+            method: "GET",
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({
-                username: data.User.username,
-                mailAddress: data.User.mailAddress,
-                domain: data.User.domain,
-                profilePicture: data.User.profilePicture,
-                lolUsername: data.Account.LeagueOfLegends.gameName,
-                lolRegion: data.Account.LeagueOfLegends.tagLine,
-                riotId: data.Account.LeagueOfLegends.playerUniversallyUniqueIdentifier
-            }));
+            .then((data) =>
+                this.setState({
+                    User: {
+                        username: data.User.username,
+                        mailAddress: data.User.mailAddress,
+                        profilePicture: data.User.profilePicture,
+                    },
+                    Accounts: {
+                        LeagueOfLegends: {
+                            gameName: data.Account.LeagueOfLegends.gameName,
+                        },
+                        PlayerUnknownBattleGrounds: {
+                            playerName:
+                                data.Account.PlayerUnknownBattleGrounds
+                                    .playerName,
+                        },
+                    },
+                })
+            );
     }
     /**
      * Verifying the state before rendering the link
-     * @returns {Application} Component
+     * @returns {object}
      */
     verifyUser_profilePicture() {
-        if (this.state.profilePicture != null) {
+        if (this.state.User.profilePicture != null) {
             return (
-                <a href={`/Users/Profile/${this.state.username}`}>
-                    <img src={this.state.profilePicture} />
+                <a href={`/Users/Profile/${this.state.User.username}`}>
+                    <img src={this.state.User.profilePicture} />
                 </a>
             );
         } else {
-            return <a href={`/Users/Profile/${this.state.username}`} class="fa fa-user"></a>
+            return (
+                <a
+                    href={`/Users/Profile/${this.state.User.username}`}
+                    class="fa fa-user"
+                ></a>
+            );
         }
     }
     /**
      * Verifying whether there is a profile picture
-     * @returns {ProfilePicture}
+     * @returns {object}
      */
     verifyProfilePicture() {
-        if (this.state.profilePicture != null) {
-            return <img src={this.state.profilePicture} />;
+        if (this.state.User.profilePicture != null) {
+            return <img src={this.state.User.profilePicture} />;
         } else {
-            return <i class="fa fa-user"></i>
+            return <i class="fa fa-user"></i>;
         }
     }
     /**
      * Verifying the state before applying style
+     * @returns {object|null}
      */
     verifyAccount_Riot_ID_styling() {
-        if (this.state.riotId == null) {
-            return (
-                {
-                    display: "none"
-                }
-            );
+        if (this.state.Accounts.LeagueOfLegends.gameName == null) {
+            return {
+                display: "none",
+            };
         }
     }
     /**
-     * Renders the components that are being returned
-     * @returns {Application} Component
+     * Verifying the state before applying style
+     * @returns {object|null}
+     */
+    verifyAccount_PUBG_ID_styling() {
+        if (this.state.Accounts.PlayerUnknownBattleGrounds.playerName == null) {
+            return {
+                display: "none",
+            };
+        }
+    }
+    /**
+     * Rendering the application
+     * @returns {Application[]}
      */
     render() {
         return [<Header />, <Main />, <Footer />];
@@ -117,21 +117,17 @@ class Header extends Application {
     constructor(props) {
         super(props);
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
     componentDidMount() {
-        this.retrieveData();
+        this.getUser();
     }
-    /**
-     * @returns {Header} Component
-     */
     render() {
         return (
             <header>
                 <nav>
                     <div>
-                        <a href={`/Users/Home/${this.state.username}`}>Parkinston</a>
+                        <a href={`/Users/Home/${this.state.User.username}`}>
+                            Parkinston
+                        </a>
                     </div>
                     <div>{this.verifyUser_profilePicture()}</div>
                     <div>
@@ -149,32 +145,69 @@ class Main extends Application {
     constructor(props) {
         super(props);
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
     componentDidMount() {
-        this.retrieveData();
+        this.getUser();
     }
-    /**
-     * @returns {Main} Component
-     */
     render() {
         return (
             <main>
-                <header>
-                    <div id="profilePicture">{this.verifyProfilePicture()}</div>
-                    <div id="username">{this.state.username}</div>
-                </header>
-                <description>
-                    <div id="mailAddress">
-                        <label>Mail Address:</label>
-                        <div>{this.state.mailAddress}</div>
+                <nav>
+                    <div>
+                        <a
+                            href={`/Users/Edit/Profile/${this.state.User.username}`}
+                            class="fas fa-edit"
+                        ></a>
                     </div>
-                    <div id="lolUsername" style={this.verifyAccount_Riot_ID_styling()}>
-                        <label>League of Legends's Username:</label>
-                        <div>{this.state.lolUsername}</div>
+                    <div>
+                        <a
+                            href={`/Users/Accounts/${this.state.User.username}`}
+                            class="fa fa-user"
+                        ></a>
                     </div>
-                </description>
+                    <div>
+                        <a
+                            href={`/Users/Security/${this.state.User.username}`}
+                            class="fa-solid fa-user-shield"
+                        ></a>
+                    </div>
+                </nav>
+                <div>
+                    <header>
+                        <div id="profilePicture">
+                            {this.verifyProfilePicture()}
+                        </div>
+                        <div id="username">{this.state.User.username}</div>
+                    </header>
+                    <description>
+                        <div id="mailAddress">
+                            <label>Mail Address:</label>
+                            <div>{this.state.User.mailAddress}</div>
+                        </div>
+                        <div
+                            id="lolUsername"
+                            style={this.verifyAccount_Riot_ID_styling()}
+                        >
+                            <label>League of Legends's Username:</label>
+                            <div>
+                                {this.state.Accounts.LeagueOfLegends.gameName}
+                            </div>
+                        </div>
+                        <div
+                            id="pubgUsername"
+                            style={this.verifyAccount_PUBG_ID_styling()}
+                        >
+                            <label>
+                                Player Unknown Battle Grounds's Username:
+                            </label>
+                            <div>
+                                {
+                                    this.state.Accounts
+                                        .PlayerUnknownBattleGrounds.playerName
+                                }
+                            </div>
+                        </div>
+                    </description>
+                </div>
             </main>
         );
     }
@@ -186,44 +219,8 @@ class Footer extends Application {
     constructor(props) {
         super(props);
     }
-    /**
-     * Methods to be run as soon as the component is mounted
-     */
-    componentDidMount() {
-        this.retrieveData();
-    }
-    /**
-     * @returns {Footer} Component
-     */
     render() {
-        return (
-            <footer>
-                <nav>
-                    <a href={`/Users/Edit/Profile/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Edit
-                    </a>
-                    <a href={`/Users/Accounts/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Accounts
-                    </a>
-                    <a href={`/Users/Security/${this.state.username}`}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Security
-                    </a>
-                </nav>
-                <div>Parkinston</div>
-            </footer>
-        );
+        return <footer>Parkinston</footer>;
     }
 }
 // Rendering the page

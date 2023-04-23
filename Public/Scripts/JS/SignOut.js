@@ -27,13 +27,14 @@ class Application extends React.Component {
     }
     /**
      * Retrieving the session's data that is stored as a JSON to be used in the rendering
+     * @returns {void}
      */
     retrieveData() {
         /**
          * The amount of milliseconds that the registration process takes
          */
         const delay = 800;
-        fetch("/LogOut", {
+        fetch("/Controllers/SignOut.php", {
             method: "GET",
         })
             .then((response) => response.json())
@@ -49,6 +50,7 @@ class Application extends React.Component {
     /**
      * Redirecting the user to an intended url
      * @param {int} delay
+     * @returns {void}
      */
     redirector(delay) {
         setTimeout(() => {

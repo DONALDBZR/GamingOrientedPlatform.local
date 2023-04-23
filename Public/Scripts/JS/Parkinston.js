@@ -2,7 +2,10 @@
  * The main script that will initialize the application as needed
  */
 class Parkinston {
-    // Contructor method
+    /**
+     * Setting the data needed as well as initalizing the application
+     * @returns {Parkinston}
+     */
     constructor() {
         /**
          * The request URI of the page needed
@@ -53,6 +56,7 @@ class Parkinston {
     }
     /**
      * @param {string} request_uri
+     * @returns {void}
      */
     setRequestURI(request_uri) {
         this.__requestUniformRequestInformation = request_uri;
@@ -65,6 +69,7 @@ class Parkinston {
     }
     /**
      * @param {string} body_id
+     * @returns {void}
      */
     setBodyId(body_id) {
         this.__bodyId = body_id;
@@ -77,6 +82,7 @@ class Parkinston {
     }
     /**
      * @param {string} relationship
+     * @returns {void}
      */
     setRelationship(relationship) {
         this.__relationship = relationship;
@@ -89,12 +95,14 @@ class Parkinston {
     }
     /**
      * @param {string} mime_type
+     * @returns {void}
      */
     setMimeType(mime_type) {
         this.__mimeType = mime_type;
     }
     /**
      * Initializing the application
+     * @returns {void}
      */
     init() {
         this.setRequestURI(window.location.pathname);
@@ -108,6 +116,7 @@ class Parkinston {
     }
     /**
      * Styling the application
+     * @returns {void}
      */
     style() {
         this.setRelationship("stylesheet");
@@ -130,6 +139,7 @@ class Parkinston {
     }
     /**
      * Verifying the URL
+     * @returns {void}
      */
     verifyURL() {
         fetch(window.location.href, { method: "head" }).then((Response) => {

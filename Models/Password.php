@@ -10,83 +10,87 @@ class Password
 {
     /**
      * The ID of the record
+     * @var int $id
      */
     private int $id;
     /**
      * The salt of the password
+     * @var string $salt
      */
     private string $salt;
     /**
      * The plain text of the password
+     * @var string $password
      */
     private string $password;
     /**
      * The hash of the password
+     * @var string $hash
      */
     private string $hash;
     /**
      * PDO which will interact with the database server
+     * @var PHPDataObject $PDO
      */
     protected PHPDataObject $PDO;
     /**
      * The one-time password needed for the user to complete the login process
+     * @var string $otp
      */
     private string $otp;
     /**
-     * The domain of the application
+     * Upon instantiation, its dependencies are instantiated
      */
-    public string $domain;
     public function __construct()
     {
-        $this->domain = $_SERVER['HTTP_HOST'];
         $this->PDO = new PHPDataObject();
     }
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    public function getSalt()
+    public function getSalt(): string
     {
         return $this->salt;
     }
-    public function setSalt(string $salt)
+    public function setSalt(string $salt): void
     {
         $this->salt = $salt;
     }
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
-    public function setPassword(string $password)
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
-    public function setHash(string $hash)
+    public function setHash(string $hash): void
     {
         $this->hash = $hash;
     }
-    public function getOtp()
+    public function getOtp(): string
     {
         return $this->otp;
     }
-    public function setOtp(string $otp)
+    public function setOtp(string $otp): void
     {
         $this->otp = $otp;
     }
     /**
      * Generating either a string or an integer
-     * @param string $parameter
-     * @return int|string
+     * @param   string  $parameter  Parameter to be used to trigger the generator
+     * @return  string
      */
-    public function generator(string $parameter)
+    public function generator(string $parameter): string
     {
         $length = 0;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/.';
@@ -112,20 +116,20 @@ class Password
                 $length = 6;
                 $characters = '0123456789';
                 for ($index = 0; $index < $length; $index++) {
-                    $randomString .= $characters[random_int(0, $charactersLength - 1)];
+                    $randomString .= $characters[random_int(0, strlen($characters) - 1)];
                 }
-                $response = (int)$randomString;
+                $response = $randomString;
                 break;
         }
         return $response;
     }
     /**
      * Verifying the one-time password that was sent to the user
-     * @return JSON
+     * @param   object  $request    JSON from the view
+     * @return  void
      */
-    public function otpVerify()
+    public function otpVerify(object $request): void
     {
-        $request = json_decode(file_get_contents('php://input'));
         if (!is_null($request->oneTimePassword)) {
             if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
                 $cache = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json"));
@@ -162,7 +166,7 @@ class Password
                 unset($_SESSION['User']);
                 $response = array(
                     "status" => 5,
-                    "url" => $this->domain,
+                    "url" => "/",
                     "message" => "The Password does not correspond to the one that was sent to you!"
                 );
                 $headers = array(
