@@ -4,6 +4,7 @@
 class Application extends React.Component {
     /**
      * Renders the components that are being returned
+     * @returns {Application}
      */
     render() {
         return [<Header />, <Main />, <Footer />];
