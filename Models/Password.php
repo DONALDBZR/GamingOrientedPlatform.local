@@ -152,12 +152,13 @@ class Password
                 $response = array(
                     "status" => 0,
                     "url" => "/Users/Home/{$_SESSION['User']['username']}",
-                    "message" => "You will be connected to the service as soon as possible..."
+                    "message" => "You will be connected to the service as soon as possible...",
+                    "Passwords" => 200
                 );
                 $headers = array(
                     "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
                     "replace" => true,
-                    "responseCode" => 200
+                    "responseCode" => $response["Passwords"]
                 );
             } else {
                 if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/{$_SESSION['User']['username']}.json")) {
@@ -165,26 +166,28 @@ class Password
                 }
                 unset($_SESSION['User']);
                 $response = array(
-                    "status" => 5,
+                    "status" => 2,
                     "url" => "/",
-                    "message" => "The Password does not correspond to the one that was sent to you!"
+                    "message" => "The Password does not correspond to the one that was sent to you!",
+                    "Passwords" => 404
                 );
                 $headers = array(
                     "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
                     "replace" => true,
-                    "responseCode" => 400
+                    "responseCode" => $response["Passwords"]
                 );
             }
         } else {
             $response = array(
                 "status" => 1,
                 "url" => "/Login/Verification/{$_SESSION['User']['username']}",
-                "message" => "Invalid Form!"
+                "message" => "Invalid Form!",
+                "Passwords" => 403
             );
             $headers = array(
                 "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
                 "replace" => true,
-                "responseCode" => 400
+                "responseCode" => $response["Passwords"]
             );
         }
         header($headers["headers"], $headers["replace"], $headers["responseCode"]);
