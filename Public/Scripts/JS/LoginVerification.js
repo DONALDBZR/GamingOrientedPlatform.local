@@ -53,28 +53,42 @@ class Application extends React.Component {
      * @returns {void}
      */
     handleSubmit(event) {
-        const delay = 1500;
+        const delay = 2000;
         event.preventDefault();
-        fetch(`/Passwords/${this.state.User.username}`, {
-            method: "POST",
-            body: JSON.stringify({
-                oneTimePassword: this.state.User.oneTimePassword,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((response) => response.json())
-            .then((data) =>
-                this.setState({
-                    System: {
-                        status: data.status,
-                        message: data.message,
-                        url: data.url,
-                    },
-                })
-            )
-            .then(() => this.redirector(delay));
+        if (
+            this.state.User.oneTimePassword != null ||
+            this.state.User.oneTimePassword != ""
+        ) {
+            fetch(`/Passwords/${this.state.User.username}`, {
+                method: "POST",
+                body: JSON.stringify({
+                    oneTimePassword: this.state.User.oneTimePassword,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => response.json())
+                .then((data) =>
+                    this.setState({
+                        System: {
+                            status: data.status,
+                            message: data.message,
+                            url: data.url,
+                        },
+                    })
+                )
+                .then(() => this.redirector(delay));
+        } else {
+            this.setState({
+                System: {
+                    status: 1,
+                    message: "Please fill in all fields",
+                    url: window.location.href,
+                },
+            });
+            this.redirector(delay);
+        }
     }
     /**
      * Handling the response from the server
