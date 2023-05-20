@@ -68,7 +68,7 @@ class PHPDataObject
                     break;
                 default:
                     $type = PDO::PARAM_STR;
-                    $value = $this->databaseHandler->quote($value, $type);
+                    break;
             }
         }
         $this->statement->bindValue($parameter, $value, $type);
