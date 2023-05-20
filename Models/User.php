@@ -80,61 +80,108 @@ class User extends Password
             $this->PDO->query("SELECT * FROM Users WHERE UsersUsername = :UsersUsername OR UsersMailAddress = :UsersMailAddress");
             $this->PDO->bind(":UsersUsername", $this->getUsername());
             $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
-            $this->PDO->execute();
-            if (empty($this->PDO->resultSet())) {
-                $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
+            try {
                 $this->PDO->execute();
-                if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
-                    $this->setPasswordId(1);
+                if (empty($this->PDO->resultSet())) {
+                    $this->PDO->query("SELECT * FROM Passwords ORDER BY PasswordsId DESC");
+                    $this->PDO->execute();
+                    if (empty($this->PDO->resultSet() || $this->PDO->resultSet()[0]['PasswordsId'] == null)) {
+                        $this->setPasswordId(1);
+                    } else {
+                        $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                    }
+                    $this->setPassword($this->generator("password"));
+                    $this->Mail->send($this->getMailAddress(), "Registration Complete", "Your account with username, {$this->getUsername()} and password, {$this->getPassword()} has been created.  Please consider to change it after logging in!");
+                    $this->setSalt($this->generator("salt"));
+                    $this->setPassword($this->getPassword() . $this->getSalt());
+                    $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
+                    $this->PDO->query("INSERT INTO Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
+                    $this->PDO->bind(":PasswordsSalt", $this->getSalt());
+                    $this->PDO->bind(":PasswordsHash", $this->getHash());
+                    try {
+                        $this->PDO->execute();
+                        $this->PDO->query("INSERT INTO Users(UsersUsername, UsersMailAddress, UsersPassword) VALUES (:UsersUsername, :UsersMailAddress, :UsersPassword)");
+                        $this->PDO->bind(":UsersUsername", $this->getUsername());
+                        $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
+                        $this->PDO->bind(":UsersPassword", $this->getPasswordId());
+                        try {
+                            $this->PDO->execute();
+                            $response = array(
+                                "status" => 0,
+                                "url" => "/Login",
+                                "message" => "Account created!  Please check your mail to obtain your password!",
+                                "Users" => 201,
+                                "Passwords" => 201
+                            );
+                            $headers = array(
+                                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                                "replace" => true,
+                                "responseCode" => $response["Users"]
+                            );
+                        } catch (PDOException $error) {
+                            $response = array(
+                                "status" => 3,
+                                "url" => $_SERVER["HTTP_REFERER"],
+                                "message" => $error->getMessage(),
+                                "Users" => 503,
+                                "Passwords" => 201
+                            );
+                            $headers = array(
+                                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                                "replace" => true,
+                                "responseCode" => $response["Users"]
+                            );
+                        }
+                    } catch (PDOException $error) {
+                        $response = array(
+                            "status" => 2,
+                            "url" => $_SERVER["HTTP_REFERER"],
+                            "message" => $error->getMessage(),
+                            "Users" => 500,
+                            "Passwords" => 503
+                        );
+                        $headers = array(
+                            "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                            "replace" => true,
+                            "responseCode" => $response["Passwords"]
+                        );
+                    }
                 } else {
-                    $this->setPasswordId($this->PDO->resultSet()[0]['PasswordsId'] + 1);
+                    $response = array(
+                        "status" => 2,
+                        "url" => "/Login",
+                        "message" => "Account exists!"
+                    );
+                    $headers = array(
+                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                        "replace" => true,
+                        "responseCode" => 400
+                    );
                 }
-                $this->setPassword($this->generator("password"));
-                $this->Mail->send($this->getMailAddress(), "Registration Complete", "Your account with username, {$this->getUsername()} and password, {$this->getPassword()} has been created.  Please consider to change it after logging in!");
-                $this->setSalt($this->generator("salt"));
-                $this->setPassword($this->getPassword() . $this->getSalt());
-                $this->setHash(password_hash($this->getPassword(), PASSWORD_ARGON2I));
-                $this->PDO->query("INSERT INTO Passwords(PasswordsSalt, PasswordsHash) VALUES (:PasswordsSalt, :PasswordsHash)");
-                $this->PDO->bind(":PasswordsSalt", $this->getSalt());
-                $this->PDO->bind(":PasswordsHash", $this->getHash());
-                $this->PDO->execute();
-                $this->PDO->query("INSERT INTO Users(UsersUsername, UsersMailAddress, UsersPassword) VALUES (:UsersUsername, :UsersMailAddress, :UsersPassword)");
-                $this->PDO->bind(":UsersUsername", $this->getUsername());
-                $this->PDO->bind(":UsersMailAddress", $this->getMailAddress());
-                $this->PDO->bind(":UsersPassword", $this->getPasswordId());
-                $this->PDO->execute();
+            } catch (PDOException $error) {
                 $response = array(
-                    "status" => 0,
-                    "url" => "/Login",
-                    "message" => "Account created!  Please check your mail to obtain your password!"
+                    "status" => 1,
+                    "url" => $_SERVER["HTTP_REFERER"],
+                    "message" => $error->getMessage(),
+                    "Users" => 503
                 );
                 $headers = array(
                     "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
                     "replace" => true,
-                    "responseCode" => 200
-                );
-            } else {
-                $response = array(
-                    "status" => 2,
-                    "url" => "/Login",
-                    "message" => "Account exists!"
-                );
-                $headers = array(
-                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                    "replace" => true,
-                    "responseCode" => 400
+                    "responseCode" => $response["Users"]
                 );
             }
         } else {
             $response = array(
                 "status" => 1,
-                "url" => "/Register",
-                "message" => "Invalid Form!"
+                "url" => $_SERVER["HTTP_REFERER"],
+                "message" => "Invalid Form!",
+                "Users" => 403
             );
             $headers = array(
                 "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
                 "replace" => true,
-                "responseCode" => 400
+                "responseCode" => $response["Users"]
             );
         }
         header($headers["headers"], $headers["replace"], $headers["responseCode"]);
