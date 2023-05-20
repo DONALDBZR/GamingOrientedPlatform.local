@@ -101,6 +101,7 @@ class Application extends React.Component {
                     url: window.location.href,
                 },
             });
+            this.redirector(delay);
         }
     }
     /**
