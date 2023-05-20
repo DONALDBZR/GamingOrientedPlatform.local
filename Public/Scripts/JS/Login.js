@@ -51,29 +51,44 @@ class Application extends React.Component {
      * @returns {void}
      */
     handleSubmit(event) {
-        const delay = 1550;
+        const delay = 2000;
         event.preventDefault();
-        fetch("/Users", {
-            method: "POST",
-            body: JSON.stringify({
-                username: this.state.User.username,
-                password: this.state.User.password,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((response) => response.json())
-            .then((data) =>
-                this.setState({
-                    System: {
-                        status: data.status,
-                        message: data.message,
-                        url: data.url,
-                    },
-                })
-            )
-            .then(() => this.redirector(delay));
+        if (
+            (this.state.User.username != null ||
+                this.state.User.username != "") &&
+            (this.state.User.password != null || this.state.User.password != "")
+        ) {
+            fetch("/Users", {
+                method: "POST",
+                body: JSON.stringify({
+                    username: this.state.User.username,
+                    password: this.state.User.password,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => response.json())
+                .then((data) =>
+                    this.setState({
+                        System: {
+                            status: data.status,
+                            message: data.message,
+                            url: data.url,
+                        },
+                    })
+                )
+                .then(() => this.redirector(delay));
+        } else {
+            this.setState({
+                System: {
+                    status: 1,
+                    message: "Please fill in all fields",
+                    url: window.location.href,
+                },
+            });
+            this.redirector(delay);
+        }
     }
     /**
      * Handling the response from the server
