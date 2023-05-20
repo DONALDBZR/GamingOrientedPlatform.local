@@ -120,7 +120,7 @@ class User extends Password
                             );
                         } catch (PDOException $error) {
                             $response = array(
-                                "status" => 3,
+                                "status" => 6,
                                 "url" => $_SERVER["HTTP_REFERER"],
                                 "message" => $error->getMessage(),
                                 "Users" => 503,
@@ -134,7 +134,7 @@ class User extends Password
                         }
                     } catch (PDOException $error) {
                         $response = array(
-                            "status" => 2,
+                            "status" => 5,
                             "url" => $_SERVER["HTTP_REFERER"],
                             "message" => $error->getMessage(),
                             "Users" => 500,
@@ -148,7 +148,7 @@ class User extends Password
                     }
                 } else {
                     $response = array(
-                        "status" => 2,
+                        "status" => 4,
                         "url" => "/Login",
                         "message" => "Account exists!"
                     );
@@ -160,7 +160,7 @@ class User extends Password
                 }
             } catch (PDOException $error) {
                 $response = array(
-                    "status" => 1,
+                    "status" => 3,
                     "url" => $_SERVER["HTTP_REFERER"],
                     "message" => $error->getMessage(),
                     "Users" => 503
@@ -197,121 +197,165 @@ class User extends Password
         if (!is_null($request->username) && !is_null($request->password)) {
             $this->PDO->query("SELECT * FROM Users WHERE UsersUsername = :UsersUsername");
             $this->PDO->bind(":UsersUsername", $request->username);
-            $this->PDO->execute();
-            if (!empty($this->PDO->resultSet())) {
-                $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
-                $this->setMailAddress($this->PDO->resultSet()[0]['UsersMailAddress']);
-                $this->setProfilePicture($this->PDO->resultSet()[0]['UsersProfilePicture']);
-                $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
-                $this->setPassword($request->password);
-                $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = :PasswordsId");
-                $this->PDO->bind(":PasswordsId", $this->getPasswordId());
+            try {
                 $this->PDO->execute();
-                $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
-                $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
-                $this->setPassword($this->getPassword() . $this->getSalt());
-                if (password_verify($this->getPassword(), $this->getHash())) {
-                    $this->setOtp($this->generator("otp"));
-                    $user = array(
-                        "username" => $this->getUsername(),
-                        "mailAddress" => $this->getMailAddress(),
-                        "profilePicture" => $this->getProfilePicture(),
-                        "otp" => $this->getOtp()
-                    );
-                    $_SESSION['User'] = $user;
-                    $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = (SELECT AccountsLoL FROM Accounts WHERE AccountsUser = :AccountsUser)");
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    if (empty($this->PDO->resultSet())) {
-                        $leagueOfLegends = array(
-                            "playerUniversallyUniqueIdentifier" => null,
-                            "gameName" => null,
-                            "tagLine" => null
+                if (!empty($this->PDO->resultSet())) {
+                    $this->setUsername($this->PDO->resultSet()[0]['UsersUsername']);
+                    $this->setMailAddress($this->PDO->resultSet()[0]['UsersMailAddress']);
+                    $this->setProfilePicture($this->PDO->resultSet()[0]['UsersProfilePicture']);
+                    $this->setPasswordId($this->PDO->resultSet()[0]['UsersPassword']);
+                    $this->setPassword($request->password);
+                    $this->PDO->query("SELECT * FROM Passwords WHERE PasswordsId = :PasswordsId");
+                    $this->PDO->bind(":PasswordsId", $this->getPasswordId());
+                    try {
+                        $this->PDO->execute();
+                        $this->setSalt($this->PDO->resultSet()[0]['PasswordsSalt']);
+                        $this->setHash($this->PDO->resultSet()[0]['PasswordsHash']);
+                        $this->setPassword($this->getPassword() . $this->getSalt());
+                        if (password_verify($this->getPassword(), $this->getHash())) {
+                            $this->setOtp($this->generator("otp"));
+                            $user = array(
+                                "username" => $this->getUsername(),
+                                "mailAddress" => $this->getMailAddress(),
+                                "profilePicture" => $this->getProfilePicture(),
+                                "otp" => $this->getOtp()
+                            );
+                            $_SESSION['User'] = $user;
+                            $this->PDO->query("SELECT LeagueOfLegends.LeagueOfLegendsGameName AS LeagueOfLegendsGameName, LeagueOfLegends.LeagueOfLegendsPlayerUniversallyUniqueIdentifier AS LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegends.LeagueOfLegendsTagLine AS LeagueOfLegendsTagLine, PlayerUnknownBattleGrounds.PlayerUnknownBattleGroundsIdentifier AS PlayerUnknownBattleGroundsIdentifier, PlayerUnknownBattleGrounds.PlayerUnknownBattleGroundsPlayerName AS PlayerUnknownBattleGroundsPlayerName, PlayerUnknownBattleGrounds.PlayerUnknownBattleGroundsPlatform AS PlayerUnknownBattleGroundsPlatform FROM Accounts INNER JOIN LeagueOfLegends ON Accounts.AccountsLoL = LeagueOfLegends.LeagueOfLegendsPlayerUniversallyUniqueIdentifier INNER JOIN PlayerUnknownBattleGrounds ON AccountsPUBG = PlayerUnknownBattleGrounds.PlayerUnknownBattleGroundsIdentifier INNER JOIN Users ON AccountsUser = UsersUsername WHERE Users.UsersUsername = :UsersUsername");
+                            $this->PDO->bind(":UsersUsername", $this->getUsername());
+                            try {
+                                $this->PDO->execute();
+                                if (empty($this->PDO->resultSet())) {
+                                    $leagueOfLegends = array(
+                                        "playerUniversallyUniqueIdentifier" => null,
+                                        "gameName" => null,
+                                        "tagLine" => null
+                                    );
+                                    $playerUnknownBattleGrounds = array(
+                                        "identifier" => null,
+                                        "playerName" => null,
+                                        "platform" => null
+                                    );
+                                } else {
+                                    $leagueOfLegends = array(
+                                        "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]['LeagueOfLegendsPlayerUniversallyUniqueIdentifier'],
+                                        "gameName" => $this->PDO->resultSet()[0]['LeagueOfLegendsGameName'],
+                                        "tagLine" => $this->PDO->resultSet()[0]['LeagueOfLegendsTagLine']
+                                    );
+                                    $playerUnknownBattleGrounds = array(
+                                        "identifier" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsIdentifier'],
+                                        "playerName" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsPlayerName'],
+                                        "platform" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsPlatform']
+                                    );
+                                }
+                                $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
+                                $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
+                                $account = array(
+                                    "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+                                    "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
+                                );
+                                $_SESSION['Account'] = $account;
+                                $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
+                                $data = array(
+                                    "Client" => $_SESSION['Client'],
+                                    "User" => $_SESSION['User'],
+                                    "Account" => $_SESSION['Account']
+                                );
+                                $cacheData = json_encode($data);
+                                $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "w");
+                                fwrite($cache, $cacheData);
+                                fclose($cache);
+                                $response = array(
+                                    "status" => 0,
+                                    "url" => "/Login/Verification/{$this->getUsername()}",
+                                    "message" => "You will be redirected to the verification process just to be sure and a password has been sent to you for that! 🙏",
+                                    "Users" => 200
+                                );
+                                $headers = array(
+                                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                                    "replace" => true,
+                                    "responseCode" => $response["User"]
+                                );
+                            } catch (PDOException $error) {
+                                $response = array(
+                                    "status" => 6,
+                                    "url" => $_SERVER["HTTP_REFERER"],
+                                    "message" => $error->getMessage(),
+                                    "Users" => 200,
+                                    "Passwords" => 200,
+                                    "Accounts" => 500,
+                                    "LeagueOfLegends" => 500,
+                                    "PlayerUnknownBattleGrounds" => 500
+                                );
+                                $headers = array(
+                                    "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                                    "replace" => true,
+                                    "responseCode" => $response["Accounts"]
+                                );
+                            }
+                        } else {
+                            $response = array(
+                                "status" => 5,
+                                "url" => $_SERVER["HTTP_REFERER"],
+                                "message" => "Your password is incorrect!"
+                            );
+                            $headers = array(
+                                "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                                "replace" => true,
+                                "responseCode" => 300
+                            );
+                        }
+                    } catch (PDOException $error) {
+                        $response = array(
+                            "status" => 4,
+                            "url" => $_SERVER["HTTP_REFERER"],
+                            "message" => $error->getMessage(),
+                            "Users" => 503,
+                            "Passwords" => 500
                         );
-                    } else {
-                        $leagueOfLegends = array(
-                            "playerUniversallyUniqueIdentifier" => $this->PDO->resultSet()[0]['LeagueOfLegendsPlayerUniversallyUniqueIdentifier'],
-                            "gameName" => $this->PDO->resultSet()[0]['LeagueOfLegendsGameName'],
-                            "tagLine" => $this->PDO->resultSet()[0]['LeagueOfLegendsTagLine']
+                        $headers = array(
+                            "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
+                            "replace" => true,
+                            "responseCode" => $response["Passwords"]
                         );
                     }
-                    $this->PDO->query("SELECT * FROM PlayerUnknownBattleGrounds WHERE PlayerUnknownBattleGroundsIdentifier = (SELECT AccountsPUBG FROM Accounts WHERE AccountsUser = :AccountsUser)");
-                    $this->PDO->bind(":AccountsUser", $this->getUsername());
-                    $this->PDO->execute();
-                    if (empty($this->PDO->resultSet())) {
-                        $playerUnknownBattleGrounds = array(
-                            "identifier" => null,
-                            "playerName" => null,
-                            "platform" => null
-                        );
-                    } else {
-                        $playerUnknownBattleGrounds = array(
-                            "identifier" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsIdentifier'],
-                            "playerName" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsPlayerName'],
-                            "platform" => $this->PDO->resultSet()[0]['PlayerUnknownBattleGroundsPlatform']
-                        );
-                    }
-                    $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
-                    $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
-                    $account = array(
-                        "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
-                        "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
-                    );
-                    $_SESSION['Account'] = $account;
-                    $this->Mail->send($this->getMailAddress(), "Verification Needed!", "Your one-time password is {$this->getOtp()}.  Please use this password to complete the log in process on {$_SERVER['HTTP_HOST']}/Login/Verification/{$this->getUsername()}");
-                    $data = array(
-                        "Client" => $_SESSION['Client'],
-                        "User" => $_SESSION['User'],
-                        "Account" => $_SESSION['Account']
-                    );
-                    $cacheData = json_encode($data);
-                    $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "w");
-                    fwrite($cache, $cacheData);
-                    fclose($cache);
-                    $response = array(
-                        "status" => 0,
-                        "url" => "/Login/Verification/{$this->getUsername()}",
-                        "message" => "You will be redirected to the verification process just to be sure and a password has been sent to you for that! 🙏"
-                    );
-                    $headers = array(
-                        "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
-                        "replace" => true,
-                        "responseCode" => 200
-                    );
                 } else {
                     $response = array(
                         "status" => 3,
-                        "url" => "/Login",
-                        "message" => "Your password is incorrect!"
+                        "url" => "/Register",
+                        "message" => "This account does not exist!  You will be redirected so that you can create one!",
+                        "Users" => 404
                     );
                     $headers = array(
                         "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
                         "replace" => true,
-                        "responseCode" => 300
+                        "responseCode" => $response["Users"]
                     );
                 }
-            } else {
+            } catch (PDOException $error) {
                 $response = array(
-                    "status" => 4,
-                    "url" => "/Register",
-                    "message" => "This account does not exist!  You will be redirected so that you can create one!"
+                    "status" => 2,
+                    "url" => $_SERVER["HTTP_REFERER"],
+                    "message" => $error->getMessage(),
+                    "Users" => 503
                 );
                 $headers = array(
                     "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
                     "replace" => true,
-                    "responseCode" => 400
+                    "responseCode" => $response["Users"]
                 );
             }
         } else {
             $response = array(
                 "status" => 1,
                 "url" => "/Login",
-                "message" => "Invalid Form!"
+                "message" => "Invalid Form!",
+                "Users" => 403
             );
             $headers = array(
                 "headers" => "Content-Type: application/json; X-XSS-Protection: 1; mode=block",
                 "replace" => true,
-                "responseCode" => 300
+                "responseCode" => $response["Users"]
             );
         }
         header($headers["headers"], $headers["replace"], $headers["responseCode"]);
