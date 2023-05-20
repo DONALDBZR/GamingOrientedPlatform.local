@@ -51,29 +51,57 @@ class Application extends React.Component {
      * @returns {void}
      */
     handleSubmit(event) {
-        const delay = 1975;
+        const delay = 2000;
         event.preventDefault();
-        fetch("/Users/New", {
-            method: "POST",
-            body: JSON.stringify({
-                username: this.state.User.username,
-                mailAddress: this.state.User.mailAddress,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((response) => response.json())
-            .then((data) =>
-                this.setState({
-                    System: {
-                        status: data.status,
-                        message: data.message,
-                        url: data.url,
+        if (
+            (this.state.User.username != null ||
+                this.state.User.username != "") &&
+            (this.state.User.mailAddress != null ||
+                this.state.User.mailAddress != "")
+        ) {
+            if (
+                this.state.User.mailAddress.includes("@") &&
+                this.state.User.mailAddress.includes(".")
+            ) {
+                fetch("/Users/New", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        username: this.state.User.username,
+                        mailAddress: this.state.User.mailAddress,
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
                     },
                 })
-            )
-            .then(() => this.redirector(delay));
+                    .then((response) => response.json())
+                    .then((data) =>
+                        this.setState({
+                            System: {
+                                status: data.status,
+                                message: data.message,
+                                url: data.url,
+                            },
+                        })
+                    )
+                    .then(() => this.redirector(delay));
+            } else {
+                this.setState({
+                    System: {
+                        status: 2,
+                        message: "Please enter a valid mail address!",
+                        url: window.location.href,
+                    },
+                });
+            }
+        } else {
+            this.setState({
+                System: {
+                    status: 1,
+                    message: "Please fill in all fields",
+                    url: window.location.href,
+                },
+            });
+        }
     }
     /**
      * Handling the response from the server
