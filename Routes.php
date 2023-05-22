@@ -161,7 +161,7 @@ switch ($Router->getRoute()) {
         break;
     case '/LegendsOfLegends/MatchHistories':
         if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-            $Router = new Router("GET", "/LegendsOfLegends/MatchHistories", "/Controllers/MatchHistories.php");
+            $Router->get($Router->getRoute(), "/Controllers/MatchHistories.php");
         } else {
             if (isset($_SESSION['User'])) {
                 header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
@@ -172,7 +172,7 @@ switch ($Router->getRoute()) {
         break;
     case "/LeagueOfLegends/Profile/{$_SESSION['Search']['LeagueOfLegends']["gameName"]}":
         if (isset($_SESSION['Search']['LeagueOfLegends'])) {
-            $Router = new Router("GET", "/LeagueOfLegends/Profile/{$_SESSION['Search']['LeagueOfLegends']["gameName"]}", "/Views/LeagueOfLegendsProfile.php");
+            $Router->get($Router->getRoute(), "/Views/LeagueOfLegendsProfile.php");
         } else {
             header("Location: /Users/Home/{$_SESSION['User']['username']}");
         }
@@ -193,7 +193,7 @@ switch ($Router->getRoute()) {
         $Router->post($Router->getRoute(), "/Controllers/UsersAccounts.php");
         break;
     case "/Users/{$_SESSION['User']['username']}/ProfilePicture":
-        $Router = new Router($_SERVER['REQUEST_URI'], "/Controllers/UsersEditProfile.php");
+        $Router->post($Router->getRoute(), "/Controllers/UsersEditProfile.php");
         break;
     case "/Users/{$_SESSION['User']['username']}/Security":
         $Router->post($Router->getRoute(), "/Controllers/UsersSecurity.php");
