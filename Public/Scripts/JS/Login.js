@@ -58,7 +58,7 @@ class Application extends React.Component {
                 this.state.User.username != "") &&
             (this.state.User.password != null || this.state.User.password != "")
         ) {
-            fetch("/Users", {
+            fetch("/Controllers/Login.php", {
                 method: "POST",
                 body: JSON.stringify({
                     username: this.state.User.username,
