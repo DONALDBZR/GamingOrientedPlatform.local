@@ -138,32 +138,64 @@ class PlayerUnknownBattleGrounds
      * Adding Player Unknown Battle Grounds account in the database
      * @param   string  $player_name    Name of the player
      * @param   string  $platform       Platform which the player uses to play the game
-     * @return  int
+     * @return  object
      */
-    public function addAccount(string $player_name, string $platform): int
+    public function addAccount(string $player_name, string $platform): object
     {
         $Account = $this->getAccount($player_name, $platform);
         if ($Account->account == 200) {
             $this->PDO->query("SELECT * FROM PlayerUnknownBattleGrounds WHERE PlayerUnknownBattleGroundsIdentifier = :PlayerUnknownBattleGroundsIdentifier");
             $this->PDO->bind(":PlayerUnknownBattleGroundsIdentifier", $this->getIdentifier());
-            $this->PDO->execute();
-            if (empty($this->PDO->resultSet())) {
-                $this->PDO->query("INSERT INTO PlayerUnknownBattleGrounds (PlayerUnknownBattleGroundsIdentifier, PlayerUnknownBattleGroundsPlayerName, PlayerUnknownBattleGroundsPlatform) VALUES (:PlayerUnknownBattleGroundsIdentifier, :PlayerUnknownBattleGroundsPlayerName, :PlayerUnknownBattleGroundsPlatform)");
-                $this->PDO->bind(":PlayerUnknownBattleGroundsIdentifier", $this->getIdentifier());
-                $this->PDO->bind(":PlayerUnknownBattleGroundsPlayerName", $this->getPlayerName());
-                $this->PDO->bind(":PlayerUnknownBattleGroundsPlatform", $this->getPlatform());
+            try {
                 $this->PDO->execute();
-                $playerUnknownBattleGrounds = array(
-                    "identifier" => $this->getIdentifier(),
-                    "playerName" => $this->getPlayerName(),
-                    "platform" => $this->getPlatform()
+                if (empty($this->PDO->resultSet())) {
+                    $this->PDO->query("INSERT INTO PlayerUnknownBattleGrounds (PlayerUnknownBattleGroundsIdentifier, PlayerUnknownBattleGroundsPlayerName, PlayerUnknownBattleGroundsPlatform) VALUES (:PlayerUnknownBattleGroundsIdentifier, :PlayerUnknownBattleGroundsPlayerName, :PlayerUnknownBattleGroundsPlatform)");
+                    $this->PDO->bind(":PlayerUnknownBattleGroundsIdentifier", $this->getIdentifier());
+                    $this->PDO->bind(":PlayerUnknownBattleGroundsPlayerName", $this->getPlayerName());
+                    $this->PDO->bind(":PlayerUnknownBattleGroundsPlatform", $this->getPlatform());
+                    try {
+                        $this->PDO->execute();
+                        $playerUnknownBattleGrounds = array(
+                            "identifier" => $this->getIdentifier(),
+                            "playerName" => $this->getPlayerName(),
+                            "platform" => $this->getPlatform()
+                        );
+                        $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
+                        $response = (object) array(
+                            "status" => 0,
+                            "PlayerUnknownBattleGroundsAccountAPI" => $Account->account,
+                            "PlayerUnknownBattleGrounds" => 201,
+                            "url" => $_SERVER["HTTP_REFERER"]
+                        );
+                    } catch (PDOException $error) {
+                        $response = (object) array(
+                            "status" => 10,
+                            "PlayerUnknownBattleGroundsAccountAPI" => $Account->account,
+                            "PlayerUnknownBattleGrounds" => 500,
+                            "message" => $error->getMessage(),
+                            "url" => $_SERVER["HTTP_REFERER"]
+                        );
+                    }
+                }
+            } catch (PDOException $error) {
+                $response = (object) array(
+                    "status" => 9,
+                    "PlayerUnknownBattleGroundsAccountAPI" => $Account->account,
+                    "PlayerUnknownBattleGrounds" => 500,
+                    "message" => $error->getMessage(),
+                    "url" => $_SERVER["HTTP_REFERER"]
                 );
-                $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
             }
-            return 0;
         } else {
-            return 1;
+            $response = (object) array(
+                "status" => 8,
+                "PlayerUnknownBattleGroundsAccountAPI" => $Account->account,
+                "PlayerUnknownBattleGrounds" => 404,
+                "message" => "Cannot find the account",
+                "url" => $_SERVER["HTTP_REFERER"]
+            );
         }
+        return $response;
     }
     /**
      * Accessing player data
