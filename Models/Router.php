@@ -98,16 +98,10 @@ class Router
      */
     public function createSession()
     {
-        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
-            $httpClientIP = $_SERVER['HTTP_CLIENT_IP'];
-        }
-        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
-            $proxyAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
         $data = array(
             "ip_address" => $_SERVER['REMOTE_ADDR'],
-            "http_client_ip_address" => $httpClientIP,
-            "proxy_ip_address" => $proxyAddress,
+            "http_client_ip_address" => $_SERVER['HTTP_CLIENT_IP'],
+            "proxy_ip_address" => $_SERVER['HTTP_X_FORWARDED_FOR'],
             "access_time" => time()
         );
         $_SESSION['Client'] = $data;
