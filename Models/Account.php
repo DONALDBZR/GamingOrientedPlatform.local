@@ -46,6 +46,7 @@ class Account extends User
      */
     public function manage(object $request): void
     {
+        $this->setUsername($_SESSION["User"]["username"]);
         $this->PDO->query("SELECT * FROM Accounts WHERE AccountsUser = :AccountsUser");
         $this->PDO->bind(":AccountsUser", $this->getUsername());
         try {
