@@ -59,7 +59,7 @@ class Application extends React.Component {
             this.state.User.oneTimePassword != null ||
             this.state.User.oneTimePassword != ""
         ) {
-            fetch(`/Passwords/${this.state.User.username}`, {
+            fetch("/Controllers/LoginVerification.php", {
                 method: "POST",
                 body: JSON.stringify({
                     oneTimePassword: this.state.User.oneTimePassword,
