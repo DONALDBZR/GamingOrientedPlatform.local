@@ -46,55 +46,73 @@ class Account extends User
      */
     public function manage(object $request): void
     {
-        $this->setUsername($_SESSION['User']['username']);
+        var_dump($request);
         $this->PDO->query("SELECT * FROM Accounts WHERE AccountsUser = :AccountsUser");
         $this->PDO->bind(":AccountsUser", $this->getUsername());
-        $this->PDO->execute();
-        if (!empty($this->PDO->resultSet())) {
-            $this->setId($this->PDO->resultSet()[0]['AccountsId']);
-            $this->LeagueOfLegends->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]['AccountsLoL']);
-            $this->PlayerUnknownBattleGrounds->setIdentifier($this->PDO->resultSet()[0]['AccountsPUBG']);
-        } else {
-            $this->setId(0);
-            $this->LeagueOfLegends->setPlayerUniversallyUniqueIdentifier(null);
-            $this->PlayerUnknownBattleGrounds->setIdentifier(null);
+        try {
+            $this->PDO->execute();
+            if (!empty($this->PDO->resultSet())) {
+                $this->setId($this->PDO->resultSet()[0]['AccountsId']);
+                $this->LeagueOfLegends->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]['AccountsLoL']);
+                $this->PlayerUnknownBattleGrounds->setIdentifier($this->PDO->resultSet()[0]['AccountsPUBG']);
+            } else {
+                $this->setId(0);
+                $this->LeagueOfLegends->setPlayerUniversallyUniqueIdentifier(null);
+                $this->PlayerUnknownBattleGrounds->setIdentifier(null);
+            }
+            if ($this->getId() == 0) {
+                $Response = $this->add($request);
+            } else {
+                $Response = $this->edit($request);
+            }
+            $leagueOfLegends = array(
+                "playerUniversallyUniqueIdentifier" => $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier(),
+                "gameName" => $this->LeagueOfLegends->getGameName(),
+                "tagLine" => $this->LeagueOfLegends->getTagLine()
+            );
+            $playerUnknownBattleGrounds = array(
+                "identifier" => $this->PlayerUnknownBattleGrounds->getIdentifier(),
+                "playerName" => $this->PlayerUnknownBattleGrounds->getPlayerName(),
+                "platform" => $this->PlayerUnknownBattleGrounds->getPlatform(),
+            );
+            $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
+            $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
+            $account = array(
+                "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
+                "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
+            );
+            $_SESSION['Account'] = $account;
+            if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
+                file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
+            }
+            $data = array(
+                "Client" => $_SESSION['Client'],
+                "User" => $_SESSION['User'],
+                "Accounts" => $_SESSION['Account']
+            );
+            $cacheData = json_encode($data);
+            $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
+            fwrite($cache, $cacheData);
+            fclose($cache);
+            $headers = $Response->headers;
+            $response = $Response->response;
+        } catch (PDOException $error) {
+            $response = array(
+                "status" => 1,
+                "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
+                "message" => $error->getMessage(),
+                "Accounts" => 500
+            );
+            $headers = array(
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
+                "replace" => true,
+                "responseCode" => $response["Accounts"]
+            );
         }
-        if ($this->getId() == 0) {
-            $Response = $this->add($request);
-        } else {
-            $Response = $this->edit($request);
-        }
-        $leagueOfLegends = array(
-            "playerUniversallyUniqueIdentifier" => $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier(),
-            "gameName" => $this->LeagueOfLegends->getGameName(),
-            "tagLine" => $this->LeagueOfLegends->getTagLine()
-        );
-        $playerUnknownBattleGrounds = array(
-            "identifier" => $this->PlayerUnknownBattleGrounds->getIdentifier(),
-            "playerName" => $this->PlayerUnknownBattleGrounds->getPlayerName(),
-            "platform" => $this->PlayerUnknownBattleGrounds->getPlatform(),
-        );
-        $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
-        $_SESSION['PlayerUnknownBattleGrounds'] = $playerUnknownBattleGrounds;
-        $account = array(
-            "LeagueOfLegends" => $_SESSION['LeagueOfLegends'],
-            "PlayerUnknownBattleGrounds" => $_SESSION['PlayerUnknownBattleGrounds']
-        );
-        $_SESSION['Account'] = $account;
-        if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json")) {
-            file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$this->getUsername()}.json", "");
-        }
-        $data = array(
-            "Client" => $_SESSION['Client'],
-            "User" => $_SESSION['User'],
-            "Accounts" => $_SESSION['Account']
-        );
-        $cacheData = json_encode($data);
-        $cache = fopen("{$_SERVER['DOCUMENT_ROOT']}/Cache/Session/Users/{$_SESSION['User']['username']}.json", "w");
-        fwrite($cache, $cacheData);
-        fclose($cache);
-        $headers = $Response->headers;
-        $response = $Response->response;
         header($headers["headers"]["Content-Type"], $headers["replace"], $headers["responseCode"]);
         header($headers["headers"]["X-XSS-Protection"], $headers["replace"], $headers["responseCode"]);
         header($headers["headers"]["Mode"], $headers["replace"], $headers["responseCode"]);
@@ -103,18 +121,18 @@ class Account extends User
     /**
      * Managing League of Legends accounts
      * @param   object  $form   Form data
-     * @return  int
+     * @return  object
      */
-    public function manageLeagueOfLegends(object $form): int
+    public function manageLeagueOfLegends(object $form): object
     {
         return $this->createLeagueOfLegendsAccount($form->gameName, $form->tagLine);
     }
     /**
      * Managing Player Unknown Battle Grounds accounts
      * @param   object  $form   Form data
-     * @return  int
+     * @return  object
      */
-    public function managePlayerUnknownBattleGrounds(object $form): int
+    public function managePlayerUnknownBattleGrounds(object $form): object
     {
         return $this->createPlayerUnknownBattleGroundsAccount($form->playerName, $form->platform);
     }
@@ -129,11 +147,13 @@ class Account extends User
             "LeagueOfLegends" => $this->manageLeagueOfLegends($request->LeagueOfLegends),
             "PlayerUnknownBattleGrounds" => $this->managePlayerUnknownBattleGrounds($request->PlayerUnknownBattleGrounds)
         );
-        if ($processes["LeagueOfLegends"] == 0 && $processes["PlayerUnknownBattleGrounds"] == 0) {
+        if ($processes["LeagueOfLegends"]->LeagueOfLegends == 201 && $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds == 201) {
             $response = array(
                 "status" => 0,
                 "url" => "/Users/Home/{$_SESSION['User']['username']}",
-                "message" => "Your account has been added!"
+                "message" => "Your account has been added!",
+                "LeagueOfLegends" => $processes["LeagueOfLegends"]->LeagueOfLegends,
+                "PlayerUnknownBattleGrounds" => $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds
             );
             $headers = array(
                 "headers" => array(
@@ -142,13 +162,27 @@ class Account extends User
                     "Mode" => "mode = block"
                 ),
                 "replace" => true,
-                "responseCode" => 200
+                "responseCode" => 201
             );
         } else {
+            $message = "";
+            $status = 0;
+            $responseCode = 0;
+            if ($processes["LeagueOfLegends"]->status > $processes["PlayerUnknownBattleGrounds"]->status) {
+                $message = $processes["LeagueOfLegends"]->message;
+                $status = $processes["LeagueOfLegends"]->status;
+                $response = $processes["LeagueOfLegends"]->LeagueOfLegends;
+            } else {
+                $message = $processes["PlayerUnknownBattleGrounds"]->message;
+                $status = $processes["PlayerUnknownBattleGrounds"]->status;
+                $response = $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds;
+            }
             $response = array(
-                "status" => 1,
-                "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
-                "message" => "The form must be completely filled!"
+                "status" => $status,
+                "url" => $_SERVER["HTTP_REFERER"],
+                "message" => $message,
+                "LeagueOfLegends" => $processes["LeagueOfLegends"]->LeagueOfLegends,
+                "PlayerUnknownBattleGrounds" => $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds
             );
             $headers = array(
                 "headers" => array(
@@ -157,18 +191,55 @@ class Account extends User
                     "Mode" => "mode = block"
                 ),
                 "replace" => true,
-                "responseCode" => 300
+                "responseCode" => $response
+            );
+        }
+        $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser, AccountsPUBG) VALUES (:AccountsLoL, :AccountsUser, :AccountsPUBG)");
+        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+        $this->PDO->bind(":AccountsUser", $this->getUsername());
+        $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
+        try {
+            $this->PDO->execute();
+            $response = array(
+                "status" => 0,
+                "url" => "/Users/Home/{$_SESSION['User']['username']}",
+                "message" => "Your account has been added!",
+                "LeagueOfLegends" => $processes["LeagueOfLegends"]->LeagueOfLegends,
+                "PlayerUnknownBattleGrounds" => $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds,
+                "Accounts" => 201
+            );
+            $headers = array(
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
+                "replace" => true,
+                "responseCode" => $response["Accounts"]
+            );
+        } catch (PDOException $error) {
+            $response = array(
+                "status" => 11,
+                "url" => $_SERVER["HTTP_REFERER"],
+                "message" => $error->getMessage(),
+                "LeagueOfLegends" => $processes["LeagueOfLegends"]->LeagueOfLegends,
+                "PlayerUnknownBattleGrounds" => $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds,
+                "Accounts" => 500
+            );
+            $headers = array(
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
+                "replace" => true,
+                "responseCode" => $response["Accounts"]
             );
         }
         $Response = (object) array(
             "response" => $response,
             "headers" => $headers
         );
-        $this->PDO->query("INSERT INTO Accounts(AccountsLoL, AccountsUser, AccountsPUBG) VALUES (:AccountsLoL, :AccountsUser, :AccountsPUBG)");
-        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-        $this->PDO->bind(":AccountsUser", $this->getUsername());
-        $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
-        $this->PDO->execute();
         return $Response;
     }
     /**
@@ -182,11 +253,13 @@ class Account extends User
             "LeagueOfLegends" => $this->manageLeagueOfLegends($request->LeagueOfLegends),
             "PlayerUnknownBattleGrounds" => $this->managePlayerUnknownBattleGrounds($request->PlayerUnknownBattleGrounds)
         );
-        if ($processes["LeagueOfLegends"] == 0 && $processes["PlayerUnknownBattleGrounds"] == 0) {
+        if ($processes["LeagueOfLegends"]->LeagueOfLegends == 201 && $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds == 201) {
             $response = array(
                 "status" => 0,
                 "url" => "/Users/Home/{$_SESSION['User']['username']}",
-                "message" => "Your account has been added!"
+                "message" => "Your account has been updated!",
+                "LeagueOfLegends" => $processes["LeagueOfLegends"]->LeagueOfLegends,
+                "PlayerUnknownBattleGrounds" => $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds
             );
             $headers = array(
                 "headers" => array(
@@ -195,13 +268,27 @@ class Account extends User
                     "Mode" => "mode = block"
                 ),
                 "replace" => true,
-                "responseCode" => 200
+                "responseCode" => 201
             );
         } else {
+            $message = "";
+            $status = 0;
+            $responseCode = 0;
+            if ($processes["LeagueOfLegends"]->status > $processes["PlayerUnknownBattleGrounds"]->status) {
+                $message = $processes["LeagueOfLegends"]->message;
+                $status = $processes["LeagueOfLegends"]->status;
+                $response = $processes["LeagueOfLegends"]->LeagueOfLegends;
+            } else {
+                $message = $processes["PlayerUnknownBattleGrounds"]->message;
+                $status = $processes["PlayerUnknownBattleGrounds"]->status;
+                $response = $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds;
+            }
             $response = array(
-                "status" => 1,
-                "url" => "/Users/Accounts/{$_SESSION['User']['username']}",
-                "message" => "The form must be completely filled!"
+                "status" => $status,
+                "url" => $_SERVER["HTTP_REFERER"],
+                "message" => $message,
+                "LeagueOfLegends" => $processes["LeagueOfLegends"]->LeagueOfLegends,
+                "PlayerUnknownBattleGrounds" => $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds
             );
             $headers = array(
                 "headers" => array(
@@ -210,54 +297,129 @@ class Account extends User
                     "Mode" => "mode = block"
                 ),
                 "replace" => true,
-                "responseCode" => 300
+                "responseCode" => $response
+            );
+        }
+        $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL, AccountsPUBG = :AccountsPUBG WHERE AccountsUser = :AccountsUser");
+        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
+        $this->PDO->bind(":AccountsUser", $this->getUsername());
+        $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
+        try {
+            $this->PDO->execute();
+            $response = array(
+                "status" => 0,
+                "url" => "/Users/Home/{$_SESSION['User']['username']}",
+                "message" => "Your account has been updated!",
+                "LeagueOfLegends" => $processes["LeagueOfLegends"]->LeagueOfLegends,
+                "PlayerUnknownBattleGrounds" => $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds,
+                "Accounts" => 201
+            );
+            $headers = array(
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
+                "replace" => true,
+                "responseCode" => $response["Accounts"]
+            );
+        } catch (PDOException $error) {
+            $response = array(
+                "status" => 12,
+                "url" => $_SERVER["HTTP_REFERER"],
+                "message" => $error->getMessage(),
+                "LeagueOfLegends" => $processes["LeagueOfLegends"]->LeagueOfLegends,
+                "PlayerUnknownBattleGrounds" => $processes["PlayerUnknownBattleGrounds"]->PlayerUnknownBattleGrounds,
+                "Accounts" => 500
+            );
+            $headers = array(
+                "headers" => array(
+                    "Content-Type" => "Content-Type: application/json",
+                    "X-XSS-Protection" => "X-XSSProtection: 1",
+                    "Mode" => "mode = block"
+                ),
+                "replace" => true,
+                "responseCode" => $response["Accounts"]
             );
         }
         $Response = (object) array(
             "response" => $response,
             "headers" => $headers
         );
-        $this->PDO->query("UPDATE Accounts SET AccountsLoL = :AccountsLoL, AccountsPUBG = :AccountsPUBG WHERE AccountsUser = :AccountsUser");
-        $this->PDO->bind(":AccountsLoL", $this->LeagueOfLegends->getPlayerUniversallyUniqueIdentifier());
-        $this->PDO->bind(":AccountsPUBG", $this->PlayerUnknownBattleGrounds->getIdentifier());
-        $this->PDO->bind(":AccountsUser", $this->getUsername());
-        $this->PDO->execute();
         return $Response;
     }
     /**
      * Creating League Of Legends Accounts
      * @param   null|string $game_name  The username of the player
      * @param   null|string $tag_line   The regional routing server of the player
-     * @return  int
+     * @return  object
      */
-    public function createLeagueOfLegendsAccount(?string $game_name, ?string $tag_line): int
+    public function createLeagueOfLegendsAccount(?string $game_name, ?string $tag_line): object
     {
         if (!is_null($game_name) && !is_null($tag_line)) {
-            if ($this->LeagueOfLegends->addAccount($game_name, strtolower($tag_line)) == 0) {
-                return 0;
+            $LeagueOfLegendsResponse = $this->LeagueOfLegends->addAccount($game_name, strtolower($tag_line));
+            if ($LeagueOfLegendsResponse->LeagueOfLegends == 201) {
+                $response = (object) array(
+                    "url" => $LeagueOfLegendsResponse->url,
+                    "status" => $LeagueOfLegends->status,
+                    "LeagueOfLegends" => $LeagueOfLegendsResponse->LeagueOfLegends,
+                    "RiotGamesSummonerApi" => $LeagueOfLegendsResponse->RiotGamesSummonerApi
+                );
             } else {
-                return 11;
+                $response = (object) array(
+                    "url" => $LeagueOfLegendsResponse->url,
+                    "status" => $LeagueOfLegends->status,
+                    "LeagueOfLegends" => $LeagueOfLegendsResponse->LeagueOfLegends,
+                    "RiotGamesSummonerApi" => $LeagueOfLegendsResponse->RiotGamesSummonerApi,
+                    "message" => $LeagueOfLegendsResponse->message
+                );
             }
         } else {
-            return 1;
+            $response = (object) array(
+                "url" => $_SERVER['HTTP_REFERER'],
+                "status" => 7,
+                "LeagueOfLegends" => 403,
+                "RiotGamesSummonerApi" => 403,
+                "message" => "Incomplete Request!"
+            );
         }
+        return $response;
     }
     /**
      * Creating Player Unknown Battle Grounds Accounts
      * @param   null|string $player_name    Name of the player
      * @param   null|string $platform       Platform which the player uses tp play the game
-     * @return  int
+     * @return  object
      */
-    public function createPlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform): int
+    public function createPlayerUnknownBattleGroundsAccount(?string $player_name, ?string $platform): object
     {
         if (!is_null($player_name) && !is_null($platform)) {
-            if ($this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform) == 0) {
-                return 0;
+            $PlayerUnknownBattleGroundsResponse = $this->PlayerUnknownBattleGrounds->addAccount($player_name, $platform);
+            if ($PlayerUnknownBattleGroundsResponse->PlayerUnknownBattleGrounds == 201) {
+                $response = (object) array(
+                    "url" => $_SERVER['HTTP_REFERER'],
+                    "status" => $PlayerUnknownBattleGroundsResponse->status,
+                    "PlayerUnknownBattleGrounds" => $PlayerUnknownBattleGroundsResponse->PlayerUnknownBattleGrounds,
+                    "PlayerUnknownBattleGroundsAccountAPI" => $PlayerUnknownBattleGroundsResponse->PlayerUnknownBattleGroundsAccountAPI
+                );
             } else {
-                return 11;
+                $response = (object) array(
+                    "url" => $_SERVER['HTTP_REFERER'],
+                    "status" => $PlayerUnknownBattleGroundsResponse->status,
+                    "PlayerUnknownBattleGrounds" => $PlayerUnknownBattleGroundsResponse->PlayerUnknownBattleGrounds,
+                    "PlayerUnknownBattleGroundsAccountAPI" => $PlayerUnknownBattleGroundsResponse->PlayerUnknownBattleGroundsAccountAPI,
+                    "message" => $PlayerUnknownBattleGroundsResponse->message
+                );
             }
         } else {
-            return 1;
+            $response = (object) array(
+                "url" => $_SERVER['HTTP_REFERER'],
+                "status" => 10,
+                "PlayerUnknownBattleGrounds" => 403,
+                "PlayerUnknownBattleGroundsAccountAPI" => 403,
+                "message" => "Incomplete Request!"
+            );
         }
+        return $response;
     }
 }
