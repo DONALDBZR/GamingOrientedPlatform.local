@@ -838,31 +838,72 @@ class LeagueOfLegends
      * Adding League of Legends account in the database
      * @param   string  $game_name  The username of the player
      * @param   string  $tag_line   The regional routing server of the player
-     * @return  int
+     * @return  object
      */
     public function addAccount(string $game_name, string $tagLine)
     {
-        $Account = $this->getAccount(rawurlencode($game_name), $tagLine);
+        $Account = $this->getAccount(urldecode($game_name), $tagLine);
         if ($Account->httpResponseCode == 200) {
             $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsPlayerUniversallyUniqueIdentifier = :LeagueOfLegendsPlayerUniversallyUniqueIdentifier");
             $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->getPlayerUniversallyUniqueIdentifier());
-            $this->PDO->execute();
-            if (empty($this->PDO->resultSet())) {
-                $this->PDO->query("INSERT INTO LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
-                $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->getPlayerUniversallyUniqueIdentifier());
-                $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
-                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+            try {
                 $this->PDO->execute();
+                if (empty($this->PDO->resultSet())) {
+                    $this->PDO->query("INSERT INTO LeagueOfLegends(LeagueOfLegendsPlayerUniversallyUniqueIdentifier, LeagueOfLegendsGameName, LeagueOfLegendsTagLine) VALUES (:LeagueOfLegendsPlayerUniversallyUniqueIdentifier, :LeagueOfLegendsGameName, :LeagueOfLegendsTagLine)");
+                    $this->PDO->bind(":LeagueOfLegendsPlayerUniversallyUniqueIdentifier", $this->getPlayerUniversallyUniqueIdentifier());
+                    $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+                    $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+                    try {
+                        $this->PDO->execute();
+                        $leagueOfLegends = array(
+                            "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
+                            "gameName" => $this->getGameName(),
+                            "tagLine" => $this->getTagLine()
+                        );
+                        $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
+                        $response = (object) array(
+                            "status" => 0,
+                            "url" => $_SERVER["HTTP_REFERER"],
+                            "RiotGamesSummonerAPI" => $Account->httpResponseCode,
+                            "LeagueOfLegends" => 201
+                        );
+                    } catch (PDOException $error) {
+                        $response = (object) array(
+                            "status" => 6,
+                            "url" => $_SERVER["HTTP_REFERER"],
+                            "RiotGamesSummonerAPI" => $Account->httpResponseCode,
+                            "LeagueOfLegends" => 500,
+                            "message" => $error->getMessage()
+                        );
+                    }
+                } else {
+                    $response = (object) array(
+                        "status" => 5,
+                        "url" => $_SERVER["HTTP_REFERER"],
+                        "RiotGamesSummonerAPI" => $Account->httpResponseCode,
+                        "LeagueOfLegends" => 403,
+                        "message" => "There is already an account with those details!"
+                    );
+                }
+                return 0;
+            } catch (PDOException $error) {
+                $response = (object) array(
+                    "status" => 4,
+                    "url" => $_SERVER["HTTP_REFERER"],
+                    "RiotGamesSummonerAPI" => $Account->httpResponseCode,
+                    "LeagueOfLegends" => 500,
+                    "message" => $error->getMessage()
+                );
             }
-            $leagueOfLegends = array(
-                "playerUniversallyUniqueIdentifier" => $this->getPlayerUniversallyUniqueIdentifier(),
-                "gameName" => $this->getGameName(),
-                "tagLine" => $this->getTagLine()
-            );
-            $_SESSION['LeagueOfLegends'] = $leagueOfLegends;
-            return 0;
         } else {
-            return 1;
+            $response = (object) array(
+                "status" => 3,
+                "url" => $_SERVER["HTTP_REFERER"],
+                "RiotGamesSummonerAPI" => $Account->httpResponseCode,
+                "message" => "Cannot find the account!",
+                "LeagueOfLegends" => 404
+            );
         }
+        return $response;
     }
 }
