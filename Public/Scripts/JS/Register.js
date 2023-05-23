@@ -63,7 +63,7 @@ class Application extends React.Component {
                 this.state.User.mailAddress.includes("@") &&
                 this.state.User.mailAddress.includes(".")
             ) {
-                fetch("/Users/New", {
+                fetch("/Controllers/Register.php", {
                     method: "POST",
                     body: JSON.stringify({
                         username: this.state.User.username,
