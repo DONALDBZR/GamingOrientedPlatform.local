@@ -484,9 +484,9 @@ class Application extends React.Component {
      */
     verifyLeagueOfLegends_rank_emblem(tier) {
         if (tier == "" || tier == null) {
-            return "/Public/Images/Ranks/Emblem_Unranked.png";
+            return "/Public/Images/Riot Games/Ranks/Emblem_Unranked.png";
         } else {
-            return `/Public/Images/Ranks/Emblem_${tier}.png`;
+            return `/Public/Images/Riot Games/Ranks/Emblem_${tier}.png`;
         }
     }
     /**
