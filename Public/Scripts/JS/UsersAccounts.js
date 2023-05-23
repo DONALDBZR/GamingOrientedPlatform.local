@@ -139,7 +139,7 @@ class Application extends React.Component {
     handleSubmit(event) {
         const delay = 2150;
         event.preventDefault();
-        fetch(`/Users/${this.state.User.username}/Accounts`, {
+        fetch("/Controllers/UsersAccounts.php", {
             method: "POST",
             body: JSON.stringify({
                 LeagueOfLegends: {
