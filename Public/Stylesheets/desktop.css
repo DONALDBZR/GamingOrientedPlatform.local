@@ -858,19 +858,11 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(2)
-    div:nth-child(2) {
-    display: flex;
-}
-body[id*="LeagueOfLegends"]
-    main
-    div
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    div:nth-child(2)
+    .incident
     div {
-    display: block;
-    height: var(--percentage);
+    display: flex;
+    align-items: center;
+    height: var(--percentage) !important;
     width: calc(var(--percentage) / 2);
 }
 body[id*="LeagueOfLegends"]
@@ -879,7 +871,7 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(2)
-    div:nth-child(2)
+    .incident
     div:nth-child(1) {
     width: calc(var(--percentage) / 3);
 }
@@ -889,7 +881,7 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(2)
-    div:nth-child(2)
+    .incident
     div:nth-child(2) {
     width: calc(var(--percentage) * (2 / 3));
 }
@@ -915,8 +907,9 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(2)
-    div:nth-child(2) {
-    height: calc(var(--percentage) * (2 / 3));
+    .incident {
+    height: calc(var(--percentage) / 2);
+    display: flex;
 }
 body[id*="LeagueOfLegends"] main div div {
     width: var(--percentage);
