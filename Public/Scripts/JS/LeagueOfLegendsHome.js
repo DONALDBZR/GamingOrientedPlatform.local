@@ -90,7 +90,7 @@ class Application extends React.Component {
                             LeagueOfLegends: {
                                 Summoner: {
                                     level: data.summonerLevel,
-                                    summonerIcon: data.profileIconId,
+                                    profileIconId: data.profileIconId,
                                     kda: data.kda,
                                     csMin: data.csMin,
                                     vsMin: data.vsMin,
@@ -916,7 +916,7 @@ class Summoner extends Main {
 /**
  * Data Dragon component
  */
-class DataDragon extends Main {
+class DataDragon extends Summoner {
     constructor(props) {
         super(props);
         this.state = {
@@ -966,17 +966,17 @@ class PlatformStatus extends Main {
         return (
             <div>
                 <div>
-                    <div>Maintenance</div>
+                    <div class="platformStatus_title">Maintenance</div>
                     <div>
                         {this.verifyLeagueOfLegends_platformStatus_maintenance()}
                     </div>
                 </div>
                 <div>
-                    <div>Incidents</div>
+                    <div class="platformStatus_title">Incidents</div>
                     {this.state.Accounts.LeagueOfLegends.PlatformStatus.incidents.map(
                         (incident) => {
                             return (
-                                <div>
+                                <div class="incident">
                                     <div>{`${incident.title}:`}</div>
                                     <div>{incident.content}</div>
                                 </div>
