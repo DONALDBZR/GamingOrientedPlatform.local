@@ -159,9 +159,20 @@ switch ($Router->getRoute()) {
             header("Location: /");
         }
         break;
-    case '/LegendsOfLegends/MatchHistories':
+    case '/LeagueOfLegends/MatchHistories':
         if (isset($_SESSION['Account']['LeagueOfLegends'])) {
             $Router->get($Router->getRoute(), "/Controllers/MatchHistories.php");
+        } else {
+            if (isset($_SESSION['User'])) {
+                header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
+            } else {
+                header("Location: /");
+            }
+        }
+        break;
+    case "/LeagueOfLegends/ChampionMastery":
+        if (isset($_SESSION['Account']['LeagueOfLegends'])) {
+            $Router->get($Router->getRoute(), "/Controllers/ChampionMastery.php");
         } else {
             if (isset($_SESSION['User'])) {
                 header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
@@ -239,5 +250,8 @@ switch ($Router->getRoute()) {
         } else {
             header("Location: /");
         }
+        break;
+    case "/LeagueOfLegends/PlatformStatus":
+        $Router->get($Router->getRoute(), "/Controllers/PlatformStatus.php");
         break;
 }
