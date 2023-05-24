@@ -796,3 +796,6 @@ body[id*="PlayerUnknownBattleGrounds"] header nav div:nth-child(5) a:hover {
     color: var(--color1);
     background-color: var(--color9);
 }
+body[id*="LeagueOfLegends"] header nav div:nth-child(2) form button {
+    background-color: var(--color6);
+}
