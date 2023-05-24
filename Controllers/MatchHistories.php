@@ -25,7 +25,7 @@ if (str_contains($_SERVER['HTTP_REFERER'], "LeagueOfLegends")) {
                 header('Content-Type: application/json', true, 200);
                 echo json_encode($response);
             } else {
-                unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
+                unlink("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Users/Match Histories/{$_SESSION['Search']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']}.json");
                 $LeagueOfLegends->getMatchHistory($_SESSION['Search']['LeagueOfLegends']['gameName'], $_SESSION['Search']['LeagueOfLegends']['tagLine']);
             }
         } else {
