@@ -587,7 +587,9 @@ class Header extends Application {
                                     onChange={this.handleChange.bind(this)}
                                     required
                                 />
-                                <button class="fa fa-search"></button>
+                                <button>
+                                    <i class="fa fa-search"></i>
+                                </button>
                             </form>
                         </div>
                         <div>
