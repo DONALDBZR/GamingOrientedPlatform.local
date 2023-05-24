@@ -72,8 +72,10 @@ switch ($Router->getRoute()) {
         }
         break;
     case '/LeagueOfLegends/CurrentSummoner':
-    case '/LeagueOfLegends/Search/Summoner':
         $Router->get($Router->getRoute(), "/Controllers/CurrentSummoner.php");
+        break;
+    case '/LeagueOfLegends/Search/Summoner':
+        $Router->get($Router->getRoute(), "/Controllers/SearchSummoner.php");
         break;
     case '/PlayerUnknownBattleGrounds/CurrentPlayer':
     case "/PlayerUnknownBattleGrounds/Search/Player":
