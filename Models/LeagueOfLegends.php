@@ -220,14 +220,40 @@ class LeagueOfLegends
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
-            $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
+            if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+                $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+            } else {
+                $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+                $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+                try {
+                    $this->PDO->execute();
+                    $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+                } catch (PDOException $error) {
+                    $response = (object) array(
+                        "LeagueOfLegends" => 500,
+                        "message" => $error->getMessage()
+                    );
+                }
+            }
         } else {
-            $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
-            $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
-            $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
-            $this->PDO->execute();
-            $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+            if (isset($_SESSION['Search']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+                $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Search']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+            } else {
+                $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+                $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+                try {
+                    $this->PDO->execute();
+                    $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+                } catch (PDOException $error) {
+                    $response = (object) array(
+                        "LeagueOfLegends" => 500,
+                        "message" => $error->getMessage()
+                    );
+                }
+            }
         }
         $request = "{$this->bases[$this->getTagLine()]}/lol/summoner/v4/summoners/by-name/{$this->getGameName()}";
         $this->Curl = curl_init();
@@ -385,6 +411,7 @@ class LeagueOfLegends
                         }
                     }
                     $response = array(
+                        "LeagueOfLegends" => 200,
                         "summoner" => $riotSummonerApiResponseCode,
                         "league" => $riotLeagueApiResponseCode,
                         "match_1" => $riotMatchApiResponse1Code,
@@ -414,6 +441,7 @@ class LeagueOfLegends
                     fclose($cache);
                 } else {
                     $response = (object) array(
+                        "LeagueOfLegends" => 200,
                         "summoner" => $riotSummonerApiResponseCode,
                         "league" => $riotLeagueApiResponseCode,
                         "match_1" => $riotMatchApiResponse1Code
@@ -421,12 +449,14 @@ class LeagueOfLegends
                 }
             } else {
                 $response = (object) array(
+                    "LeagueOfLegends" => 200,
                     "summoner" => $riotSummonerApiResponseCode,
                     "league" => $riotLeagueApiResponseCode
                 );
             }
         } else {
             $response = (object) array(
+                "LeagueOfLegends" => 200,
                 "summoner" => $riotSummonerApiResponseCode
             );
         }
@@ -523,14 +553,40 @@ class LeagueOfLegends
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
-            $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
+            if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+                $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+            } else {
+                $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+                $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+                try {
+                    $this->PDO->execute();
+                    $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+                } catch (PDOException $error) {
+                    $response = (object) array(
+                        "LeagueOfLegends" => 500,
+                        "message" => $error->getMessage()
+                    );
+                }
+            }
         } else {
-            $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
-            $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
-            $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
-            $this->PDO->execute();
-            $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+            if (isset($_SESSION['Search']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+                $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Search']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+            } else {
+                $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+                $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+                try {
+                    $this->PDO->execute();
+                    $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+                } catch (PDOException $error) {
+                    $response = (object) array(
+                        "LeagueOfLegends" => 500,
+                        "message" => $error->getMessage()
+                    );
+                }
+            }
         }
         $request = "{$this->regions[$this->getRegion($this->getTagLine())]}/lol/match/v5/matches/by-puuid/{$this->getPlayerUniversallyUniqueIdentifier()}/ids?start=0&count=20";
         $this->Curl = curl_init();
@@ -611,6 +667,7 @@ class LeagueOfLegends
                 );
                 array_push($matchHistory, $match);
                 $response = (object) array(
+                    "LeagueOfLegends" => 200,
                     "match_1" => $riotMatchApiResponse1Code,
                     "requestedDate" => date("Y/m/d H:i:s"),
                     "renewOn" => date("Y/m/d H:i:s", strtotime("+1 hours")),
@@ -623,6 +680,7 @@ class LeagueOfLegends
             }
         } else {
             $response = (object) array(
+                "LeagueOfLegends" => 200,
                 "match_1" => $riotMatchApiResponse1Code
             );
         }
@@ -694,14 +752,40 @@ class LeagueOfLegends
     {
         $this->setGameName($game_name);
         $this->setTagLine($tag_line);
-        if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
-            $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+        if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
+            if (isset($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+                $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Account']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+            } else {
+                $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+                $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+                try {
+                    $this->PDO->execute();
+                    $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+                } catch (PDOException $error) {
+                    $response = (object) array(
+                        "LeagueOfLegends" => 500,
+                        "message" => $error->getMessage()
+                    );
+                }
+            }
         } else {
-            $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
-            $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
-            $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
-            $this->PDO->execute();
-            $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+            if (isset($_SESSION['Search']['LeagueOfLegends']['playerUniversallyUniqueIdentifier'])) {
+                $this->setPlayerUniversallyUniqueIdentifier($_SESSION['Search']['LeagueOfLegends']['playerUniversallyUniqueIdentifier']);
+            } else {
+                $this->PDO->query("SELECT * FROM LeagueOfLegends WHERE LeagueOfLegendsGameName = :LeagueOfLegendsGameName AND LeagueOfLegendsTagLine = :LeagueOfLegendsTagLine");
+                $this->PDO->bind(":LeagueOfLegendsGameName", $this->getGameName());
+                $this->PDO->bind(":LeagueOfLegendsTagLine", $this->getTagLine());
+                try {
+                    $this->PDO->execute();
+                    $this->setPlayerUniversallyUniqueIdentifier($this->PDO->resultSet()[0]["LeagueOfLegendsPlayerUniversallyUniqueIdentifier"]);
+                } catch (PDOException $error) {
+                    $response = (object) array(
+                        "LeagueOfLegends" => 500,
+                        "message" => $error->getMessage()
+                    );
+                }
+            }
         }
         $LeagueOfLegendsVersion = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/Riot Games/Platform/Version.json"));
         $ddragonLeagueOfLegendsChampionsCDN = (array)json_decode(file_get_contents("http://ddragon.leagueoflegends.com/cdn/{$LeagueOfLegendsVersion->major}.{$LeagueOfLegendsVersion->minor}.{$LeagueOfLegendsVersion->patchNotes}/data/en_US/champion.json"))->data;
@@ -764,6 +848,7 @@ class LeagueOfLegends
                     array_push($championMastery, $champion);
                 }
                 $response = (object) array(
+                    "LeagueOfLegends" => 200,
                     "summoner" => $riotSummonerApiResponseCode,
                     "championMastery" => $riotChampionMasteryApiResponseCode,
                     "requestedDate" => date("Y/m/d H:i:s"),
@@ -776,13 +861,15 @@ class LeagueOfLegends
                 fclose($cache);
             } else {
                 $response = (object) array(
+                    "LeagueOfLegends" => 200,
                     "summoner" => $riotSummonerApiResponseCode,
                     "championMastery" => $riotChampionMasteryApiResponseCode,
                 );
             }
         } else {
             $response = (object) array(
-                "summoner" => $riotSummonerApiResponseCode,
+                "LeagueOfLegends" => 200,
+                "summoner" => $riotSummonerApiResponseCode
             );
         }
         header('Content-Type: application/json; X-XSS-Protection: 1; mode=block', true, 200);
