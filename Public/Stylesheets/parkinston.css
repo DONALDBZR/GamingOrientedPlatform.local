@@ -311,15 +311,8 @@ body[id*="LeagueOfLegends"]
     div
     header
     div:nth-child(4)
-    div:nth-child(1)
-    div:nth-child(1),
-body[id*="LeagueOfLegends"]
-    main
     div
-    header
-    div:nth-child(4)
-    div:nth-child(2)
-    div:nth-child(1),
+    .platformStatus_title,
 body[id*="LeagueOfLegends"] footer div,
 body[id*="UsersHome"]
     main
@@ -440,7 +433,7 @@ body[id*="LeagueOfLegends"]
     header
     div:nth-child(4)
     div:nth-child(2)
-    div:nth-child(2)
+    .incident
     div,
 body[id*="LeagueOfLegends"] main div div #championMastery,
 body[id*="LeagueOfLegends"] main div div #matchHistory div div:nth-child(2) div,
