@@ -207,6 +207,9 @@ switch ($Router->getRoute()) {
     case "/LeagueOfLegends/Summoners":
         $Router->post($Router->getRoute(), "/Controllers/LeagueOfLegendsHome.php");
         break;
+    case "/PlayersUnknownBattleGrounds/Players":
+        $Router->post($Router->getRoute(), "/Controllers/PlayerUnknownBattleGroundsHome.php");
+        break;
     case "/LeagueOfLegends/Refresh":
         $Router->post($Router->getRoute(), "/Controllers/LeagueOfLegendsDelete.php");
         break;
