@@ -1,6 +1,6 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Routes.php";
-require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PlayerUnknownBattlegrounds.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PlayerUnknownBattleGrounds.php";
 $PlayerUnknownBattleGrounds = new PlayerUnknownBattleGrounds();
 if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
     if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Seasons/{$_SESSION['Account']['PlayerUnknownBattleGrounds']['identifier']}.json")) {
