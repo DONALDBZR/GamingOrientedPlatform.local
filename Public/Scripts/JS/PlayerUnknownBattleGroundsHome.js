@@ -752,7 +752,7 @@ class PatchNotes extends Header {
     render() {
         return (
             <a
-                href={`https://na.battlegrounds.pubg.com/patch-notes/patch-notes-update-${this.state.Accounts.PlayerUnknownBattleGrounds.Version.major}-${this.state.Accounts.PlayerUnknownBattleGrounds.Version.minor}/`}
+                href="https://pubg.com/en-na/news?category=patch_notes&label=label_pc"
                 target="__blank"
             >
                 Patch Notes
