@@ -1,8 +1,8 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/Routes.php";
-require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PlayerUnknownBattlegrounds.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/Models/PlayerUnknownBattleGrounds.php";
 $PlayerUnknownBattleGrounds = new PlayerUnknownBattleGrounds();
-if (str_contains($_SERVER['REQUEST_URI'], "HOME")) {
+if (str_contains($_SERVER['HTTP_REFERER'], "Home")) {
     if (file_exists("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Profiles/{$_SESSION['Account']['PlayerUnknownBattleGrounds']['identifier']}.json")) {
         $response = json_decode(file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Cache/PUBG/Users/Profiles/{$_SESSION['Account']['PlayerUnknownBattleGrounds']['identifier']}.json"));
         if (date("Y/m/d") < $response->renewOn) {
