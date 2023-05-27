@@ -161,16 +161,9 @@ switch ($Router->getRoute()) {
             header("Location: /");
         }
         break;
+    case "/PlayerUnknownBattleGrounds/MatchHistory":
     case '/LeagueOfLegends/MatchHistories':
-        if (isset($_SESSION['Account']['LeagueOfLegends'])) {
-            $Router->get($Router->getRoute(), "/Controllers/MatchHistories.php");
-        } else {
-            if (isset($_SESSION['User'])) {
-                header("Location: /Users/Accounts/{$_SESSION['User']['username']}");
-            } else {
-                header("Location: /");
-            }
-        }
+        $Router->get($Router->getRoute(), "/Controllers/MatchHistories.php");
         break;
     case "/LeagueOfLegends/ChampionMastery":
         if (isset($_SESSION['Account']['LeagueOfLegends'])) {
@@ -217,13 +210,13 @@ switch ($Router->getRoute()) {
     case "/LeagueOfLegends/Refresh":
         $Router->post($Router->getRoute(), "/Controllers/LeagueOfLegendsDelete.php");
         break;
-    case "/PlayerUnknownBattleGrounds/Home/" . rawurlencode($_SESSION['Account']['PlayerUnknownBattleGrounds']['playerName']):
+    case "/PlayerUnknownBattleGrounds/Home/" . urlencode($_SESSION['Account']['PlayerUnknownBattleGrounds']['playerName']):
         if (isset($_SESSION['User'])) {
             if (isset($_SESSION['User']['otp'])) {
                 header("Location: /Login/Verification/{$_SESSION['User']['username']}");
             } else {
                 if (isset($_SESSION['Account']['PlayerUnknownBattleGrounds'])) {
-                    $Router->get($Router->getRoute(), "/views/PlayerUnknownBattleGroundsHome.php");
+                    $Router->get($Router->getRoute(), "/Views/PlayerUnknownBattleGroundsHome.php");
                 } else {
                     header("Location: /Users/Home/{$_SESSION['User']['username']}");
                 }
