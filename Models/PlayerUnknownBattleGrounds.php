@@ -318,7 +318,7 @@ class PlayerUnknownBattleGrounds
      */
     public function getPatchNotes(): void
     {
-        $request = "https://na.battlegrounds.pubg.com/patch-notes/";
+        $request = "https://pubg.com/en-na/news?category=patch_notes&label=label_pc";
         $patches = array();
         $this->Curl = curl_init();
         curl_setopt_array(
@@ -340,20 +340,18 @@ class PlayerUnknownBattleGrounds
         if ($pageResponseCode == 200) {
             $this->DOM->loadHTML($page);
             $this->DOMXPath = new DOMXPath($this->DOM);
-            $patchDetails1 = $this->DOMXPath->query("//section[@id='news-list']//div[@class='top-section']//div[@class='news-list-first-column']//div[@class='content']//a[@class='title']//h2");
-            $patchDetails2 = $this->DOMXPath->query("//section[@id='news-list']//div[@class='top-section']//div[@class='news-list-second-column']//div[@class='content']//a[@class='title']//h2");
-            foreach ($patchDetails1 as $node) {
-                array_push($patches, $node->nodeValue);
-            }
-            foreach ($patchDetails2 as $node) {
-                array_push($patches, $node->nodeValue);
+            $patchDetails = $this->DOMXPath->query("//div[@class='layout__body']//div[@class='news layout__page']//div[@class='news-template']//div[@class='news-template__container-layout']//div[@class='post-contents news-template__post-contents post-contents--news']//ul[@class='post-contents__body']//li[@class='post-contents__card']//a[@class='post has-label']//div[@class='post__info']//dl[@class='post__description']//dt");
+            for ($index = 0; $index < count($patchDetails); $index++) {
+                array_push($patches, $patchDetails[$index]->nodeValue);
             }
             for ($index = 0; $index < count($patches); $index++) {
                 $version = "";
                 if (str_contains($patches[$index], "Patch Notes - Update ")) {
                     $version = str_replace("Patch Notes - Update ", "", $patches[$index]);
-                } else if (str_contains($patches[$index], "Patch Notes â Update ")) {
-                    $version = str_replace("Patch Notes â Update ", "", $patches[$index]);
+                } else if (str_contains($patches[$index], "PATCH NOTES - UPDATE ")) {
+                    $version = str_replace("PATCH NOTES - UPDATE ", "", $patches[$index]);
+                } else if (str_contains($patches[$index], "Patch Notes – Update ")) {
+                    $version = str_replace("Patch Notes – Update ", "", $patches[$index]);
                 }
                 $patches[$index] = $version;
             }
@@ -373,7 +371,7 @@ class PlayerUnknownBattleGrounds
             fclose($cache);
         } else {
             $response = (object) array(
-                "patchNotes" => $pageResponseCode
+                "PlayerUnknownBattleGroundsPatchNotesAPI" => $pageResponseCode
             );
         }
         header('Content-Type: application/json', true, 200);
