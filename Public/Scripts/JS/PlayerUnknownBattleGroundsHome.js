@@ -460,13 +460,13 @@ class Application extends React.Component {
         if (mode.tier == "Unranked" || mode.tier == "Master") {
             return (
                 <img
-                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}.png`}
+                    src={`/Public/Images/Player_Unknown_Battle_Grounds/Ranks/${mode.tier}.png`}
                 />
             );
         } else {
             return (
                 <img
-                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}-${mode.division}.png`}
+                    src={`/Public/Images/Player_Unknown_Battle_Grounds/Ranks/${mode.tier}-${mode.division}.png`}
                 />
             );
         }
@@ -480,13 +480,13 @@ class Application extends React.Component {
         if (mode.tier == "Unranked" || mode.tier == "Master") {
             return (
                 <img
-                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}.png`}
+                    src={`/Public/Images/Player_Unknown_Battle_Grounds/Ranks/${mode.tier}.png`}
                 />
             );
         } else {
             return (
                 <img
-                    src={`/Public/Images/Player Unknown Battle Grounds/Ranks/${mode.tier}-${mode.division}.png`}
+                    src={`/Public/Images/Player_Unknown_Battle_Grounds/Ranks/${mode.tier}-${mode.division}.png`}
                 />
             );
         }
