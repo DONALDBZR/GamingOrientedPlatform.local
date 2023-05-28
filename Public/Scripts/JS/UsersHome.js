@@ -143,9 +143,9 @@ class Application extends React.Component {
      */
     verifyLeagueOfLegends_rank_emblem(tier) {
         if (tier == "" || tier == null) {
-            return "/Public/Images/Riot Games/Ranks/Emblem_Unranked.png";
+            return "/Public/Images/Riot_Games/Ranks/Emblem_Unranked.png";
         } else {
-            return `/Public/Images/Riot Games/Ranks/Emblem_${tier}.png`;
+            return `/Public/Images/Riot_Games/Ranks/Emblem_${tier}.png`;
         }
     }
     /**
@@ -530,7 +530,7 @@ class LeagueOfLegends extends Main {
                         <a
                             href={`/LeagueOfLegends/Home/${this.props.gameName}`}
                         >
-                            <img src="/Public/Images/Riot Games/League Of Legends Logo.png" />
+                            <img src="/Public/Images/Riot_Games/League_Of_Legends_Logo.png" />
                         </a>
                     </div>
                     <div>
@@ -719,7 +719,7 @@ class PlayerUnknownBattleGrounds extends Main {
                         <a
                             href={`/PlayerUnknownBattleGrounds/Home/${this.props.playerName}`}
                         >
-                            <img src="/Public/Images/Player Unknown Battle Grounds/PUBG RGB Logos (Web)/PUBG_BG_Full_Flat_White_2048.png" />
+                            <img src="/Public/Images/Player_Unknown_Battle_Grounds/PUBG_RGB_Logos/PUBG_BG_Full_Flat_White_2048.png" />
                         </a>
                     </div>
                     <div>
